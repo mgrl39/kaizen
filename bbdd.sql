@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS cinedb;
+
+USE cinedb;
+
 CREATE TABLE cinema (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
@@ -47,13 +51,33 @@ CREATE TABLE booking (
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
+CREATE TABLE movie (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    synopsis TEXT,
+    duration INT NOT NULL,
+    rating VARCHAR(50),
+    release_date DATE,
+    photo_url VARCHAR(255)
+);
+
+CREATE TABLE functions (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    movie_id INT,
+    room_id INT,
+    date DATE NOT NULL,
+    time TIME NOT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movie(id),
+    FOREIGN KEY (room_id) REFERENCES room(id)
+);
+
 CREATE TABLE seat (
     id INT PRIMARY KEY AUTO_INCREMENT,
     function_id INT,
     number INT NOT NULL,
-    row VARCHAR(10) NOT NULL,
+    seat_row VARCHAR(10) NOT NULL,
     status ENUM('available', 'reserved', 'occupied') NOT NULL,
-    FOREIGN KEY (function_id) REFERENCES function(id)
+    FOREIGN KEY (function_id) REFERENCES functions(id)
 );
 
 CREATE TABLE booking_seat (
@@ -64,25 +88,7 @@ CREATE TABLE booking_seat (
     FOREIGN KEY (seat_id) REFERENCES seat(id)
 );
 
-CREATE TABLE function (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    movie_id INT,
-    room_id INT,
-    date DATE NOT NULL,
-    time TIME NOT NULL,
-    FOREIGN KEY (movie_id) REFERENCES movie(id),
-    FOREIGN KEY (room_id) REFERENCES room(id)
-);
 
-CREATE TABLE movie (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
-    synopsis TEXT,
-    duration INT NOT NULL,
-    rating VARCHAR(50),
-    release_date DATE,
-    photo_url VARCHAR(255)
-);
 
 CREATE TABLE genre (
     id INT PRIMARY KEY AUTO_INCREMENT,
