@@ -5,7 +5,8 @@
 /public/storage
 /storage/*.key
 /vendor
-.env
+# Ya que es un de test, lo guardo. Pero no
+#.env
 .env.backup
 .env.production
 .phpunit.result.cache
@@ -17,3 +18,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Configuración de isard
+isard-vpn*
