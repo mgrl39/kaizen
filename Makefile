@@ -29,8 +29,7 @@ clear:
 	php artisan view:clear
 
 pull:
-	git fetch
-	git pull origin $(shell git branch --show-current)
+	git fetch && git pull origin $(shell git branch --show-current)
 
 serve-bg:
 	php artisan serve --host 0.0.0.0 &

@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('cinemas.index') }}">Cines</a>
+                    <a class="nav-link" href="{{ route('cinema.index') }}">Cines</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('movies.index') }}">Películas</a>
@@ -15,4 +15,4 @@
             </ul>
         </div>
     </div>
-</nav> 
+</nav>
