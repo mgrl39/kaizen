@@ -15,7 +15,7 @@ vendor/autoload.php:
 	@exit 1
 
 serve: 
-	@echo "$(GREEN)" && hostname -I | tr ' ' '\n'
+	@echo -n "$(GREEN)" && hostname -I | tr ' ' '\n'
 	@echo "$(END)"
 	php artisan serve --host 0.0.0.0
 
@@ -29,18 +29,20 @@ clear:
 	php artisan view:clear
 
 pull:
+	git fetch
 	git pull origin $(shell git branch --show-current)
 
 serve-bg:
 	php artisan serve --host 0.0.0.0 &
 
 help:
+	@echo -n "$(GREEN)"
 	@echo "Uso del Makefile:"
-	@echo "  make install    - Instala las dependencias del proyecto"
-	@echo "  make serve     - Inicia el servidor de desarrollo"
-	@echo "  make serve-bg  - Inicia el servidor de desarrollo en segundo plano"
-	@echo "  make clear     - Limpia la caché"
-	@echo "  make kill-serve - Mata el servidor de desarrollo"
-	@echo "  make pull      - Actualiza el repositorio"
+	@echo "  make install		- Instala las dependencias del proyecto"
+	@echo "  make serve		- Inicia el servidor de desarrollo"
+	@echo "  make serve-bg		- Inicia el servidor de desarrollo en segundo plano"
+	@echo "  make clear		- Limpia la caché"
+	@echo "  make kill-serve	- Mata el servidor de desarrollo"
+	@echo "  make pull		- Actualiza el repositorio"
 
 .PHONY: help install serve clear kill-serve
