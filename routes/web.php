@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('cinemas', CinemaController::class);
+Route::resource('cinema', CinemaController::class);
 Route::resource('movies', MovieController::class);
 Route::resource('functions', FunctionsController::class);
 Route::resource('bookings', BookingController::class);

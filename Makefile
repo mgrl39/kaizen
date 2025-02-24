@@ -35,6 +35,10 @@ pull:
 serve-bg:
 	php artisan serve --host 0.0.0.0 &
 
+# Esto esta mal creo. No me ha tirado como pensaba
+kill-serve:
+	pgrep -f "php artisan serve --host 0.0.0.0" | xargs kill -9
+
 help:
 	@echo -n "$(GREEN)"
 	@echo "Uso del Makefile:"
