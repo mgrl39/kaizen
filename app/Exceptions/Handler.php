@@ -27,4 +27,14 @@ class Handler extends ExceptionHandler
             //
         });
     }
+    // Handlers de errors, es decir, si se entra a una ruta que no existe, se muestra el error 404
+    // Si se produce un error 500, se muestra el error 500
+    public function render($request, Throwable $exception)
+    {
+        if ($this->isHttpException($exception)) {
+            if ($exception->getCode() == 404) return response()->view('errors.404');
+            if ($exception->getCode() == 500) return response()->view('errors.500');
+        }
+        return parent::render($request, $exception);
+    }
 }

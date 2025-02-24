@@ -1,6 +1,11 @@
 # mgrl39
 .DEFAULT_GOAL := help
 
+GREEN=\033[0;32m
+RED=\033[0;31m
+BLUE=\033[0;34m
+END=\033[0m
+
 server:
 	@php artisan serve
 
@@ -10,7 +15,9 @@ vendor/autoload.php:
 	@exit 1
 
 serve: 
-	php artisan serve
+	@echo "$(GREEN)" && hostname -I | tr ' ' '\n'
+	@echo "$(END)"
+	php artisan serve --host 0.0.0.0
 
 install:
 	composer install
@@ -21,10 +28,19 @@ clear:
 	php artisan route:clear
 	php artisan view:clear
 
+pull:
+	git pull origin $(shell git branch --show-current)
+
+serve-bg:
+	php artisan serve --host 0.0.0.0 &
+
 help:
 	@echo "Uso del Makefile:"
 	@echo "  make install    - Instala las dependencias del proyecto"
 	@echo "  make serve     - Inicia el servidor de desarrollo"
+	@echo "  make serve-bg  - Inicia el servidor de desarrollo en segundo plano"
 	@echo "  make clear     - Limpia la caché"
+	@echo "  make kill-serve - Mata el servidor de desarrollo"
+	@echo "  make pull      - Actualiza el repositorio"
 
-.PHONY: help install serve clear
+.PHONY: help install serve clear kill-serve
