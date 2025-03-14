@@ -1,0 +1,83 @@
+PROJECT_NAME           = "Laravel App"
+PROJECT_NUMBER         = "1.0"
+OUTPUT_DIRECTORY       = docs
+USE_MDFILE_AS_MAINPAGE = README.md
+
+# INPUT: Directorio raíz del código fuente
+INPUT                  = app/ routes/ database/ config/ resources/
+RECURSIVE              = YES
+
+# Archivos que debe leer
+FILE_PATTERNS          = *.php *.md *.js *.css *.blade.php
+
+# Archivos y directorios que debe excluir
+EXCLUDE                = vendor/ node_modules/ storage/ bootstrap/cache/ public/ tests/ logs/ database/migrations/
+EXCLUDE_PATTERNS       = *.min.js *.min.css
+
+# Configuración de la salida HTML
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+HTML_EXTRA_STYLESHEET  = .github/assets/doxygen-awesome.css
+HTML_COLORSTYLE        = LIGHT
+HTML_DYNAMIC_MENUS     = YES
+GENERATE_TREEVIEW      = YES
+FULL_SIDEBAR           = YES
+HTML_FILE_EXTENSION    = .html
+HTML_CODE_FOLDING      = YES
+
+# Incluir gráficos UML y de dependencias
+HAVE_DOT               = YES
+CLASS_GRAPH            = YES
+COLLABORATION_GRAPH    = YES
+INCLUDE_GRAPH          = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+DIRECTORY_GRAPH        = YES
+
+# Buscar símbolos automáticamente
+AUTOLINK_SUPPORT       = YES
+
+# Mostrar nombres de archivos
+SHOW_USED_FILES        = YES
+SHOW_FILES             = YES
+SHOW_NAMESPACES        = YES
+
+# Soporte para comentarios en PHP y Markdown
+MARKDOWN_SUPPORT       = YES
+TOC_INCLUDE_HEADINGS   = 5
+MARKDOWN_ID_STYLE      = DOXYGEN
+OPTIMIZE_OUTPUT_FOR_PHP = YES
+JAVADOC_AUTOBRIEF      = YES
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_LOCAL_METHODS  = YES
+
+# Mejorar visualización de fuentes
+SOURCE_BROWSER         = YES
+INLINE_SOURCES         = YES
+
+# Configuración para análisis de código
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+REFERENCES_LINK_SOURCE = YES
+SOURCE_TOOLTIPS        = YES
+USE_HTAGS             = NO
+VERBATIM_HEADERS      = YES
+
+# Configuración para internacionalización
+LANGUAGE              = Spanish
+OUTPUT_LANGUAGE       = Spanish
+
+# Configuración de la navegación
+ALPHABETICAL_INDEX     = YES
+COLS_IN_ALPHA_INDEX    = 3
+SEARCHENGINE          = YES
+SERVER_BASED_SEARCH   = NO
+EXTERNAL_SEARCH       = NO
+SEARCHDATA_FILE       = searchdata.xml
+
+# Configuración para Laravel
+EXCLUDE_PATTERNS     += */tests/* */vendor/* */storage/* */bootstrap/cache/*
+EXCLUDE_PATTERNS     += *.test.php *.spec.php
