@@ -61,7 +61,7 @@ jobs:
           # Commit y push
           git add .
           git commit -m "Deploy Doxygen docs [skip ci]" || echo "✅ No changes to commit"
-          git push --force "https://x-access-token:${{ secrets.GH_PAT }}@github.com/mgrl39/fungi.git" gh-pages
+          git push --force "https://x-access-token:${{ secrets.GH_PAT }}@github.com/mgrl39/rsv_sys.git" gh-pages
 
       - name: Upload documentation artifact
         uses: actions/upload-artifact@v4
