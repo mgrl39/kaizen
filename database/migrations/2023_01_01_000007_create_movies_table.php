@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin_users', function (Blueprint $table) {
+        Schema::create('movies', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->text('synopsis')->nullable();
+            $table->integer('duration');
+            $table->string('rating', 50)->nullable();
+            $table->date('release_date')->nullable();
+            $table->string('photo_url')->nullable();
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin_users');
+        Schema::dropIfExists('movies');
     }
-};
+}; 

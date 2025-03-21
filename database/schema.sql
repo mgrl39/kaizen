@@ -88,8 +88,6 @@ CREATE TABLE booking_seat (
     FOREIGN KEY (seat_id) REFERENCES seat(id)
 );
 
-
-
 CREATE TABLE genre (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) UNIQUE NOT NULL

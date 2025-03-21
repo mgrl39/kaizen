@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('movie_actors', function (Blueprint $table) {
+        Schema::create('seats', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('function_id')->constrained();
+            $table->integer('number');
+            $table->string('seat_row', 10);
+            $table->enum('status', ['available', 'reserved', 'occupied']);
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('movie_actors');
+        Schema::dropIfExists('seats');
     }
-};
+}; 
