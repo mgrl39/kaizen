@@ -51,6 +51,9 @@ cache:
 test:
 	php artisan test
 
+lang:
+	php artisan lang:publish
+
 help:
 	@echo -n "$(GREEN)"
 	@echo "Uso del Makefile:"
@@ -63,5 +66,6 @@ help:
 	@echo "  make create-test-unit	- Make test Unit"
 	@echo "  make test		- Tirar testeos automaticos"
 	@echo "  make cache		- Cachear las templates de blade"
+	@echo "  make lang		- Publicar los archivos de internaciolizacion"
 
 .PHONY: help install serve clear kill-serve serve-bg pull create-test-unit cache
