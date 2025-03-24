@@ -7,6 +7,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     </head>
     <body class="bg-light">
+        <p>{{ __('messages.welcome') }}</p>
         <div class="container min-vh-100 d-flex align-items-center justify-content-center">
             <div class="text-center animate__animated animate__fadeIn" data-aos="zoom-in">
                 <h1 class="display-1 animate__animated animate__bounce">Error 404</h1>
