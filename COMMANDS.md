@@ -83,3 +83,37 @@ Se han generado los siguientes modelos con sus migraciones:
 - Creados directorios necesarios para controladores API
 - Configurado Telescope para debugging
 - Añadidos archivos de migración
+
+
+
+🔥 Si instalas **las dos** (Telescope y Clockwork), **no pasa nada malo** — **son compatibles** y pueden coexistir perfectamente en el mismo proyecto. De hecho, muchos devs usan ambos al mismo tiempo porque se complementan muy bien:
+
+### 🚀 Si instalas las dos:
+✅ **Telescope** te dará una visión detallada de lo que pasa en el backend (consultas SQL, jobs, eventos, errores).  
+✅ **Clockwork** te mostrará el rendimiento directamente en el navegador (tiempo de respuesta, queries, caché).  
+
+### 🧪 **Ejemplo práctico**:
+1. Haces una solicitud a una ruta `/posts`.  
+2. **Telescope** te muestra:  
+   - Qué middleware se activaron.  
+   - Qué jobs o eventos se dispararon.  
+   - Las consultas SQL exactas ejecutadas.  
+   - Si hubo algún error en la solicitud.  
+
+3. **Clockwork** te muestra en el navegador:  
+   - Tiempo de respuesta total.  
+   - Qué consultas SQL tardaron más.  
+   - Si hay algún cuello de botella en el rendimiento.  
+
+👉 Si **Clockwork** te dice que la solicitud tarda mucho, vas a **Telescope** para descubrir **qué consulta o evento está causando el problema**. 🔎
+
+---
+
+### 🤔 **¿Desventajas de tener ambas?**  
+- Ambas herramientas **registran eventos y consultas**, lo que puede **afectar ligeramente el rendimiento** en modo local (nada grave).  
+- Si alguna vez notas que el entorno local va más lento, puedes desactivar Telescope o Clockwork temporalmente desde la configuración (`config/telescope.php` o `config/clockwork.php`).  
+
+---
+
+### 💡 **Mi consejo:**  
+👉 Instala **las dos** y prueba. Si te abruma toda la información, empieza con **Clockwork** para ver el rendimiento y luego usa **Telescope** para depurar más a fondo. 😎
