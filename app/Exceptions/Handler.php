@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
 
 class Handler extends ExceptionHandler
 {
@@ -32,9 +34,25 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($this->isHttpException($exception)) {
-            if ($exception->getCode() == 404) return response()->view('errors.404');
-            if ($exception->getCode() == 500) return response()->view('errors.500');
+            // Establecer el idioma antes de renderizar la vista
+            if (Session::has('locale')) {
+                App::setLocale(Session::get('locale'));
+            } elseif ($request->has('lang')) {
+                $locale = $request->query('lang');
+                if (in_array($locale, config('app.available_locales', ['es', 'ca', 'en']))) {
+                    App::setLocale($locale);
+                }
+            }
+
+            if ($exception->getStatusCode() == 404) {
+                return response()->view('errors.404');
+            }
+            
+            if ($exception->getStatusCode() == 500) {
+                return response()->view('errors.500');
+            }
         }
+        
         return parent::render($request, $exception);
     }
 }

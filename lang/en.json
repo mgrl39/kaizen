@@ -1,3 +1,10 @@
 {
-    "test": "TEST."
+    "Welcome to our application": "Welcome to our application",
+    "Error 404": "Error 404",
+    "The page you are looking for does not exist.": "The page you are looking for does not exist.",
+    "Error 500": "Error 500",
+    "An error occurred on the server.": "An error occurred on the server.",
+    "Back to home": "Back to home",
+    "Current language": "Current language",
+    "Change language": "Change language"
 }
