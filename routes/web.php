@@ -20,10 +20,3 @@ Route::get('/', function () {
 });
 
 Route::resource('cinema', CinemaController::class);
-Route::resource('movies', MovieController::class);
-Route::resource('functions', FunctionsController::class);
-Route::resource('bookings', BookingController::class);
-Route::resource('seats', SeatController::class);
-Route::resource('admins', AdminController::class);
-Route::resource('manages', ManageController::class);
-Route::resource('users', UserController::class);
