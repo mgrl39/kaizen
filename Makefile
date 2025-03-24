@@ -38,6 +38,19 @@ serve-bg:
 kill-serve:
 	pgrep -f "php artisan serve --host 0.0.0.0" | xargs kill -9
 
+CLASS_TEST_NAME ?= $(shell bash -c 'read -p "Añade el nombre: " name; echo $$name')
+
+create-test-unit:
+	php artisan make:test $(CLASS_TEST_NAME) --unit
+
+cache:
+	php artisan view:cache
+
+# O si solo quieres correr las pruebas de MovieApiTest:
+# php artisan test --filter=MovieApiTest
+test:
+	php artisan test
+
 help:
 	@echo -n "$(GREEN)"
 	@echo "Uso del Makefile:"
@@ -47,5 +60,8 @@ help:
 	@echo "  make clear		- Limpia la caché"
 	@echo "  make kill-serve	- Mata el servidor de desarrollo"
 	@echo "  make pull		- Actualiza el repositorio"
+	@echo "  make create-test-unit	- Make test Unit"
+	@echo "  make test		- Tirar testeos automaticos"
+	@echo "  make cache		- Cachear las templates de blade"
 
-.PHONY: help install serve clear kill-serve
+.PHONY: help install serve clear kill-serve serve-bg pull create-test-unit cache

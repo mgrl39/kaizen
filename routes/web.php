@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Cinema;
 use App\Http\Controllers\CinemaController;
+use App\Http\Controllers\SimpleEndpointController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +21,6 @@ Route::get('/', function () {
 });
 
 Route::resource('cinema', CinemaController::class);
+
+// Ruta para URLs
+Route::get('/urls', [SimpleEndpointController::class, 'index']);

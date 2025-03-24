@@ -9,18 +9,26 @@ class ServerStatusController extends Controller
 {
     public function status()
     {
+        $memory = $this->getMemoryUsage();
+        $cpu = $this->getCpuUsage();
+        $disk = $this->getDiskSpace();
+    
+        $status = 'healthy';
+    
         $stats = [
             'server_time' => date('Y-m-d H:i:s'),
             'php_version' => phpversion(),
             'laravel_version' => app()->version(),
-            'memory_usage' => $this->getMemoryUsage(),
-            'cpu_usage' => $this->getCpuUsage(),
-            'disk_space' => $this->getDiskSpace(),
+            'memory_usage' => $memory,
+            'cpu_usage' => $cpu,
+            'disk_space' => $disk,
             'database_stats' => $this->getDatabaseStats(),
+            // TODO: Quitarle el hardcodeo de healthy
+            'status' => $status
         ];
         
         return response()->json(['data' => $stats]);
-    }
+    }    
     
     private function getMemoryUsage()
     {
