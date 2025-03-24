@@ -68,4 +68,4 @@ help:
 	@echo "  make cache		- Cachear las templates de blade"
 	@echo "  make lang		- Publicar los archivos de internaciolizacion"
 
-.PHONY: help install serve clear kill-serve serve-bg pull create-test-unit cache
+.PHONY: help install serve clear kill-serve serve-bg pull create-test-unit cache lang
