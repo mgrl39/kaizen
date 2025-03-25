@@ -95,4 +95,15 @@ help:
 	@echo "  make cache		- Cachear las templates de blade"
 	@echo "  make lang		- Publicar los archivos de internaciolizacion"
 
-.PHONY: help install serve clear kill-serve serve-bg pull create-test-unit cache lang install-php-deps install-composer
+.PHONY: help install serve clear kill-serve serve-bg pull create-test-unit cache lang install-php-deps install-composer setup-db system-status
+
+.PHONY: setup-db
+setup-db:
+	@echo "🚀 Iniciando configuración de MySQL y base de datos..."
+	@chmod +x ./scripts/setup-database.sh
+	@./scripts/setup-database.sh
+
+.PHONY: test-system
+test-system:
+	@echo "🧪 Verificando configuración básica del sistema..."
+	php artisan test --filter=GeneralSystemTest
