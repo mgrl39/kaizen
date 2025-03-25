@@ -19,8 +19,33 @@ serve:
 	@echo "$(END)"
 	php artisan serve --host 0.0.0.0
 
+install-composer:
+	sudo apt update
+	sudo apt install -y composer
+
 install:
 	composer install
+
+install-php-deps:
+	sudo apt-get update
+	sudo apt-get install -y php8.1 \
+		php8.1-cli \
+		php8.1-common \
+		php8.1-curl \
+		php8.1-mbstring \
+		php8.1-xml \
+		php8.1-zip \
+		php8.1-mysql \
+		php8.1-pgsql \
+		php8.1-sqlite3 \
+		php8.1-gd \
+		php8.1-bcmath \
+		php8.1-intl \
+		php8.1-soap \
+		php8.1-ldap \
+		php8.1-imap \
+		php8.1-redis \
+		php8.1-memcached
 
 clear:
 	php artisan cache:clear
@@ -58,6 +83,8 @@ help:
 	@echo -n "$(GREEN)"
 	@echo "Uso del Makefile:"
 	@echo "  make install		- Instala las dependencias del proyecto"
+	@echo "  make install-composer	- Instala Composer globalmente"
+	@echo "  make install-php-deps	- Instala todas las dependencias PHP necesarias"
 	@echo "  make serve		- Inicia el servidor de desarrollo"
 	@echo "  make serve-bg		- Inicia el servidor de desarrollo en segundo plano"
 	@echo "  make clear		- Limpia la caché"
@@ -68,4 +95,4 @@ help:
 	@echo "  make cache		- Cachear las templates de blade"
 	@echo "  make lang		- Publicar los archivos de internaciolizacion"
 
-.PHONY: help install serve clear kill-serve serve-bg pull create-test-unit cache lang
+.PHONY: help install serve clear kill-serve serve-bg pull create-test-unit cache lang install-php-deps install-composer
