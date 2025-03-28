@@ -1,8 +1,11 @@
+# Comandos utiles
+
 ```bash
 sudo apt-get install mysql-server
 ```
 
 Cambiar el bind-address a 0.0.0.0 en el archivo de configuración de mysql.
+
 ```bash
 sudo vim /etc/mysql/mysql.conf.d/mysqld.cnf
 ```
@@ -12,6 +15,7 @@ sudo systemctl restart mysql
 ```
 
 Cambiar la contraseña del usuario root.
+
 ```sql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 CREATE USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY 'root';
@@ -42,19 +46,21 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 FLUSH PRIVILEGES;
 ```
 
+## Registro de cambios - Configuración del servidor y API
 
-# Registro de cambios - Configuración del servidor y API
+### Configuración del servidor
 
-## Configuración del servidor
 - Instalación y configuración de MySQL Server
 - Configuración del bind-address para permitir conexiones remotas
 - Configuración de usuarios y permisos de MySQL
 
-## Modelos creados
+### Modelos creados
+
 Se han generado los siguientes modelos con sus migraciones:
+
 - Cinema (Cines)
 - Room (Salas)
-- AdminUser (Usuarios administradores) 
+- AdminUser (Usuarios administradores)
 - Manage (Gestión)
 - User (Usuarios)
 - Booking (Reservas)
@@ -68,31 +74,37 @@ Se han generado los siguientes modelos con sus migraciones:
 - Actor (Actores)
 - MovieActor (Actores en películas)
 
-## API y controladores
+### API y controladores
+
 - Creado ServerStatusController para monitorear estado del servidor
 - Implementadas rutas API en api.php
 - Configurado CORS para permitir peticiones entre dominios
 - Añadido manejo de errores 404 y 500
 
-## Variables de entorno
+### Variables de entorno
+
 - Configuración de base de datos
 - Desactivado caché en desarrollo
 - Configuración de dominios para Sanctum
 
-## Estructura de directorios
+### Estructura de directorios
+
 - Creados directorios necesarios para controladores API
 - Configurado Telescope para debugging
 - Añadidos archivos de migración
 
+🔥 Si instalas **las dos** (Telescope y Clockwork),
+    **no pasa nada malo** — **son compatibles** y pueden coexistir perfectamente en el mismo proyecto.
+De hecho, muchos devs usan ambos
+    al mismo tiempo porque se complementan muy bien:
 
+### 🚀 Si instalas las dos
 
-🔥 Si instalas **las dos** (Telescope y Clockwork), **no pasa nada malo** — **son compatibles** y pueden coexistir perfectamente en el mismo proyecto. De hecho, muchos devs usan ambos al mismo tiempo porque se complementan muy bien:
-
-### 🚀 Si instalas las dos:
 ✅ **Telescope** te dará una visión detallada de lo que pasa en el backend (consultas SQL, jobs, eventos, errores).  
 ✅ **Clockwork** te mostrará el rendimiento directamente en el navegador (tiempo de respuesta, queries, caché).  
 
-### 🧪 **Ejemplo práctico**:
+### 🧪 **Ejemplo práctico**
+
 1. Haces una solicitud a una ruta `/posts`.  
 2. **Telescope** te muestra:  
    - Qué middleware se activaron.  
@@ -105,15 +117,23 @@ Se han generado los siguientes modelos con sus migraciones:
    - Qué consultas SQL tardaron más.  
    - Si hay algún cuello de botella en el rendimiento.  
 
-👉 Si **Clockwork** te dice que la solicitud tarda mucho, vas a **Telescope** para descubrir **qué consulta o evento está causando el problema**. 🔎
+👉 Si **Clockwork** te dice que la solicitud tarda mucho,
+vas a **Telescope** para descubrir
+**qué consulta o evento está causando el problema**. 🔎
 
 ---
 
 ### 🤔 **¿Desventajas de tener ambas?**  
-- Ambas herramientas **registran eventos y consultas**, lo que puede **afectar ligeramente el rendimiento** en modo local (nada grave).  
-- Si alguna vez notas que el entorno local va más lento, puedes desactivar Telescope o Clockwork temporalmente desde la configuración (`config/telescope.php` o `config/clockwork.php`).  
+
+- Ambas herramientas **registran eventos y consultas**,
+    lo que puede **afectar ligeramente el rendimiento** en modo local (nada grave).  
+- Si alguna vez notas que el entorno local va más lento,
+    puedes desactivar Telescope o Clockwork temporalmente desde la configuración
+    (`config/telescope.php` o `config/clockwork.php`).  
 
 ---
 
 ### 💡 **Mi consejo:**  
-👉 Instala **las dos** y prueba. Si te abruma toda la información, empieza con **Clockwork** para ver el rendimiento y luego usa **Telescope** para depurar más a fondo. 😎
+
+👉 Instala **las dos** y prueba.
+Si te abruma toda la información, empieza con **Clockwork** para ver el rendimiento y luego usa **Telescope** para depurar más a fondo. 😎
