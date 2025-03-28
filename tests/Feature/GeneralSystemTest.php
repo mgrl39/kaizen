@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Support\Facades\DB;
-use PDO;
 
 class GeneralSystemTest extends TestCase
 {
@@ -102,4 +101,5 @@ class GeneralSystemTest extends TestCase
             "Database query took too long: {$queryTime}ms"
         );
     }
-} 
+}
+
