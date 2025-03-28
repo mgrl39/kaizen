@@ -4,18 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('movie_actor', function (Blueprint $table) {
-            $table->foreignId('movie_id')->constrained();
-            $table->foreignId('actor_id')->constrained();
-            $table->primary(['movie_id', 'actor_id']);
-        });
+        Schema::create(
+            'movie_actor',
+            function (Blueprint $table) {
+                $table->foreignId('movie_id')->constrained();
+                $table->foreignId('actor_id')->constrained();
+                $table->primary(['movie_id', 'actor_id']);
+            }
+        );
     }
 
     /**
@@ -25,4 +27,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('movie_actor');
     }
-}; 
+};
+

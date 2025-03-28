@@ -4,18 +4,20 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class () extends Migration {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('manages', function (Blueprint $table) {
-            $table->foreignId('admin_id')->constrained('admin_users');
-            $table->foreignId('cinema_id')->constrained();
-            $table->primary(['admin_id', 'cinema_id']);
-        });
+        Schema::create(
+            'manages',
+            function (Blueprint $table) {
+                $table->foreignId('admin_id')->constrained('admin_users');
+                $table->foreignId('cinema_id')->constrained();
+                $table->primary(['admin_id', 'cinema_id']);
+            }
+        );
     }
 
     /**
@@ -25,4 +27,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('manages');
     }
-}; 
+};
+
