@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Unit;
 
 use Tests\TestCase;
 
@@ -18,3 +18,4 @@ class ServerStatusTest extends TestCase
         ]);
     }
 }
+

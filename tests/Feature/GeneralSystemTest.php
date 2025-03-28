@@ -77,12 +77,13 @@ class GeneralSystemTest extends TestCase
             echo "❌ Tablas faltantes: " . implode(', ', $missingTables) . "\n";
             $this->fail('Missing required tables: ' . implode(', ', $missingTables));
         }
-
         echo "\n✨ Verificación completada\n";
     }
 
     /**
      * Test de rendimiento básico de la base de datos
+     *
+     * @return void
      */
     public function test_database_performance()
     {
@@ -102,4 +103,3 @@ class GeneralSystemTest extends TestCase
         );
     }
 }
-
