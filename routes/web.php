@@ -19,18 +19,14 @@ use Illuminate\Support\Facades\Session;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::resource('cinema', CinemaController::class);
-
+Route::get('/', function () { return view('welcome'); });
+Route::get('/register', function () { return view('register'); });
 // Ruta para URLs
 Route::get('/urls', [SimpleEndpointController::class, 'index']);
-
 // Añade esta ruta
 Route::get('language/{locale}', [LanguageController::class, 'switchLang'])->name('language');
-
+Route::get('/contactus', function () { return view('contactus'); });
+Route::resource('cinema', CinemaController::class);
 // Añade esta ruta para pruebas
 Route::get('/test-lang', function () {
     return [
