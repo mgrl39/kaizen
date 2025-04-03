@@ -4,7 +4,7 @@
             <div class="flex items-center">
                 <a href="/" class="flex items-center">
                     <span class="text-blue-500"><i class="fas fa-film text-2xl"></i></span>
-                    <span class="ml-2 font-bold text-xl tracking-tight">CineSystem</span>
+                    <span class="ml-2 font-bold text-xl tracking-tight">Kaizen</span>
                 </a>
             </div>
             <div class="hidden md:flex items-center space-x-6">
@@ -15,7 +15,7 @@
                     <i class="fas fa-video mr-2"></i>Películas 
                 </a>
                 <a href="/simple-endpoints" class="ml-4 px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out flex items-center">
-                    <i class="fas fa-code mr-2"></i>API
+                    <i class="fas fa-code mr-2"></i>Api
                 </a>
                 <!-- Dark mode toggle -->
                 <button @click="darkMode = !darkMode" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 focus:outline-none transition-colors duration-300" aria-label="Toggle dark mode">
