@@ -31,18 +31,16 @@
     
     @yield('styles')
 </head>
-<body class="bg-gradient-to-br from-gray-100 via-gray-200 to-white dark:from-gray-900 dark:via-gray-800 dark:to-black text-gray-900 dark:text-white font-sans flex flex-col min-h-screen transition-colors duration-300">
+<body class="bg-gradient-to-br from-gray-100 via-gray-200 to-white dark:from-gray-900 dark:via-gray-800 dark:to-black text-gray-900 dark:text-white font-sans min-h-screen transition-colors duration-300">
     @include('components.navbar')
 
-    <main class="flex-grow pt-24 pb-16">
+    <div class="pt-24 pb-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @yield('content')
         </div>
-    </main>
+    </div>
 
-    <footer class="mt-auto">
-        @include('components.footer')
-    </footer>
+    @include('components.footer')
     
     @yield('scripts')
 </body>
