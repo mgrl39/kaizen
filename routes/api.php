@@ -17,15 +17,8 @@ use App\Http\Controllers\API\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get(
-    '/user',
-    function (Request $request) {
-        return $request->user();
-    }
-);
-
 // Para acceder al server-status uso: http://localhost:8000/api/server-status
-Route::get('/server-status', [ServerStatusController::class, 'status']);
+// Route::get('/server-status', [ServerStatusController::class, 'status']);
 
 // Rutas para películas
 Route::apiResource('/movies', MovieController::class);
@@ -38,13 +31,15 @@ Route::delete('/movies/{id}', [MovieController::class, 'destroy']);
 // Para acceder: http://localhost:8000/api/movies
 
 // Rutas de autenticación
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+// Route::post('/register', [AuthController::class, 'register']);
+// Route::post('/login', [AuthController::class, 'login']);
+// Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+// Route::get('/user', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
 // Rutas protegidas
 Route::middleware('auth:api')->group(
     function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::get('me', [AuthController::class, 'me']);
+        // Route::post('logout', [AuthController::class, 'logout']);
+        // Route::get('me', [AuthController::class, 'me']);
     }
 );
