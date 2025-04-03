@@ -13,9 +13,16 @@
                 </a>
                 <a href="/movies" class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800/50 rounded-md transition duration-150 ease-in-out">
                     <i class="fas fa-video mr-2"></i>Películas 
-                </a>
-                <a href="/simple-endpoints" class="ml-4 px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out flex items-center">
+                </a><!--
+                <a href="/simple-endpoints" usuario
+                class="ml-4 px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out flex items-center">
                     <i class="fas fa-code mr-2"></i>Api
+                </a> -->
+                <a href="/login" class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800/50 rounded-md transition duration-150 ease-in-out">
+                    <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
+                </a>
+                <a href="/register" class="px-4 py-2 text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white rounded-md shadow-md hover:shadow-lg transition duration-150 ease-in-out flex items-center">
+                    <i class="fas fa-user-plus mr-2"></i>Registrarse
                 </a>
                 <!-- Dark mode toggle -->
                 <button @click="darkMode = !darkMode" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700 focus:outline-none transition-colors duration-300" aria-label="Toggle dark mode">
@@ -37,4 +44,4 @@
             </div>
         </div>
     </div>
-</nav> 
+</nav>
