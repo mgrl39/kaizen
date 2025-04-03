@@ -19,31 +19,23 @@
         <div>
             <span class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Filtrar por método HTTP</span>
             <div class="flex flex-wrap gap-2">
-                <button 
-                    wire:click="toggleMethod('GET')" 
-                    class="px-3 py-1 rounded-full text-xs font-medium {{ $selectedMethods['GET'] ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400' }}">
-                    GET
-                </button>
-                <button 
-                    wire:click="toggleMethod('POST')" 
-                    class="px-3 py-1 rounded-full text-xs font-medium {{ $selectedMethods['POST'] ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400' }}">
-                    POST
-                </button>
-                <button 
-                    wire:click="toggleMethod('PUT')" 
-                    class="px-3 py-1 rounded-full text-xs font-medium {{ $selectedMethods['PUT'] ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400' }}">
-                    PUT
-                </button>
-                <button 
-                    wire:click="toggleMethod('PATCH')" 
-                    class="px-3 py-1 rounded-full text-xs font-medium {{ $selectedMethods['PATCH'] ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400' }}">
-                    PATCH
-                </button>
-                <button 
-                    wire:click="toggleMethod('DELETE')" 
-                    class="px-3 py-1 rounded-full text-xs font-medium {{ $selectedMethods['DELETE'] ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400' }}">
-                    DELETE
-                </button>
+                @php
+                $methodColors = [
+                    'GET' => ['bg' => 'green', 'text' => 'green'],
+                    'POST' => ['bg' => 'blue', 'text' => 'blue'],
+                    'PUT' => ['bg' => 'yellow', 'text' => 'yellow'],
+                    'PATCH' => ['bg' => 'purple', 'text' => 'purple'],
+                    'DELETE' => ['bg' => 'red', 'text' => 'red']
+                ];
+                @endphp
+
+                @foreach($methodColors as $method => $colors)
+                    <button 
+                        wire:click="toggleMethod('{{ $method }}')"
+                        class="px-3 py-1 rounded-full text-xs font-medium {{ $selectedMethods[$method] ? 'bg-'.$colors['bg'].'-100 text-'.$colors['text'].'-800 dark:bg-'.$colors['bg'].'-900 dark:text-'.$colors['text'].'-200' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400' }}">
+                        {{ $method }}
+                    </button>
+                @endforeach
             </div>
         </div>
     </div>
@@ -54,27 +46,14 @@
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300">
                 <div class="p-4">
                     <div class="flex items-center">
-                        @if(strpos($route['method'], 'GET') !== false)
-                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
-                                GET
-                            </span>
-                        @elseif(strpos($route['method'], 'POST') !== false)
-                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
-                                POST
-                            </span>
-                        @elseif(strpos($route['method'], 'PUT') !== false)
-                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200">
-                                PUT
-                            </span>
-                        @elseif(strpos($route['method'], 'PATCH') !== false)
-                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200">
-                                PATCH
-                            </span>
-                        @elseif(strpos($route['method'], 'DELETE') !== false)
-                            <span class="px-3 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
-                                DELETE
-                            </span>
-                        @endif
+                        @foreach($methodColors as $method => $colors)
+                            @if(strpos($route['method'], $method) !== false)
+                                <span class="px-3 py-1 rounded-full text-xs font-medium bg-{{ $colors['bg'] }}-100 text-{{ $colors['text'] }}-800 dark:bg-{{ $colors['bg'] }}-900 dark:text-{{ $colors['text'] }}-200">
+                                    {{ $method }}
+                                </span>
+                                @break
+                            @endif
+                        @endforeach
                         <div class="ml-3">
                             <div class="text-sm font-medium text-gray-900 dark:text-gray-100">{{ $route['uri'] }}</div>
                             <div class="text-xs text-gray-500 dark:text-gray-400">
@@ -98,4 +77,4 @@
             </div>
         @endforelse
     </div>
-</div> 
+</div>

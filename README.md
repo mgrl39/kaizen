@@ -1,105 +1,95 @@
-# rsv_sys
+# Kaizen
 
 <p align="center">
-  <img src="public/assets/images/logo.png" width="200" alt="rsv_sys">
+  <img src="public/assets/images/logo.png" width="200" alt="Kaizen">
 </p>
 
-> Una aplicación web moderna para la gestión integral de cines, salas, películas y reservas, con un completo sistema de administración y experiencia de usuario mejorada.
+> Plataforma web moderna para la gestión integral de cines, películas y reservas. Sistema optimizado, rápido y con experiencia de usuario mejorada.
 
 <p align="center">
-    ![img](https://img.shields.io/badge/version-1.0.0-blue)
+  <img src="https://img.shields.io/badge/version-1.1.0-blue" alt="Versión">
   <img src="https://img.shields.io/badge/licencia-MIT-green" alt="Licencia">
   <img src="https://img.shields.io/badge/estado-en%20desarrollo-orange" alt="Estado">
   <img src="https://img.shields.io/badge/PHP-8.1+-8892BF" alt="PHP">
   <img src="https://img.shields.io/badge/Laravel-10.x-FF2D20" alt="Laravel">
 </p>
 
-## ✨ Características Principales
+## ✨ Características
 
-- 🏢 **Gestión de cines y salas** - Administra múltiples cines y controla sus salas
-- 🎞️ **Catálogo de películas** - Mantén actualizado tu catálogo con toda la información relevante
-- 🎭 **Funciones y horarios** - Programa proyecciones con fechas y horas personalizadas
-- 🎟️ **Sistema de reservas** - Gestión completa del proceso de reserva de asientos
-- 👥 **Gestión de usuarios** - Diferentes roles y permisos para administradores y clientes
-- 📊 **Panel de administración** - Interfaz intuitiva para gestionar todos los aspectos del sistema
-- 📱 **Diseño responsive** - Experiencia optimizada en cualquier dispositivo
+- 🏢 **Gestión de cines y salas** - Control integral de múltiples cines
+- 🎞️ **Catálogo de películas** - Información detallada, trailers y valoraciones
+- 🎭 **Programación inteligente** - Proyecciones optimizadas según demanda
+- 🎟️ **Reservas simplificadas** - Proceso de compra rápido e intuitivo
+- 👥 **Usuarios y permisos** - Sistema de roles avanzado
+- 📊 **Panel de administración** - Estadísticas en tiempo real
+- 📱 **Diseño responsive** - Experiencia perfecta en cualquier dispositivo
+- 🌙 **Modo oscuro** - Interfaz adaptable a preferencias del usuario
 
 ## 🔧 Stack Tecnológico
 
 <p align="center">
-  <img src="public/assets/images/laravel.png" width="75" height="75" alt="Laravel Logo">&nbsp;&nbsp;&nbsp;
-  <img src="public/assets/images/mysql.png" width="75" height="75" alt="MySQL Logo">&nbsp;&nbsp;&nbsp;
+  <img src="public/assets/images/alpinejs.png" width="8%" alt="Alpine.js">
+  <img src="public/assets/images/laravel.png" width="6%" alt="Laravel">&nbsp;&nbsp;&nbsp;
+  <img src="public/assets/images/mysql.png" width="7%" alt="MySQL">&nbsp;&nbsp;&nbsp;
+  <img src="public/assets/images/tailwindcss.png" width="7%" alt="Tailwind CSS">&nbsp;&nbsp;&nbsp;
+
 </p>
 
 <p align="center">
-  <b>Backend:</b> PHP 8.1+ | Laravel 10.x | <b>Base de datos:</b> MySQL | <b>Frontend:</b> Blade
+  <b>Backend:</b> PHP 8.1+ | Laravel 10.x | <b>Base de datos:</b> MySQL | <b>Frontend:</b> Tailwind CSS | Alpine.js
 </p>
+
+## 🚀 Instalación
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/mgrl39/kaizen.git
+cd kaizen
+
+# Instalar dependencias
+composer install
+npm install
+
+# Configurar el entorno
+cp .env.example .env
+php artisan key:generate
+
+# Configurar la base de datos en .env:
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=kaizen
+# DB_USERNAME=root
+# DB_PASSWORD=
+
+# Ejecutar migraciones y seeders
+php artisan migrate --seed
+
+# Compilar assets
+npm run dev
+
+# Iniciar servidor
+php artisan serve
+```
+
+## 📝 Documentación
+
+La documentación completa está disponible en `/docs` o visitando `/api-docs` en la aplicación en ejecución.
+
+## 🌐 Demo
+
+Visita la [demo en línea](https://kaizen-demo.ejemplo.com) para probar todas las funcionalidades.
+
+## 👥 Contribución
+
+Las contribuciones son bienvenidas. Por favor, lee [CONTRIBUTING.md](CONTRIBUTING.md) para más información.
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo [MIT License](LICENSE).
+
+---
 
 <p align="center">
-  <b>Herramientas adicionales:</b> JWT para autenticación | Redis para caché | Livewire para componentes interactivos
+  Desarrollado con ❤️ por <a href="https://github.com/mgrl39">mgrl39</a>
 </p>
-
-## 🚀 Instalación Rápida
-
-### Requisitos previos
-
-- PHP 8.1 o superior
-- Composer
-- MySQL 5.7 o superior
-- Node.js y npm
-
-### Pasos para instalación
-
-1. **Clonar el repositorio:**
-
-   ```bash
-   git clone https://github.com/mgrl39/rsv_sys.git
-   cd rsv_sys
-   ```
-
-2. **Instalar dependencias PHP:**
-
-   ```bash
-   composer install
-   ```
-
-3. **Instalar dependencias JavaScript:**
-
-   ```bash
-   npm install
-   npm run dev
-   ```
-
-4. **Configurar el entorno:**
-
-   ```bash
-   cp .env.example .env
-   php artisan key:generate
-   ```
-
-5. **Configurar la base de datos en el archivo .env:**
-
-   ```
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=cinedb
-   DB_USERNAME=root
-   DB_PASSWORD=
-   ```
-
-6. **Ejecutar migraciones y seeders:**
-
-   ```bash
-   php artisan migrate --seed
-   ```
-
-7. **Iniciar el servidor de desarrollo:**
-
-   ```bash
-   php artisan serve
-   ```
-
-   La aplicación estará disponible en <http://localhost:8000>
-
-## 🏗️ Estructura del Proyecto

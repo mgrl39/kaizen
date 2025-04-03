@@ -3,43 +3,36 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{{ __('Error 500') }}</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        
+        <title>{{ config('app.name') }} - Error del servidor</title>
+        
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="bg-light">
-        <div class="container min-vh-100 d-flex flex-column align-items-center justify-content-center">
-            <div class="text-center animate__animated animate__fadeIn">
-                <h1 class="display-1">{{ __('Error 500') }}</h1>
-                <p class="lead">{{ __('An error occurred on the server.') }}</p>
-                <a href="/" class="btn btn-primary">{{ __('Back to home') }}</a>
+    <body class="bg-gray-50 min-h-screen">
+        <div x-data="{ show: false }" 
+             x-init="setTimeout(() => show = true, 100)"
+             class="container mx-auto min-h-screen flex flex-col items-center justify-center px-4">
+            <div x-show="show" 
+                 x-transition:enter="transition ease-out duration-1000"
+                 x-transition:enter-start="opacity-0 translate-y-4"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 class="text-center">
+                <h1 class="text-8xl font-bold text-gray-800 mb-4 hover:scale-105 transition duration-300">500</h1>
+                <p class="text-2xl font-semibold text-gray-700 mb-2">Error del servidor</p>
+                <p class="text-lg text-gray-600 mb-8">
+                    Ha ocurrido un error en el servidor.
+                </p>
+                <a href="{{ url('/') }}" class="inline-block px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow hover:bg-blue-700 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                    Volver al inicio
+                </a>
                 
-                <div class="mt-5">
-                    <p class="text-muted">{{ __('Current language') }}: 
-                        <strong>
-                            @if(app()->getLocale() == 'es')
-                                Español
-                            @elseif(app()->getLocale() == 'ca')
-                                Català
-                            @else
-                                English
-                            @endif
-                        </strong>
-                    </p>
-                    
-                    <div class="d-flex justify-content-center">
-                        <a href="{{ route('language', 'es') }}" class="btn btn-sm {{ app()->getLocale() == 'es' ? 'btn-secondary' : 'btn-outline-secondary' }} mx-1">
-                            Español
-                        </a>
-                        <a href="{{ route('language', 'ca') }}" class="btn btn-sm {{ app()->getLocale() == 'ca' ? 'btn-secondary' : 'btn-outline-secondary' }} mx-1">
-                            Català
-                        </a>
-                        <a href="{{ route('language', 'en') }}" class="btn btn-sm {{ app()->getLocale() == 'en' ? 'btn-secondary' : 'btn-outline-secondary' }} mx-1">
-                            English
-                        </a>
+                @if(config('app.debug'))
+                    <div class="mt-8 p-4 bg-gray-100 rounded-lg text-left text-sm text-gray-500 max-w-md">
+                        <p class="font-semibold">URL: {{ request()->url() }}</p>
+                        <p>Método: {{ request()->method() }}</p>
                     </div>
-                </div>
+                @endif
             </div>
         </div>
     </body>
