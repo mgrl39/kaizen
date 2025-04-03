@@ -17,15 +17,8 @@ use App\Http\Controllers\API\AuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get(
-    '/user',
-    function (Request $request) {
-        return $request->user();
-    }
-);
-
 // Para acceder al server-status uso: http://localhost:8000/api/server-status
-Route::get('/server-status', [ServerStatusController::class, 'status']);
+// Route::get('/server-status', [ServerStatusController::class, 'status']);
 
 // Rutas para películas
 Route::apiResource('/movies', MovieController::class);

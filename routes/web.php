@@ -57,3 +57,7 @@ Route::get(
         ];
     }
 );
+
+Route::get('/endpoints', function () {
+    return view('simple-endpoints');
+})->name('endpoints');

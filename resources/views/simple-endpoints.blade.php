@@ -27,6 +27,9 @@
     </script>
     <!-- Alpine.js -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Livewire Styles -->
+    @livewireStyles
 </head>
 <body class="bg-gradient-to-br from-gray-100 via-gray-200 to-white dark:from-gray-900 dark:via-gray-800 dark:to-black text-gray-900 dark:text-white font-sans min-h-screen transition-colors duration-300">
     <!-- Nav Bar -->
@@ -66,23 +69,8 @@
                 </div>
             </header>
             
-            <!-- Route filters -->
-            @include('components.route-filters')
-            
-            <!-- Route list -->
-            <div class="space-y-2">
-                @foreach($routes as $route)
-                    <div class="route-item 
-                        @if(strpos($route['method'], 'GET') !== false) method-get
-                        @elseif(strpos($route['method'], 'POST') !== false) method-post
-                        @elseif(strpos($route['method'], 'PUT') !== false) method-put
-                        @elseif(strpos($route['method'], 'PATCH') !== false) method-patch
-                        @elseif(strpos($route['method'], 'DELETE') !== false) method-delete
-                        @endif">
-                        @include('components.route-item', ['route' => $route])
-                    </div>
-                @endforeach
-            </div>
+            <!-- Livewire Component para filtros y lista de rutas -->
+            @livewire('route-explorer')
             
             <div class="mt-10 flex justify-center">
                 <a href="/" class="inline-flex items-center px-6 py-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-300 text-gray-700 dark:text-gray-300">
@@ -94,5 +82,8 @@
 
     <!-- Footer -->
     @include('components.footer')
+    
+    <!-- Livewire Scripts -->
+    @livewireScripts
 </body>
 </html> 
