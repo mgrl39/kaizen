@@ -25,12 +25,13 @@ class SetLocale
                 App::setLocale($locale);
                 Session::put('locale', $locale);
             }
-        } 
+        }
         // Si no hay en URL, intentamos de la sesión
         elseif (Session::has('locale')) {
             App::setLocale(Session::get('locale'));
         }
-        
+
         return $next($request);
     }
-} 
+}
+
