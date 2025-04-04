@@ -72,9 +72,17 @@ jobs:
           # Descargamos y preparamos la plantilla
           wget https://github.com/StartBootstrap/startbootstrap-clean-blog/archive/refs/heads/master.zip
           unzip master.zip
-          mv startbootstrap-clean-blog-master/dist/* docs/api/
+          
+          # Copiar archivos de la plantilla de manera segura
+          cp -r startbootstrap-clean-blog-master/dist/css/* docs/api/css/ || true
+          cp -r startbootstrap-clean-blog-master/dist/js/* docs/api/js/ || true
+          cp -r startbootstrap-clean-blog-master/dist/assets/* docs/api/assets/ || true
+          
+          # Limpiar archivos temporales
+          rm -rf master.zip startbootstrap-clean-blog-master
           
           # Crear template personalizado
+          mkdir -p docs/api/css
           cat > docs/api/css/documentation.css << 'EOL'
           /* Estilos base */
           :root {
@@ -88,116 +96,149 @@ jobs:
             --dark: #1f2d41;
           }
 
-          /* Layout */
-          .docs-nav {
+          /* Layout y estilos generales */
+          body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light);
+          }
+
+          /* Sidebar */
+          .sidebar {
             position: fixed;
-            top: 0;
             left: 0;
+            top: 0;
             bottom: 0;
-            width: 250px;
-            padding: 1.5rem;
+            width: 280px;
+            background: white;
+            border-right: 1px solid rgba(0,0,0,0.1);
             overflow-y: auto;
-            background: var(--light);
-            border-right: 1px solid rgba(0,0,0,.05);
+            z-index: 1000;
+            transition: transform 0.3s ease;
           }
 
-          .docs-content {
-            margin-left: 250px;
+          /* Contenido principal */
+          .main-content {
+            margin-left: 280px;
             padding: 2rem;
+            max-width: 1200px;
           }
 
-          /* Headers */
-          .docs-header {
-            padding: 3rem 0;
+          /* Encabezados */
+          .page-header {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            padding: 3rem 2rem;
             margin-bottom: 2rem;
+            border-radius: 0.5rem;
           }
 
-          /* Navigation */
-          .docs-nav .nav-link {
+          /* Cards */
+          .doc-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(0,0,0,0.05);
+          }
+
+          /* Navegación */
+          .nav-link {
             color: var(--dark);
-            padding: .5rem 1rem;
-            margin: .25rem 0;
-            border-radius: .35rem;
-            transition: all .15s ease-in-out;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            transition: all 0.2s;
           }
 
-          .docs-nav .nav-link:hover {
-            background: rgba(0,0,0,.05);
+          .nav-link:hover {
+            background: var(--light);
             color: var(--primary);
           }
 
-          /* Content Cards */
-          .docs-card {
-            background: white;
-            border-radius: .5rem;
-            box-shadow: 0 .15rem 1.75rem 0 rgba(31,45,65,.15);
-            margin-bottom: 1.5rem;
-            padding: 1.5rem;
-          }
-
-          /* Code blocks */
+          /* Código */
           pre {
             background: var(--light);
-            border-radius: .35rem;
             padding: 1rem;
-            margin: 1rem 0;
+            border-radius: 0.5rem;
+            overflow-x: auto;
           }
 
           code {
             font-family: 'Fira Code', monospace;
-            font-size: .875em;
+            font-size: 0.9em;
           }
 
-          /* Tables */
-          .docs-table {
+          /* Tablas */
+          table {
             width: 100%;
             margin-bottom: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
           }
 
-          .docs-table th,
-          .docs-table td {
-            padding: .75rem;
+          th, td {
+            padding: 1rem;
             border-bottom: 1px solid var(--light);
           }
 
-          /* Search */
-          .docs-search {
-            padding: 1rem;
-            margin-bottom: 1.5rem;
-            background: white;
-            border-radius: .35rem;
-            box-shadow: 0 .15rem 1.75rem 0 rgba(31,45,65,.15);
-          }
-
-          /* Dark mode support */
+          /* Modo oscuro */
           @media (prefers-color-scheme: dark) {
             body {
               background: var(--dark);
               color: var(--light);
             }
 
-            .docs-nav {
-              background: rgba(255,255,255,.05);
-              border-color: rgba(255,255,255,.05);
+            .sidebar, .doc-card {
+              background: #2d3748;
+              border-color: rgba(255,255,255,0.1);
             }
 
-            .docs-card {
-              background: rgba(255,255,255,.05);
+            .nav-link {
+              color: var(--light);
+            }
+
+            .nav-link:hover {
+              background: rgba(255,255,255,0.1);
             }
 
             pre {
-              background: rgba(0,0,0,.2);
+              background: #1a202c;
+            }
+
+            table {
+              background: #2d3748;
+            }
+
+            th, td {
+              border-color: #4a5568;
+            }
+          }
+
+          /* Responsive */
+          @media (max-width: 768px) {
+            .sidebar {
+              transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+              transform: translateX(0);
+            }
+
+            .main-content {
+              margin-left: 0;
             }
           }
           EOL
 
           # Añadir fuentes y CDN necesarios
           cat > docs/api/header.html << 'EOL'
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
-          <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-          <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
+          <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+          <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
           <link href="css/documentation.css" rel="stylesheet">
           EOL
 
@@ -209,14 +250,26 @@ jobs:
           <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
           <script>
-            // Inicializar tooltips
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-              return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
+            // Inicializar componentes
+            document.addEventListener('DOMContentLoaded', function() {
+              // Tooltips
+              var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+              tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+              });
 
-            // Resaltado de código
-            Prism.highlightAll();
+              // Toggle sidebar en móvil
+              const toggleBtn = document.querySelector('.sidebar-toggle');
+              const sidebar = document.querySelector('.sidebar');
+              if (toggleBtn && sidebar) {
+                toggleBtn.addEventListener('click', () => {
+                  sidebar.classList.toggle('show');
+                });
+              }
+
+              // Resaltado de código
+              Prism.highlightAll();
+            });
           </script>
           EOL
 
@@ -239,4 +292,5 @@ jobs:
           publish_dir: ./docs/api
           destination_dir: docs
           enable_jekyll: false
+          commit_message: 'docs: update API documentation' 
           commit_message: 'docs: update API documentation' 
