@@ -76,14 +76,6 @@ php artisan serve
 
 La documentación completa está disponible en `/docs` o visitando `/api-docs` en la aplicación en ejecución.
 
-## 🌐 Demo
-
-Visita la [demo en línea](https://kaizen-demo.ejemplo.com) para probar todas las funcionalidades.
-
-## 👥 Contribución
-
-Las contribuciones son bienvenidas. Por favor, lee [CONTRIBUTING.md](CONTRIBUTING.md) para más información.
-
 ## 📄 Licencia
 
 Este proyecto está licenciado bajo [MIT License](LICENSE).
