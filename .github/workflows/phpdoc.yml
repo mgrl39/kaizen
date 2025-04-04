@@ -3,10 +3,10 @@ name: PHP Documentation
 on:
   push:
     branches:
-      - docs
+      - phpdoc
   pull_request:
     branches:
-      - docs
+      - phpdoc
 
 jobs:
   build:
