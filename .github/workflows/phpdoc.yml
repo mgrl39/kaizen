@@ -38,8 +38,18 @@ jobs:
       - name: Generate Documentation
         run: phpdoc -d . -t docs/api --template=clean
 
+      - name: Debug Information
+        run: |
+          echo "Checking deployment prerequisites..."
+          echo "Docs directory exists: $(test -d docs && echo 'yes' || echo 'no')"
+          echo "Docs/api directory exists: $(test -d docs/api && echo 'yes' || echo 'no')"
+          ls -la docs/ || true
+          ls -la docs/api/ || true
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        env:
+          ACTIONS_STEP_DEBUG: true
         with:
           github_token: ${{ secrets.GH_PAT }}
           publish_dir: ./docs/api
