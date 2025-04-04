@@ -25,6 +25,9 @@ install-composer:
 
 install:
 	composer install
+	npm install
+	cp .env.example .env
+	php artisan key:generate
 
 install-php-deps:
 	sudo apt-get update
@@ -107,3 +110,27 @@ setup-db:
 test-system:
 	@echo "🧪 Verificando configuración básica del sistema..."
 	php artisan test --filter=GeneralSystemTest
+
+# Comandos de sistema y construcción
+deploy:
+	git pull
+	composer install --no-dev
+	php artisan migrate --force
+	php artisan optimize
+
+# Atajos para comandos artisan comunes
+migrate:
+	php artisan migrate
+
+fresh:
+	php artisan migrate:fresh --seed
+
+routes:
+	php artisan route:list
+
+# Comandos de desarrollo
+dev:
+	npm run dev
+
+build:
+	npm run build
