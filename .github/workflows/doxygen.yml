@@ -64,7 +64,7 @@ jobs:
           }
           EOL
 
-      - name: Debug Information
+      - name: Debug Information 
         run: |
           echo "Checking deployment prerequisites..."
           echo "HTML directory exists: $(test -d html && echo 'yes' || echo 'no')"
