@@ -34,6 +34,9 @@ jobs:
           # Mover el contenido de docs/ al directorio temporal
           mv docs/* /tmp/docs/ || true
 
+          # Crear .nojekyll para deshabilitar Jekyll
+          touch /tmp/docs/.nojekyll
+
           # Crear vercel.json
           cat > /tmp/docs/vercel.json << 'EOL'
           {
@@ -83,4 +86,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: /tmp/docs
           force_orphan: true
+          enable_jekyll: false
           commit_message: 'docs: update documentation'
