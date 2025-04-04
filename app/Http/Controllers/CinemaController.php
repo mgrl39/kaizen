@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Cinema;
 
 class CinemaController extends Controller
@@ -12,4 +11,5 @@ class CinemaController extends Controller
         $cinemas = Cinema::all();
         return view('cinemas.index', compact('cinemas'));
     }
-} 
+}
+

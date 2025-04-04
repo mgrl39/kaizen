@@ -10,18 +10,14 @@ class LanguageController extends Controller
 {
     public function switchLang($lang)
     {
-        // Verificar si el idioma es válido
+        // TODO QUITAR LOS IDIOMAS DE AQUI
         if (in_array($lang, config('app.available_locales', ['es', 'ca', 'en']))) {
             Session::put('locale', $lang);
             App::setLocale($lang);
         }
-        
-        // Obtener la URL de referencia o ir a la página principal
         $previous = url()->previous();
-        
-        // Añadir el parámetro de idioma para asegurar que se aplica
+        // CAMBIAR EL SISTEMA DE LENGUA QUE ASI ES CUTRISIMO
         $redirectUrl = $previous . (parse_url($previous, PHP_URL_QUERY) ? '&' : '?') . 'lang=' . $lang;
-        
         return redirect($redirectUrl);
     }
-} 
+}

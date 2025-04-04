@@ -14,7 +14,6 @@ use App\Http\Controllers\API\MovieController;
 |
 */
 
-// Para acceder al server-status uso: http://localhost:8000/api/server-status
 // Route::get('/server-status', [ServerStatusController::class, 'status']);
 
 // Rutas para películas
@@ -24,8 +23,6 @@ Route::get('/movies/{id}', [MovieController::class, 'show']);
 Route::post('/movies', [MovieController::class, 'store']);
 Route::put('/movies/{id}', [MovieController::class, 'update']);
 Route::delete('/movies/{id}', [MovieController::class, 'destroy']);
-
-// Para acceder: http://localhost:8000/api/movies
 
 // Rutas de autenticación
 // Route::post('/register', [AuthController::class, 'register']);

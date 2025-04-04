@@ -37,6 +37,7 @@ Route::get(
     [LanguageController::class, 'switchLang']
 )->name('language');
 
+// TODO CAMBIAR EL CONTACT US
 Route::get(
     '/contactus',
     function () {
@@ -57,7 +58,3 @@ Route::get(
         ];
     }
 );
-
-Route::get('/endpoints', function () {
-    return view('simple-endpoints');
-})->name('endpoints');

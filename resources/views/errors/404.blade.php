@@ -3,6 +3,7 @@
 @section('title', 'Página no encontrada')
 
 @section('content')
+<!-- TODO: Quitar el css -->
 <div style="text-align: center; padding: 4rem 0;">
     <h1 style="font-size: 6rem; font-weight: bold; margin-bottom: 1rem;">404</h1>
     <p style="font-size: 1.2rem; margin-bottom: 2rem;">Página no encontrada</p>
