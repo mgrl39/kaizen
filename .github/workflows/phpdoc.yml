@@ -66,59 +66,161 @@ jobs:
 
       - name: Generate Documentation
         run: |
+          # Primero generamos la documentación
           phpdoc -d . -t docs/api
           
-          # Añadir estilos personalizados
-          cat > docs/api/css/custom.css << 'EOL'
+          # Descargamos y preparamos la plantilla
+          wget https://github.com/StartBootstrap/startbootstrap-clean-blog/archive/refs/heads/master.zip
+          unzip master.zip
+          mv startbootstrap-clean-blog-master/dist/* docs/api/
+          
+          # Crear template personalizado
+          cat > docs/api/css/documentation.css << 'EOL'
+          /* Estilos base */
           :root {
-            --primary-color: #3b82f6;
-            --secondary-color: #1e40af;
-            --background-color: #ffffff;
-            --text-color: #1f2937;
+            --primary: #0061f2;
+            --secondary: #6900c7;
+            --success: #00ac69;
+            --info: #00cfd5;
+            --warning: #f4a100;
+            --danger: #e81500;
+            --light: #f0f4f8;
+            --dark: #1f2d41;
           }
 
-          body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
+          /* Layout */
+          .docs-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 250px;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: var(--light);
+            border-right: 1px solid rgba(0,0,0,.05);
           }
 
-          .phpdocumentor-header {
-            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+          .docs-content {
+            margin-left: 250px;
             padding: 2rem;
           }
 
-          .phpdocumentor-title {
+          /* Headers */
+          .docs-header {
+            padding: 3rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            font-weight: 700;
+            margin-bottom: 2rem;
           }
 
-          .phpdocumentor-sidebar {
-            background-color: #f8fafc;
-            border-right: 1px solid #e2e8f0;
+          /* Navigation */
+          .docs-nav .nav-link {
+            color: var(--dark);
+            padding: .5rem 1rem;
+            margin: .25rem 0;
+            border-radius: .35rem;
+            transition: all .15s ease-in-out;
           }
 
-          .phpdocumentor-element {
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
+          .docs-nav .nav-link:hover {
+            background: rgba(0,0,0,.05);
+            color: var(--primary);
+          }
+
+          /* Content Cards */
+          .docs-card {
+            background: white;
+            border-radius: .5rem;
+            box-shadow: 0 .15rem 1.75rem 0 rgba(31,45,65,.15);
+            margin-bottom: 1.5rem;
             padding: 1.5rem;
           }
 
-          .phpdocumentor-button {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.375rem;
-            transition: all 0.2s;
+          /* Code blocks */
+          pre {
+            background: var(--light);
+            border-radius: .35rem;
+            padding: 1rem;
+            margin: 1rem 0;
           }
 
-          .phpdocumentor-button:hover {
-            background-color: var(--secondary-color);
+          code {
+            font-family: 'Fira Code', monospace;
+            font-size: .875em;
+          }
+
+          /* Tables */
+          .docs-table {
+            width: 100%;
+            margin-bottom: 1rem;
+          }
+
+          .docs-table th,
+          .docs-table td {
+            padding: .75rem;
+            border-bottom: 1px solid var(--light);
+          }
+
+          /* Search */
+          .docs-search {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            background: white;
+            border-radius: .35rem;
+            box-shadow: 0 .15rem 1.75rem 0 rgba(31,45,65,.15);
+          }
+
+          /* Dark mode support */
+          @media (prefers-color-scheme: dark) {
+            body {
+              background: var(--dark);
+              color: var(--light);
+            }
+
+            .docs-nav {
+              background: rgba(255,255,255,.05);
+              border-color: rgba(255,255,255,.05);
+            }
+
+            .docs-card {
+              background: rgba(255,255,255,.05);
+            }
+
+            pre {
+              background: rgba(0,0,0,.2);
+            }
           }
           EOL
 
-          # Insertar el CSS en el head
-          find docs/api -name "*.html" -exec sed -i '/<\/head>/ i\    <link rel="stylesheet" href="css/custom.css">' {} \;
+          # Añadir fuentes y CDN necesarios
+          cat > docs/api/header.html << 'EOL'
+          <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+          <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+          <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.min.css" rel="stylesheet">
+          <link href="css/documentation.css" rel="stylesheet">
+          EOL
+
+          # Insertar header personalizado
+          find docs/api -name "*.html" -exec sed -i '/<\/head>/ r docs/api/header.html' {} \;
+
+          # Añadir scripts
+          cat >> docs/api/footer.html << 'EOL'
+          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+          <script>
+            // Inicializar tooltips
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+
+            // Resaltado de código
+            Prism.highlightAll();
+          </script>
+          EOL
+
+          find docs/api -name "*.html" -exec sed -i '/<\/body>/ r docs/api/footer.html' {} \;
 
       - name: Debug Information
         run: |
