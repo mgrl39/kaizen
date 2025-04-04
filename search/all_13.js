@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['redirectifauthenticated_0',['RedirectIfAuthenticated',['../classApp_1_1Http_1_1Middleware_1_1RedirectIfAuthenticated.html',1,'App::Http::Middleware']]],
+  ['redirectifauthenticated_2ephp_1',['RedirectIfAuthenticated.php',['../RedirectIfAuthenticated_8php.html',1,'']]],
+  ['redirectto_2',['redirectTo',['../classApp_1_1Http_1_1Middleware_1_1Authenticate.html#af9d395d9c86e67d96f2e7ba7378e9e09',1,'App::Http::Middleware::Authenticate']]],
+  ['register_3',['register',['../classApp_1_1Services_1_1AuthService.html#ac02959b99661952faeb64f1d7e66c80c',1,'App\Services\AuthService\register()'],['../classApp_1_1Providers_1_1AppServiceProvider.html#a2853e71d5b5c0d013d755b0265da3a9f',1,'App\Providers\AppServiceProvider\register()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1AuthController.html#aa8a4f76475c711df77c1a90ee15dbe84',1,'App\Http\Controllers\API\AuthController\register()'],['../classApp_1_1Exceptions_1_1Handler.html#a462e0f3975bc726befcfd1d724131d5b',1,'App\Exceptions\Handler\register()']]],
+  ['register_2eblade_2ephp_4',['register.blade.php',['../register_8blade_8php.html',1,'']]],
+  ['render_5',['render',['../classApp_1_1Exceptions_1_1Handler.html#a2e1a2801866cf1d136fb911a1542394a',1,'App\Exceptions\Handler\render()'],['../classApp_1_1Http_1_1Livewire_1_1RouteExplorer.html#a4887b6642a358050f756713c145c122b',1,'App\Http\Livewire\RouteExplorer\render()']]],
+  ['return_6',['return',['../logging_8php.html#ab6eb243cf6d351657d59d8ccc1f31137',1,'return:&#160;logging.php'],['../hashing_8php.html#a3483d3a54bb614667907d31e8952971b',1,'return:&#160;hashing.php'],['../filesystems_8php.html#a31462e1d4ad008d95a245740583641aa',1,'return:&#160;filesystems.php'],['../view_8php.html#a8f2b01da8f9a138218541e9ce1530eeb',1,'return:&#160;view.php'],['../mail_8php.html#a8e0e40d9ce78e81fecf9ced4410b5d86',1,'return:&#160;mail.php'],['../queue_8php.html#accd63ef4caf57eab0f599e4014c8d1b2',1,'return:&#160;queue.php'],['../sanctum_8php.html#a82d1d4434afff53c69df1837be3b3d76',1,'return:&#160;sanctum.php'],['../services_8php.html#a326706512c51e37269e6aabb214efe2c',1,'return:&#160;services.php'],['../session_8php.html#a63f6a6ff2d7881261c5cc0e329602a32',1,'return:&#160;session.php'],['../database_8php.html#a23c90317ebac2d05ad5f698a98129300',1,'return:&#160;database.php'],['../cache_8php.html#a4507119db0a59d090204fd9f0b55a781',1,'return:&#160;cache.php'],['../broadcasting_8php.html#a29ca9d09134bfc7e089f6e9c3e51f0d0',1,'return:&#160;broadcasting.php'],['../auth_8php.html#abd72c0250c2ce77d2ec6f7687d80284f',1,'return:&#160;auth.php'],['../app_8php.html#ad16ce4d905fe6f7d98e152ca23de6948',1,'return:&#160;app.php']]],
+  ['room_7',['Room',['../classApp_1_1Models_1_1Room.html',1,'App::Models']]],
+  ['room_2ephp_8',['Room.php',['../Room_8php.html',1,'']]],
+  ['route_2dexplorer_2eblade_2ephp_9',['route-explorer.blade.php',['../route-explorer_8blade_8php.html',1,'']]],
+  ['route_2dfilters_2eblade_2ephp_10',['route-filters.blade.php',['../route-filters_8blade_8php.html',1,'']]],
+  ['route_2ditem_2eblade_2ephp_11',['route-item.blade.php',['../route-item_8blade_8php.html',1,'']]],
+  ['routeexplorer_12',['RouteExplorer',['../classApp_1_1Http_1_1Livewire_1_1RouteExplorer.html',1,'App::Http::Livewire']]],
+  ['routeexplorer_2ephp_13',['RouteExplorer.php',['../RouteExplorer_8php.html',1,'']]],
+  ['routeserviceprovider_14',['RouteServiceProvider',['../classApp_1_1Providers_1_1RouteServiceProvider.html',1,'App::Providers']]],
+  ['routeserviceprovider_2ephp_15',['RouteServiceProvider.php',['../RouteServiceProvider_8php.html',1,'']]],
+  ['run_16',['run',['../classDatabase_1_1Seeders_1_1MovieSeeder.html#aac4ce59e316a29319df7573ca2883ef2',1,'Database\Seeders\MovieSeeder\run()'],['../classDatabase_1_1Seeders_1_1DatabaseSeeder.html#a912019806f53d69ab59a1c2ba79e2f02',1,'Database\Seeders\DatabaseSeeder\run()']]]
+];

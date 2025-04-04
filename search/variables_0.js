@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['_24authservice_0',['$authService',['../classApp_1_1Http_1_1Controllers_1_1API_1_1AuthController.html#a65ca0c72e8e4ded79733198469ce23cc',1,'App::Http::Controllers::API::AuthController']]],
+  ['_24birthdate_1',['$birthdate',['../classApp_1_1DTOs_1_1UserDTO.html#a8177849148f92a23102bdb9b403d4716',1,'App::DTOs::UserDTO']]],
+  ['_24casts_2',['$casts',['../classApp_1_1Models_1_1User.html#a5c1736a4adf4ff10495df9a6c4e6dd8e',1,'App::Models::User']]],
+  ['_24dontflash_3',['$dontFlash',['../classApp_1_1Exceptions_1_1Handler.html#aab34629ab414b983d518197ac24ad500',1,'App::Exceptions::Handler']]],
+  ['_24email_4',['$email',['../classApp_1_1DTOs_1_1UserDTO.html#a2d7e9d44ac9a7b7ca28af54a59150820',1,'App::DTOs::UserDTO']]],
+  ['_24except_5',['$except',['../classApp_1_1Http_1_1Middleware_1_1EncryptCookies.html#aad4fc4f49c36ea89c3ffe98381d461c8',1,'App\Http\Middleware\EncryptCookies\$except'],['../classApp_1_1Http_1_1Middleware_1_1PreventRequestsDuringMaintenance.html#a316fe79ffbd53120f1cbd6f869796ba3',1,'App\Http\Middleware\PreventRequestsDuringMaintenance\$except'],['../classApp_1_1Http_1_1Middleware_1_1TrimStrings.html#a42afd663f5c072434d442de1f59a641c',1,'App\Http\Middleware\TrimStrings\$except'],['../classApp_1_1Http_1_1Middleware_1_1ValidateSignature.html#a524816fc4920c2e324c6c29f7f095c90',1,'App\Http\Middleware\ValidateSignature\$except'],['../classApp_1_1Http_1_1Middleware_1_1VerifyCsrfToken.html#a5a05d5a6db35d91bb1350161686c3f73',1,'App\Http\Middleware\VerifyCsrfToken\$except']]],
+  ['_24fillable_6',['$fillable',['../classApp_1_1Models_1_1Cinema.html#a2d413c5dde06468c201ac6c79b196d6f',1,'App\Models\Cinema\$fillable'],['../classApp_1_1Models_1_1Movie.html#ad490ecebe207974879603d0b47ccb06f',1,'App\Models\Movie\$fillable'],['../classApp_1_1Models_1_1User.html#ab4030437e467a0cc396b0c3ea53199f7',1,'App\Models\User\$fillable']]],
+  ['_24headers_7',['$headers',['../classApp_1_1Http_1_1Middleware_1_1TrustProxies.html#a626396cec923533d240c75214e1076c2',1,'App::Http::Middleware::TrustProxies']]],
+  ['_24hidden_8',['$hidden',['../classApp_1_1Models_1_1User.html#a1f25bef37dae884e548034f839fa1f63',1,'App::Models::User']]],
+  ['_24id_9',['$id',['../classApp_1_1DTOs_1_1UserDTO.html#a530f6cd0abfc4374ffd2dc1d76513f20',1,'App::DTOs::UserDTO']]],
+  ['_24listen_10',['$listen',['../classApp_1_1Providers_1_1EventServiceProvider.html#a679fbd44d111ead2386bb00f9f5e2c39',1,'App::Providers::EventServiceProvider']]],
+  ['_24middleware_11',['$middleware',['../classApp_1_1Http_1_1Kernel.html#a86a97ee57a2141da9d08bf9878df7491',1,'App::Http::Kernel']]],
+  ['_24middlewarealiases_12',['$middlewareAliases',['../classApp_1_1Http_1_1Kernel.html#af406e0af7c9d15ff91a6619b75153be4',1,'App::Http::Kernel']]],
+  ['_24middlewaregroups_13',['$middlewareGroups',['../classApp_1_1Http_1_1Kernel.html#a7ea2230a290c57e18ea58cdbc6480909',1,'App::Http::Kernel']]],
+  ['_24model_14',['$model',['../classDatabase_1_1Factories_1_1MovieFactory.html#a665183199befaf1396d6a41992e7dd89',1,'Database::Factories::MovieFactory']]],
+  ['_24password_15',['$password',['../classDatabase_1_1Factories_1_1UserFactory.html#a26ffb3936aed634f3ad7be79997ffe3a',1,'Database::Factories::UserFactory']]],
+  ['_24policies_16',['$policies',['../classApp_1_1Providers_1_1AuthServiceProvider.html#a31485812b4bcbbe4867fb272cf575594',1,'App::Providers::AuthServiceProvider']]],
+  ['_24proxies_17',['$proxies',['../classApp_1_1Http_1_1Middleware_1_1TrustProxies.html#aa75f2b478b6538ec7d77e25b809b37a1',1,'App::Http::Middleware::TrustProxies']]],
+  ['_24routes_18',['$routes',['../classApp_1_1Http_1_1Livewire_1_1RouteExplorer.html#a29ed0180e2688a4838ed0d02683c4b0c',1,'App::Http::Livewire::RouteExplorer']]],
+  ['_24search_19',['$search',['../classApp_1_1Http_1_1Livewire_1_1RouteExplorer.html#aaf030919f6056d0d1a2b7715dbc6d0fc',1,'App::Http::Livewire::RouteExplorer']]],
+  ['_24selectedmethods_20',['$selectedMethods',['../classApp_1_1Http_1_1Livewire_1_1RouteExplorer.html#a5abda74e2186382581ed8b41fa391550',1,'App::Http::Livewire::RouteExplorer']]],
+  ['_24table_21',['$table',['../classApp_1_1Models_1_1Cinema.html#a679ac93e08dae2f7151f20f986f12f8f',1,'App::Models::Cinema']]],
+  ['_24username_22',['$username',['../classApp_1_1DTOs_1_1UserDTO.html#a4018940702432ff67296d2fb94e12316',1,'App::DTOs::UserDTO']]],
+  ['_24userrepository_23',['$userRepository',['../classApp_1_1Services_1_1AuthService.html#a886adeac39211e469c1e957499eb0844',1,'App::Services::AuthService']]]
+];

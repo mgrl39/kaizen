@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['sanctum_2ephp_0',['sanctum.php',['../sanctum_8php.html',1,'']]],
+  ['schedule_1',['schedule',['../classApp_1_1Console_1_1Kernel.html#a99912aa32dab8508ff247aef40ba7bcb',1,'App::Console::Kernel']]],
+  ['screening_2',['Screening',['../classApp_1_1Models_1_1Screening.html',1,'App::Models']]],
+  ['screening_2ephp_3',['Screening.php',['../Screening_8php.html',1,'']]],
+  ['seat_4',['Seat',['../classApp_1_1Models_1_1Seat.html',1,'App::Models']]],
+  ['seat_2ephp_5',['Seat.php',['../Seat_8php.html',1,'']]],
+  ['serverstatuscontroller_6',['ServerStatusController',['../classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html',1,'App::Http::Controllers::API']]],
+  ['serverstatuscontroller_2ephp_7',['ServerStatusController.php',['../ServerStatusController_8php.html',1,'']]],
+  ['services_2ephp_8',['services.php',['../services_8php.html',1,'']]],
+  ['session_2ephp_9',['session.php',['../session_8php.html',1,'']]],
+  ['setlocale_10',['SetLocale',['../classApp_1_1Http_1_1Middleware_1_1SetLocale.html',1,'App::Http::Middleware']]],
+  ['setlocale_2ephp_11',['SetLocale.php',['../SetLocale_8php.html',1,'']]],
+  ['shoulddiscoverevents_12',['shouldDiscoverEvents',['../classApp_1_1Providers_1_1EventServiceProvider.html#a04d437e639d779b81268a5e36af0d483',1,'App::Providers::EventServiceProvider']]],
+  ['show_13',['show',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#aaa3070055fafce680d77d4f3b4368ddb',1,'App\Http\Controllers\API\MovieController\show()'],['../classApp_1_1Http_1_1Controllers_1_1MovieController.html#a86e0aac614ce35321201ec0678fc27cd',1,'App\Http\Controllers\MovieController\show()']]],
+  ['simple_2dendpoints_2eblade_2ephp_14',['simple-endpoints.blade.php',['../simple-endpoints_8blade_8php.html',1,'']]],
+  ['simple_2droutes_2eblade_2ephp_15',['simple-routes.blade.php',['../simple-routes_8blade_8php.html',1,'']]],
+  ['simpleendpointcontroller_16',['SimpleEndpointController',['../classApp_1_1Http_1_1Controllers_1_1SimpleEndpointController.html',1,'App::Http::Controllers']]],
+  ['simpleendpointcontroller_2ephp_17',['SimpleEndpointController.php',['../SimpleEndpointController_8php.html',1,'']]],
+  ['status_18',['status',['../classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#a854c60a2d4c7c4c0f63f49607ae14f65',1,'App::Http::Controllers::API::ServerStatusController']]],
+  ['store_19',['store',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#aee282932157885d9249ac52d4121ca6f',1,'App\Http\Controllers\API\MovieController\store()'],['../classApp_1_1Http_1_1Controllers_1_1MovieController.html#ae3407c5163f6492a7d3cb31d469cb9c1',1,'App\Http\Controllers\MovieController\store()']]],
+  ['switchlang_20',['switchLang',['../classApp_1_1Http_1_1Controllers_1_1LanguageController.html#a82ac046c1db7e29577412b31e341f6ef',1,'App::Http::Controllers::LanguageController']]]
+];

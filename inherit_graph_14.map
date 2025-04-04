@@ -1,0 +1,31 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,327,68,352"/>
+<area shape="rect" id="Node000001" href="$classApp_1_1Models_1_1Actor.html" title=" " alt="" coords="140,5,276,31"/>
+<area shape="poly" id="edge28_Node000000_Node000001" title=" " alt="" coords="39,313,49,248,65,167,87,91,100,61,114,40,138,25,141,29,118,44,104,63,92,92,70,168,54,249,44,314"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Models_1_1AdminUser.html" title=" " alt="" coords="121,55,295,80"/>
+<area shape="poly" id="edge29_Node000000_Node000002" title=" " alt="" coords="36,312,40,265,52,205,75,143,93,114,114,89,130,78,134,82,118,93,97,118,80,145,57,206,45,266,41,313"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Models_1_1Booking.html" title=" " alt="" coords="131,104,285,129"/>
+<area shape="poly" id="edge30_Node000000_Node000003" title=" " alt="" coords="38,312,45,274,59,227,81,179,96,158,114,139,132,127,135,132,118,143,100,161,86,182,64,229,50,275,43,313"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Models_1_1BookingSeat.html" title=" " alt="" coords="116,153,300,179"/>
+<area shape="poly" id="edge31_Node000000_Node000004" title=" " alt="" coords="42,312,67,250,87,216,114,188,134,176,136,181,118,192,92,220,71,252,47,314"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Models_1_1Cinema.html" title=" " alt="" coords="132,203,284,228"/>
+<area shape="poly" id="edge32_Node000000_Node000005" title=" " alt="" coords="49,313,76,274,94,254,115,237,138,226,140,230,117,242,97,258,80,277,53,316"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Models_1_1Functions.html" title=" " alt="" coords="126,252,290,277"/>
+<area shape="poly" id="edge33_Node000000_Node000006" title=" " alt="" coords="64,316,115,286,147,275,149,280,117,291,67,321"/>
+<area shape="rect" id="Node000007" href="$classApp_1_1Models_1_1Genre.html" title=" " alt="" coords="137,301,279,327"/>
+<area shape="poly" id="edge34_Node000000_Node000007" title=" " alt="" coords="81,330,137,322,138,327,82,335"/>
+<area shape="rect" id="Node000008" href="$classApp_1_1Models_1_1Manage.html" title=" " alt="" coords="131,351,285,376"/>
+<area shape="poly" id="edge35_Node000000_Node000008" title=" " alt="" coords="82,343,131,350,130,355,81,348"/>
+<area shape="rect" id="Node000009" href="$classApp_1_1Models_1_1Movie.html" title=" " alt="" coords="137,400,279,425"/>
+<area shape="poly" id="edge36_Node000000_Node000009" title=" " alt="" coords="68,357,117,385,153,397,151,402,115,390,66,362"/>
+<area shape="rect" id="Node000010" href="$classApp_1_1Models_1_1MovieActor.html" title=" " alt="" coords="120,449,296,475"/>
+<area shape="poly" id="edge37_Node000000_Node000010" title=" " alt="" coords="54,362,80,400,98,419,117,434,143,447,140,452,115,439,94,423,76,403,49,366"/>
+<area shape="rect" id="Node000011" href="$classApp_1_1Models_1_1MovieGenre.html" title=" " alt="" coords="117,499,299,524"/>
+<area shape="poly" id="edge38_Node000000_Node000011" title=" " alt="" coords="47,364,72,425,92,457,118,484,139,496,137,501,114,488,88,460,67,427,42,366"/>
+<area shape="rect" id="Node000012" href="$classApp_1_1Models_1_1Room.html" title=" " alt="" coords="138,548,278,573"/>
+<area shape="poly" id="edge39_Node000000_Node000012" title=" " alt="" coords="44,365,51,403,64,448,86,494,101,515,118,533,139,547,136,551,114,537,96,518,82,497,59,450,46,404,38,366"/>
+<area shape="rect" id="Node000013" href="$classApp_1_1Models_1_1Screening.html" title=" " alt="" coords="125,597,291,623"/>
+<area shape="poly" id="edge40_Node000000_Node000013" title=" " alt="" coords="41,365,46,412,58,471,80,531,97,559,118,583,136,595,133,599,114,587,93,562,76,533,52,472,40,413,36,366"/>
+<area shape="rect" id="Node000014" href="$classApp_1_1Models_1_1Seat.html" title=" " alt="" coords="143,647,273,672"/>
+<area shape="poly" id="edge41_Node000000_Node000014" title=" " alt="" coords="40,366,41,421,51,493,61,530,75,567,94,602,118,632,144,648,141,653,114,636,89,605,70,570,56,532,46,494,36,421,34,366"/>
+</map>

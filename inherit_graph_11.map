@@ -1,0 +1,10 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,17,93,42"/>
+<area shape="rect" id="Node000001" href="$classDatabase_1_1Factories_1_1MovieFactory.html" title=" " alt="" coords="141,5,288,45"/>
+<area shape="poly" id="edge15_Node000000_Node000001" title=" " alt="" coords="107,25,141,24,141,30,107,31"/>
+<area shape="rect" id="Node000003" href="$classDatabase_1_1Factories_1_1UserFactory.html" title=" " alt="" coords="141,69,288,109"/>
+<area shape="poly" id="edge16_Node000000_Node000003" title=" " alt="" coords="99,44,160,67,158,72,97,49"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="15,70,84,95"/>
+<area shape="poly" id="edge17_Node000002_Node000001" title=" " alt="" coords="96,64,155,43,157,48,98,69"/>
+<area shape="poly" id="edge18_Node000002_Node000003" title=" " alt="" coords="98,82,141,84,141,89,98,87"/>
+</map>

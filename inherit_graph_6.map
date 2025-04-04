@@ -1,0 +1,19 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,205,124,230"/>
+<area shape="rect" id="Node000001" href="$classApp_1_1Http_1_1Controllers_1_1Controller.html" title=" " alt="" coords="172,197,327,237"/>
+<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="138,215,172,215,172,220,138,220"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1AuthController.html" title=" " alt="" coords="397,5,551,45"/>
+<area shape="poly" id="edge4_Node000001_Node000002" title=" " alt="" coords="265,184,309,119,339,85,373,55,395,43,398,47,376,60,342,88,313,122,270,187"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html" title=" " alt="" coords="397,69,551,109"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="280,186,323,151,373,119,400,107,402,112,376,124,326,156,284,190"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html" title=" " alt="" coords="375,133,573,173"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="333,191,403,171,404,176,334,196"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Http_1_1Controllers_1_1CinemaController.html" title=" " alt="" coords="397,197,551,237"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="340,215,397,215,397,220,340,220"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Http_1_1Controllers_1_1LanguageController.html" title=" " alt="" coords="397,261,551,301"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="334,239,404,259,403,264,333,244"/>
+<area shape="rect" id="Node000007" href="$classApp_1_1Http_1_1Controllers_1_1MovieController.html" title=" " alt="" coords="397,325,551,365"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="284,245,326,279,376,311,402,323,400,328,373,316,323,283,280,249"/>
+<area shape="rect" id="Node000008" href="$classApp_1_1Http_1_1Controllers_1_1SimpleEndpointController.html" title=" " alt="" coords="378,389,570,429"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="270,248,313,313,342,346,376,375,397,387,394,391,373,380,339,350,309,316,265,251"/>
+</map>
