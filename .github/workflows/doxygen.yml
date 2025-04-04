@@ -28,14 +28,8 @@ jobs:
           rm -rf docs/ html/
           doxygen Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
 
-          # Si Doxygen generó en 'html/', moverlo a docs/html
-          if [ -d "html" ]; then
-            mkdir -p docs
-            mv html docs/
-          fi
-
-          # Crear vercel.json en el directorio docs
-          cat > docs/vercel.json << 'EOL'
+          # Crear vercel.json en la raíz
+          cat > vercel.json << 'EOL'
           {
             "version": 2,
             "buildCommand": false,
@@ -60,8 +54,8 @@ jobs:
           }
           EOL
 
-          # Crear package.json en el directorio docs
-          cat > docs/package.json << 'EOL'
+          # Crear package.json en la raíz
+          cat > package.json << 'EOL'
           {
             "private": true,
             "scripts": {
@@ -73,8 +67,8 @@ jobs:
       - name: Debug Information
         run: |
           echo "Checking deployment prerequisites..."
-          echo "Docs directory exists: $(test -d docs && echo 'yes' || echo 'no')"
-          ls -la docs/ || true
+          echo "HTML directory exists: $(test -d html && echo 'yes' || echo 'no')"
+          ls -la || true
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -82,7 +76,7 @@ jobs:
           ACTIONS_STEP_DEBUG: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          destination_dir: docs
+          publish_dir: .
+          destination_dir: .
           enable_jekyll: false
           commit_message: 'docs: update Doxygen documentation'
