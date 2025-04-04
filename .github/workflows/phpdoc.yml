@@ -1,0 +1,40 @@
+name: PHP Documentation
+
+on:
+  push:
+    branches:
+      - docs
+  pull_request:
+    branches:
+      - docs
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: dom, curl, mbstring, zip
+          coverage: none
+
+      - name: Install PHPDocumentor
+        run: |
+          wget https://phpdoc.org/phpDocumentor.phar
+          chmod +x phpDocumentor.phar
+          sudo mv phpDocumentor.phar /usr/local/bin/phpdoc
+
+      - name: Generate Documentation
+        run: phpdoc -d . -t docs/api
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/api
+          destination_dir: docs
+          enable_jekyll: false
+          commit_message: 'docs: update API documentation' 
