@@ -26,13 +26,37 @@ jobs:
           extensions: dom, curl, mbstring, zip
           coverage: none
 
-      - name: Create docs directory
+      - name: Create docs directory and assets
         run: |
           mkdir -p docs
-          echo "# Kaizen Documentation" > docs/index.rst
-          echo "===================" >> docs/index.rst
-          echo "" >> docs/index.rst
-          echo "Welcome to Kaizen documentation." >> docs/index.rst
+          # Crear archivo principal
+          cat > docs/index.rst << 'EOL'
+          ==================
+          Kaizen Framework
+          ==================
+
+          .. image:: assets/logo.png
+             :alt: Kaizen Logo
+             :align: center
+             :width: 200px
+
+          Bienvenido a la documentación de Kaizen
+          ======================================
+
+          Kaizen es un framework moderno para la gestión de cines y películas.
+
+          Contenido
+          ---------
+
+          * :doc:`getting-started`
+          * :doc:`architecture`
+          * :doc:`api-reference`
+          EOL
+
+          # Crear directorio de assets
+          mkdir -p docs/assets
+          # Aquí podrías descargar o copiar tu logo
+          # wget -O docs/assets/logo.png https://tu-url/logo.png
 
       - name: Install PHPDocumentor
         run: |
@@ -41,7 +65,60 @@ jobs:
           sudo mv phpDocumentor.phar /usr/local/bin/phpdoc
 
       - name: Generate Documentation
-        run: phpdoc -d . -t docs/api --template=clean
+        run: |
+          phpdoc -d . -t docs/api
+          
+          # Añadir estilos personalizados
+          cat > docs/api/css/custom.css << 'EOL'
+          :root {
+            --primary-color: #3b82f6;
+            --secondary-color: #1e40af;
+            --background-color: #ffffff;
+            --text-color: #1f2937;
+          }
+
+          body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+          }
+
+          .phpdocumentor-header {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            padding: 2rem;
+          }
+
+          .phpdocumentor-title {
+            color: white;
+            font-weight: 700;
+          }
+
+          .phpdocumentor-sidebar {
+            background-color: #f8fafc;
+            border-right: 1px solid #e2e8f0;
+          }
+
+          .phpdocumentor-element {
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+          }
+
+          .phpdocumentor-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+          }
+
+          .phpdocumentor-button:hover {
+            background-color: var(--secondary-color);
+          }
+          EOL
+
+          # Insertar el CSS en el head
+          find docs/api -name "*.html" -exec sed -i '/<\/head>/ i\    <link rel="stylesheet" href="css/custom.css">' {} \;
 
       - name: Debug Information
         run: |
