@@ -56,7 +56,7 @@ jobs:
         env:
           ACTIONS_STEP_DEBUG: true
         with:
-          github_token: ${{ secrets.GH_PAT }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/api
           destination_dir: docs
           enable_jekyll: false
