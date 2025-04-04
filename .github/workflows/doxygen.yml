@@ -25,11 +25,14 @@ jobs:
 
       - name: Generate documentation with Doxygen
         run: |
-          rm -rf docs/ html/
+          # Generar la documentación
           doxygen Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
 
-          # Crear vercel.json en la raíz
-          cat > vercel.json << 'EOL'
+          # Mover todo el contenido de html/ a un directorio temporal
+          mv html/* /tmp/docs/ || true
+
+          # Crear vercel.json
+          cat > /tmp/docs/vercel.json << 'EOL'
           {
             "version": 2,
             "buildCommand": false,
@@ -37,14 +40,14 @@ jobs:
             "framework": null,
             "builds": [
               {
-                "src": "html/**/*",
+                "src": "**/*",
                 "use": "@vercel/static"
               }
             ],
             "routes": [
               {
                 "src": "/(.*)",
-                "dest": "/html/$1"
+                "dest": "/$1"
               }
             ],
             "github": {
@@ -54,8 +57,8 @@ jobs:
           }
           EOL
 
-          # Crear package.json en la raíz
-          cat > package.json << 'EOL'
+          # Crear package.json
+          cat > /tmp/docs/package.json << 'EOL'
           {
             "private": true,
             "scripts": {
@@ -64,11 +67,10 @@ jobs:
           }
           EOL
 
-      - name: Debug Information 
+      - name: Debug Information
         run: |
-          echo "Checking deployment prerequisites..."
-          echo "HTML directory exists: $(test -d html && echo 'yes' || echo 'no')"
-          ls -la || true
+          echo "Checking documentation files..."
+          ls -la /tmp/docs/ || true
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -76,7 +78,6 @@ jobs:
           ACTIONS_STEP_DEBUG: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
-          destination_dir: .
-          enable_jekyll: false
-          commit_message: 'docs: update Doxygen documentation'
+          publish_dir: /tmp/docs
+          force_orphan: true
+          commit_message: 'docs: update documentation'
