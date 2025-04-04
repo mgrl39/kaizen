@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ __('Registro') }}</title>
+    <!-- TODO: En el tailwind meterlo directamente escriot -->
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -15,7 +16,7 @@
                 <div class="flex justify-center">
                     <i class="fas fa-film text-blue-600 text-3xl"></i>
                 </div>
-                
+
                 <!-- Título -->
                 <h2 class="text-center text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     {{ __('Crear cuenta') }}
@@ -24,23 +25,23 @@
                 <!-- Formulario -->
                 <form method="POST" action="#" class="space-y-4">
                     @csrf
-                    
-                    <input type="text" 
-                           name="name" 
+
+                    <input type="text"
+                           name="name"
                            placeholder="{{ __('Nombre') }}"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
 
-                    <input type="email" 
-                           name="email" 
+                    <input type="email"
+                           name="email"
                            placeholder="{{ __('Email') }}"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
 
-                    <input type="password" 
-                           name="password" 
+                    <input type="password"
+                           name="password"
                            placeholder="{{ __('Contraseña') }}"
                            class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
 
-                    <button type="submit" 
+                    <button type="submit"
                             class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                         {{ __('Registrarse') }}
                     </button>
@@ -57,4 +58,4 @@
         </div>
     </div>
 </body>
-</html> 
+</html>

@@ -9,13 +9,7 @@ class RouteExplorer extends Component
 {
     public $routes = [];
     public $search = '';
-    public $selectedMethods = [
-        'GET' => true,
-        'POST' => true,
-        'PUT' => true,
-        'PATCH' => true,
-        'DELETE' => true
-    ];
+    public $selectedMethods = ['GET' => true, 'POST' => true, 'PUT' => true, 'PATCH' => true, 'DELETE' => true];
 
     public function mount()
     {
@@ -52,7 +46,7 @@ class RouteExplorer extends Component
                 if ($this->search && !str_contains(strtolower($route['uri']), strtolower($this->search))) {
                     return false;
                 }
-                
+
                 return collect($this->selectedMethods)
                     ->filter()
                     ->keys()
@@ -70,4 +64,5 @@ class RouteExplorer extends Component
             'filteredRoutes' => $this->getFilteredRoutesProperty()
         ]);
     }
-} 
+}
+

@@ -6,7 +6,6 @@
 <div class="space-y-4">
     <h1 class="text-xl font-semibold">API Endpoints</h1>
 
-    <!-- Lista de rutas -->
     <div class="border rounded">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
             @foreach(Route::getRoutes() as $route)
@@ -14,7 +13,7 @@
                     $methods = array_diff($route->methods(), ['HEAD']);
                     if (empty($methods)) continue;
                 @endphp
-                
+
                 <div class="bg-white dark:bg-gray-800 p-3 rounded-lg border border-gray-200 dark:border-gray-700">
                     <div class="flex flex-col space-y-2">
                         <div class="flex items-center">
