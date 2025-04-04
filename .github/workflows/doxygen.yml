@@ -28,13 +28,14 @@ jobs:
           rm -rf docs/ html/
           doxygen Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
 
-          # Si Doxygen generó en 'html/', renombrar a 'docs/'
+          # Si Doxygen generó en 'html/', moverlo a docs/html
           if [ -d "html" ]; then
-            mv html docs
+            mkdir -p docs
+            mv html docs/
           fi
 
-          # Crear vercel.json para servir los archivos estáticos
-          cat > vercel.json << 'EOL'
+          # Crear vercel.json en el directorio docs
+          cat > docs/vercel.json << 'EOL'
           {
             "version": 2,
             "buildCommand": false,
@@ -42,29 +43,25 @@ jobs:
             "framework": null,
             "builds": [
               {
-                "src": "docs/**/*",
+                "src": "html/**/*",
                 "use": "@vercel/static"
               }
             ],
             "routes": [
               {
                 "src": "/(.*)",
-                "dest": "/docs/$1"
+                "dest": "/html/$1"
               }
             ],
             "github": {
               "silent": true,
               "autoAlias": true
-            },
-            "ignoreCommand": "echo 'Ignoring build step'"
+            }
           }
           EOL
 
-          # Copiar vercel.json también a docs por si acaso
-          cp vercel.json docs/
-
-          # Crear un package.json vacío para evitar errores de npm
-          cat > package.json << 'EOL'
+          # Crear package.json en el directorio docs
+          cat > docs/package.json << 'EOL'
           {
             "private": true,
             "scripts": {
