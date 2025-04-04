@@ -24,20 +24,20 @@ class RouteExplorer extends Component
 
     public function loadRoutes()
     {
-        $routeCollection = Route::getRoutes();
-        $this->routes = [];
-
-        foreach ($routeCollection as $route) {
-            $methods = implode('|', $route->methods());
-            if ($methods == 'HEAD') continue;
-            
-            $this->routes[] = [
-                'method' => $methods,
-                'uri' => $route->uri(),
-                'name' => $route->getName(),
-                'action' => $route->getActionName()
-            ];
-        }
+        $this->routes = collect(Route::getRoutes())
+            ->map(function ($route) {
+                return [
+                    'method' => implode('|', array_diff($route->methods(), ['HEAD'])),
+                    'uri' => $route->uri(),
+                    'name' => $route->getName(),
+                    'action' => $route->getActionName()
+                ];
+            })
+            ->filter(function ($route) {
+                return $route['method'] !== '';
+            })
+            ->values()
+            ->all();
     }
 
     public function toggleMethod($method)
@@ -49,18 +49,16 @@ class RouteExplorer extends Component
     {
         return collect($this->routes)
             ->filter(function ($route) {
-                // Filtrar por búsqueda
                 if ($this->search && !str_contains(strtolower($route['uri']), strtolower($this->search))) {
                     return false;
                 }
                 
-                // Filtrar por método HTTP seleccionado
-                foreach ($this->selectedMethods as $method => $selected) {
-                    if ($selected && str_contains($route['method'], $method)) {
-                        return true;
-                    }
-                }
-                return false;
+                return collect($this->selectedMethods)
+                    ->filter()
+                    ->keys()
+                    ->contains(function ($method) use ($route) {
+                        return str_contains($route['method'], $method);
+                    });
             })
             ->values()
             ->all();
