@@ -3,6 +3,7 @@ name: Generate Doxygen Docs
 on:
   push:
     branches:
+      - main
       - docs
       - testing
 
@@ -33,15 +34,30 @@ jobs:
           fi
 
           # Crear vercel.json para servir los archivos estáticos
-          cat > docs/vercel.json << 'EOL'
+          cat > vercel.json << 'EOL'
           {
-            "buildCommand": "echo 'Skipping build since docs are pre-generated'",
-            "outputDirectory": ".",
-            "framework": null,
-            "installCommand": "echo 'Skipping install'",
-            "public": true
+            "version": 2,
+            "outputDirectory": "docs",
+            "builds": [
+              {
+                "src": "docs/**",
+                "use": "@vercel/static"
+              }
+            ],
+            "routes": [
+              {
+                "src": "/(.*)",
+                "dest": "/docs/$1"
+              }
+            ],
+            "github": {
+              "silent": true
+            }
           }
           EOL
+
+          # Copiar vercel.json también a docs por si acaso
+          cp vercel.json docs/
 
       - name: Debug Information
         run: |
