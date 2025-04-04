@@ -37,10 +37,12 @@ jobs:
           cat > vercel.json << 'EOL'
           {
             "version": 2,
-            "outputDirectory": "docs",
+            "buildCommand": false,
+            "installCommand": false,
+            "framework": null,
             "builds": [
               {
-                "src": "docs/**",
+                "src": "docs/**/*",
                 "use": "@vercel/static"
               }
             ],
@@ -51,13 +53,25 @@ jobs:
               }
             ],
             "github": {
-              "silent": true
-            }
+              "silent": true,
+              "autoAlias": true
+            },
+            "ignoreCommand": "echo 'Ignoring build step'"
           }
           EOL
 
           # Copiar vercel.json también a docs por si acaso
           cp vercel.json docs/
+
+          # Crear un package.json vacío para evitar errores de npm
+          cat > package.json << 'EOL'
+          {
+            "private": true,
+            "scripts": {
+              "build": "echo 'No build required'"
+            }
+          }
+          EOL
 
       - name: Debug Information
         run: |
