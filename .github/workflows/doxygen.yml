@@ -25,11 +25,14 @@ jobs:
 
       - name: Generate documentation with Doxygen
         run: |
+          # Crear directorio temporal
+          mkdir -p /tmp/docs
+
           # Generar la documentación
           doxygen Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
 
-          # Mover todo el contenido de html/ a un directorio temporal
-          mv html/* /tmp/docs/ || true
+          # Mover el contenido de docs/ al directorio temporal
+          mv docs/* /tmp/docs/ || true
 
           # Crear vercel.json
           cat > /tmp/docs/vercel.json << 'EOL'
