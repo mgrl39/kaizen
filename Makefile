@@ -134,3 +134,13 @@ dev:
 
 build:
 	npm run build
+
+#########################################################
+# Comando para desarrollo con Vite
+#########################################################
+serve-dev:
+	@echo "$(GREEN)Iniciando servidor de desarrollo con Vite...$(END)"
+	@echo -n "$(GREEN)" && hostname -I | tr ' ' '\n'
+	@echo "$(END)"
+	@echo "$(BLUE)Presiona Ctrl+C para detener ambos servidores$(END)"
+	@(trap 'kill 0' SIGINT; npm run dev & php artisan serve --host 0.0.0.0)
