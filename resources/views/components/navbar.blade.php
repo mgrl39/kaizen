@@ -20,9 +20,7 @@
                 @php
                 $menuItems = [
                     ['url' => '/cinemas', 'icon' => 'fa-solid fa-building', 'text' => 'Cines'],
-                    ['url' => '/movies', 'icon' => 'fa-solid fa-video', 'text' => 'Películas'], 
-                    ['url' => '/login', 'icon' => 'fa-solid fa-sign-in-alt', 'text' => 'Iniciar Sesión'],
-                    ['url' => '/register', 'icon' => 'fa-solid fa-user-plus', 'text' => 'Registrarse']
+                    ['url' => '/movies', 'icon' => 'fa-solid fa-video', 'text' => 'Películas'],
                 ];
                 @endphp
 
@@ -33,6 +31,53 @@
                         </a>
                     </li>
                 @endforeach
+
+                <!-- Autenticación basada en sesiones Laravel -->
+                @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user-circle me-2"></i><span>{{ Auth::user()->username ?? Auth::user()->name }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/profile"><i class="fa-solid fa-id-card me-2"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="/bookings"><i class="fa-solid fa-ticket-alt me-2"></i>Mis Reservas</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                    @csrf
+                                    <button type="submit" class="dropdown-item">
+                                        <i class="fa-solid fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @else
+                    <!-- Zona de autenticación por JWT - Gestionada por JS cuando no hay sesión -->
+                    <li class="nav-item auth-guest">
+                        <a href="/login" class="nav-link d-flex align-items-center">
+                            <i class="fa-solid fa-sign-in-alt me-2"></i>Iniciar Sesión
+                        </a>
+                    </li>
+                    <li class="nav-item auth-guest">
+                        <a href="/register" class="nav-link d-flex align-items-center">
+                            <i class="fa-solid fa-user-plus me-2"></i>Registrarse
+                        </a>
+                    </li>
+                    
+                    <!-- Menú de usuario JWT - Oculto por defecto -->
+                    <li class="nav-item dropdown auth-user d-none">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fa-solid fa-user-circle me-2"></i><span id="username-display">Usuario</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/profile"><i class="fa-solid fa-id-card me-2"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="/bookings"><i class="fa-solid fa-ticket-alt me-2"></i>Mis Reservas</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#" id="logout-btn"><i class="fa-solid fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                @endauth
                 
                 <li class="nav-item d-none d-md-block">
                     <button class="btn btn-light rounded-circle ms-2" id="darkModeToggleLg">
@@ -47,6 +92,7 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // --- Gestión de Tema Oscuro ---
     // Check for dark mode preference
     const darkMode = localStorage.getItem('darkMode') === 'true';
     
@@ -85,5 +131,75 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('darkModeToggleLg').addEventListener('click', function() {
         toggleDarkMode(!document.body.classList.contains('bg-dark'));
     });
+
+    // --- Gestión de Autenticación en la interfaz (solo para JWT) ---
+    // Solo ejecutamos esta lógica si no hay sesión de Laravel activa
+    if (!document.querySelector('.auth-user.d-none')) {
+        // Función para comprobar si el usuario está autenticado por JWT
+        function checkAuthentication() {
+            const token = localStorage.getItem('auth_token');
+            const authUser = localStorage.getItem('auth_user');
+            
+            if (token && authUser) {
+                try {
+                    // Intentar parsear la información del usuario
+                    const userData = JSON.parse(authUser);
+                    
+                    // Actualizar la interfaz para usuario autenticado
+                    document.querySelectorAll('.auth-guest').forEach(el => el.classList.add('d-none'));
+                    document.querySelectorAll('.auth-user').forEach(el => el.classList.remove('d-none'));
+                    
+                    // Mostrar el nombre de usuario
+                    const usernameDisplay = document.getElementById('username-display');
+                    if (usernameDisplay) {
+                        usernameDisplay.textContent = userData.username || userData.name || 'Usuario';
+                    }
+                    
+                    return true;
+                } catch (e) {
+                    console.error('Error parsing auth user data', e);
+                    return false;
+                }
+            } else {
+                // Actualizar la interfaz para invitado
+                document.querySelectorAll('.auth-guest').forEach(el => el.classList.remove('d-none'));
+                document.querySelectorAll('.auth-user').forEach(el => el.classList.add('d-none'));
+                
+                return false;
+            }
+        }
+        
+        // Función para cerrar sesión (JWT)
+        function logout() {
+            // Eliminar el token y datos de usuario
+            localStorage.removeItem('auth_token');
+            localStorage.removeItem('auth_user');
+            
+            // Actualizar la interfaz
+            checkAuthentication();
+            
+            // Redireccionar al inicio
+            window.location.href = '/';
+        }
+        
+        // Comprobar autenticación al cargar la página
+        checkAuthentication();
+        
+        // Evento para el botón de cerrar sesión
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                logout();
+            });
+        }
+        
+        // Escuchar cambios en el almacenamiento (por si se inicia sesión en otra pestaña)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'auth_token' || e.key === 'auth_user') {
+                checkAuthentication();
+            }
+        });
+    }
 });
 </script>

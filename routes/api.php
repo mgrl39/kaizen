@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\MovieController;
+use App\Http\Controllers\API\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,8 +26,8 @@ Route::put('/movies/{id}', [MovieController::class, 'update']);
 Route::delete('/movies/{id}', [MovieController::class, 'destroy']);
 
 // Rutas de autenticación
-// Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 // Route::get('/user', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
 // Rutas protegidas
