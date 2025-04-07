@@ -9,8 +9,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\SimpleEndpointController;
 use App\Http\Controllers\LanguageController;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Session;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +33,14 @@ Route::get(
         return view('register');
     }
 );
+
+Route::get(
+    '/login',
+    function () {
+        return view('login');
+    }
+);
+
 // Ruta para URLs
 Route::get('/urls', [SimpleEndpointController::class, 'index']);
 Route::get(
@@ -44,3 +50,10 @@ Route::get(
 
 // TODO CAMBIAR EL CONTACT US
 Route::resource('cinema', CinemaController::class);
+
+Route::get(
+    'movies',
+    function () {
+        return view('movies');
+    }
+);
