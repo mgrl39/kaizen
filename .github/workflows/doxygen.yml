@@ -79,7 +79,7 @@ jobs:
           ls -la /tmp/docs/ || true
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         env:
           ACTIONS_STEP_DEBUG: true
         with:
