@@ -1,16 +1,16 @@
-<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top border-bottom">
+<nav class="navbar navbar-expand-md fixed-top" style="background-color: var(--secondary-bg); border-bottom: 1px solid var(--border-color);">
     <div class="container">
         <a href="/" class="navbar-brand d-flex align-items-center">
-            <i class="fa-solid fa-film fs-3 text-primary"></i>
-            <span class="ms-2 fw-bold">Kaizen</span>
+            <i class="fa-solid fa-film fs-3" style="color: var(--primary-color);"></i>
+            <span class="ms-2 fw-bold" style="color: var(--text-primary);">Kaizen</span>
         </a>
         
         <div class="d-flex align-items-center">
-            <button class="btn btn-light rounded-circle d-md-none me-2" id="darkModeToggle">
-                <i class="fa-solid fa-sun text-warning" id="lightIcon"></i>
-                <i class="fa-solid fa-moon text-primary d-none" id="darkIcon"></i>
+            <button class="btn rounded-circle d-md-none me-2" id="darkModeToggle" style="background-color: var(--tertiary-bg);">
+                <i class="fa-solid fa-sun" style="color: var(--warning-color);" id="lightIcon"></i>
+                <i class="fa-solid fa-moon d-none" style="color: var(--primary-color);" id="darkIcon"></i>
             </button>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" style="border-color: var(--border-color);">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
@@ -26,8 +26,8 @@
 
                 @foreach($menuItems as $item)
                     <li class="nav-item">
-                        <a href="{{ $item['url'] }}" class="nav-link d-flex align-items-center">
-                            <i class="{{ $item['icon'] }} me-2"></i>{{ $item['text'] }}
+                        <a href="{{ $item['url'] }}" class="nav-link d-flex align-items-center" style="color: var(--text-primary);">
+                            <i class="{{ $item['icon'] }} me-2" style="color: var(--primary-color);"></i>{{ $item['text'] }}
                         </a>
                     </li>
                 @endforeach
@@ -35,18 +35,18 @@
                 <!-- Autenticación basada en sesiones Laravel -->
                 @auth
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user-circle me-2"></i><span>{{ Auth::user()->username ?? Auth::user()->name }}</span>
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
+                            <i class="fa-solid fa-user-circle me-2" style="color: var(--primary-color);"></i><span>{{ Auth::user()->username ?? Auth::user()->name }}</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/profile"><i class="fa-solid fa-id-card me-2"></i>Mi Perfil</a></li>
-                            <li><a class="dropdown-item" href="/bookings"><i class="fa-solid fa-ticket-alt me-2"></i>Mis Reservas</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <li><a class="dropdown-item" href="/profile" style="color: var(--text-primary);"><i class="fa-solid fa-id-card me-2" style="color: var(--primary-color);"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="/bookings" style="color: var(--text-primary);"><i class="fa-solid fa-ticket-alt me-2" style="color: var(--primary-color);"></i>Mis Reservas</a></li>
+                            <li><hr class="dropdown-divider" style="border-color: var(--border-color);"></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                     @csrf
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="fa-solid fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                    <button type="submit" class="dropdown-item" style="color: var(--text-primary);">
+                                        <i class="fa-solid fa-sign-out-alt me-2" style="color: var(--danger-color);"></i>Cerrar Sesión
                                     </button>
                                 </form>
                             </li>
@@ -55,34 +55,34 @@
                 @else
                     <!-- Zona de autenticación por JWT - Gestionada por JS cuando no hay sesión -->
                     <li class="nav-item auth-guest">
-                        <a href="/login" class="nav-link d-flex align-items-center">
-                            <i class="fa-solid fa-sign-in-alt me-2"></i>Iniciar Sesión
+                        <a href="/login" class="nav-link d-flex align-items-center" style="color: var(--text-primary);">
+                            <i class="fa-solid fa-sign-in-alt me-2" style="color: var(--primary-color);"></i>Iniciar Sesión
                         </a>
                     </li>
                     <li class="nav-item auth-guest">
-                        <a href="/register" class="nav-link d-flex align-items-center">
-                            <i class="fa-solid fa-user-plus me-2"></i>Registrarse
+                        <a href="/register" class="nav-link d-flex align-items-center" style="color: var(--text-primary);">
+                            <i class="fa-solid fa-user-plus me-2" style="color: var(--primary-color);"></i>Registrarse
                         </a>
                     </li>
                     
                     <!-- Menú de usuario JWT - Oculto por defecto -->
                     <li class="nav-item dropdown auth-user d-none">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fa-solid fa-user-circle me-2"></i><span id="username-display">Usuario</span>
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
+                            <i class="fa-solid fa-user-circle me-2" style="color: var(--primary-color);"></i><span id="username-display">Usuario</span>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/profile"><i class="fa-solid fa-id-card me-2"></i>Mi Perfil</a></li>
-                            <li><a class="dropdown-item" href="/bookings"><i class="fa-solid fa-ticket-alt me-2"></i>Mis Reservas</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#" id="logout-btn"><i class="fa-solid fa-sign-out-alt me-2"></i>Cerrar Sesión</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <li><a class="dropdown-item" href="/profile" style="color: var(--text-primary);"><i class="fa-solid fa-id-card me-2" style="color: var(--primary-color);"></i>Mi Perfil</a></li>
+                            <li><a class="dropdown-item" href="/bookings" style="color: var(--text-primary);"><i class="fa-solid fa-ticket-alt me-2" style="color: var(--primary-color);"></i>Mis Reservas</a></li>
+                            <li><hr class="dropdown-divider" style="border-color: var(--border-color);"></li>
+                            <li><a class="dropdown-item" href="#" id="logout-btn" style="color: var(--text-primary);"><i class="fa-solid fa-sign-out-alt me-2" style="color: var(--danger-color);"></i>Cerrar Sesión</a></li>
                         </ul>
                     </li>
                 @endauth
                 
                 <li class="nav-item d-none d-md-block">
-                    <button class="btn btn-light rounded-circle ms-2" id="darkModeToggleLg">
-                        <i class="fa-solid fa-sun text-warning" id="lightIconLg"></i>
-                        <i class="fa-solid fa-moon text-primary d-none" id="darkIconLg"></i>
+                    <button class="btn rounded-circle ms-2" id="darkModeToggleLg" style="background-color: var(--tertiary-bg);">
+                        <i class="fa-solid fa-sun" style="color: var(--warning-color);" id="lightIconLg"></i>
+                        <i class="fa-solid fa-moon d-none" style="color: var(--primary-color);" id="darkIconLg"></i>
                     </button>
                 </li>
             </ul>
@@ -99,17 +99,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to toggle dark/light mode
     function toggleDarkMode(isDark) {
         if (isDark) {
-            document.body.classList.add('bg-dark', 'text-light');
-            document.querySelector('.navbar').classList.replace('navbar-light', 'navbar-dark');
-            document.querySelector('.navbar').classList.replace('bg-light', 'bg-dark');
+            document.body.classList.remove('light-theme');
             
             // Toggle icons
             document.querySelectorAll('#lightIcon, #lightIconLg').forEach(icon => icon.classList.add('d-none'));
             document.querySelectorAll('#darkIcon, #darkIconLg').forEach(icon => icon.classList.remove('d-none'));
         } else {
-            document.body.classList.remove('bg-dark', 'text-light');
-            document.querySelector('.navbar').classList.replace('navbar-dark', 'navbar-light');
-            document.querySelector('.navbar').classList.replace('bg-dark', 'bg-light');
+            document.body.classList.add('light-theme');
             
             // Toggle icons
             document.querySelectorAll('#lightIcon, #lightIconLg').forEach(icon => icon.classList.remove('d-none'));
@@ -125,11 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add event listeners to both toggle buttons
     document.getElementById('darkModeToggle').addEventListener('click', function() {
-        toggleDarkMode(!document.body.classList.contains('bg-dark'));
+        toggleDarkMode(!document.body.classList.contains('light-theme'));
     });
     
     document.getElementById('darkModeToggleLg').addEventListener('click', function() {
-        toggleDarkMode(!document.body.classList.contains('bg-dark'));
+        toggleDarkMode(!document.body.classList.contains('light-theme'));
     });
 
     // --- Gestión de Autenticación en la interfaz (solo para JWT) ---
