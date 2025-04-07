@@ -26,7 +26,7 @@
         const filterPut = document.getElementById('filter-put');
         const filterDelete = document.getElementById('filter-delete');
         const routes = document.querySelectorAll('.route-item');
-        
+
         const setActiveFilter = (button) => {
             [filterAll, filterGet, filterPost, filterPut, filterDelete].forEach(btn => {
                 btn.classList.remove('bg-blue-600', 'text-white');
@@ -35,12 +35,12 @@
             button.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300');
             button.classList.add('bg-blue-600', 'text-white');
         };
-        
+
         filterAll.addEventListener('click', function() {
             routes.forEach(route => route.classList.remove('hidden'));
             setActiveFilter(this);
         });
-        
+
         filterGet.addEventListener('click', function() {
             routes.forEach(route => {
                 if (route.classList.contains('method-get')) {
@@ -51,7 +51,7 @@
             });
             setActiveFilter(this);
         });
-        
+
         filterPost.addEventListener('click', function() {
             routes.forEach(route => {
                 if (route.classList.contains('method-post')) {
@@ -62,18 +62,15 @@
             });
             setActiveFilter(this);
         });
-        
+
         filterPut.addEventListener('click', function() {
             routes.forEach(route => {
-                if (route.classList.contains('method-put') || route.classList.contains('method-patch')) {
-                    route.classList.remove('hidden');
-                } else {
-                    route.classList.add('hidden');
-                }
+                if (route.classList.contains('method-put') || route.classList.contains('method-patch')) route.classList.remove('hidden');
+                else route.classList.add('hidden');
             });
             setActiveFilter(this);
         });
-        
+
         filterDelete.addEventListener('click', function() {
             routes.forEach(route => {
                 if (route.classList.contains('method-delete')) {
@@ -85,4 +82,4 @@
             setActiveFilter(this);
         });
     });
-</script> 
+</script>
