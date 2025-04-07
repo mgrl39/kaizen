@@ -25,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Livewire::component('route-explorer', RouteExplorer::class);
+        //Livewire::component('route-explorer', RouteExplorer::class);
     }
 }
