@@ -1,5 +1,12 @@
 <?php
 
+Route::get(
+    '/contactus',
+    function () {
+        return view('contactus');
+    }
+);
+
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file web.php
+ * This file Provides the web
+ */
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\SimpleEndpointController;
@@ -38,23 +43,4 @@ Route::get(
 )->name('language');
 
 // TODO CAMBIAR EL CONTACT US
-Route::get(
-    '/contactus',
-    function () {
-        return view('contactus');
-    }
-);
 Route::resource('cinema', CinemaController::class);
-
-// Ruta para pruebas
-Route::get(
-    '/test-lang',
-    function () {
-        return [
-            'current_locale' => App::getLocale(),
-            'session_locale' => Session::get('locale'),
-            'available_locales' => config('app.available_locales'),
-            'test_translation' => __('Welcome to our application')
-        ];
-    }
-);
