@@ -1,61 +1,66 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ __('Registro') }}</title>
-    <!-- TODO: En el tailwind meterlo directamente escriot -->
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <div class="flex min-h-screen">
-        <!-- Formulario -->
-        <div class="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-            <div class="w-full max-w-sm space-y-6">
-                <!-- Logo -->
-                <div class="flex justify-center">
-                    <i class="fas fa-film text-blue-600 text-3xl"></i>
+@extends('layouts.app')
+
+@section('title', 'Registro')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0 my-5">
+                <div class="card-body p-4 p-sm-5">
+                    <!-- Logo -->
+                    <div class="text-center mb-4">
+                        <i class="fas fa-film text-primary fs-1"></i>
+                    </div>
+
+                    <!-- Título -->
+                    <h2 class="text-center mb-4 fw-semibold">
+                        {{ __('Crear cuenta') }}
+                    </h2>
+
+                    <!-- Formulario -->
+                    <form method="POST" action="#" class="needs-validation" novalidate>
+                        @csrf
+
+                        <div class="mb-3">
+                            <input type="text"
+                                name="name"
+                                placeholder="{{ __('Nombre') }}"
+                                class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="email"
+                                name="email"
+                                placeholder="{{ __('Email') }}"
+                                class="form-control">
+                        </div>
+
+                        <div class="mb-4">
+                            <input type="password"
+                                name="password"
+                                placeholder="{{ __('Contraseña') }}"
+                                class="form-control">
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit"
+                                    class="btn btn-primary">
+                                {{ __('Registrarse') }}
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Enlace a login -->
+                    <p class="text-center text-muted mt-4 mb-0">
+                        {{ __('¿Ya tienes cuenta?') }}
+                        <a href="/login" class="text-decoration-none">
+                            {{ __('Iniciar sesión') }}
+                        </a>
+                    </p>
                 </div>
-
-                <!-- Título -->
-                <h2 class="text-center text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                    {{ __('Crear cuenta') }}
-                </h2>
-
-                <!-- Formulario -->
-                <form method="POST" action="#" class="space-y-4">
-                    @csrf
-
-                    <input type="text"
-                           name="name"
-                           placeholder="{{ __('Nombre') }}"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-
-                    <input type="email"
-                           name="email"
-                           placeholder="{{ __('Email') }}"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-
-                    <input type="password"
-                           name="password"
-                           placeholder="{{ __('Contraseña') }}"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-
-                    <button type="submit"
-                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                        {{ __('Registrarse') }}
-                    </button>
-                </form>
-
-                <!-- Enlace a login -->
-                <p class="text-center text-sm text-gray-500 dark:text-gray-400">
-                    {{ __('¿Ya tienes cuenta?') }}
-                    <a href="/login" class="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400">
-                        {{ __('Iniciar sesión') }}
-                    </a>
-                </p>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

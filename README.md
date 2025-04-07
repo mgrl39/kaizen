@@ -36,11 +36,10 @@
 </p>
 
 <p align="center">
-  <b>Backend:</b> PHP 8.1+ | Laravel 10.x | <b>Base de datos:</b> MySQL | <b>Frontend:</b> Tailwind CSS | Alpine.js
+  <b>Backend:</b> PHP 8.1+ | Laravel 10.x | <b>Base de datos:</b> MySQL | <b>Frontend:</b>| Bootstrap 5
 </p>
 
 ## 🚀 Instalación
-
 ```bash
 # Clonar el repositorio
 git clone https://github.com/mgrl39/kaizen.git
