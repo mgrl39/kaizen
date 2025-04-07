@@ -17,8 +17,18 @@ class MovieApiTest extends TestCase
 
         $response = $this->getJson('/api/movies');
 
-        $response->assertStatus(200)
-                 ->assertJsonCount(3);
+        $response->assertJsonStructure(
+            [
+            'success',
+            'count',
+            'data' => [
+                '*' => ['id', 'title', 'synopsis', 'duration', 'rating',
+                    'release_date', 'photo_url', 'created_at', 'updated_at']
+            ],
+            'message'
+            ]
+        );
+
     }
 
     /** @test */
@@ -77,4 +87,3 @@ class MovieApiTest extends TestCase
         $this->assertDatabaseMissing('movies', ['id' => $movie->id]);
     }
 }
-

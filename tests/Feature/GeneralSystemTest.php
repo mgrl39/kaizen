@@ -15,30 +15,11 @@ class GeneralSystemTest extends TestCase
         echo "\n🔍 Iniciando verificación del sistema...\n";
 
         // 1. Verificar versión de PHP
-        $phpVersion = PHP_VERSION;
-        $phpValid = version_compare($phpVersion, '8.1.0', '>=');
-        echo ($phpValid ? "✅" : "❌") . " PHP Version: $phpVersion\n";
-        $this->assertTrue($phpValid, 'PHP version must be 8.1 or higher');
-
+        $this->_checkPhpVersion();
         // 2. Verificar conexión MySQL
-        try {
-            DB::connection()->getPdo();
-            echo "✅ Conexión MySQL: OK\n";
-        } catch (\Exception $e) {
-            echo "❌ Conexión MySQL: Error - " . $e->getMessage() . "\n";
-            $this->fail('Could not connect to MySQL');
-        }
-
+        $this->_checkDatabaseConnection();
         // 3. Verificar que existe la base de datos
-        $dbName = config('database.connections.mysql.database');
-        try {
-            $hasDb = DB::select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?", [$dbName]);
-            echo ($hasDb ? "✅" : "❌") . " Base de datos '$dbName': " . ($hasDb ? "Existe" : "No existe") . "\n";
-            $this->assertTrue(!empty($hasDb), "Database '$dbName' does not exist");
-        } catch (\Exception $e) {
-            echo "❌ Error al verificar base de datos: " . $e->getMessage() . "\n";
-            $this->fail('Error checking database');
-        }
+        $this->_checkDatabaseExists();
 
         // 4. Verificar tablas del sistema
         $requiredTables = [
@@ -81,6 +62,18 @@ class GeneralSystemTest extends TestCase
     }
 
     /**
+    *
+    * Test de rendimiento
+    *
+    */
+    private function _checkPhpVersion()
+    {
+        $phpversion = PHP_VERSION;
+        $phpValid = version_compare($phpversion, '8.1.0', '>=');
+        echo ($phpValid ? "✅" : "❌") . " PHP Version: $phpVersion\n";
+        $this->assertTrue($phpValid, 'PHP version must be 8.1 or higher');
+    }
+    /**
      * Test de rendimiento básico de la base de datos
      *
      * @return void
@@ -101,5 +94,29 @@ class GeneralSystemTest extends TestCase
             $queryTime,
             "Database query took too long: {$queryTime}ms"
         );
+    }
+
+    private function _checkDatabaseConnection()
+    {
+        try {
+            DB::connection()->getPdo();
+            echo "✅ Conexión MySQL: OK\n";
+        } catch (\Exception $e) {
+            echo "❌ Conexión MySQL: Error - " . $e->getMessage() . "\n";
+            $this->fail('Could not connect to MySQL');
+        }
+    }
+
+    private function _checkDatabaseExists()
+    {
+        $dbName = config('database.connections.mysql.database');
+        try {
+            $hasDb = DB::select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?", [$dbName]);
+            echo ($hasDb ? "✅" : "❌") . " Base de datos '$dbName': " . ($hasDb ? "Existe" : "No existe") . "\n";
+            $this->assertTrue(!empty($hasDb), "Database '$dbName' does not exist");
+        } catch (\Exception $e) {
+            echo "❌ Error al verificar base de datos: " . $e->getMessage() . "\n";
+            $this->fail('Error checking database');
+        }
     }
 }
