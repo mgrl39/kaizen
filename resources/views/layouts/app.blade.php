@@ -1,6 +1,6 @@
 <!-- resources/views/layouts/app.blade.php -->
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }" x-init="$watch('darkMode', val => localStorage.setItem('darkMode', val))" :class="{ 'dark': darkMode }" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,46 +8,84 @@
 
     <title>@yield('title', config('app.name', 'Kaizen'))</title>
 
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+
     <!-- Google Fonts -->
-    <!-- Font Awesome -->
-    <!-- Tailwind CSS -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
+    
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
         }
-    </script>
-    <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        
+        body.bg-gradient {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef, #dee2e6);
+        }
+        
+        body.dark.bg-gradient {
+            background: linear-gradient(135deg, #212529, #343a40, #495057);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding-top: 5rem;
+            padding-bottom: 3rem;
+        }
+    </style>
+
+    <!-- Bootstrap 5 JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="h-full bg-gradient-to-br from-gray-100 via-gray-200 to-white dark:from-gray-900 dark:via-gray-800 dark:to-black text-gray-900 dark:text-white font-sans min-h-screen transition-colors duration-300">
-    <div class="min-h-screen flex flex-col">
+<body class="bg-gradient">
+    <div class="d-flex flex-column min-vh-100">
         <!-- Navbar -->
         @include('components.navbar')
 
         <!-- Contenido principal -->
-        <main class="flex-grow">
-            <div class="pt-24 pb-16">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    @yield('content')
-                </div>
+        <main class="main-content">
+            <div class="container">
+                @yield('content')
             </div>
         </main>
 
         <!-- Footer -->
         @include('components.footer')
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check for dark mode preference
+        const darkMode = localStorage.getItem('darkMode') === 'true';
+        
+        // Apply dark mode if needed
+        if (darkMode) {
+            document.body.classList.add('dark', 'text-light');
+        }
+        
+        // Listen for dark mode changes
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'darkMode') {
+                const isDark = e.newValue === 'true';
+                if (isDark) {
+                    document.body.classList.add('dark', 'text-light');
+                } else {
+                    document.body.classList.remove('dark', 'text-light');
+                }
+            }
+        });
+    });
+    </script>
 
     @yield('scripts')
 </body>

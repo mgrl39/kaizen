@@ -27,7 +27,6 @@ Route::delete('/movies/{id}', [MovieController::class, 'destroy']);
 // Rutas de autenticación
 // Route::post('/register', [AuthController::class, 'register']);
 // Route::post('/login', [AuthController::class, 'login']);
-// Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 // Route::get('/user', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
 // Rutas protegidas

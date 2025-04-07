@@ -12,7 +12,7 @@ class MovieSeeder extends Seeder
         // Crear 20 películas aleatorias
         Movie::factory(20)->create();
 
-        // También puedes crear películas específicas
+        // Creacion de pelis especificas
         $specificMovies = [
             [
                 'title' => 'El Padrino',
@@ -44,4 +44,5 @@ class MovieSeeder extends Seeder
             Movie::create($movie);
         }
     }
-} 
+}
+

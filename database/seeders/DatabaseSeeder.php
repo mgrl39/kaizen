@@ -6,11 +6,12 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        $this->call([
+        $this->call(
+            [
             MovieSeeder::class,
-            // Otros seeders aquí...
-        ]);
+            ]
+        );
     }
 }

@@ -1,6 +1,7 @@
+
 @extends('layouts.app')
 
-@section('title', 'Registro')
+@section('title', 'Login')
 
 @section('content')
 <div class="container">
@@ -15,7 +16,7 @@
 
                     <!-- Título -->
                     <h2 class="text-center mb-4 fw-semibold">
-                        {{ __('Crear cuenta') }}
+                        {{ __('Hola de nuevo') }}
                     </h2>
 
                     <!-- Formulario -->
@@ -24,15 +25,8 @@
 
                         <div class="mb-3">
                             <input type="text"
-                                name="name"
-                                placeholder="{{ __('Nombre') }}"
-                                class="form-control">
-                        </div>
-
-                        <div class="mb-3">
-                            <input type="email"
-                                name="email"
-                                placeholder="{{ __('Email') }}"
+                                name="name-or-email"
+                                placeholder="{{ __('Nombre o email') }}"
                                 class="form-control">
                         </div>
 
@@ -53,9 +47,9 @@
 
                     <!-- Enlace a login -->
                     <p class="text-center text-muted mt-4 mb-0">
-                        {{ __('¿Ya tienes cuenta?') }}
-                        <a href="/login" class="text-decoration-none">
-                            {{ __('Iniciar sesión') }}
+                        {{ __('¿No tienes cuenta?') }}
+                        <a href="/register" class="text-decoration-none">
+                            {{ __('Registrate') }}
                         </a>
                     </p>
                 </div>
