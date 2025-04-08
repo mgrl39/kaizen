@@ -1,7 +1,7 @@
 # Configuración básica
 PROJECT_NAME           = "Kaizen Framework"
 PROJECT_NUMBER        = "1.0"
-OUTPUT_DIRECTORY       = /tmp/docs
+OUTPUT_DIRECTORY       = docs
 USE_MDFILE_AS_MAINPAGE = README.md
 
 # Desactivar formatos innecesarios
