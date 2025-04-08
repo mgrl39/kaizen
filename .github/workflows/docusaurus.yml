@@ -1,0 +1,116 @@
+name: Generate Wiki Documentation with Docusaurus
+
+on:
+  # Manual trigger
+  workflow_dispatch:
+  # Scheduled run (adjust as needed)
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly on Sundays
+  # When wiki content changes (requires setup)
+  repository_dispatch:
+    types: [wiki_updated]
+
+jobs:
+  build-wiki-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main repository
+        uses: actions/checkout@v4
+
+      - name: Checkout Wiki Content
+        uses: actions/checkout@v4
+        with:
+          repository: mgrl39/kaizen.wiki.git
+          path: wiki-content
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Initialize Docusaurus
+        run: |
+          npx create-docusaurus@latest temp-docs classic --typescript
+          cd temp-docs
+          npm install
+
+      - name: Configure Docusaurus
+        run: |
+          cd temp-docs
+          # Copy wiki content to docs directory
+          mkdir -p docs
+          cp -r ../wiki-content/* docs/
+          
+          # Update docusaurus.config.js
+          cat > docusaurus.config.js << 'EOF'
+          module.exports = {
+            title: 'Kaizen Wiki',
+            tagline: 'Documentation from Kaizen Wiki',
+            url: 'https://doncom.me',
+            baseUrl: '/docs/wiki/',
+            onBrokenLinks: 'warn',
+            onBrokenMarkdownLinks: 'warn',
+            favicon: 'img/favicon.ico',
+            organizationName: 'mgrl39',
+            projectName: 'kaizen',
+            trailingSlash: false,
+            presets: [
+              [
+                'classic',
+                {
+                  docs: {
+                    routeBasePath: '/',
+                    sidebarPath: require.resolve('./sidebars.js'),
+                  },
+                  blog: false,
+                  theme: {
+                    customCss: require.resolve('./src/css/custom.css'),
+                  },
+                },
+              ],
+            ],
+            themeConfig: {
+              navbar: {
+                title: 'Kaizen Wiki',
+                items: [
+                  {
+                    href: 'https://github.com/mgrl39/kaizen',
+                    label: 'GitHub',
+                    position: 'right',
+                  },
+                ],
+              },
+            },
+          };
+          EOF
+
+      - name: Build Documentation
+        run: |
+          cd temp-docs
+          npm run build
+
+      - name: Prepare Output Directory
+        run: |
+          # Create wiki directory in docs
+          mkdir -p docs/wiki
+          # Copy built files
+          cp -r temp-docs/build/* docs/wiki/
+          # Create .nojekyll
+          touch docs/wiki/.nojekyll
+
+      - name: Debug Information
+        run: |
+          echo "Content of docs directory:"
+          ls -la docs/
+          echo "Content of docs/wiki directory:"
+          ls -la docs/wiki/
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'GitHub Actions Bot'
+          git config --global user.email 'actions@github.com'
+          git add docs/wiki
+          git commit -m "docs: update wiki documentation" || echo "No changes to commit"
+          git push origin main || echo "No changes to push"
