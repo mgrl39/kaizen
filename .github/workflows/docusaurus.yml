@@ -1,0 +1,138 @@
+name: Generate Wiki Documentation with Docusaurus
+
+on:
+  push:
+    branches:
+      - development
+  # Manual trigger mantenido por si acaso
+  workflow_dispatch:
+  # Cuando se actualiza la wiki
+  repository_dispatch:
+    types: [wiki_updated]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-wiki-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Clone Wiki Repository
+        run: |
+          echo "Clonando el repositorio wiki..."
+          git clone https://github.com/mgrl39/kaizen.wiki.git wiki-source
+          echo "Contenido del directorio wiki-source:"
+          ls -la wiki-source
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Initialize Docusaurus
+        run: |
+          npx create-docusaurus@latest temp-docs classic --typescript --skip-install
+          cd temp-docs
+          npm install
+
+      - name: Configure Docusaurus
+        run: |
+          cd temp-docs
+          mkdir -p docs
+          
+          # Copiar el contenido de la wiki
+          cp -r ../wiki-source/* docs/
+          
+          # Asegurar que existe un index.md
+          if [ ! -f "docs/Home.md" ]; then
+            echo "# Kaizen Wiki" > docs/index.md
+          else
+            cp docs/Home.md docs/index.md
+          fi
+          
+          # Generar sidebar.js automáticamente
+          echo "Generando sidebar.js..."
+          echo "const sidebars = {
+            tutorialSidebar: [
+              'index',
+              $(find docs -type f -name "*.md" ! -name "index.md" -exec basename {} .md \; | sed 's/^/"\0",/' | tr '\n' ' ')
+            ],
+          };
+          
+          module.exports = sidebars;" > sidebars.js
+          
+          cat > docusaurus.config.js << 'EOF'
+          module.exports = {
+            title: 'Kaizen Wiki',
+            tagline: 'Documentation from Kaizen Wiki',
+            url: 'https://mgrl39.github.io',
+            baseUrl: '/kaizen/',
+            onBrokenLinks: 'warn',
+            onBrokenMarkdownLinks: 'warn',
+            favicon: 'img/favicon.ico',
+            organizationName: 'mgrl39',
+            projectName: 'kaizen',
+            trailingSlash: false,
+            presets: [
+              [
+                'classic',
+                {
+                  docs: {
+                    routeBasePath: '/',
+                    sidebarPath: require.resolve('./sidebars.js'),
+                    editUrl: 'https://github.com/mgrl39/kaizen/wiki/',
+                  },
+                  blog: false,
+                  theme: {
+                    customCss: require.resolve('./src/css/custom.css'),
+                  },
+                },
+              ],
+            ],
+            themeConfig: {
+              navbar: {
+                title: 'Kaizen Documentation',
+                items: [
+                  {
+                    href: 'https://github.com/mgrl39/kaizen/wiki',
+                    label: 'Wiki',
+                    position: 'right',
+                  },
+                  {
+                    href: 'https://github.com/mgrl39/kaizen',
+                    label: 'GitHub',
+                    position: 'right',
+                  },
+                ],
+              },
+            },
+          };
+          EOF
+
+      - name: Build Documentation
+        run: |
+          cd temp-docs
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./temp-docs/build
+          publish_branch: gh-pages
+          force_orphan: false
+          enable_jekyll: false
+          commit_message: 'docs: update wiki documentation'
+          keep_files: true
+
+      - name: Debug Information
+        run: |
+          echo "Contenido del directorio build:"
+          ls -la temp-docs/build/
