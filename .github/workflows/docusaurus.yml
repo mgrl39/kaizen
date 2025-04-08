@@ -22,12 +22,14 @@ jobs:
     steps:
       - name: Checkout main repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          submodules: false
 
       - name: Checkout Wiki Content
-        uses: actions/checkout@v4
-        with:
-          repository: mgrl39/kaizen.wiki
-          path: wiki-content
+        run: |
+          git clone https://github.com/mgrl39/kaizen.wiki.git wiki-content
+          ls -la wiki-content
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
