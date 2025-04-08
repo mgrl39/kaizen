@@ -1,14 +1,19 @@
 name: Generate Wiki Documentation with Docusaurus
 
 on:
-  # Manual trigger
+  push:
+    branches:
+      - development
+  # Manual trigger mantenido por si acaso
   workflow_dispatch:
-  # Scheduled run (adjust as needed)
-  schedule:
-    - cron: '0 0 * * 0'  # Weekly on Sundays
-  # When wiki content changes (requires setup)
+  # Cuando se actualiza la wiki
   repository_dispatch:
     types: [wiki_updated]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
 
 jobs:
   build-wiki-docs:
@@ -21,7 +26,7 @@ jobs:
       - name: Checkout Wiki Content
         uses: actions/checkout@v4
         with:
-          repository: mgrl39/kaizen.wiki.git
+          repository: mgrl39/kaizen.wiki
           path: wiki-content
 
       - name: Setup Node.js
@@ -39,17 +44,15 @@ jobs:
       - name: Configure Docusaurus
         run: |
           cd temp-docs
-          # Copy wiki content to docs directory
           mkdir -p docs
           cp -r ../wiki-content/* docs/
           
-          # Update docusaurus.config.js
           cat > docusaurus.config.js << 'EOF'
           module.exports = {
             title: 'Kaizen Wiki',
             tagline: 'Documentation from Kaizen Wiki',
-            url: 'https://doncom.me',
-            baseUrl: '/docs/wiki/',
+            url: 'https://mgrl39.github.io',
+            baseUrl: '/kaizen/',
             onBrokenLinks: 'warn',
             onBrokenMarkdownLinks: 'warn',
             favicon: 'img/favicon.ico',
@@ -61,7 +64,7 @@ jobs:
                 'classic',
                 {
                   docs: {
-                    routeBasePath: '/',
+                    routeBasePath: 'wiki',
                     sidebarPath: require.resolve('./sidebars.js'),
                   },
                   blog: false,
@@ -73,8 +76,18 @@ jobs:
             ],
             themeConfig: {
               navbar: {
-                title: 'Kaizen Wiki',
+                title: 'Kaizen Documentation',
                 items: [
+                  {
+                    to: '/',
+                    label: 'API Docs',
+                    position: 'left',
+                  },
+                  {
+                    to: '/wiki',
+                    label: 'Wiki',
+                    position: 'left',
+                  },
                   {
                     href: 'https://github.com/mgrl39/kaizen',
                     label: 'GitHub',
@@ -91,26 +104,33 @@ jobs:
           cd temp-docs
           npm run build
 
-      - name: Prepare Output Directory
+      - name: Prepare for Deployment
         run: |
-          # Create wiki directory in docs
-          mkdir -p docs/wiki
-          # Copy built files
-          cp -r temp-docs/build/* docs/wiki/
-          # Create .nojekyll
-          touch docs/wiki/.nojekyll
+          # Obtener la documentación actual de gh-pages
+          git fetch origin gh-pages:gh-pages || true
+          git checkout gh-pages || git checkout --orphan gh-pages
+          
+          # Mantener la documentación de Doxygen
+          mkdir -p wiki
+          cp -r temp-docs/build/* wiki/
+          
+          # Asegurar que .nojekyll existe
+          touch .nojekyll
 
       - name: Debug Information
         run: |
-          echo "Content of docs directory:"
-          ls -la docs/
-          echo "Content of docs/wiki directory:"
-          ls -la docs/wiki/
+          echo "Contenido del directorio actual:"
+          ls -la
+          echo "Contenido del directorio wiki:"
+          ls -la wiki/
 
-      - name: Commit and Push Changes
-        run: |
-          git config --global user.name 'GitHub Actions Bot'
-          git config --global user.email 'actions@github.com'
-          git add docs/wiki
-          git commit -m "docs: update wiki documentation" || echo "No changes to commit"
-          git push origin main || echo "No changes to push"
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
+          publish_branch: gh-pages
+          force_orphan: false
+          enable_jekyll: false
+          commit_message: 'docs: update wiki documentation'
+          keep_files: true
