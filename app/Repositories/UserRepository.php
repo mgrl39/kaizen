@@ -15,9 +15,10 @@ class UserRepository
     {
         return User::create([
             'username' => $data['username'],
+            'name' => $data['username'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'birthdate' => $data['birthdate']
+            'password' => $data['password'],
+            'birthdate' => $data['birthdate'] ?? now()->format('Y-m-d')
         ]);
     }
 

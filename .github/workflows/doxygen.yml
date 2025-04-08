@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - docs
+      - development
       - testing
 
 permissions:
@@ -21,70 +22,40 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Doxygen
-        run: sudo apt-get install -y doxygen graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y doxygen graphviz
 
       - name: Generate documentation with Doxygen
         run: |
-          # Crear directorio temporal
-          mkdir -p /tmp/docs
-
-          # Generar la documentación
+          # Limpiar directorio de docs si existe
+          rm -rf docs
+          
+          # Generar la documentación (Doxyfile tiene configurado OUTPUT_DIRECTORY=docs)
           doxygen Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
 
-          # Mover el contenido de docs/ al directorio temporal
-          mv docs/* /tmp/docs/ || true
-
           # Crear .nojekyll para deshabilitar Jekyll
-          touch /tmp/docs/.nojekyll
+          touch docs/.nojekyll
 
-          # Crear vercel.json
-          cat > /tmp/docs/vercel.json << 'EOL'
-          {
-            "version": 2,
-            "buildCommand": false,
-            "installCommand": false,
-            "framework": null,
-            "builds": [
-              {
-                "src": "**/*",
-                "use": "@vercel/static"
-              }
-            ],
-            "routes": [
-              {
-                "src": "/(.*)",
-                "dest": "/$1"
-              }
-            ],
-            "github": {
-              "silent": true,
-              "autoAlias": true
-            }
-          }
-          EOL
-
-          # Crear package.json
-          cat > /tmp/docs/package.json << 'EOL'
-          {
-            "private": true,
-            "scripts": {
-              "build": "echo 'No build required'"
-            }
-          }
-          EOL
+          # No es necesario crear index.html de redirección, ya que Doxygen generará su propio index.html
+          # Ya que HTML_OUTPUT = . en Doxyfile, el index.html ya estará en la raíz de docs/
 
       - name: Debug Information
         run: |
-          echo "Checking documentation files..."
-          ls -la /tmp/docs/ || true
+          echo "Listando directorio raíz:"
+          ls -la
+          echo "Listando directorio docs:"
+          ls -la docs/ || echo "docs/ no existe"
+          echo "Verificando archivos HTML:"
+          find docs -name "*.html" | head -n 5 || echo "No se encontraron archivos HTML"
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
-        env:
-          ACTIONS_STEP_DEBUG: true
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /tmp/docs
+          publish_dir: ./docs
+          publish_branch: gh-pages
           force_orphan: true
           enable_jekyll: false
           commit_message: 'docs: update documentation'
+          keep_files: false
