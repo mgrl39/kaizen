@@ -20,16 +20,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout main repository
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
-          submodules: false
 
-      - name: Checkout Wiki Content
+      - name: Clone Wiki Repository
         run: |
-          git clone https://github.com/mgrl39/kaizen.wiki.git wiki-content
-          ls -la wiki-content
+          echo "Clonando el repositorio wiki..."
+          git clone https://github.com/mgrl39/kaizen.wiki.git wiki-source
+          echo "Contenido del directorio wiki-source:"
+          ls -la wiki-source
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -39,7 +38,7 @@ jobs:
 
       - name: Initialize Docusaurus
         run: |
-          npx create-docusaurus@latest temp-docs classic --typescript
+          npx create-docusaurus@latest temp-docs classic --typescript --skip-install
           cd temp-docs
           npm install
 
@@ -47,7 +46,27 @@ jobs:
         run: |
           cd temp-docs
           mkdir -p docs
-          cp -r ../wiki-content/* docs/
+          
+          # Copiar el contenido de la wiki
+          cp -r ../wiki-source/* docs/
+          
+          # Asegurar que existe un index.md
+          if [ ! -f "docs/Home.md" ]; then
+            echo "# Kaizen Wiki" > docs/index.md
+          else
+            cp docs/Home.md docs/index.md
+          fi
+          
+          # Generar sidebar.js automáticamente
+          echo "Generando sidebar.js..."
+          echo "const sidebars = {
+            tutorialSidebar: [
+              'index',
+              $(find docs -type f -name "*.md" ! -name "index.md" -exec basename {} .md \; | sed 's/^/"\0",/' | tr '\n' ' ')
+            ],
+          };
+          
+          module.exports = sidebars;" > sidebars.js
           
           cat > docusaurus.config.js << 'EOF'
           module.exports = {
@@ -66,8 +85,9 @@ jobs:
                 'classic',
                 {
                   docs: {
-                    routeBasePath: 'wiki',
+                    routeBasePath: '/',
                     sidebarPath: require.resolve('./sidebars.js'),
+                    editUrl: 'https://github.com/mgrl39/kaizen/wiki/',
                   },
                   blog: false,
                   theme: {
@@ -81,14 +101,9 @@ jobs:
                 title: 'Kaizen Documentation',
                 items: [
                   {
-                    to: '/',
-                    label: 'API Docs',
-                    position: 'left',
-                  },
-                  {
-                    to: '/wiki',
+                    href: 'https://github.com/mgrl39/kaizen/wiki',
                     label: 'Wiki',
-                    position: 'left',
+                    position: 'right',
                   },
                   {
                     href: 'https://github.com/mgrl39/kaizen',
@@ -106,33 +121,18 @@ jobs:
           cd temp-docs
           npm run build
 
-      - name: Prepare for Deployment
-        run: |
-          # Obtener la documentación actual de gh-pages
-          git fetch origin gh-pages:gh-pages || true
-          git checkout gh-pages || git checkout --orphan gh-pages
-          
-          # Mantener la documentación de Doxygen
-          mkdir -p wiki
-          cp -r temp-docs/build/* wiki/
-          
-          # Asegurar que .nojekyll existe
-          touch .nojekyll
-
-      - name: Debug Information
-        run: |
-          echo "Contenido del directorio actual:"
-          ls -la
-          echo "Contenido del directorio wiki:"
-          ls -la wiki/
-
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
+          publish_dir: ./temp-docs/build
           publish_branch: gh-pages
           force_orphan: false
           enable_jekyll: false
           commit_message: 'docs: update wiki documentation'
           keep_files: true
+
+      - name: Debug Information
+        run: |
+          echo "Contenido del directorio build:"
+          ls -la temp-docs/build/
