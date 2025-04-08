@@ -6,10 +6,6 @@
         </a>
         
         <div class="d-flex align-items-center">
-            <button class="btn rounded-circle d-md-none me-2" id="darkModeToggle" style="background-color: var(--tertiary-bg);">
-                <i class="fa-solid fa-sun" style="color: var(--warning-color);" id="lightIcon"></i>
-                <i class="fa-solid fa-moon d-none" style="color: var(--primary-color);" id="darkIcon"></i>
-            </button>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" style="border-color: var(--border-color);">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -78,13 +74,6 @@
                         </ul>
                     </li>
                 @endauth
-                
-                <li class="nav-item d-none d-md-block">
-                    <button class="btn rounded-circle ms-2" id="darkModeToggleLg" style="background-color: var(--tertiary-bg);">
-                        <i class="fa-solid fa-sun" style="color: var(--warning-color);" id="lightIconLg"></i>
-                        <i class="fa-solid fa-moon d-none" style="color: var(--primary-color);" id="darkIconLg"></i>
-                    </button>
-                </li>
             </ul>
         </div>
     </div>
@@ -92,42 +81,6 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // --- Gestión de Tema Oscuro ---
-    // Check for dark mode preference
-    const darkMode = localStorage.getItem('darkMode') === 'true';
-    
-    // Function to toggle dark/light mode
-    function toggleDarkMode(isDark) {
-        if (isDark) {
-            document.body.classList.remove('light-theme');
-            
-            // Toggle icons
-            document.querySelectorAll('#lightIcon, #lightIconLg').forEach(icon => icon.classList.add('d-none'));
-            document.querySelectorAll('#darkIcon, #darkIconLg').forEach(icon => icon.classList.remove('d-none'));
-        } else {
-            document.body.classList.add('light-theme');
-            
-            // Toggle icons
-            document.querySelectorAll('#lightIcon, #lightIconLg').forEach(icon => icon.classList.remove('d-none'));
-            document.querySelectorAll('#darkIcon, #darkIconLg').forEach(icon => icon.classList.add('d-none'));
-        }
-        
-        // Save preference
-        localStorage.setItem('darkMode', isDark);
-    }
-    
-    // Initialize
-    toggleDarkMode(darkMode);
-    
-    // Add event listeners to both toggle buttons
-    document.getElementById('darkModeToggle').addEventListener('click', function() {
-        toggleDarkMode(!document.body.classList.contains('light-theme'));
-    });
-    
-    document.getElementById('darkModeToggleLg').addEventListener('click', function() {
-        toggleDarkMode(!document.body.classList.contains('light-theme'));
-    });
-
     // --- Gestión de Autenticación en la interfaz (solo para JWT) ---
     // Solo ejecutamos esta lógica si no hay sesión de Laravel activa
     if (!document.querySelector('.auth-user.d-none')) {
