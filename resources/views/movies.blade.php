@@ -1,49 +1,86 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Películas</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body { font-family: sans-serif; padding: 2rem; background: #f9f9f9; }
-        .movie { background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .movie img { max-width: 100%; height: auto; }
-        .empty { color: gray; font-style: italic; }
-    </style>
-</head>
-<body>
-    <h1>🎬 Lista de Películas</h1>
-    <div id="movies"></div>
+@extends('layouts.app')
 
-    <script>
-        fetch('/api/movies')
-            .then(res => res.json())
-            .then(data => {
-                const container = document.getElementById('movies');
+@section('title', 'Películas')
 
-                if (!data.success || data.count === 0) {
-                    container.innerHTML = `<p class="empty">No hay películas registradas.</p>`;
-                    return;
-                }
+@section('content')
+<div class="container py-5">
+    <h1 class="text-center mb-5 animate__animated animate__fadeInDown" style="color: var(--text-primary);">
+        <i class="fa-solid fa-film me-2" style="color: var(--primary-color);"></i>
+        Lista de Películas
+    </h1>
 
-                data.data.forEach(movie => {
-                    const div = document.createElement('div');
-                    div.classList.add('movie');
-                    div.innerHTML = `
-                        <h2>${movie.title}</h2>
-                        <p><strong>Duración:</strong> ${movie.duration} min</p>
-                        <p><strong>Fecha de estreno:</strong> ${movie.release_date}</p>
-                        <p>${movie.synopsis}</p>
-                        <img src="${movie.photo_url}" alt="${movie.title}">
-                    `;
-                    container.appendChild(div);
-                });
-            })
-            .catch(error => {
-                document.getElementById('movies').innerHTML = `<p class="empty">Error cargando películas.</p>`;
-                console.error('Error al obtener películas:', error);
+    <div id="movies" class="row g-4">
+        <!-- Las películas se cargarán aquí dinámicamente -->
+    </div>
+
+    <div id="loading" class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+
+    <div id="empty-message" class="text-center py-5 d-none" style="color: var(--text-secondary);">
+        <i class="fa-solid fa-film-slash fa-3x mb-3"></i>
+        <p class="h4">No hay películas disponibles en este momento.</p>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const moviesContainer = document.getElementById('movies');
+    const loadingElement = document.getElementById('loading');
+    const emptyMessage = document.getElementById('empty-message');
+
+    async function loadMovies() {
+        try {
+            const response = await fetch('/api/movies');
+            const data = await response.json();
+
+            loadingElement.classList.add('d-none');
+
+            if (!data.success || data.count === 0) {
+                emptyMessage.classList.remove('d-none');
+                return;
+            }
+
+            data.data.forEach(movie => {
+                const movieCard = document.createElement('div');
+                movieCard.className = 'col-md-6 col-lg-4 animate__animated animate__fadeInUp';
+                movieCard.innerHTML = `
+                    <div class="card h-100" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <img src="${movie.photo_url}" class="card-img-top" alt="${movie.title}" style="height: 300px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title" style="color: var(--text-primary);">${movie.title}</h5>
+                            <p class="card-text" style="color: var(--text-secondary);">${movie.synopsis}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">
+                                    <i class="fa-solid fa-clock me-1"></i>
+                                    ${movie.duration} min
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fa-solid fa-calendar me-1"></i>
+                                    ${new Date(movie.release_date).toLocaleDateString()}
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                moviesContainer.appendChild(movieCard);
             });
-    </script>
-</body>
-</html>
+        } catch (error) {
+            console.error('Error al cargar películas:', error);
+            loadingElement.classList.add('d-none');
+            emptyMessage.classList.remove('d-none');
+            emptyMessage.innerHTML = `
+                <i class="fa-solid fa-exclamation-triangle fa-3x mb-3" style="color: var(--danger-color);"></i>
+                <p class="h4">Error al cargar las películas.</p>
+                <p class="text-muted">Por favor, intenta nuevamente más tarde.</p>
+            `;
+        }
+    }
+
+    loadMovies();
+});
+</script>
+@endsection
 

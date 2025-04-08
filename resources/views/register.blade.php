@@ -3,89 +3,106 @@
 @section('title', 'Registro')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card shadow-sm border-0 my-5">
-                <div class="card-body p-4 p-sm-5">
-                    <!-- Logo -->
-                    <div class="text-center mb-4">
-                        <i class="fas fa-film text-primary fs-1"></i>
-                    </div>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 200px);">
+    <div class="col-md-6 col-lg-4 animate__animated animate__fadeIn">
+        <div class="card border-0 shadow-lg" style="background-color: var(--card-bg); border-color: var(--border-color);">
+            <div class="card-body p-4 p-sm-5">
+                <!-- Logo -->
+                <div class="text-center mb-4 animate__animated animate__fadeInDown">
+                    <i class="fa-solid fa-film fs-1" style="color: var(--primary-color);"></i>
+                </div>
 
-                    <!-- Título -->
-                    <h2 class="text-center mb-4 fw-semibold">
-                        {{ __('Crear cuenta') }}
-                    </h2>
+                <!-- Título -->
+                <h2 class="text-center mb-4 fw-semibold animate__animated animate__fadeInDown" style="color: var(--text-primary);">
+                    {{ __('Crear cuenta') }}
+                </h2>
 
-                    <!-- Alertas -->
-                    <div id="alert-success" class="alert alert-success alert-dismissible fade d-none" role="alert">
-                        <span id="success-message"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    <div id="alert-error" class="alert alert-danger alert-dismissible fade d-none" role="alert">
-                        <span id="error-message"></span>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                <!-- Alertas -->
+                <div id="alert-success" class="alert alert-success alert-dismissible fade d-none animate__animated animate__fadeIn" role="alert" style="background-color: var(--success-color); color: white; border: none;">
+                    <span id="success-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div id="alert-error" class="alert alert-danger alert-dismissible fade d-none animate__animated animate__fadeIn" role="alert" style="background-color: var(--danger-color); color: white; border: none;">
+                    <span id="error-message"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
 
-                    <!-- Debug Info (oculto en producción) -->
-                    <div id="debug-info" class="alert alert-info d-none">
-                        <h6>Información de Depuración:</h6>
-                        <pre id="debug-content" style="white-space: pre-wrap; max-height: 200px; overflow-y: auto;"></pre>
-                    </div>
+                <!-- Debug Info (oculto en producción) -->
+                <div id="debug-info" class="alert alert-info d-none">
+                    <h6>Información de Depuración:</h6>
+                    <pre id="debug-content" style="white-space: pre-wrap; max-height: 200px; overflow-y: auto;"></pre>
+                </div>
 
-                    <!-- Formulario -->
-                    <form id="register-form" class="needs-validation" novalidate>
-                        @csrf
+                <!-- Formulario -->
+                <form id="register-form" class="needs-validation" novalidate>
+                    @csrf
 
-                        <div class="mb-3">
+                    <div class="mb-3 animate__animated animate__fadeInUp">
+                        <div class="input-group">
+                            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">
+                                <i class="fa-solid fa-user" style="color: var(--text-secondary);"></i>
+                            </span>
                             <input type="text"
                                 id="name"
                                 name="name"
                                 placeholder="{{ __('Nombre de usuario') }}"
                                 class="form-control"
+                                style="background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border);"
                                 required>
-                            <div class="invalid-feedback" id="name-error"></div>
                         </div>
+                        <div class="invalid-feedback" id="name-error" style="color: var(--danger-color);"></div>
+                    </div>
 
-                        <div class="mb-3">
+                    <div class="mb-3 animate__animated animate__fadeInUp">
+                        <div class="input-group">
+                            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">
+                                <i class="fa-solid fa-envelope" style="color: var(--text-secondary);"></i>
+                            </span>
                             <input type="email"
                                 id="email"
                                 name="email"
                                 placeholder="{{ __('Email') }}"
                                 class="form-control"
+                                style="background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border);"
                                 required>
-                            <div class="invalid-feedback" id="email-error"></div>
                         </div>
+                        <div class="invalid-feedback" id="email-error" style="color: var(--danger-color);"></div>
+                    </div>
 
-                        <div class="mb-4">
+                    <div class="mb-4 animate__animated animate__fadeInUp">
+                        <div class="input-group">
+                            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">
+                                <i class="fa-solid fa-lock" style="color: var(--text-secondary);"></i>
+                            </span>
                             <input type="password"
                                 id="password"
                                 name="password"
                                 placeholder="{{ __('Contraseña') }}"
                                 class="form-control"
+                                style="background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border);"
                                 required
                                 minlength="8">
-                            <div class="invalid-feedback" id="password-error"></div>
                         </div>
+                        <div class="invalid-feedback" id="password-error" style="color: var(--danger-color);"></div>
+                    </div>
 
-                        <div class="d-grid">
-                            <button type="submit"
-                                    id="submit-btn"
-                                    class="btn btn-primary">
-                                {{ __('Registrarse') }}
-                            </button>
-                        </div>
-                    </form>
+                    <div class="d-grid animate__animated animate__fadeInUp">
+                        <button type="submit"
+                                id="submit-btn"
+                                class="btn btn-primary btn-lg"
+                                style="background-color: var(--primary-color); border-color: var(--primary-color);">
+                            {{ __('Registrarse') }}
+                        </button>
+                    </div>
+                </form>
 
-                    <!-- Enlace a login -->
-                    <p class="text-center text-muted mt-4 mb-0">
-                        {{ __('¿Ya tienes cuenta?') }}
-                        <a href="/login" class="text-decoration-none">
-                            {{ __('Iniciar sesión') }}
-                        </a>
-                    </p>
-                </div>
+                <!-- Enlace a login -->
+                <p class="text-center mt-4 mb-0 animate__animated animate__fadeInUp" style="color: var(--text-secondary);">
+                    {{ __('¿Ya tienes cuenta?') }}
+                    <a href="/login" class="text-decoration-none" style="color: var(--primary-color);">
+                        {{ __('Iniciar sesión') }}
+                    </a>
+                </p>
             </div>
         </div>
     </div>
@@ -117,21 +134,19 @@
             debugInfo.classList.remove('d-none');
         }
 
-        // Función para mostrar mensajes
+        // Función para mostrar mensajes con animación
         function showMessage(isSuccess, message) {
-            if (isSuccess) {
-                successMessage.textContent = message;
-                alertSuccess.classList.add('show');
-                alertSuccess.classList.remove('d-none');
-                alertError.classList.add('d-none');
-                alertError.classList.remove('show');
-            } else {
-                errorMessage.textContent = message;
-                alertError.classList.add('show');
-                alertError.classList.remove('d-none');
-                alertSuccess.classList.add('d-none');
-                alertSuccess.classList.remove('show');
-            }
+            const alert = isSuccess ? alertSuccess : alertError;
+            const messageElement = isSuccess ? successMessage : errorMessage;
+            
+            messageElement.textContent = message;
+            alert.classList.remove('d-none');
+            alert.classList.add('show', 'animate__fadeIn');
+            
+            // Ocultar el otro mensaje
+            const otherAlert = isSuccess ? alertError : alertSuccess;
+            otherAlert.classList.add('d-none');
+            otherAlert.classList.remove('show');
         }
 
         form.addEventListener('submit', async function(e) {
@@ -166,23 +181,8 @@
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
             
             try {
-                // Get CSRF token
                 const token = document.querySelector('input[name="_token"]').value;
                 
-                const requestInfo = {
-                    url: '/api/register',
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': token
-                    },
-                    body: JSON.stringify(formData)
-                };
-                
-                console.log('Request info:', requestInfo);
-                
-                // Send API request
                 const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: {
@@ -193,38 +193,9 @@
                     body: JSON.stringify(formData)
                 });
                 
-                // Mostrar información sobre la respuesta
-                console.log('Response status:', response.status);
-                console.log('Response headers:', [...response.headers.entries()]);
-                console.log('Response ok:', response.ok);
+                const data = await response.json();
                 
-                // Intentar obtener el cuerpo de la respuesta
-                const responseText = await response.text();
-                console.log('Response text:', responseText);
-                
-                let data;
-                try {
-                    // Convertir la respuesta a JSON
-                    data = JSON.parse(responseText);
-                    console.log('Response data:', data);
-                    
-                    // Mostrar para debug
-                    const responseInfo = {
-                        status: response.status,
-                        ok: response.ok,
-                        data: data
-                    };
-                    showDebugInfo(responseInfo, 'Respuesta del servidor');
-                } catch (parseError) {
-                    console.error('Error parsing JSON:', parseError);
-                    showMessage(false, 'Error al procesar la respuesta del servidor');
-                    showDebugInfo(responseText, 'Respuesta no JSON');
-                    return;
-                }
-                
-                // Comprobar si la respuesta es correcta
                 if (!response.ok) {
-                    // Handle validation errors
                     if (response.status === 422 && data.errors) {
                         Object.keys(data.errors).forEach(key => {
                             const errorElement = document.getElementById(`${key}-error`);
@@ -235,43 +206,27 @@
                         });
                         showMessage(false, 'Por favor corrige los errores en el formulario');
                     } else {
-                        // Mostrar más detalles sobre el error
-                        let errorMsg = data.message || 'Error en el registro';
-                        if (data.details) {
-                            errorMsg += ` (${data.details.file}:${data.details.line})`;
-                        }
-                        throw new Error(errorMsg);
+                        throw new Error(data.message || 'Error en el registro');
                     }
-                } else if (data && data.success === true) {
-                    // Success - respuesta correcta
+                } else {
                     showMessage(true, 'Registro exitoso. Redirigiendo...');
                     
-                    // Store token if returned
                     if (data.token) {
                         localStorage.setItem('auth_token', data.token);
                     }
                     
-                    // Guardar datos del usuario
                     if (data.user) {
                         localStorage.setItem('auth_user', JSON.stringify(data.user));
                     }
                     
-                    // Redirect after success - Usar window.location.href para redirección GET
                     setTimeout(() => {
-                        // Usar window.location.href para garantizar que sea GET
                         window.location.href = '/login';
                     }, 2000);
-                } else {
-                    // Response was OK but success flag not present or not true
-                    console.error('Formato de respuesta incorrecto:', data);
-                    throw new Error('La respuesta del servidor no tiene el formato esperado');
                 }
             } catch (error) {
                 console.error('Registration error:', error);
-                // Handle network errors
                 showMessage(false, error.message || 'Ha ocurrido un error inesperado');
             } finally {
-                // Reset button state
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '{{ __("Registrarse") }}';
             }
