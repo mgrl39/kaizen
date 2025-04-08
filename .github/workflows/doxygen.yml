@@ -37,22 +37,8 @@ jobs:
           # Crear .nojekyll para deshabilitar Jekyll
           touch docs/.nojekyll
 
-          # Crear un archivo index.html de redirección si no existe
-          if [ ! -f "docs/index.html" ]; then
-            echo "Creando index.html de redirección..."
-            cat > docs/index.html << 'EOL'
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Kaizen Framework Documentation</title>
-    <meta http-equiv="refresh" content="0; url=./index.html">
-</head>
-<body>
-    <p>Redirecting to <a href="./index.html">documentation</a>...</p>
-</body>
-</html>
-EOL
-          fi
+          # No es necesario crear index.html de redirección, ya que Doxygen generará su propio index.html
+          # Ya que HTML_OUTPUT = . en Doxyfile, el index.html ya estará en la raíz de docs/
 
       - name: Debug Information
         run: |
@@ -72,3 +58,4 @@ EOL
           force_orphan: true
           enable_jekyll: false
           commit_message: 'docs: update documentation'
+          keep_files: false
