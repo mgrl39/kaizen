@@ -32,17 +32,43 @@
                 @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
-                            <i class="fa-solid fa-user-circle me-2" style="color: var(--primary-color);"></i><span>{{ Auth::user()->username ?? Auth::user()->name }}</span>
+                            <div class="d-flex align-items-center">
+                                <div class="profile-image-container me-2">
+                                    @if(Auth::user()->avatar)
+                                        <img src="{{ Auth::user()->avatar }}" alt="Profile" class="rounded-circle" width="32" height="32">
+                                    @else
+                                        <i class="fa-solid fa-user-circle fs-4" style="color: var(--primary-color);"></i>
+                                    @endif
+                                </div>
+                                <span>{{ Auth::user()->username ?? Auth::user()->name }}</span>
+                            </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="background-color: var(--card-bg); border-color: var(--border-color);">
-                            <li><a class="dropdown-item" href="/profile" style="color: var(--text-primary);"><i class="fa-solid fa-id-card me-2" style="color: var(--primary-color);"></i>Mi Perfil</a></li>
-                            <li><a class="dropdown-item" href="/bookings" style="color: var(--text-primary);"><i class="fa-solid fa-ticket-alt me-2" style="color: var(--primary-color);"></i>Mis Reservas</a></li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.show') }}" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-user me-2" style="color: var(--primary-color);"></i>
+                                    Mi Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-cog me-2" style="color: var(--primary-color);"></i>
+                                    Editar Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/bookings" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-ticket-alt me-2" style="color: var(--primary-color);"></i>
+                                    Mis Reservas
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider" style="border-color: var(--border-color);"></li>
                             <li>
-                                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                <form action="{{ route('logout') }}" method="POST" class="d-inline w-100">
                                     @csrf
-                                    <button type="submit" class="dropdown-item" style="color: var(--text-primary);">
-                                        <i class="fa-solid fa-sign-out-alt me-2" style="color: var(--danger-color);"></i>Cerrar Sesión
+                                    <button type="submit" class="dropdown-item d-flex align-items-center" style="color: var(--text-primary);">
+                                        <i class="fa-solid fa-sign-out-alt me-2" style="color: var(--danger-color);"></i>
+                                        Cerrar Sesión
                                     </button>
                                 </form>
                             </li>
@@ -64,13 +90,40 @@
                     <!-- Menú de usuario JWT - Oculto por defecto -->
                     <li class="nav-item dropdown auth-user d-none">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
-                            <i class="fa-solid fa-user-circle me-2" style="color: var(--primary-color);"></i><span id="username-display">Usuario</span>
+                            <div class="d-flex align-items-center">
+                                <div class="profile-image-container me-2">
+                                    <img id="user-avatar" src="" alt="Profile" class="rounded-circle d-none" width="32" height="32">
+                                    <i class="fa-solid fa-user-circle fs-4 avatar-placeholder" style="color: var(--primary-color);"></i>
+                                </div>
+                                <span id="username-display">Usuario</span>
+                            </div>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="background-color: var(--card-bg); border-color: var(--border-color);">
-                            <li><a class="dropdown-item" href="/profile" style="color: var(--text-primary);"><i class="fa-solid fa-id-card me-2" style="color: var(--primary-color);"></i>Mi Perfil</a></li>
-                            <li><a class="dropdown-item" href="/bookings" style="color: var(--text-primary);"><i class="fa-solid fa-ticket-alt me-2" style="color: var(--primary-color);"></i>Mis Reservas</a></li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/profile" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-user me-2" style="color: var(--primary-color);"></i>
+                                    Mi Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/profile/edit" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-cog me-2" style="color: var(--primary-color);"></i>
+                                    Editar Perfil
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/bookings" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-ticket-alt me-2" style="color: var(--primary-color);"></i>
+                                    Mis Reservas
+                                </a>
+                            </li>
                             <li><hr class="dropdown-divider" style="border-color: var(--border-color);"></li>
-                            <li><a class="dropdown-item" href="#" id="logout-btn" style="color: var(--text-primary);"><i class="fa-solid fa-sign-out-alt me-2" style="color: var(--danger-color);"></i>Cerrar Sesión</a></li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="#" id="logout-btn" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-sign-out-alt me-2" style="color: var(--danger-color);"></i>
+                                    Cerrar Sesión
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endauth
@@ -78,6 +131,40 @@
         </div>
     </div>
 </nav>
+
+<style>
+.profile-image-container {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: var(--card-bg);
+    border: 2px solid var(--primary-color);
+}
+
+.profile-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-item:hover {
+    background-color: var(--primary-color);
+    color: white !important;
+}
+
+.dropdown-item:hover i {
+    color: white !important;
+}
+</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -102,6 +189,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     const usernameDisplay = document.getElementById('username-display');
                     if (usernameDisplay) {
                         usernameDisplay.textContent = userData.username || userData.name || 'Usuario';
+                    }
+                    
+                    // Actualizar avatar si existe
+                    const userAvatar = document.getElementById('user-avatar');
+                    const avatarPlaceholder = document.querySelector('.avatar-placeholder');
+                    if (userAvatar && userData.avatar) {
+                        userAvatar.src = userData.avatar;
+                        userAvatar.classList.remove('d-none');
+                        avatarPlaceholder.classList.add('d-none');
                     }
                     
                     return true;
