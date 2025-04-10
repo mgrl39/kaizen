@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\MovieController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\MovieController as MovieControllerAlias;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ use App\Http\Controllers\API\AuthController;
 
 // Rutas para películas
 Route::apiResource('/movies', MovieController::class);
-Route::get('/movies', [MovieController::class, 'index']);
+Route::get('/movies', [MovieControllerAlias::class, 'index']);
 Route::get('/movies/{id}', [MovieController::class, 'show']);
 Route::post('/movies', [MovieController::class, 'store']);
 Route::put('/movies/{id}', [MovieController::class, 'update']);
@@ -37,3 +38,28 @@ Route::middleware('auth:api')->group(
         // Route::get('me', [AuthController::class, 'me']);
     }
 );
+
+// O si quieres una ruta rápida para probar
+Route::get('/movies', function () {
+    return response()->json([
+        'success' => true,
+        'data' => [
+            [
+                'id' => 1,
+                'title' => 'Ejemplo Película 1',
+                'synopsis' => 'Esta es una sinopsis de ejemplo...',
+                'duration' => 120,
+                'release_date' => '2024-03-15',
+                'photo_url' => 'https://picsum.photos/800/600'
+            ],
+            [
+                'id' => 2,
+                'title' => 'Ejemplo Película 2',
+                'synopsis' => 'Otra sinopsis de ejemplo...',
+                'duration' => 95,
+                'release_date' => '2024-03-16',
+                'photo_url' => 'https://picsum.photos/800/601'
+            ]
+        ]
+    ]);
+});
