@@ -18,13 +18,8 @@ use App\Http\Controllers\MovieController as MovieControllerAlias;
 
 // Route::get('/server-status', [ServerStatusController::class, 'status']);
 
-// Rutas para películas
-Route::apiResource('/movies', MovieController::class);
-Route::get('/movies', [MovieController::class, 'index']);
-Route::get('/movies/{id}', [MovieController::class, 'show']);
-Route::post('/movies', [MovieController::class, 'store']);
-Route::put('/movies/{id}', [MovieController::class, 'update']);
-Route::delete('/movies/{id}', [MovieController::class, 'destroy']);
+// Rutas para películas (simplificadas)
+Route::apiResource('movies', MovieController::class);
 
 // Rutas de autenticación
 Route::post('/register', [AuthController::class, 'register']);

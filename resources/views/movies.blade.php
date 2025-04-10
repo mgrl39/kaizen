@@ -30,11 +30,16 @@
 @endsection
 
 @section('content')
-<div class="container py-5" x-data="movies">
+<div class="container py-5" x-data="movies" x-init="$watch('error', value => console.log('Error:', value))">
     <h1 class="text-center mb-5 text-white">
         <i class="fa-solid fa-film me-2 text-primary"></i>
         Lista de Películas
     </h1>
+
+    <!-- Debug info -->
+    <div x-show="loading">Cargando...</div>
+    <div x-show="error" x-text="error" class="alert alert-danger"></div>
+    <div x-show="moviesList.length === 0 && !loading">No hay películas</div>
 
     <!-- Grid de películas -->
     <div class="row g-4">
@@ -61,8 +66,11 @@
         <div class="spinner-border text-primary"></div>
     </div>
 
-    <!-- Sin películas -->
-    <div class="text-center py-5" x-show="!loading && moviesList.length === 0">
+    <!-- Después del loading spinner -->
+    <div class="alert alert-danger text-center" x-show="error" x-text="error"></div>
+
+    <!-- Sin películas (actualizado) -->
+    <div class="text-center py-5" x-show="!loading && !error && moviesList.length === 0">
         <i class="fas fa-film-slash fa-3x mb-3 text-white"></i>
         <p class="h4 text-white">No hay películas disponibles</p>
     </div>
@@ -108,47 +116,68 @@
 @section('scripts')
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-document.addEventListener('alpine:init', () => {
-    Alpine.data('movies', () => ({
-        moviesList: [],
-        loading: true,
-        selectedMovie: null,
-        modal: null,
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('movies', () => ({
+            moviesList: [],
+            loading: true,
+            selectedMovie: null,
+            modal: null,
+            error: null,
 
-        async init() {
-            AOS.init({ duration: 800, once: true });
-            this.modal = new bootstrap.Modal(document.getElementById('movieModal'));
-            await this.loadMovies();
-        },
+            async init() {
+                try {
+                    AOS.init({ duration: 800, once: true });
+                    this.modal = new bootstrap.Modal(document.getElementById('movieModal'));
+                    await this.loadMovies();
+                } catch (error) {
+                    console.error('Error en init:', error);
+                }
+            },
 
-        async loadMovies() {
-            try {
-                const response = await fetch('/api/movies');
-                const data = await response.json();
-                console.log('API Response:', data); // Para debug
-                this.moviesList = data.data || [];
-            } catch (error) {
-                console.error('Error:', error);
-                this.moviesList = [];
-            } finally {
-                this.loading = false;
+            async loadMovies() {
+                try {
+                    console.log('Cargando películas...'); // Debug
+                    const response = await fetch('/api/movies');
+                    console.log('Respuesta recibida:', response); // Debug
+                    
+                    if (!response.ok) {
+                        throw new Error(`Error HTTP: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('Datos recibidos:', data); // Debug
+                    
+                    if (data.success) {
+                        this.moviesList = data.data;
+                        console.log('Películas cargadas:', this.moviesList.length); // Debug
+                    } else {
+                        throw new Error(data.message || 'Error al cargar las películas');
+                    }
+                } catch (error) {
+                    console.error('Error al cargar las películas:', error);
+                    this.error = error.message;
+                    this.moviesList = [];
+                } finally {
+                    this.loading = false;
+                }
+            },
+
+            selectMovie(movie) {
+                console.log('Película seleccionada:', movie); // Debug
+                this.selectedMovie = movie;
+                this.modal.show();
+            },
+
+            formatDate(date) {
+                if (!date) return '';
+                return new Date(date).toLocaleDateString();
+            },
+
+            reserveMovie() {
+                alert('Función de reserva en desarrollo');
             }
-        },
-
-        selectMovie(movie) {
-            this.selectedMovie = movie;
-            this.modal.show();
-        },
-
-        formatDate(date) {
-            return new Date(date).toLocaleDateString();
-        },
-
-        reserveMovie() {
-            alert('Función de reserva en desarrollo');
-        }
-    }));
-});
+        }));
+    });
 </script>
 @endsection
 
