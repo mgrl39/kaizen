@@ -21,17 +21,14 @@ class MovieController extends Controller
     public function index()
     {
         $movies = Movie::all();
-        return response()->json(
-            [
-                'success' => true,
-                'count' => $movies->count(),
-                'data' => $movies,
-                'message' => $movies->isEmpty() ?
-                'No hay peliculas registradas.' : 'Peliculas cargadas correctamente',
-            ],
-            200
-        );
-        return response()->json($movies);
+        return response()->json([
+            'success' => true,
+            'count' => $movies->count(),
+            'data' => $movies,
+            'message' => $movies->isEmpty() ? 
+                'No hay películas registradas.' : 
+                'Películas cargadas correctamente'
+        ]);
     }
 
     /**

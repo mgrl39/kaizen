@@ -31,31 +31,24 @@
 
 @section('content')
 <div class="container py-5" x-data="movies">
-    <h1 class="text-center mb-5 text-white" data-aos="fade-down">
+    <h1 class="text-center mb-5 text-white">
         <i class="fa-solid fa-film me-2 text-primary"></i>
         Lista de Películas
     </h1>
 
     <!-- Grid de películas -->
-    <div class="row g-4" id="movies">
+    <div class="row g-4">
         <template x-for="movie in moviesList" :key="movie.id">
-            <div class="col-md-6 col-lg-4" data-aos="fade-up">
-                <div class="card h-100 movie-card" @click="selectMovie(movie)">
-                    <div class="position-relative">
-                        <img :src="movie.photo_url" :alt="movie.title" 
-                             class="card-img-top" style="height: 300px; object-fit: cover;">
-                        <div class="movie-overlay">
-                            <button class="btn btn-primary rounded-pill px-4">
-                                <i class="fa-solid fa-info-circle me-2"></i>Ver Detalles
-                            </button>
-                        </div>
-                    </div>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 glass-card" @click="selectMovie(movie)">
+                    <img :src="movie.photo_url" :alt="movie.title" 
+                         class="card-img-top" style="height: 300px; object-fit: cover;">
                     <div class="card-body text-white">
                         <h5 class="card-title" x-text="movie.title"></h5>
-                        <p class="card-text text-white-50" x-text="truncate(movie.synopsis, 100)"></p>
-                        <div class="d-flex justify-content-between align-items-center text-white-50">
-                            <small><i class="fa-solid fa-clock me-1"></i><span x-text="movie.duration + ' min'"></span></small>
-                            <small><i class="fa-solid fa-calendar me-1"></i><span x-text="formatDate(movie.release_date)"></span></small>
+                        <p class="card-text text-white-50" x-text="movie.synopsis"></p>
+                        <div class="d-flex justify-content-between">
+                            <small><i class="fas fa-clock me-1"></i><span x-text="movie.duration + ' min'"></span></small>
+                            <small><i class="fas fa-calendar me-1"></i><span x-text="formatDate(movie.release_date)"></span></small>
                         </div>
                     </div>
                 </div>
@@ -65,16 +58,13 @@
 
     <!-- Loading -->
     <div class="text-center py-5" x-show="loading">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
-        </div>
-        <p class="text-white mt-3">Cargando películas...</p>
+        <div class="spinner-border text-primary"></div>
     </div>
 
-    <!-- Mensaje vacío -->
-    <div class="text-center py-5 text-white" x-show="!loading && moviesList.length === 0">
-        <i class="fa-solid fa-film-slash fa-3x mb-3"></i>
-        <p class="h4">No hay películas disponibles en este momento.</p>
+    <!-- Sin películas -->
+    <div class="text-center py-5" x-show="!loading && moviesList.length === 0">
+        <i class="fas fa-film-slash fa-3x mb-3 text-white"></i>
+        <p class="h4 text-white">No hay películas disponibles</p>
     </div>
 
     <!-- Modal -->
@@ -135,10 +125,10 @@ document.addEventListener('alpine:init', () => {
             try {
                 const response = await fetch('/api/movies');
                 const data = await response.json();
-                console.log('Datos recibidos:', data); // Debug
-                this.moviesList = data.success ? data.data : [];
+                console.log('API Response:', data); // Para debug
+                this.moviesList = data.data || [];
             } catch (error) {
-                console.error('Error al cargar películas:', error);
+                console.error('Error:', error);
                 this.moviesList = [];
             } finally {
                 this.loading = false;
@@ -152,10 +142,6 @@ document.addEventListener('alpine:init', () => {
 
         formatDate(date) {
             return new Date(date).toLocaleDateString();
-        },
-
-        truncate(text, length) {
-            return text?.length > length ? text.substring(0, length) + '...' : text;
         },
 
         reserveMovie() {
