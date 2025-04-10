@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md fixed-top" style="background-color: var(--secondary-bg); border-bottom: 1px solid var(--border-color);">
     <div class="container">
         <a href="/" class="navbar-brand d-flex align-items-center">
-            <i class="fa-solid fa-film fs-3" style="color: var(--primary-color);"></i>
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Kaizen Logo" class="navbar-logo">
             <span class="ms-2 fw-bold" style="color: var(--text-primary);">Kaizen</span>
         </a>
         
@@ -75,16 +75,28 @@
                         </ul>
                     </li>
                 @else
-                    <!-- Zona de autenticación por JWT - Gestionada por JS cuando no hay sesión -->
-                    <li class="nav-item auth-guest">
-                        <a href="/login" class="nav-link d-flex align-items-center" style="color: var(--text-primary);">
-                            <i class="fa-solid fa-sign-in-alt me-2" style="color: var(--primary-color);"></i>Iniciar Sesión
+                    <!-- Reemplazar los dos botones por un dropdown de autenticación -->
+                    <li class="nav-item dropdown auth-guest">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
+                            <div class="d-flex align-items-center">
+                                <i class="fa-solid fa-user-lock me-2" style="color: var(--primary-color);"></i>
+                                <span>Autenticar</span>
+                            </div>
                         </a>
-                    </li>
-                    <li class="nav-item auth-guest">
-                        <a href="/register" class="nav-link d-flex align-items-center" style="color: var(--text-primary);">
-                            <i class="fa-solid fa-user-plus me-2" style="color: var(--primary-color);"></i>Registrarse
-                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="authDropdown" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/login" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-sign-in-alt me-2" style="color: var(--primary-color);"></i>
+                                    Iniciar Sesión
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center" href="/register" style="color: var(--text-primary);">
+                                    <i class="fa-solid fa-user-plus me-2" style="color: var(--primary-color);"></i>
+                                    Registrarse
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     
                     <!-- Menú de usuario JWT - Oculto por defecto -->
@@ -163,6 +175,12 @@
 
 .dropdown-item:hover i {
     color: white !important;
+}
+
+.navbar-logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
 }
 </style>
 
