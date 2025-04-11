@@ -24,19 +24,21 @@ class CinemaFactory extends Factory
      */
     public function definition()
     {
-        $cities = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Zaragoza', 'Málaga', 'Murcia'];
-        $cinemaNames = ['Cinesa', 'Yelmo Cines', 'Kinépolis', 'Cine Capitol', 'MK2', 'Artistic Metropol', 'Cinestar', 'Ocine'];
-        
+        $cities = ['Madrid', 'Barcelona', 'Valencia'];
+        $cinemaNames = ['Cinesa', 'Yelmo Cines'];
+
         return [
-            'name' => $this->faker->randomElement($cinemaNames) . ' ' . $this->faker->word(),
-            'location' => $this->faker->streetAddress() . ', ' . $this->faker->randomElement($cities),
+            'name' => $this->faker->randomElement($cinemaNames) . \
+                ' ' . $this->faker->word(),
+            'location' => $this->faker->streetAddress() .
+                \ ', ' . $this->faker->randomElement($cities),
             'created_at' => $this->faker->dateTimeBetween('-2 years', 'now'),
             'updated_at' => function (array $attributes) {
                 return $this->faker->dateTimeBetween($attributes['created_at'], 'now');
             },
         ];
     }
-    
+
     /**
      * Indica que el cine es de una cadena específica (por ejemplo, Cinesa).
      *
@@ -50,7 +52,7 @@ class CinemaFactory extends Factory
             ];
         });
     }
-    
+
     /**
      * Indica que el cine está en Madrid.
      *
@@ -64,4 +66,4 @@ class CinemaFactory extends Factory
             ];
         });
     }
-} 
+}

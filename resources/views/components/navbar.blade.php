@@ -213,11 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
         function logout() {
             localStorage.removeItem('auth_token');
             localStorage.removeItem('auth_user');
-
-            // Actualizar la interfaz
             checkAuthentication();
-
-            // Redireccionar al inicio
             window.location.href = '/';
         }
         checkAuthentication();
