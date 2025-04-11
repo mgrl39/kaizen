@@ -6,7 +6,6 @@
 
 @section('content')
     <x-hero-slider />
-    <x-promo-section />
     <x-top-movies />
     <x-categories-section />
 @endsection
