@@ -2,38 +2,34 @@
 
 @section('title', 'Login')
 
-@section('content')
-<div class="container d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 200px);">
-    <div class="col-md-6 col-lg-4 animate__animated animate__fadeIn">
-        <div class="card border-0 shadow-lg" style="background-color: var(--card-bg); border-color: var(--border-color);">
-            <div class="card-body p-4 p-sm-5">
-                <!-- Logo -->
-                <div class="text-center mb-4 animate__animated animate__fadeInDown">
-                    <i class="fa-solid fa-film fs-1" style="color: var(--primary-color);"></i>
-                </div>
+@section('styles')
+<link rel="stylesheet" href="{{ asset('assets/styles/authentication.css') }}">
+@endsection
 
-                <!-- Título -->
-                <h2 class="text-center mb-4 fw-semibold animate__animated animate__fadeInDown" style="color: var(--text-primary);">
-                    {{ __('Hola de nuevo') }}
-                </h2>
+@section('content')
+<div class="auth-container">
+    <div class="auth-card rounded-4">
+        <div class="auth-content">
+            <!-- Sección de bienvenida -->
+            <div class="auth-welcome animate__animated animate__fadeInLeft">
+                <h1>¡Bienvenido de nuevo!</h1>
+                <p class="mb-4">Accede a tu cuenta para disfrutar de las mejores películas y series. Tu experiencia cinematográfica te espera.</p>
+            </div>
+
+            <!-- Formulario -->
+            <div class="auth-form animate__animated animate__fadeInRight">
+                <h2 class="text-white mb-4">Iniciar sesión</h2>
 
                 <!-- Alertas -->
-                <div id="alert-success" class="alert alert-success alert-dismissible fade d-none animate__animated animate__fadeIn" role="alert" style="background-color: var(--success-color); color: white; border: none;">
+                <div id="alert-success" class="alert alert-success alert-dismissible fade d-none" role="alert">
                     <span id="success-message"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <div id="alert-error" class="alert alert-danger alert-dismissible fade d-none animate__animated animate__fadeIn" role="alert" style="background-color: var(--danger-color); color: white; border: none;">
+                <div id="alert-error" class="alert alert-danger alert-dismissible fade d-none" role="alert">
                     <span id="error-message"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 
-                <!-- Debug Info (oculto en producción) -->
-                <div id="debug-info" class="alert alert-info d-none">
-                    <h6>Información de Depuración:</h6>
-                    <pre id="debug-content" style="white-space: pre-wrap; max-height: 200px; overflow-y: auto;"></pre>
-                </div>
-
-                <!-- Formulario -->
                 <form id="login-form" class="needs-validation" novalidate>
                     @csrf
 
@@ -79,12 +75,9 @@
                     </div>
                 </form>
 
-                <!-- Enlace a registro -->
-                <p class="text-center mt-4 mb-0 animate__animated animate__fadeInUp" style="color: var(--text-secondary);">
-                    {{ __('¿No tienes cuenta?') }}
-                    <a href="/register" class="text-decoration-none" style="color: var(--primary-color);">
-                        {{ __('Registrate') }}
-                    </a>
+                <p class="text-center mt-4 mb-0">
+                    <span class="text-white-50">¿No tienes cuenta?</span>
+                    <a href="/register" class="auth-link ms-2">Regístrate aquí</a>
                 </p>
             </div>
         </div>

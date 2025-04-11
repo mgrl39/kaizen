@@ -2,27 +2,30 @@
 
 @section('title', 'Registro')
 
-@section('content')
-<div class="container d-flex align-items-center justify-content-center" style="min-height: calc(100vh - 200px);">
-    <div class="col-md-6 col-lg-4 animate__animated animate__fadeIn">
-        <div class="card border-0 shadow-lg" style="background-color: var(--card-bg); border-color: var(--border-color);">
-            <div class="card-body p-4 p-sm-5">
-                <!-- Logo -->
-                <div class="text-center mb-4 animate__animated animate__fadeInDown">
-                    <i class="fa-solid fa-film fs-1" style="color: var(--primary-color);"></i>
-                </div>
+@section('styles')
+<link rel="stylesheet" href="{{ asset('assets/styles/authentication.css') }}">
+@endsection
 
-                <!-- Título -->
-                <h2 class="text-center mb-4 fw-semibold animate__animated animate__fadeInDown" style="color: var(--text-primary);">
-                    {{ __('Crear cuenta') }}
-                </h2>
+@section('content')
+<div class="auth-container">
+    <div class="auth-card rounded-4">
+        <div class="auth-content">
+            <!-- Sección de bienvenida -->
+            <div class="auth-welcome animate__animated animate__fadeInLeft">
+                <h1>¡Únete a nosotros!</h1>
+                <p class="mb-4">Crea tu cuenta y descubre un mundo de entretenimiento. Las mejores películas y series te esperan.</p>
+            </div>
+
+            <!-- Formulario -->
+            <div class="auth-form animate__animated animate__fadeInRight">
+                <h2 class="text-white mb-4">Crear cuenta</h2>
 
                 <!-- Alertas -->
-                <div id="alert-success" class="alert alert-success alert-dismissible fade d-none animate__animated animate__fadeIn" role="alert" style="background-color: var(--success-color); color: white; border: none;">
+                <div id="alert-success" class="alert alert-success alert-dismissible fade d-none" role="alert">
                     <span id="success-message"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                <div id="alert-error" class="alert alert-danger alert-dismissible fade d-none animate__animated animate__fadeIn" role="alert" style="background-color: var(--danger-color); color: white; border: none;">
+                <div id="alert-error" class="alert alert-danger alert-dismissible fade d-none" role="alert">
                     <span id="error-message"></span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -31,71 +34,64 @@
                 <form id="register-form" class="needs-validation" novalidate>
                     @csrf
 
-                    <div class="mb-3 animate__animated animate__fadeInUp">
+                    <div class="mb-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">
-                                <i class="fa-solid fa-user" style="color: var(--text-secondary);"></i>
+                            <span class="input-group-text">
+                                <i class="fa-solid fa-user text-white-50"></i>
                             </span>
                             <input type="text"
                                 id="name"
                                 name="name"
                                 placeholder="{{ __('Nombre de usuario') }}"
                                 class="form-control"
-                                style="background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border);"
                                 required>
                         </div>
-                        <div class="invalid-feedback" id="name-error" style="color: var(--danger-color);"></div>
+                        <div class="invalid-feedback" id="name-error"></div>
                     </div>
 
-                    <div class="mb-3 animate__animated animate__fadeInUp">
+                    <div class="mb-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">
-                                <i class="fa-solid fa-envelope" style="color: var(--text-secondary);"></i>
+                            <span class="input-group-text">
+                                <i class="fa-solid fa-envelope text-white-50"></i>
                             </span>
                             <input type="email"
                                 id="email"
                                 name="email"
                                 placeholder="{{ __('Email') }}"
                                 class="form-control"
-                                style="background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border);"
                                 required>
                         </div>
-                        <div class="invalid-feedback" id="email-error" style="color: var(--danger-color);"></div>
+                        <div class="invalid-feedback" id="email-error"></div>
                     </div>
 
-                    <div class="mb-4 animate__animated animate__fadeInUp">
+                    <div class="mb-4">
                         <div class="input-group">
-                            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">
-                                <i class="fa-solid fa-lock" style="color: var(--text-secondary);"></i>
+                            <span class="input-group-text">
+                                <i class="fa-solid fa-lock text-white-50"></i>
                             </span>
                             <input type="password"
                                 id="password"
                                 name="password"
                                 placeholder="{{ __('Contraseña') }}"
                                 class="form-control"
-                                style="background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border);"
                                 required
                                 minlength="8">
                         </div>
-                        <div class="invalid-feedback" id="password-error" style="color: var(--danger-color);"></div>
+                        <div class="invalid-feedback" id="password-error"></div>
                     </div>
 
-                    <div class="d-grid animate__animated animate__fadeInUp">
+                    <div class="d-grid">
                         <button type="submit"
                                 id="submit-btn"
-                                class="btn btn-primary btn-lg"
-                                style="background-color: var(--primary-color); border-color: var(--primary-color);">
+                                class="btn btn-primary btn-lg">
                             {{ __('Registrarse') }}
                         </button>
                     </div>
                 </form>
 
-                <!-- Enlace a login -->
-                <p class="text-center mt-4 mb-0 animate__animated animate__fadeInUp" style="color: var(--text-secondary);">
-                    {{ __('¿Ya tienes cuenta?') }}
-                    <a href="/login" class="text-decoration-none" style="color: var(--primary-color);">
-                        {{ __('Iniciar sesión') }}
-                    </a>
+                <p class="text-center mt-4 mb-0">
+                    <span class="text-white-50">¿Ya tienes cuenta?</span>
+                    <a href="/login" class="auth-link ms-2">Inicia sesión aquí</a>
                 </p>
             </div>
         </div>
