@@ -27,12 +27,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 
-                <!-- Debug Info (oculto en producción) -->
-                <div id="debug-info" class="alert alert-info d-none">
-                    <h6>Información de Depuración:</h6>
-                    <pre id="debug-content" style="white-space: pre-wrap; max-height: 200px; overflow-y: auto;"></pre>
-                </div>
-
                 <!-- Formulario -->
                 <form id="register-form" class="needs-validation" novalidate>
                     @csrf
@@ -118,21 +112,6 @@
         const alertError = document.getElementById('alert-error');
         const successMessage = document.getElementById('success-message');
         const errorMessage = document.getElementById('error-message');
-        const debugInfo = document.getElementById('debug-info');
-        const debugContent = document.getElementById('debug-content');
-
-        // Mostrar información de depuración
-        function showDebugInfo(info, title = null) {
-            // Convertir cualquier objeto a formato legible
-            const content = typeof info === 'object' ? JSON.stringify(info, null, 2) : info;
-            debugContent.textContent = content;
-            
-            if (title) {
-                debugContent.insertAdjacentHTML('beforebegin', `<div class="alert alert-warning mb-2">${title}</div>`);
-            }
-            
-            debugInfo.classList.remove('d-none');
-        }
 
         // Función para mostrar mensajes con animación
         function showMessage(isSuccess, message) {
@@ -160,8 +139,6 @@
             alertSuccess.classList.add('d-none');
             alertError.classList.remove('show');
             alertError.classList.add('d-none');
-            debugInfo.classList.add('d-none');
-            debugInfo.querySelectorAll('.alert-warning').forEach(el => el.remove());
             
             // Form validation
             if (!form.checkValidity()) {
@@ -224,8 +201,7 @@
                     }, 2000);
                 }
             } catch (error) {
-                console.error('Registration error:', error);
-                showMessage(false, error.message || 'Ha ocurrido un error inesperado');
+                showMessage(false, 'Ha ocurrido un error inesperado');
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '{{ __("Registrarse") }}';

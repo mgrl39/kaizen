@@ -2,7 +2,7 @@
 
 @section('title', 'Películas')
 
-@section('styles')R
+@section('styles')
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <style>
 .movie-card {
@@ -10,6 +10,7 @@
     background: rgba(255, 255, 255, 0.05) !important;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    cursor: pointer;
 }
 .movie-card:hover {
     transform: translateY(-5px);
@@ -30,22 +31,17 @@
 @endsection
 
 @section('content')
-<div class="container py-5" x-data="movies" x-init="$watch('error', value => console.log('Error:', value))">
+<div class="container py-5" x-data="movies">
     <h1 class="text-center mb-5 text-white">
         <i class="fa-solid fa-film me-2 text-primary"></i>
         Lista de Películas
     </h1>
 
-    <!-- Debug info -->
-    <div x-show="loading">Cargando...</div>
-    <div x-show="error" x-text="error" class="alert alert-danger"></div>
-    <div x-show="moviesList.length === 0 && !loading">No hay películas</div>
-
     <!-- Grid de películas -->
-    <div class="row g-4">
+    <div class="row g-4" x-show="!loading && !error && moviesList.length > 0">
         <template x-for="movie in moviesList" :key="movie.id">
             <div class="col-md-6 col-lg-4">
-                <div class="card h-100 glass-card" @click="selectMovie(movie)">
+                <div class="card h-100 movie-card" @click="window.open(`/movies/${movie.id}`, '_blank')">
                     <img :src="movie.photo_url" :alt="movie.title" 
                          class="card-img-top" style="height: 300px; object-fit: cover;">
                     <div class="card-body text-white">
@@ -64,51 +60,16 @@
     <!-- Loading -->
     <div class="text-center py-5" x-show="loading">
         <div class="spinner-border text-primary"></div>
+        <p class="text-white mt-2">Cargando películas...</p>
     </div>
 
-    <!-- Después del loading spinner -->
-    <div class="alert alert-danger text-center" x-show="error" x-text="error"></div>
+    <!-- Error message -->
+    <div class="alert alert-danger" x-show="error" x-text="error" role="alert"></div>
 
-    <!-- Sin películas (actualizado) -->
+    <!-- Empty state -->
     <div class="text-center py-5" x-show="!loading && !error && moviesList.length === 0">
-        <i class="fas fa-film-slash fa-3x mb-3 text-white"></i>
+        <i class="fas fa-film-slash fa-3x mb-3 text-white-50"></i>
         <p class="h4 text-white">No hay películas disponibles</p>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="movieModal" tabindex="-1">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content glass-card" x-show="selectedMovie">
-                <div class="modal-header border-0">
-                    <h5 class="modal-title text-white" x-text="selectedMovie?.title"></h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img :src="selectedMovie?.photo_url" :alt="selectedMovie?.title" 
-                                 class="img-fluid rounded" style="width: 100%; height: 400px; object-fit: cover;">
-                        </div>
-                        <div class="col-md-8 text-white">
-                            <p x-text="selectedMovie?.synopsis"></p>
-                            <div class="movie-info">
-                                <div class="mb-2">
-                                    <i class="fa-solid fa-clock me-2 text-primary"></i>
-                                    <span x-text="selectedMovie?.duration + ' minutos'"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <i class="fa-solid fa-calendar me-2 text-primary"></i>
-                                    <span x-text="formatDate(selectedMovie?.release_date)"></span>
-                                </div>
-                                <button class="btn btn-primary rounded-pill px-4" @click="reserveMovie">
-                                    <i class="fa-solid fa-ticket me-2"></i>Reservar Entrada
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection
@@ -120,61 +81,63 @@
         Alpine.data('movies', () => ({
             moviesList: [],
             loading: true,
-            selectedMovie: null,
-            modal: null,
             error: null,
 
             async init() {
                 try {
-                    AOS.init({ duration: 800, once: true });
-                    this.modal = new bootstrap.Modal(document.getElementById('movieModal'));
                     await this.loadMovies();
+                    AOS.init({ duration: 800, once: true });
                 } catch (error) {
-                    console.error('Error en init:', error);
+                    this.error = 'Error al inicializar la página';
                 }
             },
 
             async loadMovies() {
                 try {
-                    console.log('Cargando películas...'); // Debug
-                    const response = await fetch('/api/movies');
-                    console.log('Respuesta recibida:', response); // Debug
+                    const token = document.querySelector('meta[name="csrf-token"]').content;
+                    const response = await fetch('/api/movies', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': token
+                        },
+                        credentials: 'same-origin'
+                    });
                     
                     if (!response.ok) {
-                        throw new Error(`Error HTTP: ${response.status}`);
+                        throw new Error(`Error al cargar las películas (${response.status})`);
                     }
                     
                     const data = await response.json();
-                    console.log('Datos recibidos:', data); // Debug
                     
-                    if (data.success) {
+                    if (data.success && Array.isArray(data.data)) {
                         this.moviesList = data.data;
-                        console.log('Películas cargadas:', this.moviesList.length); // Debug
+                    } else if (Array.isArray(data)) {
+                        this.moviesList = data;
                     } else {
-                        throw new Error(data.message || 'Error al cargar las películas');
+                        throw new Error('El formato de los datos recibidos no es válido');
                     }
+
+                    if (this.moviesList.length === 0) {
+                        this.error = 'No hay películas disponibles';
+                    }
+                    
                 } catch (error) {
-                    console.error('Error al cargar las películas:', error);
-                    this.error = error.message;
+                    this.error = 'No se pudieron cargar las películas. Por favor, intenta de nuevo más tarde.';
                     this.moviesList = [];
                 } finally {
                     this.loading = false;
                 }
             },
 
-            selectMovie(movie) {
-                console.log('Película seleccionada:', movie); // Debug
-                this.selectedMovie = movie;
-                this.modal.show();
-            },
-
             formatDate(date) {
                 if (!date) return '';
-                return new Date(date).toLocaleDateString();
-            },
-
-            reserveMovie() {
-                alert('Función de reserva en desarrollo');
+                return new Date(date).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
             }
         }));
     });
