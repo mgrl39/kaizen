@@ -13,12 +13,7 @@
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                @php
-                $menuItems = [
-                    ['url' => '/cinemas', 'icon' => 'fa-solid fa-building', 'text' => 'Cines'],
-                    ['url' => '/movies', 'icon' => 'fa-solid fa-video', 'text' => 'Películas'],
-                ];
-                @endphp
+                
 
                 @foreach($menuItems as $item)
                     <li class="nav-item">
@@ -75,28 +70,11 @@
                         </ul>
                     </li>
                 @else
-                    <!-- Reemplazar los dos botones por un dropdown de autenticación -->
-                    <li class="nav-item dropdown auth-guest">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
-                            <div class="d-flex align-items-center">
-                                <i class="fa-solid fa-user-lock me-2" style="color: var(--primary-color);"></i>
-                                <span>Autenticar</span>
-                            </div>
+                    <!-- Botón de autenticación simplificado -->
+                    <li class="nav-item auth-guest">
+                        <a href="/login" class="btn auth-btn" style="margin-right: 5px; background-color: var(--primary-color); color: white; border: none;">
+                            <i class="fa-solid fa-sign-in-alt me-1"></i> Acceder
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="authDropdown" style="background-color: var(--card-bg); border-color: var(--border-color);">
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="/login" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-sign-in-alt me-2" style="color: var(--primary-color);"></i>
-                                    Iniciar Sesión
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center" href="/register" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-user-plus me-2" style="color: var(--primary-color);"></i>
-                                    Registrarse
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     
                     <!-- Menú de usuario JWT - Oculto por defecto -->
