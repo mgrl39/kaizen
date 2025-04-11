@@ -46,11 +46,13 @@ class CinemaFactory extends Factory
      */
     public function cinesa()
     {
-        return $this->state(function (array $attributes) {
+        return $this->state(function (array $attributes)
+        {
             return [
                 'name' => 'Cinesa ' . $this->faker->city(),
             ];
-        });
+            }
+        );
     }
 
     /**
@@ -60,10 +62,13 @@ class CinemaFactory extends Factory
      */
     public function inMadrid()
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'location' => $this->faker->streetAddress() . ', Madrid',
-            ];
-        });
+        return $this->state(function (array $attributes)
+            {
+                return
+                [
+                    'location' => $this->faker->streetAddress() . ', Madrid',
+                ];
+            }
+        );
     }
 }
