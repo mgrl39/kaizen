@@ -1,0 +1,12 @@
+var searchData=
+[
+  ['schedule_0',['schedule',['../classApp_1_1Console_1_1Kernel.html#a99912aa32dab8508ff247aef40ba7bcb',1,'App::Console::Kernel']]],
+  ['screenings_1',['screenings',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#a6503d357d014440209d737f5f4d9c2b6',1,'App::Http::Controllers::API::MovieController']]],
+  ['search_2',['search',['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a77112287cfbaee5564fbff21baf56af2',1,'App\Http\Controllers\API\CinemaController\search()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#aa75a9e4a182c2f99c3f6d122814068bd',1,'App\Http\Controllers\API\MovieController\search()']]],
+  ['seats_3',['seats',['../classApp_1_1Models_1_1Booking.html#a237178251c97b6ec3a64e8bf97b7c2e4',1,'App\Models\Booking\seats()'],['../classApp_1_1Models_1_1Functions.html#a06f9a09d383fdd6d521bc9d438384124',1,'App\Models\Functions\seats()'],['../classApp_1_1Models_1_1Room.html#ab7ed1f1a5106bed4bdae7471b875015d',1,'App\Models\Room\seats()']]],
+  ['shoulddiscoverevents_4',['shouldDiscoverEvents',['../classApp_1_1Providers_1_1EventServiceProvider.html#a04d437e639d779b81268a5e36af0d483',1,'App::Providers::EventServiceProvider']]],
+  ['show_5',['show',['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a32dc16806faf95d5843387b60fa91fe6',1,'App\Http\Controllers\API\CinemaController\show()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1GenreController.html#a4f7a0467eef2bfdfe86cc30957c8a534',1,'App\Http\Controllers\API\GenreController\show()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#aaa3070055fafce680d77d4f3b4368ddb',1,'App\Http\Controllers\API\MovieController\show()']]],
+  ['status_6',['status',['../classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#a854c60a2d4c7c4c0f63f49607ae14f65',1,'App::Http::Controllers::API::ServerStatusController']]],
+  ['store_7',['store',['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a0c5cacf525c01247b3fb17e99f3aff6a',1,'App\Http\Controllers\API\CinemaController\store()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#aee282932157885d9249ac52d4121ca6f',1,'App\Http\Controllers\API\MovieController\store()']]],
+  ['switchlang_8',['switchLang',['../classApp_1_1Http_1_1Controllers_1_1LanguageController.html#a82ac046c1db7e29577412b31e341f6ef',1,'App::Http::Controllers::LanguageController']]]
+];
