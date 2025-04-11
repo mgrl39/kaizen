@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Cinema;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Movie;
+use App\Models\Functions;
 
 class CinemaController extends Controller
 {
@@ -134,6 +136,62 @@ class CinemaController extends Controller
                 'message' => 'Error al cargar salas: ' . $e->getMessage()
             ], 500);
         }
+    }
+
+    /**
+     * Obtener películas que se proyectan en un cine
+     */
+    public function movies($id)
+    {
+        $cinema = Cinema::findOrFail($id);
+        $movieIds = Functions::whereHas('room', function ($query) use ($id) {
+                        $query->where('cinema_id', $id);
+                    })
+                    ->pluck('movie_id')
+                    ->unique();
+        
+        $movies = Movie::whereIn('id', $movieIds)->get();
+        
+        return response()->json([
+            'success' => true,
+            'cinema' => $cinema->name,
+            'data' => $movies,
+            'message' => 'Películas en proyección obtenidas correctamente'
+        ]);
+    }
+
+    /**
+     * Obtener cines por ubicación
+     */
+    public function byLocation($location)
+    {
+        $cinemas = Cinema::where('location', 'like', "%{$location}%")->get();
+        
+        return response()->json([
+            'success' => true,
+            'location' => $location,
+            'data' => $cinemas,
+            'message' => 'Cines por ubicación obtenidos correctamente'
+        ]);
+    }
+
+    /**
+     * Buscar cines
+     */
+    public function search(Request $request)
+    {
+        $query = $request->get('q');
+        $cinemas = Cinema::where('name', 'like', "%{$query}%")
+                       ->orWhere('location', 'like', "%{$query}%")
+                       ->get();
+        
+        return response()->json([
+            'success' => true,
+            'query' => $query,
+            'count' => $cinemas->count(),
+            'data' => $cinemas,
+            'message' => 'Búsqueda completada'
+        ]);
     }
 }
 

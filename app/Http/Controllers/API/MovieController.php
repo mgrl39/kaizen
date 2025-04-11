@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Movie;
+use App\Models\Genre;
 use Illuminate\Http\Request;
 
 /**
@@ -84,5 +85,118 @@ class MovieController extends Controller
         $movie = Movie::findOrFail($id);
         $movie->delete();
         return response()->json(null, 204);
+    }
+
+    /**
+     * Obtener películas destacadas
+     */
+    public function featured()
+    {
+        $movies = Movie::inRandomOrder()->limit(5)->get();
+        return response()->json([
+            'success' => true,
+            'data' => $movies,
+            'message' => 'Películas destacadas obtenidas correctamente'
+        ]);
+    }
+
+    /**
+     * Obtener películas más recientes
+     */
+    public function latest()
+    {
+        $movies = Movie::orderBy('release_date', 'desc')->limit(10)->get();
+        return response()->json([
+            'success' => true,
+            'data' => $movies,
+            'message' => 'Últimas películas obtenidas correctamente'
+        ]);
+    }
+
+    /**
+     * Obtener películas por género
+     */
+    public function byGenre($genreId)
+    {
+        $genre = Genre::findOrFail($genreId);
+        $movies = $genre->movies;
+        
+        return response()->json([
+            'success' => true,
+            'genre' => $genre->name,
+            'data' => $movies,
+            'message' => "Películas de género {$genre->name} obtenidas correctamente"
+        ]);
+    }
+
+    /**
+     * Buscar películas
+     */
+    public function search(Request $request)
+    {
+        $query = $request->get('q');
+        $movies = Movie::where('title', 'like', "%{$query}%")
+                      ->orWhere('synopsis', 'like', "%{$query}%")
+                      ->get();
+        
+        return response()->json([
+            'success' => true,
+            'query' => $query,
+            'count' => $movies->count(),
+            'data' => $movies,
+            'message' => 'Búsqueda completada'
+        ]);
+    }
+
+    /**
+     * Obtener actores de una película
+     */
+    public function actors($id)
+    {
+        $movie = Movie::findOrFail($id);
+        $actors = $movie->actors;
+        
+        return response()->json([
+            'success' => true,
+            'movie' => $movie->title,
+            'data' => $actors,
+            'message' => 'Actores obtenidos correctamente'
+        ]);
+    }
+
+    /**
+     * Obtener géneros de una película
+     */
+    public function genres($id)
+    {
+        $movie = Movie::findOrFail($id);
+        $genres = $movie->genres;
+        
+        return response()->json([
+            'success' => true,
+            'movie' => $movie->title,
+            'data' => $genres,
+            'message' => 'Géneros obtenidos correctamente'
+        ]);
+    }
+
+    /**
+     * Obtener proyecciones de una película
+     */
+    public function screenings($id)
+    {
+        $movie = Movie::findOrFail($id);
+        $screenings = $movie->functions()
+                           ->with(['room.cinema'])
+                           ->orderBy('date')
+                           ->orderBy('time')
+                           ->get();
+        
+        return response()->json([
+            'success' => true,
+            'movie' => $movie->title,
+            'data' => $screenings,
+            'message' => 'Proyecciones obtenidas correctamente'
+        ]);
     }
 }
