@@ -9,15 +9,38 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['cinema_id', 'name', 'capacity'];
+    /**
+     * Los atributos que son asignables en masa.
+     *
+     * @var array<string>
+     */
+    protected $fillable = [
+        'cinema_id',
+        'name',
+        'capacity'
+    ];
 
+    /**
+     * Obtener el cine al que pertenece esta sala.
+     */
     public function cinema()
     {
         return $this->belongsTo(Cinema::class);
     }
 
+    /**
+     * Obtener las funciones programadas en esta sala.
+     */
     public function functions()
     {
         return $this->hasMany(Functions::class);
+    }
+
+    /**
+     * Obtener los asientos de esta sala.
+     */
+    public function seats()
+    {
+        return $this->hasManyThrough(Seat::class, Functions::class);
     }
 }
