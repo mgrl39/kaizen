@@ -1,4 +1,4 @@
-<div id="particles-js" class="fixed-background"></div>
+<div class="fixed-background"></div>
 
 <style>
 .fixed-background {

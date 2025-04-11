@@ -4,8 +4,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
+            <!-- TODO: DURACION, MINUTOS, GENERO CAMBIAR A i18n -->
                 <h1 class="mb-4">Películas Disponibles</h1>
-                
                 <div class="list-group">
                     @foreach($movies as $movie)
                         <div class="list-group-item">
@@ -18,4 +18,4 @@
             </div>
         </div>
     </div>
-@endsection 
+@endsection

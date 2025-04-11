@@ -129,7 +129,6 @@
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            // Reset form state
             form.classList.remove('was-validated');
             document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
             document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
@@ -138,7 +137,6 @@
             alertError.classList.remove('show');
             alertError.classList.add('d-none');
 
-            // Form validation
             if (!form.checkValidity()) {
                 e.stopPropagation();
                 form.classList.add('was-validated');
@@ -185,14 +183,8 @@
                     }
                 } else {
                     showMessage(true, 'Registro exitoso. Redirigiendo...');
-
-                    if (data.token) {
-                        localStorage.setItem('auth_token', data.token);
-                    }
-
-                    if (data.user) {
-                        localStorage.setItem('auth_user', JSON.stringify(data.user));
-                    }
+                    if (data.token)  localStorage.setItem('auth_token', data.token);
+                    if (data.user) localStorage.setItem('auth_user', JSON.stringify(data.user));
 
                     setTimeout(() => {
                         window.location.href = '/login';
