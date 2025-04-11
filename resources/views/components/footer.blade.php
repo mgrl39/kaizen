@@ -28,6 +28,13 @@
                     <a href="https://opensource.org/licenses/MIT" target="_blank" class="text-decoration-none small text-muted">
                         {{ __('MIT License') }}
                     </a>
+                    
+                    @if(config('app.debug'))
+                    <span class="mx-2">|</span>
+                    <a href="{{ url('/telescope') }}" target="_blank" class="text-decoration-none small text-info">
+                        <i class="fas fa-telescope"></i> Telescope
+                    </a>
+                    @endif
                 </div>
             </div>
         </div>

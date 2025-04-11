@@ -21,7 +21,20 @@ class MovieController extends Controller
      */
     public function index()
     {
+        // Registrar información antes de la consulta
+        \Laravel\Telescope\Telescope::recordCache([
+            'type' => 'api-request',
+            'action' => 'get-movies',
+        ]);
+        
         $movies = Movie::all();
+        
+        // Registrar un dump para analizar en Telescope
+        \Laravel\Telescope\Telescope::recordDump([
+            'movies_count' => $movies->count(),
+            'api_endpoint' => 'GET /movies'
+        ]);
+        
         return response()->json([
             'success' => true,
             'count' => $movies->count(),
