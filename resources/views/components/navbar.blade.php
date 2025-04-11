@@ -13,7 +13,12 @@
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
-                
+            @php
+                $menuItems = [
+                    ['url' => '/cinemas', 'icon' => 'fa-solid fa-building', 'text' => 'Cines'],
+                    ['url' => '/movies', 'icon' => 'fa-solid fa-video', 'text' => 'Películas'],
+                ];
+                @endphp
 
                 @foreach($menuItems as $item)
                     <li class="nav-item">

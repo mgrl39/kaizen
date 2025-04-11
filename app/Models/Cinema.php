@@ -9,18 +9,35 @@ class Cinema extends Model
 {
     use HasFactory;
 
-    // Especificamos el nombre exacto de la tabla que ya existe
-    protected $table = 'cinema';
+    /**
+     * La tabla asociada al modelo.
+     *
+     * @var string
+     */
+    protected $table = 'cinemas';
 
-    // Especificamos las columnas que podemos llenar
-    protected $fillable = ['name', 'location'];
+    /**
+     * Los atributos que son asignables en masa.
+     *
+     * @var array<string>
+     */
+    protected $fillable = [
+        'name',
+        'location'
+    ];
 
+    /**
+     * Obtener las salas que pertenecen a este cine.
+     */
     public function rooms()
     {
         return $this->hasMany(Room::class);
     }
 
-    public function managers()
+    /**
+     * Obtener los administradores que gestionan este cine.
+     */
+    public function admins()
     {
         return $this->belongsToMany(AdminUser::class, 'manage', 'cinema_id', 'admin_id');
     }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\MovieController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CinemaController;
 use App\Http\Controllers\MovieController as MovieControllerAlias;
 
 /*
@@ -20,6 +21,7 @@ use App\Http\Controllers\MovieController as MovieControllerAlias;
 
 // Rutas para películas (simplificadas)
 Route::apiResource('movies', MovieController::class);
+Route::apiResource('cinemas', CinemaController::class);
 
 // Rutas de autenticación
 Route::post('/register', [AuthController::class, 'register']);
