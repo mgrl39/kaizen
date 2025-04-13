@@ -14,6 +14,7 @@
                     if (empty($methods)) continue;
                 @endphp
 
+            var_dump($methods);
                 <div class="col">
                     <div class="card h-100 border">
                         <div class="card-body p-3">

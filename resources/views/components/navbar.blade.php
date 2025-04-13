@@ -1,10 +1,11 @@
 <nav class="navbar navbar-expand-md fixed-top" style="background-color: var(--secondary-bg); border-bottom: 1px solid var(--border-color);">
     <div class="container">
+<!-- TODO: de nuevo... ese kaizen logo y tal deberia cambiarlo..... pero no se bien bien como -->
         <a href="/" class="navbar-brand d-flex align-items-center">
             <img src="{{ asset('assets/images/logo.png') }}" alt="Kaizen Logo" class="navbar-logo">
             <span class="ms-2 fw-bold" style="color: var(--text-primary);">Kaizen</span>
         </a>
-        
+
         <div class="d-flex align-items-center">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" style="border-color: var(--border-color);">
                 <span class="navbar-toggler-icon"></span>
@@ -28,7 +29,7 @@
                     </li>
                 @endforeach
 
-                <!-- Autenticación basada en sesiones Laravel -->
+<!-- TODO: ARREGLAR TEMA AUTH::USER()->avatar -->
                 @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
@@ -81,7 +82,7 @@
                             <i class="fa-solid fa-sign-in-alt me-1"></i> Acceder
                         </a>
                     </li>
-                    
+
                     <!-- Menú de usuario JWT - Oculto por defecto -->
                     <li class="nav-item dropdown auth-user d-none">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
@@ -168,31 +169,25 @@
 </style>
 
 <script>
+<!-- TODO: CAMBIAR TOTALMETE ESTA LOGICA -->
 document.addEventListener('DOMContentLoaded', function() {
-    // --- Gestión de Autenticación en la interfaz (solo para JWT) ---
-    // Solo ejecutamos esta lógica si no hay sesión de Laravel activa
     if (!document.querySelector('.auth-user.d-none')) {
-        // Función para comprobar si el usuario está autenticado por JWT
         function checkAuthentication() {
             const token = localStorage.getItem('auth_token');
             const authUser = localStorage.getItem('auth_user');
-            
+
             if (token && authUser) {
                 try {
-                    // Intentar parsear la información del usuario
                     const userData = JSON.parse(authUser);
-                    
-                    // Actualizar la interfaz para usuario autenticado
+
                     document.querySelectorAll('.auth-guest').forEach(el => el.classList.add('d-none'));
                     document.querySelectorAll('.auth-user').forEach(el => el.classList.remove('d-none'));
-                    
-                    // Mostrar el nombre de usuario
+
                     const usernameDisplay = document.getElementById('username-display');
                     if (usernameDisplay) {
                         usernameDisplay.textContent = userData.username || userData.name || 'Usuario';
                     }
-                    
-                    // Actualizar avatar si existe
+
                     const userAvatar = document.getElementById('user-avatar');
                     const avatarPlaceholder = document.querySelector('.avatar-placeholder');
                     if (userAvatar && userData.avatar) {
@@ -200,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         userAvatar.classList.remove('d-none');
                         avatarPlaceholder.classList.add('d-none');
                     }
-                    
+
                     return true;
                 } catch (e) {
                     console.error('Error parsing auth user data', e);
@@ -210,28 +205,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Actualizar la interfaz para invitado
                 document.querySelectorAll('.auth-guest').forEach(el => el.classList.remove('d-none'));
                 document.querySelectorAll('.auth-user').forEach(el => el.classList.add('d-none'));
-                
+
                 return false;
             }
         }
-        
-        // Función para cerrar sesión (JWT)
+
         function logout() {
-            // Eliminar el token y datos de usuario
             localStorage.removeItem('auth_token');
             localStorage.removeItem('auth_user');
-            
-            // Actualizar la interfaz
             checkAuthentication();
-            
-            // Redireccionar al inicio
             window.location.href = '/';
         }
-        
-        // Comprobar autenticación al cargar la página
         checkAuthentication();
-        
-        // Evento para el botón de cerrar sesión
         const logoutBtn = document.getElementById('logout-btn');
         if (logoutBtn) {
             logoutBtn.addEventListener('click', function(e) {
@@ -239,8 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 logout();
             });
         }
-        
-        // Escuchar cambios en el almacenamiento (por si se inicia sesión en otra pestaña)
         window.addEventListener('storage', function(e) {
             if (e.key === 'auth_token' || e.key === 'auth_user') {
                 checkAuthentication();

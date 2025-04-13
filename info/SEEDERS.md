@@ -1,6 +1,7 @@
 # Crear películas ficticias en Laravel
 
-Para generar películas falsas (datos de prueba), podemos usar las Factories de Laravel junto con la librería Faker. Aquí te muestro cómo:
+Para generar películas falsas (datos de prueba), podemos usar las
+Factories de Laravel junto con la librería Faker. Aquí te muestro cómo:
 
 ## 1. Crear un Factory para Movie
 
@@ -24,7 +25,8 @@ class MovieFactory extends Factory
 
     public function definition()
     {
-        $genres = ['Acción', 'Comedia', 'Drama', 'Ciencia Ficción', 'Terror', 'Aventura', 'Romance', 'Animación'];
+        $genres = ['Acción', 'Comedia', 'Drama', 'Ciencia Ficción', 'Terror',
+            'Aventura', 'Romance', 'Animación'];
         
         return [
             'title' => $this->faker->unique()->sentence(3),
@@ -141,6 +143,8 @@ Si quieres un atajo para resetear toda la base de datos y llenarla con datos de 
 php artisan migrate:fresh --seed
 ```
 
-Con esto tendrás 23 películas en total: 20 generadas aleatoriamente y 3 películas específicas con datos reales. Puedes ajustar las cantidades o añadir más películas específicas según necesites.
+Con esto tendrás 23 películas en total: 20 generadas aleatoriamente y
+3 películas específicas con datos reales. Puedes ajustar las cantidades o añadir
+más películas específicas según necesites.
 
 ¿Necesitas alguna modificación en estos datos o quieres añadir otro tipo de datos ficticios?

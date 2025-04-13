@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file
+ * API Routes
+ *
+ * Here is where you can register API routes for your application. These
+ * routes are loaded by the RouteServiceProvider and all of them will
+ * be assigned to the "api" middleware group. Make something great!
+ */
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\MovieController;
 use App\Http\Controllers\API\CinemaController;
@@ -36,7 +45,10 @@ Route::get('movies/{movie}/screenings', [MovieController::class, 'screenings']);
 // Rutas adicionales no autenticadas para cines
 Route::get('cinemas/{cinema}/rooms', [CinemaController::class, 'rooms']);
 Route::get('cinemas/{cinema}/movies', [CinemaController::class, 'movies']);
-Route::get('cinemas/by-location/{location}', [CinemaController::class, 'byLocation']);
+Route::get(
+    'cinemas/by-location/{location}',
+    [CinemaController::class, 'byLocation']
+);
 Route::get('cinemas/search', [CinemaController::class, 'search']);
 
 // Rutas para géneros (solo lectura)
@@ -60,9 +72,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Rutas protegidas
+// no lo entiendooooooooooooooooooooooooo dicen que se tiene que hacer asi...
 Route::middleware('auth:api')->group(
     function () {
-        // Route::post('logout', [AuthController::class, 'logout']);
-        // Route::get('me', [AuthController::class, 'me']);
     }
 );

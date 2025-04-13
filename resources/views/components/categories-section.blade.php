@@ -1,7 +1,9 @@
 <!-- Categories Section -->
 <div class="container mb-5">
     <div class="row g-4">
-        @foreach(['Acción', 'Comedia', 'Drama', 'Sci-Fi'] as $category)
+        <!-- TODO: Modificar el foreach y saber los que hay disponibles por el BACK-->
+        <!-- TODO: foreach da pena -->
+        @foreach(['Acción', 'Comedia', 'Drama', 'Animacion'] as $category)
         <div class="col-md-3">
             <div class="card bg-dark text-white card-hover h-100 border-0">
                 <div class="card-body text-center">
@@ -16,4 +18,4 @@
         </div>
         @endforeach
     </div>
-</div> 
+</div>

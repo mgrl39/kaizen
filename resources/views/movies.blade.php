@@ -6,25 +6,25 @@
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <style>
 .movie-card {
-    transition: all 0.3s ease;
-    background: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    cursor: pointer;
+transition: all 0.3s ease;
+background: rgba(255, 255, 255, 0.05) !important;
+backdrop-filter: blur(10px);
+border: 1px solid rgba(255, 255, 255, 0.1) !important;
+cursor: pointer;
 }
 .movie-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+transform: translateY(-5px);
+box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 .movie-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+position: absolute;
+inset: 0;
+background: rgba(0, 0, 0, 0.7);
+display: flex;
+align-items: center;
+justify-content: center;
+opacity: 0;
+transition: opacity 0.3s ease;
 }
 .movie-card:hover .movie-overlay { opacity: 1; }
 </style>
@@ -42,8 +42,8 @@
         <template x-for="movie in moviesList" :key="movie.id">
             <div class="col-md-6 col-lg-4">
                 <div class="card h-100 movie-card" @click="window.open(`/movies/${movie.id}`, '_blank')">
-                    <img :src="movie.photo_url" :alt="movie.title" 
-                         class="card-img-top" style="height: 300px; object-fit: cover;">
+                    <img :src="movie.photo_url" :alt="movie.title"
+                        class="card-img-top" style="height: 300px; object-fit: cover;">
                     <div class="card-body text-white">
                         <h5 class="card-title" x-text="movie.title"></h5>
                         <p class="card-text text-white-50" x-text="movie.synopsis"></p>
@@ -75,8 +75,10 @@
 @endsection
 
 @section('scripts')
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>-->
+<!-- TODO: npm install -->
 <script>
+<!-- TODO: alpine -->
     document.addEventListener('alpine:init', () => {
         Alpine.data('movies', () => ({
             moviesList: [],
@@ -104,25 +106,18 @@
                         },
                         credentials: 'same-origin'
                     });
-                    
+
                     if (!response.ok) {
                         throw new Error(`Error al cargar las películas (${response.status})`);
                     }
-                    
-                    const data = await response.json();
-                    
-                    if (data.success && Array.isArray(data.data)) {
-                        this.moviesList = data.data;
-                    } else if (Array.isArray(data)) {
-                        this.moviesList = data;
-                    } else {
-                        throw new Error('El formato de los datos recibidos no es válido');
-                    }
 
-                    if (this.moviesList.length === 0) {
-                        this.error = 'No hay películas disponibles';
-                    }
-                    
+                    const data = await response.json();
+
+                    if (data.success && Array.isArray(data.data)) this.moviesList = data.data;
+                    else if (Array.isArray(data)) this.moviesList = data;
+                    else throw new Error('El formato de los datos recibidos no es válido');
+                    if (this.moviesList.length === 0) this.error = 'No hay películas disponibles';
+
                 } catch (error) {
                     this.error = 'No se pudieron cargar las películas. Por favor, intenta de nuevo más tarde.';
                     this.moviesList = [];

@@ -4,6 +4,7 @@
         <div class="card-body p-0">
             <div class="row g-0">
                 <div class="col-md-6 p-5">
+                    <!-- TODO: ESTO DEBERIA HACER UN ENDPOINT _??????? ES QUE NO VALE NADA ASI... NO VOY A TOCAR ESTE ARCHIVO.... -->
                     <div class="badge bg-danger mb-3">Oferta Especial</div>
                     <h2 class="display-6 fw-bold mb-3">2x1 en Entradas</h2>
                     <p class="lead mb-4">Todos los martes y miércoles, ¡no te lo pierdas!</p>
@@ -18,4 +19,4 @@
             </div>
         </div>
     </div>
-</div> 
+</div>

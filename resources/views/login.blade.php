@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="{{ asset('assets/styles/authentication.css') }}">
 @endsection
 
+<!-- TODO: textos hadcodeados dan pena....... -->
 @section('content')
 <div class="auth-container">
     <div class="auth-card rounded-4">
@@ -102,11 +103,11 @@
             // Convertir cualquier objeto a formato legible
             const content = typeof info === 'object' ? JSON.stringify(info, null, 2) : info;
             debugContent.textContent = content;
-            
+
             if (title) {
                 debugContent.insertAdjacentHTML('beforebegin', `<div class="alert alert-warning mb-2">${title}</div>`);
             }
-            
+
             debugInfo.classList.remove('d-none');
         }
 
@@ -114,11 +115,11 @@
         function showMessage(isSuccess, message) {
             const alert = isSuccess ? alertSuccess : alertError;
             const messageElement = isSuccess ? successMessage : errorMessage;
-            
+
             messageElement.textContent = message;
             alert.classList.remove('d-none');
             alert.classList.add('show', 'animate__fadeIn');
-            
+
             // Ocultar el otro mensaje
             const otherAlert = isSuccess ? alertError : alertSuccess;
             otherAlert.classList.add('d-none');
@@ -127,7 +128,7 @@
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
+
             // Reset form state
             form.classList.remove('was-validated');
             document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
@@ -138,26 +139,26 @@
             alertError.classList.add('d-none');
             debugInfo.classList.add('d-none');
             debugInfo.querySelectorAll('.alert-warning').forEach(el => el.remove());
-            
+
             // Form validation
             if (!form.checkValidity()) {
                 e.stopPropagation();
                 form.classList.add('was-validated');
                 return;
             }
-            
+
             const formData = {
                 identifier: document.getElementById('identifier').value,
                 password: document.getElementById('password').value,
             };
-            
+
             // Iniciar estado de carga
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
-            
+
             try {
                 const token = document.querySelector('input[name="_token"]').value;
-                
+
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: {
@@ -167,9 +168,9 @@
                     },
                     body: JSON.stringify(formData)
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (!response.ok) {
                     if (response.status === 422 && data.errors) {
                         Object.keys(data.errors).forEach(key => {
@@ -187,15 +188,15 @@
                     }
                 } else {
                     showMessage(true, 'Inicio de sesión exitoso. Redirigiendo...');
-                    
+
                     if (data.token) {
                         localStorage.setItem('auth_token', data.token);
                     }
-                    
+
                     if (data.user) {
                         localStorage.setItem('auth_user', JSON.stringify(data.user));
                     }
-                    
+
                     setTimeout(() => {
                         window.location.href = '/';
                     }, 2000);

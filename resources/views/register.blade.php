@@ -3,6 +3,7 @@
 @section('title', 'Registro')
 
 @section('styles')
+<!-- ESTILOS ESPECIFICOS -->
 <link rel="stylesheet" href="{{ asset('assets/styles/authentication.css') }}">
 @endsection
 
@@ -11,6 +12,7 @@
     <div class="auth-card rounded-4">
         <div class="auth-content">
             <!-- Sección de bienvenida -->
+            <!-- TODO: I18N NO VIENE BIEN... -->
             <div class="auth-welcome animate__animated animate__fadeInLeft">
                 <h1>¡Únete a nosotros!</h1>
                 <p class="mb-4">Crea tu cuenta y descubre un mundo de entretenimiento. Las mejores películas y series te esperan.</p>
@@ -113,11 +115,11 @@
         function showMessage(isSuccess, message) {
             const alert = isSuccess ? alertSuccess : alertError;
             const messageElement = isSuccess ? successMessage : errorMessage;
-            
+
             messageElement.textContent = message;
             alert.classList.remove('d-none');
             alert.classList.add('show', 'animate__fadeIn');
-            
+
             // Ocultar el otro mensaje
             const otherAlert = isSuccess ? alertError : alertSuccess;
             otherAlert.classList.add('d-none');
@@ -126,8 +128,7 @@
 
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
-            
-            // Reset form state
+
             form.classList.remove('was-validated');
             document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
             document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
@@ -135,27 +136,26 @@
             alertSuccess.classList.add('d-none');
             alertError.classList.remove('show');
             alertError.classList.add('d-none');
-            
-            // Form validation
+
             if (!form.checkValidity()) {
                 e.stopPropagation();
                 form.classList.add('was-validated');
                 return;
             }
-            
+
             const formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
             };
-            
+
             // Iniciar estado de carga
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
-            
+
             try {
                 const token = document.querySelector('input[name="_token"]').value;
-                
+
                 const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: {
@@ -165,9 +165,9 @@
                     },
                     body: JSON.stringify(formData)
                 });
-                
+
                 const data = await response.json();
-                
+
                 if (!response.ok) {
                     if (response.status === 422 && data.errors) {
                         Object.keys(data.errors).forEach(key => {
@@ -183,15 +183,9 @@
                     }
                 } else {
                     showMessage(true, 'Registro exitoso. Redirigiendo...');
-                    
-                    if (data.token) {
-                        localStorage.setItem('auth_token', data.token);
-                    }
-                    
-                    if (data.user) {
-                        localStorage.setItem('auth_user', JSON.stringify(data.user));
-                    }
-                    
+                    if (data.token)  localStorage.setItem('auth_token', data.token);
+                    if (data.user) localStorage.setItem('auth_user', JSON.stringify(data.user));
+
                     setTimeout(() => {
                         window.location.href = '/login';
                     }, 2000);

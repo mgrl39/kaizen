@@ -12,11 +12,6 @@ class MovieFactory extends Factory
 {
     protected $model = Movie::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         $genres = ['Acción', 'Comedia', 'Drama', 'Ciencia Ficción',

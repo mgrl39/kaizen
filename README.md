@@ -28,11 +28,8 @@
 ## 🔧 Stack Tecnológico
 
 <p align="center">
-  <img src="public/assets/images/alpinejs.png" width="8%" alt="Alpine.js">
   <img src="public/assets/images/laravel.png" width="6%" alt="Laravel">&nbsp;&nbsp;&nbsp;
   <img src="public/assets/images/mysql.png" width="7%" alt="MySQL">&nbsp;&nbsp;&nbsp;
-  <img src="public/assets/images/tailwindcss.png" width="7%" alt="Tailwind CSS">&nbsp;&nbsp;&nbsp;
-
 </p>
 
 <p align="center">
@@ -40,6 +37,7 @@
 </p>
 
 ## 🚀 Instalación
+
 ```bash
 # Clonar el repositorio
 git clone https://github.com/mgrl39/kaizen.git

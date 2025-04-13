@@ -22,7 +22,7 @@
     gap: 2rem;
     padding: 2rem;
 }
-
+/*
 .auth-welcome {
     display: flex;
     flex-direction: column;
@@ -117,9 +117,9 @@
     .auth-content {
         grid-template-columns: 1fr;
     }
-    
+
     .auth-form {
         border-left: none;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
-} 
+}*/
