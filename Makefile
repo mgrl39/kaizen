@@ -144,3 +144,12 @@ serve-dev:
 	@echo "$(END)"
 	@echo "$(BLUE)Presiona Ctrl+C para detener ambos servidores$(END)"
 	@(trap 'kill 0' SIGINT; npm run dev & php artisan serve --host 0.0.0.0)
+
+# Comandos para gestión de submódulos
+submodules:
+	@echo "🔄 Inicializando submódulos..."
+	git submodule update --init --recursive
+
+update-submodules:
+	@echo "⬆️ Actualizando submódulos..."
+	git submodule update --remote --merge
