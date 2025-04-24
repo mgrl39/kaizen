@@ -6,19 +6,18 @@
 <link rel="stylesheet" href="{{ asset('assets/styles/authentication.css') }}">
 @endsection
 
-<!-- TODO: textos hadcodeados dan pena....... -->
 @section('content')
 <div class="auth-container">
-    <div class="auth-card rounded-4">
+    <div class="auth-card">
         <div class="auth-content">
             <!-- Sección de bienvenida -->
-            <div class="auth-welcome animate__animated animate__fadeInLeft">
+            <div class="auth-welcome">
                 <h1>¡Bienvenido de nuevo!</h1>
                 <p class="mb-4">Accede a tu cuenta para disfrutar de las mejores películas y series. Tu experiencia cinematográfica te espera.</p>
             </div>
 
             <!-- Formulario -->
-            <div class="auth-form animate__animated animate__fadeInRight">
+            <div class="auth-form">
                 <h2 class="text-white mb-4">Iniciar sesión</h2>
 
                 <!-- Alertas -->
@@ -34,43 +33,38 @@
                 <form id="login-form" class="needs-validation" novalidate>
                     @csrf
 
-                    <div class="mb-3 animate__animated animate__fadeInUp">
+                    <div class="mb-3">
                         <div class="input-group">
-                            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">
-                                <i class="fa-solid fa-user" style="color: var(--text-secondary);"></i>
+                            <span class="input-group-text">
+                                <i class="fa-solid fa-user"></i>
                             </span>
                             <input type="text"
                                 id="identifier"
                                 name="identifier"
                                 placeholder="{{ __('Nombre de usuario o email') }}"
                                 class="form-control"
-                                style="background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border);"
                                 required>
                         </div>
-                        <div class="invalid-feedback" id="identifier-error" style="color: var(--danger-color);"></div>
+                        <div class="invalid-feedback" id="identifier-error"></div>
                     </div>
 
-                    <div class="mb-4 animate__animated animate__fadeInUp">
+                    <div class="mb-4">
                         <div class="input-group">
-                            <span class="input-group-text" style="background-color: var(--input-bg); border-color: var(--input-border);">
-                                <i class="fa-solid fa-lock" style="color: var(--text-secondary);"></i>
+                            <span class="input-group-text">
+                                <i class="fa-solid fa-lock"></i>
                             </span>
                             <input type="password"
                                 id="password"
                                 name="password"
                                 placeholder="{{ __('Contraseña') }}"
                                 class="form-control"
-                                style="background-color: var(--input-bg); color: var(--input-color); border-color: var(--input-border);"
                                 required>
                         </div>
-                        <div class="invalid-feedback" id="password-error" style="color: var(--danger-color);"></div>
+                        <div class="invalid-feedback" id="password-error"></div>
                     </div>
 
-                    <div class="d-grid animate__animated animate__fadeInUp">
-                        <button type="submit"
-                                id="submit-btn"
-                                class="btn btn-primary btn-lg"
-                                style="background-color: var(--primary-color); border-color: var(--primary-color);">
+                    <div class="d-grid">
+                        <button type="submit" id="submit-btn" class="btn-auth">
                             {{ __('Iniciar sesión') }}
                         </button>
                     </div>
@@ -95,21 +89,6 @@
         const alertError = document.getElementById('alert-error');
         const successMessage = document.getElementById('success-message');
         const errorMessage = document.getElementById('error-message');
-        const debugInfo = document.getElementById('debug-info');
-        const debugContent = document.getElementById('debug-content');
-
-        // Mostrar información de depuración
-        function showDebugInfo(info, title = null) {
-            // Convertir cualquier objeto a formato legible
-            const content = typeof info === 'object' ? JSON.stringify(info, null, 2) : info;
-            debugContent.textContent = content;
-
-            if (title) {
-                debugContent.insertAdjacentHTML('beforebegin', `<div class="alert alert-warning mb-2">${title}</div>`);
-            }
-
-            debugInfo.classList.remove('d-none');
-        }
 
         // Función para mostrar mensajes con animación
         function showMessage(isSuccess, message) {
@@ -118,7 +97,7 @@
 
             messageElement.textContent = message;
             alert.classList.remove('d-none');
-            alert.classList.add('show', 'animate__fadeIn');
+            alert.classList.add('show');
 
             // Ocultar el otro mensaje
             const otherAlert = isSuccess ? alertError : alertSuccess;
@@ -137,8 +116,6 @@
             alertSuccess.classList.add('d-none');
             alertError.classList.remove('show');
             alertError.classList.add('d-none');
-            debugInfo.classList.add('d-none');
-            debugInfo.querySelectorAll('.alert-warning').forEach(el => el.remove());
 
             // Form validation
             if (!form.checkValidity()) {

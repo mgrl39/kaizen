@@ -3,23 +3,21 @@
 @section('title', 'Registro')
 
 @section('styles')
-<!-- ESTILOS ESPECIFICOS -->
 <link rel="stylesheet" href="{{ asset('assets/styles/authentication.css') }}">
 @endsection
 
 @section('content')
 <div class="auth-container">
-    <div class="auth-card rounded-4">
+    <div class="auth-card">
         <div class="auth-content">
             <!-- Sección de bienvenida -->
-            <!-- TODO: I18N NO VIENE BIEN... -->
-            <div class="auth-welcome animate__animated animate__fadeInLeft">
+            <div class="auth-welcome">
                 <h1>¡Únete a nosotros!</h1>
                 <p class="mb-4">Crea tu cuenta y descubre un mundo de entretenimiento. Las mejores películas y series te esperan.</p>
             </div>
 
             <!-- Formulario -->
-            <div class="auth-form animate__animated animate__fadeInRight">
+            <div class="auth-form">
                 <h2 class="text-white mb-4">Crear cuenta</h2>
 
                 <!-- Alertas -->
@@ -39,7 +37,7 @@
                     <div class="mb-3">
                         <div class="input-group">
                             <span class="input-group-text">
-                                <i class="fa-solid fa-user text-white-50"></i>
+                                <i class="fa-solid fa-user"></i>
                             </span>
                             <input type="text"
                                 id="name"
@@ -54,7 +52,7 @@
                     <div class="mb-3">
                         <div class="input-group">
                             <span class="input-group-text">
-                                <i class="fa-solid fa-envelope text-white-50"></i>
+                                <i class="fa-solid fa-envelope"></i>
                             </span>
                             <input type="email"
                                 id="email"
@@ -69,7 +67,7 @@
                     <div class="mb-4">
                         <div class="input-group">
                             <span class="input-group-text">
-                                <i class="fa-solid fa-lock text-white-50"></i>
+                                <i class="fa-solid fa-lock"></i>
                             </span>
                             <input type="password"
                                 id="password"
@@ -83,9 +81,7 @@
                     </div>
 
                     <div class="d-grid">
-                        <button type="submit"
-                                id="submit-btn"
-                                class="btn btn-primary btn-lg">
+                        <button type="submit" id="submit-btn" class="btn-auth">
                             {{ __('Registrarse') }}
                         </button>
                     </div>
@@ -118,7 +114,7 @@
 
             messageElement.textContent = message;
             alert.classList.remove('d-none');
-            alert.classList.add('show', 'animate__fadeIn');
+            alert.classList.add('show');
 
             // Ocultar el otro mensaje
             const otherAlert = isSuccess ? alertError : alertSuccess;
