@@ -48,10 +48,6 @@ php artisan serve
 > **Important**  
 > This application uses API versioning with `/api/v1/` prefix for all endpoints.
 
-## 🤝 Contributing
-
-Contributions are welcome! Please check our contributing guidelines before submitting pull requests.
-
 <div align="center">
   <br>
   <p>Built with ❤️ by the Kaizen Team</p>
