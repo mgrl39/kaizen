@@ -2,98 +2,72 @@
 
 @section('title', 'Registro')
 
-@section('styles')
-@endsection
-
 @section('content')
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-content">
-            <!-- Sección de bienvenida -->
-            <div class="auth-welcome">
-                <h1>¡Únete a nosotros!</h1>
-                <p class="mb-4">Crea tu cuenta y descubre un mundo de entretenimiento. Las mejores películas y series te esperan.</p>
-            </div>
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh">
+    <div class="col-md-5 col-lg-4 col-xl-3">
+        <div class="card border-0 shadow">
+            <div class="card-body p-4">
+                <h4 class="text-center mb-4">Crear Cuenta</h4>
 
-            <!-- Formulario -->
-            <div class="auth-form">
-                <h2 class="text-white mb-4">Crear cuenta</h2>
-
-                <!-- Alertas -->
-                <div id="alert-success" class="alert alert-success alert-dismissible fade d-none" role="alert">
-                    <span id="success-message"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-                <div id="alert-error" class="alert alert-danger alert-dismissible fade d-none" role="alert">
+                <div id="alert-error" class="alert alert-danger d-none mb-3">
                     <span id="error-message"></span>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
 
-                <!-- Formulario -->
-                <form id="register-form" class="needs-validation" novalidate>
+                <form id="register-form">
                     @csrf
-
                     <div class="mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="fa-solid fa-user"></i>
-                            </span>
-                            <input type="text"
-                                id="name"
-                                name="name"
-                                placeholder="{{ __('Nombre de usuario') }}"
-                                class="form-control"
-                                required>
-                        </div>
+                        <input type="text" 
+                            name="name" 
+                            id="name"
+                            class="form-control bg-dark border-secondary" 
+                            placeholder="Nombre de usuario" 
+                            required>
                         <div class="invalid-feedback" id="name-error"></div>
                     </div>
-
+                    
                     <div class="mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="fa-solid fa-envelope"></i>
-                            </span>
-                            <input type="email"
-                                id="email"
-                                name="email"
-                                placeholder="{{ __('Email') }}"
-                                class="form-control"
-                                required>
-                        </div>
+                        <input type="email" 
+                            name="email" 
+                            id="email"
+                            class="form-control bg-dark border-secondary" 
+                            placeholder="Email" 
+                            required>
                         <div class="invalid-feedback" id="email-error"></div>
                     </div>
-
+                    
                     <div class="mb-4">
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="fa-solid fa-lock"></i>
-                            </span>
-                            <input type="password"
-                                id="password"
-                                name="password"
-                                placeholder="{{ __('Contraseña') }}"
-                                class="form-control"
-                                required
-                                minlength="8">
-                        </div>
+                        <input type="password" 
+                            name="password" 
+                            id="password"
+                            class="form-control bg-dark border-secondary" 
+                            placeholder="Contraseña" 
+                            required>
                         <div class="invalid-feedback" id="password-error"></div>
                     </div>
-
-                    <div class="d-grid">
-                        <button type="submit" id="submit-btn" class="btn-auth">
-                            {{ __('Registrarse') }}
+                    
+                    <div class="d-grid mb-3">
+                        <button type="submit" id="submit-btn" class="btn btn-primary">
+                            Registrarse
                         </button>
                     </div>
+                    
+                    <div class="text-center">
+                        <small>¿Ya tienes cuenta? <a href="/login">Iniciar sesión</a></small>
+                    </div>
                 </form>
-
-                <p class="text-center mt-4 mb-0">
-                    <span class="text-white-50">¿Ya tienes cuenta?</span>
-                    <a href="/login" class="auth-link ms-2">Inicia sesión aquí</a>
-                </p>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+.content-container {
+    background-color: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+</style>
 @endsection
 
 @section('scripts')
@@ -101,96 +75,62 @@
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('register-form');
         const submitBtn = document.getElementById('submit-btn');
-        const alertSuccess = document.getElementById('alert-success');
         const alertError = document.getElementById('alert-error');
-        const successMessage = document.getElementById('success-message');
         const errorMessage = document.getElementById('error-message');
 
-        // Función para mostrar mensajes con animación
-        function showMessage(isSuccess, message) {
-            const alert = isSuccess ? alertSuccess : alertError;
-            const messageElement = isSuccess ? successMessage : errorMessage;
-
-            messageElement.textContent = message;
-            alert.classList.remove('d-none');
-            alert.classList.add('show');
-
-            // Ocultar el otro mensaje
-            const otherAlert = isSuccess ? alertError : alertSuccess;
-            otherAlert.classList.add('d-none');
-            otherAlert.classList.remove('show');
-        }
-
-        form.addEventListener('submit', async function(e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-
-            form.classList.remove('was-validated');
-            document.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
+            
+            // Limpiar errores previos
             document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
-            alertSuccess.classList.remove('show');
-            alertSuccess.classList.add('d-none');
-            alertError.classList.remove('show');
-            alertError.classList.add('d-none');
-
-            if (!form.checkValidity()) {
-                e.stopPropagation();
-                form.classList.add('was-validated');
-                return;
-            }
-
+            
+            submitBtn.disabled = true;
+            
             const formData = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
                 password: document.getElementById('password').value,
             };
-
-            // Iniciar estado de carga
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Procesando...';
-
-            try {
-                const token = document.querySelector('input[name="_token"]').value;
-
-                const response = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': token
-                    },
-                    body: JSON.stringify(formData)
-                });
-
-                const data = await response.json();
-
-                if (!response.ok) {
-                    if (response.status === 422 && data.errors) {
+            
+            fetch('/api/v1/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                submitBtn.disabled = false;
+                
+                if (data.success) {
+                    // Registro exitoso, redirigir a login
+                    if (data.token) localStorage.setItem('auth_token', data.token);
+                    if (data.user) localStorage.setItem('auth_user', JSON.stringify(data.user));
+                    window.location.href = '/login';
+                } else {
+                    // Mostrar errores de validación
+                    if (data.errors) {
                         Object.keys(data.errors).forEach(key => {
-                            const errorElement = document.getElementById(`${key}-error`);
-                            if (errorElement) {
-                                errorElement.textContent = data.errors[key][0];
-                                document.getElementById(key).classList.add('is-invalid');
+                            const input = document.getElementById(key);
+                            if (input) {
+                                input.classList.add('is-invalid');
+                                document.getElementById(`${key}-error`).textContent = data.errors[key][0];
                             }
                         });
-                        showMessage(false, 'Por favor corrige los errores en el formulario');
-                    } else {
-                        throw new Error(data.message || 'Error en el registro');
                     }
-                } else {
-                    showMessage(true, 'Registro exitoso. Redirigiendo...');
-                    if (data.token)  localStorage.setItem('auth_token', data.token);
-                    if (data.user) localStorage.setItem('auth_user', JSON.stringify(data.user));
-
-                    setTimeout(() => {
-                        window.location.href = '/login';
-                    }, 2000);
+                    
+                    errorMessage.textContent = data.message || 'Error en el registro';
+                    alertError.classList.remove('d-none');
                 }
-            } catch (error) {
-                showMessage(false, 'Ha ocurrido un error inesperado');
-            } finally {
+            })
+            .catch(error => {
                 submitBtn.disabled = false;
-                submitBtn.innerHTML = '{{ __("Registrarse") }}';
-            }
+                errorMessage.textContent = 'Error de conexión';
+                alertError.classList.remove('d-none');
+            });
         });
     });
 </script>
