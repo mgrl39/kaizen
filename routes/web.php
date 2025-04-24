@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\SimpleEndpointController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\MovieController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,12 +52,7 @@ Route::get(
 // TODO CAMBIAR EL CONTACT US
 Route::resource('cinema', CinemaController::class);
 
-Route::get(
-    'movies',
-    function () {
-        return view('movies');
-    }
-);
+Route::get('movies', [MovieController::class, 'index']);
 
 // Añade esto en routes/web.php (NO en api.php) para evitar cualquier middleware o filtro
 Route::get('api/v1/movies', function() {
