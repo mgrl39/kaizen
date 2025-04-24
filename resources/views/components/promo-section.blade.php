@@ -13,7 +13,7 @@
                     </a>
                 </div>
                 <div class="col-md-6 position-relative">
-                    <div class="h-100 w-100" style="background: url('https://picsum.photos/800/400') center/cover;"></div>
+                    <div class="h-100 w-100"https://picsum.photos/800/400') center/cover;"></div>
                     <div class="position-absolute top-0 start-0 w-100 h-100 bg-gradient-dark opacity-50"></div>
                 </div>
             </div>

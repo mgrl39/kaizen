@@ -3,7 +3,6 @@
 @section('title', 'Login')
 
 @section('styles')
-<link rel="stylesheet" href="{{ asset('assets/styles/authentication.css') }}">
 @endsection
 
 @section('content')

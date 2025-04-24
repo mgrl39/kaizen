@@ -1,13 +1,13 @@
-<nav class="navbar navbar-expand-md fixed-top" style="background-color: var(--secondary-bg); border-bottom: 1px solid var(--border-color);">
+<nav class="navbar navbar-expand-md fixed-top">
     <div class="container">
 <!-- TODO: de nuevo... ese kaizen logo y tal deberia cambiarlo..... pero no se bien bien como -->
         <a href="/" class="navbar-brand d-flex align-items-center">
             <img src="{{ asset('assets/images/logo.png') }}" alt="Kaizen Logo" class="navbar-logo">
-            <span class="ms-2 fw-bold" style="color: var(--text-primary);">Kaizen</span>
+            <span class="ms-2 fw-bold">Kaizen</span>
         </a>
 
         <div class="d-flex align-items-center">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" style="border-color: var(--border-color);">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
@@ -23,8 +23,8 @@
 
                 @foreach($menuItems as $item)
                     <li class="nav-item">
-                        <a href="{{ $item['url'] }}" class="nav-link d-flex align-items-center" style="color: var(--text-primary);">
-                            <i class="{{ $item['icon'] }} me-2" style="color: var(--primary-color);"></i>{{ $item['text'] }}
+                        <a href="{{ $item['url'] }}" class="nav-link d-flex align-items-center">
+                            <i class="{{ $item['icon'] }} me-2"></i>{{ $item['text'] }}
                         </a>
                     </li>
                 @endforeach
@@ -32,43 +32,43 @@
 <!-- TODO: ARREGLAR TEMA AUTH::USER()->avatar -->
                 @auth
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <div class="profile-image-container me-2">
                                     @if(Auth::user()->avatar)
                                         <img src="{{ Auth::user()->avatar }}" alt="Profile" class="rounded-circle" width="32" height="32">
                                     @else
-                                        <i class="fa-solid fa-user-circle fs-4" style="color: var(--primary-color);"></i>
+                                        <i class="fa-solid fa-user-circle fs-4"></i>
                                     @endif
                                 </div>
                                 <span>{{ Auth::user()->username ?? Auth::user()->name }}</span>
                             </div>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.show') }}" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-user me-2" style="color: var(--primary-color);"></i>
+                                <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.show') }}">
+                                    <i class="fa-solid fa-user me-2"></i>
                                     Mi Perfil
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-cog me-2" style="color: var(--primary-color);"></i>
+                                <a class="dropdown-item d-flex align-items-center" href="{{ route('profile.edit') }}">
+                                    <i class="fa-solid fa-cog me-2"></i>
                                     Editar Perfil
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="/bookings" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-ticket-alt me-2" style="color: var(--primary-color);"></i>
+                                <a class="dropdown-item d-flex align-items-center" href="/bookings">
+                                    <i class="fa-solid fa-ticket-alt me-2"></i>
                                     Mis Reservas
                                 </a>
                             </li>
-                            <li><hr class="dropdown-divider" style="border-color: var(--border-color);"></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" class="d-inline w-100">
                                     @csrf
-                                    <button type="submit" class="dropdown-item d-flex align-items-center" style="color: var(--text-primary);">
-                                        <i class="fa-solid fa-sign-out-alt me-2" style="color: var(--danger-color);"></i>
+                                    <button type="submit" class="dropdown-item d-flex align-items-center">
+                                        <i class="fa-solid fa-sign-out-alt me-2"></i>
                                         Cerrar Sesión
                                     </button>
                                 </form>
@@ -78,45 +78,45 @@
                 @else
                     <!-- Botón de autenticación simplificado -->
                     <li class="nav-item auth-guest">
-                        <a href="/login" class="btn auth-btn" style="margin-right: 5px; background-color: var(--primary-color); color: white; border: none;">
+                        <a href="/login" class="btn auth-btn">
                             <i class="fa-solid fa-sign-in-alt me-1"></i> Acceder
                         </a>
                     </li>
 
                     <!-- Menú de usuario JWT - Oculto por defecto -->
                     <li class="nav-item dropdown auth-user d-none">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: var(--text-primary);">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="d-flex align-items-center">
                                 <div class="profile-image-container me-2">
                                     <img id="user-avatar" src="" alt="Profile" class="rounded-circle d-none" width="32" height="32">
-                                    <i class="fa-solid fa-user-circle fs-4 avatar-placeholder" style="color: var(--primary-color);"></i>
+                                    <i class="fa-solid fa-user-circle fs-4 avatar-placeholder"></i>
                                 </div>
                                 <span id="username-display">Usuario</span>
                             </div>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown" style="background-color: var(--card-bg); border-color: var(--border-color);">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="/profile" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-user me-2" style="color: var(--primary-color);"></i>
+                                <a class="dropdown-item d-flex align-items-center" href="/profile">
+                                    <i class="fa-solid fa-user me-2"></i>
                                     Mi Perfil
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="/profile/edit" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-cog me-2" style="color: var(--primary-color);"></i>
+                                <a class="dropdown-item d-flex align-items-center" href="/profile/edit">
+                                    <i class="fa-solid fa-cog me-2"></i>
                                     Editar Perfil
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="/bookings" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-ticket-alt me-2" style="color: var(--primary-color);"></i>
+                                <a class="dropdown-item d-flex align-items-center" href="/bookings">
+                                    <i class="fa-solid fa-ticket-alt me-2"></i>
                                     Mis Reservas
                                 </a>
                             </li>
-                            <li><hr class="dropdown-divider" style="border-color: var(--border-color);"></li>
+                            <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item d-flex align-items-center" href="#" id="logout-btn" style="color: var(--text-primary);">
-                                    <i class="fa-solid fa-sign-out-alt me-2" style="color: var(--danger-color);"></i>
+                                <a class="dropdown-item d-flex align-items-center" href="#" id="logout-btn">
+                                    <i class="fa-solid fa-sign-out-alt me-2"></i>
                                     Cerrar Sesión
                                 </a>
                             </li>
@@ -128,45 +128,6 @@
     </div>
 </nav>
 
-<style>
-.profile-image-container {
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    border-radius: 50%;
-    background-color: var(--card-bg);
-    border: 2px solid var(--primary-color);
-}
-
-.profile-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.dropdown-item {
-    padding: 0.5rem 1rem;
-    transition: background-color 0.2s ease;
-}
-
-.dropdown-item:hover {
-    background-color: var(--primary-color);
-    color: white !important;
-}
-
-.dropdown-item:hover i {
-    color: white !important;
-}
-
-.navbar-logo {
-    height: 40px;
-    width: auto;
-    object-fit: contain;
-}
-</style>
 
 <script>
 <!-- TODO: CAMBIAR TOTALMETE ESTA LOGICA -->

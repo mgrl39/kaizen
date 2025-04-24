@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Top Movies
             const topHTML = data.slice(0, 8).map(movie => `
-                <div class="swiper-slide" style="width: 250px;">
+                <div class="swiper-slide">
                     <div class="card bg-dark text-white card-hover border-0">
-                        <img src="${movie.photo_url}" class="card-img-top" style="height: 350px; object-fit: cover;">
+                        <img src="${movie.photo_url}" class="card-img-top">
                         <div class="card-body">
                             <h6 class="card-title mb-2">${movie.title}</h6>
                             <div class="d-flex justify-content-between align-items-center">

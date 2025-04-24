@@ -28,7 +28,7 @@
                             </div>
                             <div class="d-flex justify-content-between align-items-center small">
                                 @if($route->getName())
-                                    <span class="text-muted text-truncate" style="max-width: 150px;">
+                                    <span class="text-muted text-truncate">
                                         {{ $route->getName() }}
                                     </span>
                                 @endif
