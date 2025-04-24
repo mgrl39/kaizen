@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Livewire\Livewire;
-use App\Http\Livewire\RouteExplorer;
+// Eliminar cualquier importación relacionada con Livewire
+// use Livewire\Livewire;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,11 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Elimina o comenta cualquier código relacionado con Telescope:
-        // if ($this->app->environment('local')) {
-        //     $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
-        //     $this->app->register(TelescopeServiceProvider::class);
-        // }
+        // Eliminar cualquier registro relacionado con Livewire
     }
 
     /**
@@ -25,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //Livewire::component('route-explorer', RouteExplorer::class);
+        // Eliminar cualquier código relacionado con Livewire
+        // Por ejemplo:
+        // Livewire::component('route-explorer', RouteExplorer::class);
     }
 }

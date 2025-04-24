@@ -57,3 +57,14 @@ Route::get(
         return view('movies');
     }
 );
+
+// Añade esto en routes/web.php (NO en api.php) para evitar cualquier middleware o filtro
+Route::get('api/v1/movies', function() {
+    // Datos mockeados
+    $movies = [
+        ['id' => 1, 'title' => 'Dune', 'year' => 2021],
+        ['id' => 2, 'title' => 'Oppenheimer', 'year' => 2023],
+    ];
+    
+    return response()->json($movies);
+});
