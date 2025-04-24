@@ -2,115 +2,40 @@
 
 @section('title', 'Películas')
 
-@section('styles')
-@endsection
-
 @section('content')
-<div class="container py-5" x-data="movies">
-    <h1 class="text-center mb-5 text-white">
-        <i class="fa-solid fa-film me-2 text-primary"></i>
-        Lista de Películas
-    </h1>
+<h1 class="mb-4"><i class="bi bi-film me-2 text-primary"></i>Películas</h1>
 
-    <!-- Grid de películas -->
-    <div class="row g-4" x-show="!loading && !error && moviesList.length > 0">
-        <template x-for="movie in moviesList" :key="movie.id">
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 movie-card" @click="window.open(`/movies/${movie.id}`, '_blank')">
-                    <img :src="movie.photo_url" :alt="movie.title"
-                        class="card-img-top">
-                    <div class="card-body text-white">
-                        <h5 class="card-title" x-text="movie.title"></h5>
-                        <p class="card-text text-white-50" x-text="movie.synopsis"></p>
-                        <div class="d-flex justify-content-between">
-                            <small><i class="fas fa-clock me-1"></i><span x-text="movie.duration + ' min'"></span></small>
-                            <small><i class="fas fa-calendar me-1"></i><span x-text="formatDate(movie.release_date)"></span></small>
-                        </div>
+<div class="row g-4">
+    @php
+    $movies = [
+        ['id' => 1, 'title' => 'Dune', 'image' => 'https://image.tmdb.org/t/p/w500/jYEW5xZkZk2WTrdbMGAPFuBqbDc.jpg', 'rating' => 8.1, 'date' => '2021-10-01'],
+        ['id' => 2, 'title' => 'Oppenheimer', 'image' => 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg', 'rating' => 8.4, 'date' => '2023-07-21'],
+        ['id' => 3, 'title' => 'Barbie', 'image' => 'https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi8Qzsk3e3hkS.jpg', 'rating' => 7.2, 'date' => '2023-07-21'],
+        ['id' => 4, 'title' => 'Aquaman', 'image' => 'https://image.tmdb.org/t/p/w500/xLPffWMhMj1l50ND3KchMjYoKmE.jpg', 'rating' => 6.9, 'date' => '2023-12-20'],
+        ['id' => 5, 'title' => 'The Marvels', 'image' => 'https://image.tmdb.org/t/p/w500/Ag3D9qXjhJ2FUkrlJ0Cv1pgxqYQ.jpg', 'rating' => 6.3, 'date' => '2023-11-10'],
+        ['id' => 6, 'title' => 'Napoleon', 'image' => 'https://image.tmdb.org/t/p/w500/jE5o7y9K6pZtWNNMEw3IdpHuncR.jpg', 'rating' => 7.5, 'date' => '2023-11-22'],
+    ];
+    @endphp
+    
+    @foreach($movies as $movie)
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                <img src="{{ $movie['image'] }}" class="card-img-top" alt="{{ $movie['title'] }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ $movie['title'] }}</h5>
+                    <p class="card-text small">Lanzamiento: {{ \Carbon\Carbon::parse($movie['date'])->format('d/m/Y') }}</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-primary">
+                            <i class="bi bi-star-fill me-1"></i>{{ $movie['rating'] }}
+                        </span>
+                        <a href="/movies/{{ $movie['id'] }}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-ticket me-1"></i>Reservar
+                        </a>
                     </div>
                 </div>
             </div>
-        </template>
-    </div>
-
-    <!-- Loading -->
-    <div class="text-center py-5" x-show="loading">
-        <div class="spinner-border text-primary"></div>
-        <p class="text-white mt-2">Cargando películas...</p>
-    </div>
-
-    <!-- Error message -->
-    <div class="alert alert-danger" x-show="error" x-text="error" role="alert"></div>
-
-    <!-- Empty state -->
-    <div class="text-center py-5" x-show="!loading && !error && moviesList.length === 0">
-        <i class="fas fa-film-slash fa-3x mb-3 text-white-50"></i>
-        <p class="h4 text-white">No hay películas disponibles</p>
-    </div>
+        </div>
+    @endforeach
 </div>
-@endsection
-
-@section('scripts')
-<!-- <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>-->
-<!-- TODO: npm install -->
-<script>
-<!-- TODO: alpine -->
-    document.addEventListener('alpine:init', () => {
-        Alpine.data('movies', () => ({
-            moviesList: [],
-            loading: true,
-            error: null,
-
-            async init() {
-                try {
-                    await this.loadMovies();
-                    AOS.init({ duration: 800, once: true });
-                } catch (error) {
-                    this.error = 'Error al inicializar la página';
-                }
-            },
-
-            async loadMovies() {
-                try {
-                    const token = document.querySelector('meta[name="csrf-token"]').content;
-                    const response = await fetch('/api/movies', {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': token
-                        },
-                        credentials: 'same-origin'
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`Error al cargar las películas (${response.status})`);
-                    }
-
-                    const data = await response.json();
-
-                    if (data.success && Array.isArray(data.data)) this.moviesList = data.data;
-                    else if (Array.isArray(data)) this.moviesList = data;
-                    else throw new Error('El formato de los datos recibidos no es válido');
-                    if (this.moviesList.length === 0) this.error = 'No hay películas disponibles';
-
-                } catch (error) {
-                    this.error = 'No se pudieron cargar las películas. Por favor, intenta de nuevo más tarde.';
-                    this.moviesList = [];
-                } finally {
-                    this.loading = false;
-                }
-            },
-
-            formatDate(date) {
-                if (!date) return '';
-                return new Date(date).toLocaleDateString('es-ES', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-            }
-        }));
-    });
-</script>
 @endsection
 

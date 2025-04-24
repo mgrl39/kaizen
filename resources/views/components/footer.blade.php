@@ -1,34 +1,25 @@
-<footer class="navbar-prime py-4 mt-5">
+<footer class="bg-dark text-white py-3 mt-4">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
-                <div class="d-flex align-items-center justify-content-center justify-content-md-start">
-                    <img src="{{ asset('assets/images/logo.png') }}" alt="Kaizen Logo" class="navbar-logo me-2">
-                    <span class="fw-semibold brand-text">{{ __('Kaizen') }}</span>
+        <div class="row g-3 text-center text-md-start">
+            <div class="col-md-4">
+                <a href="/" class="text-white text-decoration-none">
+                    <i class="bi bi-film me-2"></i>Kaizen
+                </a>
+            </div>
+
+            <div class="col-md-4 text-md-center">
+                <div class="d-flex justify-content-center justify-content-md-center gap-3">
+                    @foreach(['/' => 'Inicio', '/cinemas' => 'Cines', '/movies' => 'Películas'] as $url => $label)
+                        <a href="{{ $url }}" class="text-white-50 text-decoration-none">{{ $label }}</a>
+                    @endforeach
                 </div>
             </div>
 
-            <div class="col-md-4 text-center mb-3 mb-md-0">
-                <nav>
-                    <ul class="list-inline mb-0">
-                        @foreach(['/' => 'Inicio', '/cinemas' => 'Cines', '/movies' => 'Películas'] as $url => $label)
-                            <li class="list-inline-item mx-2">
-                                <a href="{{ $url }}" class="text-decoration-none prime-link">{{ __($label) }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </nav>
-            </div>
-
-            <div class="col-md-4 text-center text-md-end">
-                <div>
-                    <a href="https://github.com/mgrl39" target="_blank" class="prime-link me-3">
-                        <i class="fab fa-github nav-icon"></i>
-                    </a>
-                    <a href="https://opensource.org/licenses/MIT" target="_blank" class="text-decoration-none small text-muted">
-                        {{ __('MIT License') }}
-                    </a>
-                </div>
+            <div class="col-md-4 text-md-end">
+                <a href="https://github.com" target="_blank" class="text-white me-2">
+                    <i class="bi bi-github"></i>
+                </a>
+                <small class="text-white-50">&copy; {{ date('Y') }} Kaizen</small>
             </div>
         </div>
     </div>
