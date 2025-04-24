@@ -130,7 +130,6 @@
 
 
 <script>
-<!-- TODO: CAMBIAR TOTALMETE ESTA LOGICA -->
 document.addEventListener('DOMContentLoaded', function() {
     if (!document.querySelector('.auth-user.d-none')) {
         function checkAuthentication() {
