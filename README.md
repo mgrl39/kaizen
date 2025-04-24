@@ -1,84 +1,57 @@
-# Kaizen
+<div align="center">
+  <img src="public/assets/images/logo.png" width="180" alt="Kaizen">
+  <h1>Kaizen Cinema Platform</h1>
+  <p><em>Modern cinema management system built with Laravel</em></p>
 
-<p align="center">
-  <img src="public/assets/images/logo.png" width="200" alt="Kaizen">
-</p>
+[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-8892BF?style=flat-square&logo=php)](https://php.net)
+[![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Development-blue?style=flat-square)]()
 
-> Plataforma web moderna para la gestión integral de cines, películas y reservas. Sistema optimizado, rápido y con experiencia de usuario mejorada.
+</div>
 
-<p align="center">
-  <img src="https://img.shields.io/badge/version-1.1.0-blue" alt="Versión">
-  <img src="https://img.shields.io/badge/licencia-MIT-green" alt="Licencia">
-  <img src="https://img.shields.io/badge/estado-en%20desarrollo-orange" alt="Estado">
-  <img src="https://img.shields.io/badge/PHP-8.1+-8892BF" alt="PHP">
-  <img src="https://img.shields.io/badge/Laravel-10.x-FF2D20" alt="Laravel">
-</p>
+## 📋 Overview
 
-## ✨ Características
+> Kaizen is an elegant cinema management platform featuring movie catalogs, show scheduling, and booking capabilities with a modern responsive interface.
 
-- 🏢 **Gestión de cines y salas** - Control integral de múltiples cines
-- 🎞️ **Catálogo de películas** - Información detallada, trailers y valoraciones
-- 🎭 **Programación inteligente** - Proyecciones optimizadas según demanda
-- 🎟️ **Reservas simplificadas** - Proceso de compra rápido e intuitivo
-- 👥 **Usuarios y permisos** - Sistema de roles avanzado
-- 📊 **Panel de administración** - Estadísticas en tiempo real
-- 📱 **Diseño responsive** - Experiencia perfecta en cualquier dispositivo
-- 🌙 **Modo oscuro** - Interfaz adaptable a preferencias del usuario
+## ✨ Key Features
 
-## 🔧 Stack Tecnológico
+-   **🎬 Movie Management** - Catalog with detailed information
+-   **🎭 Show Scheduling** - Optimized cinema programming
+-   **🎟️ Booking System** - Quick and intuitive purchase process
+-   **🌙 Dark Mode** - Eye-friendly interface option
 
-<p align="center">
-  <img src="public/assets/images/laravel.png" width="6%" alt="Laravel">&nbsp;&nbsp;&nbsp;
-  <img src="public/assets/images/mysql.png" width="7%" alt="MySQL">&nbsp;&nbsp;&nbsp;
-</p>
-
-<p align="center">
-  <b>Backend:</b> PHP 8.1+ | Laravel 10.x | <b>Base de datos:</b> MySQL | <b>Frontend:</b>| Bootstrap 5
-</p>
-
-## 🚀 Instalación
+## 🚀 Quick Start
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/mgrl39/kaizen.git
-cd kaizen
+# Clone repository
+git clone https://github.com/mgrl39/kaizen.git && cd kaizen
 
-# Instalar dependencias
+# Setup environment
 composer install
-npm install
-
-# Configurar el entorno
 cp .env.example .env
 php artisan key:generate
 
-# Configurar la base de datos en .env:
-# DB_CONNECTION=mysql
-# DB_HOST=127.0.0.1
-# DB_PORT=3306
-# DB_DATABASE=kaizen
-# DB_USERNAME=root
-# DB_PASSWORD=
-
-# Ejecutar migraciones y seeders
+# Database migration
 php artisan migrate --seed
 
-# Compilar assets
-npm run dev
-
-# Iniciar servidor
+# Serve application
 php artisan serve
 ```
 
-## 📝 Documentación
+> **Note**  
+> Make sure to configure your database settings in the `.env` file before running migrations.
 
-La documentación completa está disponible en `/docs` o visitando `/api-docs` en la aplicación en ejecución.
+## 💡 Usage Tips
 
-## 📄 Licencia
+> **Important**  
+> This application uses API versioning with `/api/v1/` prefix for all endpoints.
 
-Este proyecto está licenciado bajo [MIT License](LICENSE).
+## 🤝 Contributing
 
----
+Contributions are welcome! Please check our contributing guidelines before submitting pull requests.
 
-<p align="center">
-  Desarrollado con ❤️ por <a href="https://github.com/mgrl39">mgrl39</a>
-</p>
+<div align="center">
+  <br>
+  <p>Built with ❤️ by the Kaizen Team</p>
+</div>
