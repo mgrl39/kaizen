@@ -19,36 +19,38 @@
     </div>
 </div>
 
-<!-- Películas destacadas -->
-<h2 class="mb-3"><i class="bi bi-stars me-2 text-warning"></i>Películas destacadas</h2>
-
-<div class="row g-4 mb-5">
-    @php
-    $movies = [
-        ['id' => 1, 'title' => 'Dune', 'image' => 'https://image.tmdb.org/t/p/w500/jYEW5xZkZk2WTrdbMGAPFuBqbDc.jpg', 'rating' => 8.1],
-        ['id' => 2, 'title' => 'Oppenheimer', 'image' => 'https://image.tmdb.org/t/p/w500/8Gxv8gSFCU0XGDykEGv7zR1n2ua.jpg', 'rating' => 8.4],
-        ['id' => 3, 'title' => 'Barbie', 'image' => 'https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi8Qzsk3e3hkS.jpg', 'rating' => 7.2],
-    ];
-    @endphp
+<!-- Sección de Películas Destacadas -->
+<div class="container mb-5">
+    <h2 class="mb-4">Películas Destacadas</h2>
     
-    @foreach($movies as $movie)
-        <div class="col-md-4">
-            <div class="card h-100">
-                <img src="{{ $movie['image'] }}" class="card-img-top" alt="{{ $movie['title'] }}">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $movie['title'] }}</h5>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="badge bg-primary">
-                            <i class="bi bi-star-fill me-1"></i>{{ $movie['rating'] }}
-                        </span>
-                        <a href="/movies/{{ $movie['id'] }}" class="btn btn-primary btn-sm">
-                            <i class="bi bi-ticket me-1"></i>Reservar
-                        </a>
+    <div class="row">
+        @if(count($featuredMovies) > 0)
+            @foreach($featuredMovies as $movie)
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ $movie['photo_url'] ?? $movie['poster'] ?? asset('img/default-movie.jpg') }}" 
+                             class="card-img-top" alt="{{ $movie['title'] }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $movie['title'] }}</h5>
+                            <p class="card-text">{{ \Illuminate\Support\Str::limit($movie['synopsis'] ?? 'Sin descripción disponible', 100) }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-primary">
+                                    <i class="bi bi-star-fill me-1"></i>{{ $movie['rating'] ?? '?' }}
+                                </span>
+                                <a href="/movies/{{ $movie['id'] }}" class="btn btn-primary btn-sm">
+                                    <i class="bi bi-ticket me-1"></i>Ver detalles
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            @endforeach
+        @else
+            <div class="col-12 text-center">
+                <p>No hay películas destacadas disponibles en este momento.</p>
             </div>
-        </div>
-    @endforeach
+        @endif
+    </div>
 </div>
 
 <!-- Categorías -->

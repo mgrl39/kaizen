@@ -10,6 +10,7 @@ use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\SimpleEndpointController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,9 +25,7 @@ use App\Http\Controllers\MovieController;
 
 Route::get(
     '/',
-    function () {
-        return view('welcome');
-    }
+    [WelcomeController::class, 'index']
 );
 Route::get(
     '/register',
