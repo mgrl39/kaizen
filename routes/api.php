@@ -14,7 +14,7 @@ use App\Http\Controllers\API\MovieController;
 use App\Http\Controllers\API\CinemaController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\GenreController;
-use App\Http\Controllers\API\ActorController;
+// use App\Http\Controllers\API\ActorController;
 use App\Http\Controllers\API\FunctionController;
 use App\Http\Controllers\MovieController as MovieControllerAlias;
 use Illuminate\Http\Request;
@@ -34,8 +34,7 @@ use App\Http\Controllers\API\ApiInfoController;
 // Rutas API v1
 Route::prefix('v1')->group(function () {
     // Rutas para películas
-    Route::get('movies', [MovieController::class, 'index']);
-    Route::get('movies/{id}', [MovieController::class, 'show']);
+    Route::resource('movies', MovieController::class);
     
     // Rutas para cines
     Route::get('/cinemas', [CinemaController::class, 'index']);
@@ -49,9 +48,9 @@ Route::prefix('v1')->group(function () {
     Route::get('genres/{genre}/movies', [GenreController::class, 'movies']);
 
     // Rutas para actores (solo lectura)
-    Route::get('actors', [ActorController::class, 'index']);
-    Route::get('actors/{actor}', [ActorController::class, 'show']);
-    Route::get('actors/{actor}/movies', [ActorController::class, 'movies']);
+    // Route::get('actors', [ActorController::class, 'index']);
+    // Route::get('actors/{actor}', [ActorController::class, 'show']);
+    // Route::get('actors/{actor}/movies', [ActorController::class, 'movies']);
 
     // Rutas para funciones/proyecciones (solo lectura)
     Route::get('screenings', [FunctionController::class, 'index']);
