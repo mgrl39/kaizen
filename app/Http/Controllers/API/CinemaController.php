@@ -9,8 +9,16 @@ use Illuminate\Support\Facades\Log;
 use App\Models\Movie;
 use App\Models\Functions;
 
+/**
+ * @class CinemaController
+ * @brief Controlador para gestionar operaciones relacionadas con cines
+ */
 class CinemaController extends Controller
 {
+    /**
+     * @brief Obtiene todos los cines
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         try {
@@ -32,6 +40,11 @@ class CinemaController extends Controller
         }
     }
 
+    /**
+     * @brief Crea un nuevo cine
+     * @param Request $request Datos del cine a crear
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
         try {
@@ -55,6 +68,11 @@ class CinemaController extends Controller
         }
     }
 
+    /**
+     * @brief Muestra un cine específico
+     * @param int $id ID del cine
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($id)
     {
         try {
@@ -73,6 +91,12 @@ class CinemaController extends Controller
         }
     }
 
+    /**
+     * @brief Actualiza un cine existente
+     * @param Request $request Datos actualizados del cine
+     * @param int $id ID del cine a actualizar
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, $id)
     {
         try {
@@ -97,6 +121,11 @@ class CinemaController extends Controller
         }
     }
 
+    /**
+     * @brief Elimina un cine
+     * @param int $id ID del cine a eliminar
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function destroy($id)
     {
         try {
@@ -115,6 +144,11 @@ class CinemaController extends Controller
         }
     }
 
+    /**
+     * @brief Obtiene las salas de un cine
+     * @param int $id ID del cine
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function rooms($id)
     {
         try {
@@ -139,7 +173,9 @@ class CinemaController extends Controller
     }
 
     /**
-     * Obtener películas que se proyectan en un cine
+     * @brief Obtiene películas que se proyectan en un cine
+     * @param int $id ID del cine
+     * @return \Illuminate\Http\JsonResponse
      */
     public function movies($id)
     {
@@ -161,7 +197,9 @@ class CinemaController extends Controller
     }
 
     /**
-     * Obtener cines por ubicación
+     * @brief Obtiene cines por ubicación
+     * @param string $location Ubicación a buscar
+     * @return \Illuminate\Http\JsonResponse
      */
     public function byLocation($location)
     {
@@ -176,7 +214,9 @@ class CinemaController extends Controller
     }
 
     /**
-     * Buscar cines
+     * @brief Busca cines por nombre o ubicación
+     * @param Request $request Contiene el parámetro de búsqueda 'q'
+     * @return \Illuminate\Http\JsonResponse
      */
     public function search(Request $request)
     {
@@ -194,4 +234,3 @@ class CinemaController extends Controller
         ]);
     }
 }
-
