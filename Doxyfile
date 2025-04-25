@@ -1,87 +1,112 @@
 # Configuración básica
-PROJECT_NAME           = "Kaizen System"
-PROJECT_NUMBER        = "1.0"
+PROJECT_NAME           = "Kaizen Cinema"
+PROJECT_NUMBER         = "1.0"
+PROJECT_BRIEF          = "Plataforma moderna de gestión cinematográfica"
+PROJECT_LOGO           = public/assets/images/logo.png
 OUTPUT_DIRECTORY       = docs
 USE_MDFILE_AS_MAINPAGE = README.md
 
 # Desactivar formatos innecesarios
-GENERATE_LATEX        = NO
-GENERATE_RTF          = NO
-GENERATE_MAN          = NO
-GENERATE_XML          = NO
+GENERATE_LATEX         = NO
+GENERATE_RTF           = NO
+GENERATE_MAN           = NO
+GENERATE_XML           = NO
 
-# Configuración HTML
-GENERATE_HTML         = YES
-HTML_OUTPUT           = .
-HTML_FILE_EXTENSION   = .html
-HTML_EXTRA_STYLESHEET = .github/assets/doxygen-awesome.css
-HTML_COLORSTYLE       = LIGHT
-HTML_DYNAMIC_MENUS    = YES
-GENERATE_TREEVIEW     = YES
-FULL_SIDEBAR         = YES
-HTML_CODE_FOLDING     = YES
+# Configuración HTML mejorada
+GENERATE_HTML          = YES
+HTML_OUTPUT            = .
+HTML_FILE_EXTENSION    = .html
+HTML_EXTRA_STYLESHEET  = .github/assets/doxygen-awesome.css .github/assets/custom-doxygen.css
+HTML_COLORSTYLE        = DARK
+HTML_COLORSTYLE_HUE    = 260
+HTML_COLORSTYLE_SAT    = 200
+HTML_COLORSTYLE_GAMMA  = 130
+HTML_DYNAMIC_MENUS     = YES
+GENERATE_TREEVIEW      = YES
+FULL_SIDEBAR           = YES
+HTML_CODE_FOLDING      = YES
+HTML_TIMESTAMP         = YES
 
 # Directorios de entrada
-INPUT                = app/ routes/ database/ config/ resources/
-RECURSIVE            = YES
-FILE_PATTERNS        = *.php *.md *.js *.css *.blade.php
+INPUT                  = app/ routes/ database/ config/ resources/
+RECURSIVE              = YES
+FILE_PATTERNS          = *.php *.md *.js *.css *.blade.php
 
 # Exclusiones
-EXCLUDE              = vendor/ \
-                      node_modules/ \
-                      storage/ \
-                      bootstrap/cache/ \
-                      public/ \
-                      tests/ \
-                      logs/ \
-                      database/migrations/
-EXCLUDE_PATTERNS     = *.min.js *.min.css
+EXCLUDE                = vendor/ \
+                         node_modules/ \
+                         storage/ \
+                         bootstrap/cache/ \
+                         public/ \
+                         tests/ \
+                         logs/ \
+                         database/migrations/
+EXCLUDE_PATTERNS       = *.min.js *.min.css
 
-# Gráficos y diagramas
-HAVE_DOT            = YES
-CLASS_GRAPH         = YES
-COLLABORATION_GRAPH = YES
-INCLUDE_GRAPH       = YES
-CALL_GRAPH         = YES
-CALLER_GRAPH       = YES
-DIRECTORY_GRAPH    = YES
+# Gráficos y diagramas mejorados
+HAVE_DOT                = YES
+DOT_IMAGE_FORMAT        = SVG
+INTERACTIVE_SVG         = YES
+DOT_GRAPH_MAX_NODES     = 100
+MAX_DOT_GRAPH_DEPTH     = 0
+DOT_TRANSPARENT         = YES
+CLASS_GRAPH             = YES
+COLLABORATION_GRAPH     = YES
+INCLUDE_GRAPH           = YES
+CALL_GRAPH              = YES
+CALLER_GRAPH            = YES
+DIRECTORY_GRAPH         = YES
+DOT_CLEANUP             = YES
 
 # Configuración PHP
 OPTIMIZE_OUTPUT_FOR_PHP = YES
-MARKDOWN_SUPPORT    = YES
-TOC_INCLUDE_HEADINGS = 5
-EXTRACT_ALL        = YES
-EXTRACT_PRIVATE    = YES
-EXTRACT_STATIC     = YES
-EXTRACT_LOCAL_CLASSES = YES
-EXTRACT_LOCAL_METHODS = YES
+MARKDOWN_SUPPORT        = YES
+TOC_INCLUDE_HEADINGS    = 5
+EXTRACT_ALL             = YES
+EXTRACT_PRIVATE         = YES
+EXTRACT_STATIC          = YES
+EXTRACT_LOCAL_CLASSES   = YES
+EXTRACT_LOCAL_METHODS   = YES
 
 # Navegación y búsqueda
-SEARCHENGINE        = YES
-SERVER_BASED_SEARCH = NO
-EXTERNAL_SEARCH    = NO
+SEARCHENGINE            = YES
+SERVER_BASED_SEARCH     = NO
+EXTERNAL_SEARCH         = NO
 
 # Idioma
-LANGUAGE           = Spanish
-OUTPUT_LANGUAGE    = Spanish
+LANGUAGE                = Spanish
+OUTPUT_LANGUAGE         = Spanish
 
 # Visualización de código
-SOURCE_BROWSER     = YES
-INLINE_SOURCES     = YES
-REFERENCED_BY_RELATION = YES
-REFERENCES_RELATION = YES
-REFERENCES_LINK_SOURCE = YES
-SOURCE_TOOLTIPS    = YES
+SOURCE_BROWSER          = YES
+INLINE_SOURCES          = YES
+REFERENCED_BY_RELATION  = YES
+REFERENCES_RELATION     = YES
+REFERENCES_LINK_SOURCE  = YES
+SOURCE_TOOLTIPS         = YES
 
 # Mostrar nombres de archivos
-SHOW_USED_FILES        = YES
-SHOW_FILES             = YES
-SHOW_NAMESPACES        = YES
+SHOW_USED_FILES         = YES
+SHOW_FILES              = YES
+SHOW_NAMESPACES         = YES
 
 # Configuración de la navegación
-ALPHABETICAL_INDEX     = YES
-COLS_IN_ALPHA_INDEX    = 3
+ALPHABETICAL_INDEX      = YES
+COLS_IN_ALPHA_INDEX     = 3
 
 # Configuración para Laravel
-EXCLUDE_PATTERNS     += */tests/* */vendor/* */storage/* */bootstrap/cache/*
-EXCLUDE_PATTERNS     += *.test.php *.spec.php
+EXCLUDE_PATTERNS       += */tests/* */vendor/* */storage/* */bootstrap/cache/*
+EXCLUDE_PATTERNS       += *.test.php *.spec.php
+
+# Configuraciones adicionales para mejor apariencia
+BRIEF_MEMBER_DESC       = YES
+REPEAT_BRIEF            = YES
+ALWAYS_DETAILED_SEC     = YES
+JAVADOC_AUTOBRIEF       = YES
+QT_AUTOBRIEF            = YES
+MULTILINE_CPP_IS_BRIEF  = YES
+INHERIT_DOCS            = YES
+SEPARATE_MEMBER_PAGES   = NO
+DISTRIBUTE_GROUP_DOC    = YES
+SUBGROUPING             = YES
+SORT_MEMBERS_CTORS_1ST  = YES

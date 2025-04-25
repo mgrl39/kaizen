@@ -1,0 +1,172 @@
+html {
+    /* Variables del tema para modo claro */
+    --primary-color: #6a11cb;
+    --primary-dark-color: #4a0d8f;
+    --primary-light-color: #8e3df5;
+    --page-background-color: #fbfbfd;
+    --page-foreground-color: #2f4153;
+    --page-secondary-foreground-color: #6f7e8e;
+    --fragment-background: #f4f4f9;
+    --fragment-foreground: #37474f;
+    --side-nav-fixed-width: 300px;
+    --sidebar-width: 300px;
+    --searchbar-background: rgba(240, 240, 250, 0.8);
+    --searchbar-foreground: var(--page-foreground-color);
+    --font-family: "Nunito", -apple-system, BlinkMacSystemFont, system-ui,
+        sans-serif;
+    --content-maxwidth: 1200px;
+    --menu-focus-foreground: white;
+    --menu-focus-background: var(--primary-color);
+    --border-radius-small: 6px;
+    --border-radius-medium: 8px;
+    --border-radius-large: 10px;
+    --side-nav-arrow-opacity: 0.8;
+    --side-nav-arrow-hover-opacity: 1;
+}
+
+html.dark-mode {
+    /* Variables del tema para modo oscuro */
+    --primary-color: #8e3df5;
+    --primary-dark-color: #6a11cb;
+    --primary-light-color: #b68ffa;
+    --page-background-color: #121212;
+    --page-foreground-color: #d2dbde;
+    --page-secondary-foreground-color: #9dabb1;
+    --fragment-background: #1e1e2f;
+    --fragment-foreground: #dbe4eb;
+    --menu-focus-foreground: white;
+    --menu-focus-background: var(--primary-color);
+}
+
+/* Estilos generales */
+body {
+    font-family: var(--font-family);
+    letter-spacing: 0.2px;
+}
+
+/* Títulos elegantes */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 2.2rem;
+    border-bottom: 2px solid var(--primary-light-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-top: 30px;
+}
+
+/* Tablas mejoradas */
+table.doxtable {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+    border-radius: var(--border-radius-medium);
+    overflow: hidden;
+}
+
+table.doxtable th {
+    background: var(--primary-dark-color);
+    color: white;
+}
+
+table.doxtable tr:nth-child(even) {
+    background-color: rgba(106, 17, 203, 0.05);
+}
+
+/* Bloques de código */
+div.fragment {
+    padding: 16px;
+    margin: 16px 0;
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Navegación lateral */
+#side-nav {
+    background-color: rgba(250, 250, 255, 0.5);
+    padding-top: 20px;
+}
+
+html.dark-mode #side-nav {
+    background-color: rgba(20, 20, 35, 0.5);
+}
+
+#nav-tree .item {
+    padding: 5px 0;
+}
+
+#nav-tree .selected {
+    background-image: linear-gradient(
+        to right,
+        var(--primary-color),
+        var(--primary-light-color)
+    );
+    border-radius: var(--border-radius-small);
+    color: white;
+}
+
+/* Barra de navegación superior */
+#titlearea {
+    border-bottom: 1px solid rgba(106, 17, 203, 0.2);
+    background: linear-gradient(
+        to right,
+        var(--primary-dark-color),
+        var(--primary-color)
+    );
+    color: white;
+    padding: 15px 0;
+}
+
+#projectname {
+    font-weight: 700;
+    font-size: 2rem;
+}
+
+#projectbrief {
+    font-style: italic;
+    opacity: 0.8;
+}
+
+/* Barra de búsqueda */
+#MSearchBox {
+    border-radius: 20px;
+    background: var(--searchbar-background);
+    border: 1px solid rgba(106, 17, 203, 0.2);
+    margin-right: 20px;
+}
+
+/* Efectos de hover para enlaces */
+a:hover {
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+/* Tarjetas para clases y miembros */
+.memitem,
+.memdoc {
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.memitem:hover {
+    box-shadow: 0 5px 15px rgba(106, 17, 203, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+    background-color: var(--fragment-background);
+    border-top: 1px solid rgba(106, 17, 203, 0.1);
+    padding: 15px 0;
+    text-align: center;
+}
