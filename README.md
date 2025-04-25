@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/assets/images/logo.png" width="180" alt="Kaizen">
+  <img src="public/assets/images/kaizen_logo_transparent.png" width="180" alt="Kaizen">
   <h1>Kaizen Cinema Platform</h1>
   <p><em>Modern cinema management system built with Laravel</em></p>
 
