@@ -4,14 +4,28 @@ namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
+/**
+ * @file
+ * @brief Contiene la clase principal del kernel HTTP de la aplicación
+ */
+
+/**
+ * @class Kernel
+ * @brief Gestiona el stack de middleware HTTP de la aplicación
+ * 
+ * Esta clase extiende el kernel HTTP base de Laravel y define
+ * los middleware globales, grupos de middleware y alias de middleware
+ * que se aplican a las solicitudes HTTP.
+ * 
+ * @author Laravel
+ */
 class Kernel extends HttpKernel
 {
     /**
-     * The application's global HTTP middleware stack.
+     * @var array<int, class-string|string> $middleware
+     * @brief Stack global de middleware HTTP de la aplicación
      *
-     * These middleware are run during every request to your application.
-     *
-     * @var array<int, class-string|string>
+     * Estos middleware se ejecutan durante cada solicitud a la aplicación.
      */
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
@@ -24,9 +38,12 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's route middleware groups.
+     * @var array<string, array<int, class-string|string>> $middlewareGroups
+     * @brief Grupos de middleware de la aplicación
      *
-     * @var array<string, array<int, class-string|string>>
+     * Los grupos permiten agrupar varios middleware bajo una sola clave para
+     * facilitar su asignación a rutas. Por ejemplo, el grupo 'web' se aplica
+     * automáticamente a las rutas dentro de routes/web.php
      */
     protected $middlewareGroups = [
         'web' => [
@@ -47,11 +64,11 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * The application's middleware aliases.
+     * @var array<string, class-string|string> $middlewareAliases
+     * @brief Aliases de middleware de la aplicación
      *
-     * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
-     *
-     * @var array<string, class-string|string>
+     * Los aliases se pueden usar en lugar de nombres de clase para asignar
+     * convenientemente middleware a rutas y grupos.
      */
     protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
