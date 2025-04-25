@@ -8,13 +8,11 @@
 
     <div class="border rounded mb-4">
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 p-4">
-            @foreach(Route::getRoutes() as $route)
+            @foreach($routes as $route)
                 @php
-                    $methods = array_diff($route->methods(), ['HEAD']);
+                    $methods = array_diff($route['methods'], ['HEAD']);
                     if (empty($methods)) continue;
                 @endphp
-
-            var_dump($methods);
                 <div class="col">
                     <div class="card h-100 border">
                         <div class="card-body p-3">
