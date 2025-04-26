@@ -28,19 +28,19 @@ HTML_CODE_FOLDING      = YES
 HTML_TIMESTAMP         = YES
 
 # Directorios de entrada
-INPUT                  = app/ routes/ database/ config/ resources/
+INPUT                  = srcs/back/ srcs/front/
 RECURSIVE              = YES
-FILE_PATTERNS          = *.php *.md *.js *.css *.blade.php
+FILE_PATTERNS          = *.php *.md *.js *.css *.svelte *.ts
 
 # Exclusiones
-EXCLUDE                = vendor/ \
-                         node_modules/ \
-                         storage/ \
-                         bootstrap/cache/ \
-                         public/ \
-                         tests/ \
-                         logs/ \
-                         database/migrations/
+EXCLUDE                = srcs/back/vendor/ \
+                         srcs/front/node_modules/ \
+                         srcs/back/storage/ \
+                         srcs/back/bootstrap/cache/ \
+                         srcs/front/public/ \
+                         srcs/back/tests/ \
+                         srcs/back/logs/ \
+                         srcs/back/database/migrations/
 EXCLUDE_PATTERNS       = *.min.js *.min.css
 
 # Gráficos y diagramas mejorados
@@ -58,8 +58,10 @@ CALLER_GRAPH            = YES
 DIRECTORY_GRAPH         = YES
 DOT_CLEANUP             = YES
 
-# Configuración PHP
+# Configuración para diferentes lenguajes
 OPTIMIZE_OUTPUT_FOR_PHP = YES
+OPTIMIZE_OUTPUT_JAVA    = NO
+OPTIMIZE_OUTPUT_VHDL    = NO
 MARKDOWN_SUPPORT        = YES
 TOC_INCLUDE_HEADINGS    = 5
 EXTRACT_ALL             = YES
@@ -94,8 +96,8 @@ SHOW_NAMESPACES         = YES
 ALPHABETICAL_INDEX      = YES
 COLS_IN_ALPHA_INDEX     = 3
 
-# Configuración para Laravel
-EXCLUDE_PATTERNS       += */tests/* */vendor/* */storage/* */bootstrap/cache/*
+# Configuración para exclusiones específicas
+EXCLUDE_PATTERNS       += */tests/* */vendor/* */node_modules/* */storage/* */bootstrap/cache/*
 EXCLUDE_PATTERNS       += *.test.php *.spec.php
 
 # Configuraciones adicionales para mejor apariencia
