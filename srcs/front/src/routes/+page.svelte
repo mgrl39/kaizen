@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import type { Movie, Category } from '$lib/types';
   
-  // Datos de ejemplo para las películas destacadas (en una aplicación real, estos datos vendrían de una API)
+  // Estado para las películas destacadas
   let featuredMovies: Movie[] = [];
   let loading: boolean = true;
   let error: string | null = null;
@@ -14,40 +14,42 @@
     {name: 'Drama', icon: 'mask', color: 'info', gradient: 'info'}
   ];
   
+  // Función para obtener películas aleatorias de un array
+  function getRandomMovies(movies: Movie[], count: number): Movie[] {
+    const shuffled = [...movies].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, count);
+  }
+  
   onMount(async () => {
     try {
-      // Simulamos una llamada a la API con un timeout
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Obtener películas desde la API real
+      const response = await fetch('http://localhost:8000/api/v1/movies');
       
-      // Datos de ejemplo
-      featuredMovies = [
-        { 
-          id: 1, 
-          title: 'Inception', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg',
-          synopsis: 'Un ladrón que roba secretos corporativos a través del uso de la tecnología de compartir sueños, se le da la tarea inversa de plantar una idea en la mente de un CEO.',
-          rating: 8.8
-        },
-        { 
-          id: 2, 
-          title: 'The Dark Knight', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg',
-          synopsis: 'Cuando la amenaza conocida como el Joker causa estragos y caos en Gotham City, Batman debe aceptar una de las mayores pruebas psicológicas y físicas para luchar contra la injusticia.',
-          rating: 9.0
-        },
-        { 
-          id: 3, 
-          title: 'Interstellar', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg',
-          synopsis: 'Un equipo de exploradores viaja a través de un agujero de gusano en el espacio en un intento de garantizar la supervivencia de la humanidad.',
-          rating: 8.6
-        }
-      ];
+      if (!response.ok) {
+        throw new Error(`API respondió con estado: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Procesar la respuesta según su estructura
+      let allMovies: Movie[] = [];
+      
+      if (Array.isArray(data)) {
+        allMovies = data;
+      } else if (data && data.data && Array.isArray(data.data)) {
+        // Si la respuesta está dentro de un objeto con propiedad 'data'
+        allMovies = data.data;
+      } else {
+        throw new Error('Formato de respuesta API inesperado');
+      }
+      
+      // Seleccionar 3 películas aleatorias
+      featuredMovies = getRandomMovies(allMovies, 3);
       
       loading = false;
     } catch (err) {
       console.error('Error cargando películas:', err);
-      error = "No se pudieron cargar las películas destacadas.";
+      error = "No se pudieron cargar las películas destacadas: " + (err instanceof Error ? err.message : String(err));
       loading = false;
     }
   });
