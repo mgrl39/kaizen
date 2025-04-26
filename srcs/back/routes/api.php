@@ -93,8 +93,12 @@ Route::fallback(function () {
         ], 404);
     }
     
-    // Para otras rutas no API (opcional, puedes eliminar esta parte)
-    return response()->view('errors.404', [], 404);
+    // Para otras rutas no API
+    return response()->json([
+        'success' => false,
+        'message' => 'Resource not found. This is an API-only server.',
+        'status' => 404
+    ], 404);
 });
 
 Route::get('v1/endpoints', [ApiInfoController::class, 'listEndpoints']);

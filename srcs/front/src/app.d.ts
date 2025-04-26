@@ -1,4 +1,4 @@
-// See https://svelte.dev/docs/kit/types#app.d.ts
+// See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
 	namespace App {
@@ -11,3 +11,8 @@ declare global {
 }
 
 export {};
+
+// Declaración para bootstrap
+declare module 'bootstrap/dist/js/bootstrap.bundle.min.js';
+declare module 'bootstrap/dist/css/bootstrap.min.css';
+declare module 'bootstrap-icons/font/bootstrap-icons.css';

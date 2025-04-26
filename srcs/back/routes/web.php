@@ -10,7 +10,6 @@ use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\SimpleEndpointController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MovieController;
-use App\Http\Controllers\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,32 +22,21 @@ use App\Http\Controllers\WelcomeController;
 |
 */
 
-Route::get(
-    '/',
-    [WelcomeController::class, 'index']
-);
-Route::get(
-    '/register',
-    function () {
-        return view('register');
-    }
-);
+// Root route with API info
+Route::get('/', function () {
+    return response()->json([
+        'message' => 'API Server',
+        'api_version' => 'v1',
+        'documentation' => '/api/v1/endpoints'
+    ]);
+});
 
-Route::get(
-    '/login',
-    function () {
-        return view('login');
-    }
-);
-
-// Ruta para URLs
+// API routes for frontend consumption
 Route::get('/urls', [SimpleEndpointController::class, 'index']);
 Route::get(
     'lang/{locale}',
     [LanguageController::class, 'switchLang']
 )->name('language');
 
-// TODO CAMBIAR EL CONTACT US
 Route::resource('cinema', CinemaController::class);
-
 Route::get('movies', [MovieController::class, 'index']);
