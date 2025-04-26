@@ -123,21 +123,6 @@
 	line-height: 1.5;
 }
 
-/* Badge para categorías */
-.category-badge {
-	position: absolute;
-	top: 1rem;
-	right: 1rem;
-	background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-	color: white;
-	font-size: 0.75rem;
-	padding: 0.35rem 0.75rem;
-	border-radius: 2rem;
-	font-weight: 500;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	z-index: 2;
-}
-
 /* Card Content Styling */
 .card-body {
 	padding: 1.25rem;
@@ -178,11 +163,6 @@
 	padding: 0.5rem 1rem;
 }
 
-.navbar.scrolled {
-	background-color: rgba(18, 23, 33, 0.8);
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
 .navbar .nav-link {
 	color: rgba(255, 255, 255, 0.8);
 	font-weight: 500;
@@ -201,6 +181,7 @@
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
+
 .footer {
 	background-color: rgba(33, 37, 41, 0.95);
 	border-top: 1px solid rgba(255, 255, 255, 0.1);
