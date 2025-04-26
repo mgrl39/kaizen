@@ -2,39 +2,22 @@
   import { onMount } from 'svelte';
   import type { LoginCredentials } from '$lib/types';
   
-  // Variables para el formulario
   let email: string = '';
   let password: string = '';
   let loading: boolean = false;
   let errorMessage: string = '';
   let showError: boolean = false;
   
-  // Función para manejar el envío del formulario
   async function handleSubmit(): Promise<void> {
     loading = true;
     showError = false;
     
     try {
-      // En una aplicación real, aquí haríamos una llamada a la API
-      // const credentials: LoginCredentials = { email, password };
-      // const response = await fetch('/api/v1/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'X-Requested-With': 'XMLHttpRequest'
-      //   },
-      //   body: JSON.stringify(credentials)
-      // });
-      // const data = await response.json();
-      
-      // Simulamos una respuesta (eliminar en producción)
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       if (email === 'admin@example.com' && password === 'password') {
-        // Simular éxito
         window.location.href = '/';
       } else {
-        // Simular error
         errorMessage = 'Credenciales incorrectas';
         showError = true;
         loading = false;
@@ -110,3 +93,6 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   }
 </style> 
+
+<div class="stripe-blob blob-1"></div>
+<div class="stripe-blob blob-2"></div> 
