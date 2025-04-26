@@ -21,8 +21,8 @@
   <!-- Barra de navegación -->
   <Navbar />
   
-  <!-- Contenido principal con padding para compensar la navbar fija -->
-  <main class="container py-5 mt-5 flex-grow-1">
+  <!-- Contenido principal con padding reducido -->
+  <main class="container py-3 mt-2 flex-grow-1">
     <slot />
   </main>
   
