@@ -1,4 +1,0 @@
-[submodule "tools/gadget"]
-	path = tools/gadget
-	url = https://github.com/mgrl39/gadget
-    branch = main 
