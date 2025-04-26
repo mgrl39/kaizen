@@ -1,24 +1,63 @@
-/.phpunit.cache
-/node_modules
-/public/build
-/public/hot
-/public/storage
-/storage/*.key
-/vendor
-# Ya que es un de test, lo guardo. Pero no
-#.env
-.env.backup
-.env.production
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Dependencias
+node_modules
+vendor
+composer.phar
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build
+build
+dist
+public/build
+public/hot
+public/storage
+storage/*.key
+.phpunit.cache
+.vite
+
+# Caché y logs
+*.log
+*.cache
+*.bak
+*.tmp
 .phpunit.result.cache
+.php-cs-fixer.cache
 Homestead.json
 Homestead.yaml
 auth.json
 npm-debug.log
 yarn-error.log
-/.fleet
-/.idea
-/.vscode
 
-# Configuración de isard
+# Isard
 isard-vpn*
-*.cache
+
+# Credenciales
+*.pem
+*.key
+*.der
+*.crt
+*.p12
+*.pfx
+
+# IDEs
+.idea
+.vscode
+.fleet
+.editorconfig
+.project
+.settings
+.classpath
+.factorypath
+.buildpath
+.nbproject
