@@ -46,11 +46,90 @@ class MovieController extends Controller
 
     /**
      * Mostrar una película específica
+     * 
+     * @param int $id ID de la película
+     * @return Illuminate\Http\JsonResponse json
      */
     public function show($id)
     {
         $movie = Movie::findOrFail($id);
-        return response()->json($movie);
+        return response()->json([
+            'success' => true,
+            'data' => $movie,
+            'message' => 'Película obtenida correctamente'
+        ]);
+    }
+
+    /**
+     * Versión 2 del endpoint de detalle de película
+     * Incluye información adicional como géneros, proyecciones disponibles, etc.
+     * 
+     * @param int $id ID de la película
+     * @return Illuminate\Http\JsonResponse json
+     */
+    public function showV2($id)
+    {
+        $movie = Movie::with(['genres', 'functions.room.cinema'])->findOrFail($id);
+        
+        // Formatear proyecciones para agruparlas por cine
+        $screenings = [];
+        foreach ($movie->functions as $function) {
+            $cinemaId = $function->room->cinema->id;
+            
+            if (!isset($screenings[$cinemaId])) {
+                $screenings[$cinemaId] = [
+                    'cinema' => [
+                        'id' => $function->room->cinema->id,
+                        'name' => $function->room->cinema->name,
+                        'address' => $function->room->cinema->address,
+                    ],
+                    'dates' => []
+                ];
+            }
+            
+            $date = $function->date->format('Y-m-d');
+            if (!isset($screenings[$cinemaId]['dates'][$date])) {
+                $screenings[$cinemaId]['dates'][$date] = [];
+            }
+            
+            $screenings[$cinemaId]['dates'][$date][] = [
+                'id' => $function->id,
+                'time' => $function->time,
+                'room' => $function->room->name,
+                'price' => $function->price,
+                'available_seats' => $function->available_seats
+            ];
+        }
+        
+        // Convertir a formato de array indexado para el JSON
+        $formattedScreenings = [];
+        foreach ($screenings as $cinema) {
+            $formattedDates = [];
+            foreach ($cinema['dates'] as $date => $times) {
+                $formattedDates[] = [
+                    'date' => $date,
+                    'times' => $times
+                ];
+            }
+            $cinema['dates'] = $formattedDates;
+            $formattedScreenings[] = $cinema;
+        }
+        
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $movie->id,
+                'title' => $movie->title,
+                'synopsis' => $movie->synopsis,
+                'duration' => $movie->duration,
+                'rating' => $movie->rating,
+                'release_date' => $movie->release_date ? $movie->release_date->format('Y-m-d') : null,
+                'photo_url' => $movie->photo_url,
+                'genres' => $movie->genres->pluck('name'),
+                'screenings' => $formattedScreenings
+            ],
+            'message' => 'Información detallada de película obtenida correctamente'
+        ]);
     }
 
     /**
