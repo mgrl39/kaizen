@@ -4,8 +4,6 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Session;
 
 class Handler extends ExceptionHandler
 {
@@ -29,28 +27,40 @@ class Handler extends ExceptionHandler
             //
         });
     }
-    // Handlers de errors, es decir, si se entra a una ruta que no existe, se muestra el error 404
-    // Si se produce un error 500, se muestra el error 500
+
+    /**
+     * Render an exception into an HTTP response.
+     */
     public function render($request, Throwable $exception)
     {
         if ($this->isHttpException($exception)) {
-            // Establecer el idioma antes de renderizar la vista
-            if (Session::has('locale')) {
-                App::setLocale(Session::get('locale'));
-            } elseif ($request->has('lang')) {
-                $locale = $request->query('lang');
-                if (in_array($locale, config('app.available_locales', ['es', 'ca', 'en']))) {
-                    App::setLocale($locale);
-                }
-            }
-
-            if ($exception->getStatusCode() == 404) {
-                return response()->view('errors.404');
-            }
+            $statusCode = $exception->getStatusCode();
             
-            if ($exception->getStatusCode() == 500) {
-                return response()->view('errors.500');
-            }
+            // Custom messages based on status code
+            $message = match($statusCode) {
+                404 => 'Resource not found',
+                403 => 'Forbidden access',
+                401 => 'Unauthorized access',
+                429 => 'Too many requests',
+                500 => 'Server error',
+                503 => 'Service unavailable',
+                default => 'An error occurred'
+            };
+            
+            return response()->json([
+                'success' => false,
+                'message' => $message,
+                'status' => $statusCode
+            ], $statusCode);
+        }
+        
+        // For non-HTTP exceptions, return as 500 error
+        if (!config('app.debug')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Server error',
+                'status' => 500
+            ], 500);
         }
         
         return parent::render($request, $exception);

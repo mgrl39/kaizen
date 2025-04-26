@@ -93,5 +93,3 @@ make fresh
 # Clear all caches
 make clear
 ```
-
-## Project Structure

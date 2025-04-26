@@ -21,7 +21,7 @@ install:
 run:
 	@echo "$(C)IPs: $(E)" && hostname -I
 	@echo "$(C)Frontend: http://IP:5173 | Backend: http://IP:8000$(E)"
-	@(trap 'kill 0' SIGINT; cd $(FRONT) && npm run dev -- --host 0.0.0.0 & cd $(BACK) && php artisan serve --host 0.0.0.0 & wait)
+	@(trap 'kill 0' INT; cd $(FRONT) && npm run dev -- --host 0.0.0.0 & cd $(BACK) && php artisan serve --host 0.0.0.0 & wait)
 
 front:
 	@echo "$(C)IPs: $(E)" && hostname -I

@@ -27,11 +27,6 @@
       <span class="ms-2">Kaizen</span>
     </a>
 
-    <!-- Toggler -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
     <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav ms-auto align-items-center">
