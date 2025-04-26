@@ -14,6 +14,9 @@
     max-width: 450px;
     width: 90%;
     border: 1px solid rgba(255, 255, 255, 0.05);
+    margin: 4rem auto;
+    position: relative;
+    z-index: 1;
 }
 
 .error-number {
@@ -46,12 +49,15 @@
     align-items: center;
     justify-content: center;
     min-height: 80vh;
+    padding: 2rem 0;
 }
 
 /* Envoltorio de tarjeta para centrar mejor en diferentes tamaños */
 .auth-card-wrapper {
     width: 100%;
-    max-width: 400px;
+    max-width: 420px;
+    position: relative;
+    z-index: 1;
 }
 
 /* Tarjeta de autenticación */
@@ -66,6 +72,23 @@
     padding: 0 !important;
     margin: 0 !important;
     box-shadow: none !important;
+}
+
+/* Contenedor de contenido principal */
+.content-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Para contenido con efecto de tarjeta */
+.content-card {
+    background-color: var(--card-bg);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    margin-bottom: 2rem;
 }
 
 /* Para formularios consistentes */

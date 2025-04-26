@@ -3,9 +3,9 @@
 @section('title', 'Iniciar Sesión')
 
 @section('content')
-<div class="container d-flex align-items-center justify-content-center" style="min-height: 80vh">
-    <div class="col-md-5 col-lg-4 col-xl-3">
-        <div class="card border-0 shadow">
+<div class="container auth-container">
+    <div class="auth-card-wrapper">
+        <div class="card auth-card">
             <div class="card-body p-4">
                 <h4 class="text-center mb-4">Iniciar Sesión</h4>
 
@@ -18,7 +18,8 @@
                     <div class="mb-3">
                         <input type="email" 
                             name="email" 
-                            class="form-control bg-dark border-secondary" 
+                            id="email"
+                            class="form-control" 
                             placeholder="Email" 
                             required>
                     </div>
@@ -26,7 +27,8 @@
                     <div class="mb-4">
                         <input type="password" 
                             name="password" 
-                            class="form-control bg-dark border-secondary" 
+                            id="password"
+                            class="form-control" 
                             placeholder="Contraseña" 
                             required>
                     </div>

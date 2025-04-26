@@ -2,13 +2,9 @@
 
 @section('title', 'Registro')
 
-@section('styles')
-<link href="{{ asset('assets/styles/authentication.css') }}" rel="stylesheet">
-@endsection
-
 @section('content')
 <div class="container auth-container">
-    <div class="col-md-5 col-lg-4 col-xl-3">
+    <div class="auth-card-wrapper">
         <div class="card auth-card">
             <div class="card-body p-4">
                 <h4 class="text-center mb-4">Crear Cuenta</h4>
@@ -20,17 +16,17 @@
                 <form id="register-form">
                     @csrf
                     <div class="mb-3">
-                        <input type="text" name="name" id="name" class="form-control auth-form-input" placeholder="Nombre" required>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Nombre" required>
                         <div class="invalid-feedback" id="name-error"></div>
                     </div>
                     
                     <div class="mb-3">
-                        <input type="email" name="email" id="email" class="form-control auth-form-input" placeholder="Email" required>
+                        <input type="email" name="email" id="email" class="form-control" placeholder="Email" required>
                         <div class="invalid-feedback" id="email-error"></div>
                     </div>
                     
                     <div class="mb-4">
-                        <input type="password" name="password" id="password" class="form-control auth-form-input" placeholder="Contraseña" required>
+                        <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required>
                         <div class="invalid-feedback" id="password-error"></div>
                     </div>
                     

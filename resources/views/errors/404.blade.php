@@ -5,20 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 - Página no encontrada | Kaizen</title>
     
-    <!-- Bootstrap Core -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
-    
-    <!-- Estilos de la aplicación -->
-    <link href="{{ asset('css/theme.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/components.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/layout.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/effects.css') }}" rel="stylesheet">
+    <!-- CSS Resources -->
+    @include('components.styles')
 </head>
-<body>
-    <!-- Elementos decorativos tipo Stripe -->
-    <div class="stripe-blob blob-1"></div>
-    <div class="stripe-blob blob-2"></div>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Background Elements -->
+    @include('components.background')
     
     <div class="error-container text-center">
         <div class="error-icon">
@@ -31,5 +23,8 @@
             <i class="bi bi-house-door me-2"></i>Volver al inicio
         </a>
     </div>
+    
+    <!-- JS Resources -->
+    @include('components.scripts')
 </body>
-</html>
+</html> 
