@@ -9,59 +9,29 @@
   
   onMount(async () => {
     try {
-      // Simulamos una llamada a la API
-      await new Promise(resolve => setTimeout(resolve, 500));
+      // Fetch data from the actual API endpoint
+      const response = await fetch('http://localhost:8000/api/v1/movies');
       
-      // Datos de ejemplo
-      movies = [
-        { 
-          id: 1, 
-          title: 'Inception', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg',
-          release_date: '2010-07-16',
-          rating: 8.8
-        },
-        { 
-          id: 2, 
-          title: 'The Dark Knight', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg',
-          release_date: '2008-07-18',
-          rating: 9.0
-        },
-        { 
-          id: 3, 
-          title: 'Interstellar', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg',
-          release_date: '2014-11-07',
-          rating: 8.6
-        },
-        { 
-          id: 4, 
-          title: 'Pulp Fiction', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
-          release_date: '1994-10-14',
-          rating: 8.9
-        },
-        { 
-          id: 5, 
-          title: 'The Godfather', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
-          release_date: '1972-03-24',
-          rating: 9.2
-        },
-        { 
-          id: 6, 
-          title: 'The Matrix', 
-          photo_url: 'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg',
-          release_date: '1999-03-31',
-          rating: 8.7
-        }
-      ];
+      if (!response.ok) {
+        throw new Error(`API responded with status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      // Check if the response has the expected structure
+      if (data && Array.isArray(data)) {
+        movies = data;
+      } else if (data && data.data && Array.isArray(data.data)) {
+        // Handle case where data is wrapped in a 'data' property
+        movies = data.data;
+      } else {
+        throw new Error('Unexpected API response format');
+      }
       
       loading = false;
     } catch (err) {
       console.error('Error cargando películas:', err);
-      error = "No se pudieron cargar las películas.";
+      error = "No se pudieron cargar las películas: " + (err instanceof Error ? err.message : String(err));
       loading = false;
     }
   });
