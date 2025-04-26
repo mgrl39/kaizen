@@ -29,6 +29,38 @@ body {
 
 /* Card styling for dark theme */
 .card {
-	background-color: rgba(33, 37, 41, 0.8);
-	border: none;
+	background-color: rgba(26, 32, 44, 0.8);
+	border: 1px solid rgba(255, 255, 255, 0.05);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	transition: var(--transition-base);
+}
+
+.card:hover {
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+	border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mejoras de contraste para textos */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: var(--text-light);
+}
+
+.text-muted {
+	color: var(--text-muted) !important;
+}
+
+/* Estilos específicos para películas y cines */
+.movie-card .card-title,
+.cinema-card .card-title {
+	font-weight: 700;
+}
+
+.movie-card .card-text,
+.cinema-card .card-text {
+	margin-bottom: 1rem;
 }

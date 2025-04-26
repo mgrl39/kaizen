@@ -19,10 +19,15 @@ export interface Cinema {
 	id: number;
 	name: string;
 	address: string;
-	image: string;
+	photo_url: string;
 	screens: number;
-	features: string[];
-	phone: string;
+	city?: string;
+	description?: string;
+	has_parking?: boolean;
+	has_food?: boolean;
+	is_premium?: boolean;
+	features?: string[];
+	phone?: string;
 }
 
 // Interfaz para categoría
