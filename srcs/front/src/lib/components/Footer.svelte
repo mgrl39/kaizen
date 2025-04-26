@@ -1,3 +1,11 @@
+<script>
+  const links = [
+    { href: "/", text: "Inicio" },
+    { href: "/cinemas", text: "Cines" },
+    { href: "/movies", text: "Películas" }
+  ];
+</script>
+
 <footer class="py-4 footer">
   <div class="container">
     <div class="row g-3 text-center text-md-start">
@@ -10,9 +18,9 @@
 
       <div class="col-md-6 text-md-end" data-aos="fade-left" data-aos-duration="800">
         <nav class="d-flex justify-content-center justify-content-md-end gap-3">
-          <a href="/" class="text-decoration-none text-muted">Inicio</a>
-          <a href="/cinemas" class="text-decoration-none text-muted">Cines</a>
-          <a href="/movies" class="text-decoration-none text-muted">Películas</a>
+          {#each links as link}
+            <a href={link.href} class="text-decoration-none text-muted">{link.text}</a>
+          {/each}
         </nav>
       </div>
     </div>
