@@ -46,14 +46,6 @@
     </div>
 </div>
 
-<style>
-.content-container {
-    background-color: transparent !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-}
-</style>
 @endsection
 
 @section('scripts')

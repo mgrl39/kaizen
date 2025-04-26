@@ -1,0 +1,70 @@
+/* Línea decorativa central */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: 1px;
+    background: linear-gradient(
+        180deg,
+        rgba(139, 92, 246, 0) 0%,
+        rgba(139, 92, 246, 0.3) 30%,
+        rgba(139, 92, 246, 0.5) 50%,
+        rgba(139, 92, 246, 0.3) 70%,
+        rgba(139, 92, 246, 0) 100%
+    );
+    z-index: -1;
+}
+
+/* Efectos Stripe */
+.stripe-blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    z-index: -1;
+}
+
+.blob-1 {
+    background-color: var(--primary-color);
+    width: 40vw;
+    height: 40vw;
+    top: -10vw;
+    left: -10vw;
+}
+
+.blob-2 {
+    background-color: var(--secondary-color);
+    width: 30vw;
+    height: 30vw;
+    bottom: -10vw;
+    right: -5vw;
+}
+
+/* Efectos glow */
+.glow-effect {
+    position: relative;
+}
+
+.glow-effect::after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+        45deg,
+        var(--primary-color),
+        var(--secondary-color)
+    );
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.glow-effect:hover::after {
+    opacity: 0.3;
+}

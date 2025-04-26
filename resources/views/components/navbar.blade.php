@@ -1,62 +1,72 @@
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+@php
+$navItems = [
+    ['url' => '/cinemas', 'icon' => 'building', 'text' => 'Cines'],
+    ['url' => '/movies', 'icon' => 'film', 'text' => 'Películas']
+];
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+$userMenu = [
+    ['url' => '/profile', 'icon' => 'person', 'text' => 'Mi Perfil'],
+    ['url' => '/bookings', 'icon' => 'ticket', 'text' => 'Mis Reservas'],
+    ['divider' => true],
+    ['form' => true, 'action' => '/logout', 'icon' => 'box-arrow-right', 'text' => 'Cerrar Sesión']
+];
+@endphp
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top stripe-navbar">
     <div class="container">
+        {{-- Brand --}}
         <a href="/" class="navbar-brand d-flex align-items-center">
-            <img src="{{ asset('assets/images/logo.png') }}" alt="Kaizen" height="30">
             <span class="ms-2">Kaizen</span>
         </a>
 
+        {{-- Toggler --}}
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
             <span class="navbar-toggler-icon"></span>
         </button>
 
+        {{-- Collapsible content --}}
         <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav ms-auto">
-                @foreach([
-                    ['url' => '/cinemas', 'icon' => 'bi-building', 'text' => 'Cines'],
-                    ['url' => '/movies', 'icon' => 'bi-film', 'text' => 'Películas']
-                ] as $item)
-                    <li class="nav-item">
-                        <a href="{{ $item['url'] }}" class="nav-link">
-                            <i class="bi {{ $item['icon'] }} me-1"></i>{{ $item['text'] }}
-                        </a>
-                    </li>
+            <ul class="navbar-nav ms-auto align-items-center">
+                @foreach($navItems as $item)
+                <li class="nav-item">
+                    <a href="{{ $item['url'] }}" class="nav-link">
+                        <i class="bi bi-{{ $item['icon'] }} me-1"></i>{{ $item['text'] }}
+                    </a>
+                </li>
                 @endforeach
-
+                
+                {{-- Auth menu --}}
                 @auth
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle me-1"></i>{{ Auth::user()->name }}
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            @foreach([
-                                ['url' => '/profile', 'icon' => 'bi-person', 'text' => 'Mi Perfil'],
-                                ['url' => '/bookings', 'icon' => 'bi-ticket', 'text' => 'Mis Reservas']
-                            ] as $item)
-                                <li>
-                                    <a class="dropdown-item" href="{{ $item['url'] }}">
-                                        <i class="bi {{ $item['icon'] }} me-1"></i>{{ $item['text'] }}
-                                    </a>
-                                </li>
+                            @foreach($userMenu as $item)
+                                @if(isset($item['divider']))
+                                    <li><hr class="dropdown-divider"></li>
+                                @elseif(isset($item['form']))
+                                    <li>
+                                        <form action="{{ $item['action'] }}" method="POST" class="d-inline w-100">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item">
+                                                <i class="bi bi-{{ $item['icon'] }} me-1"></i>{{ $item['text'] }}
+                                            </button>
+                                        </form>
+                                    </li>
+                                @else
+                                    <li>
+                                        <a class="dropdown-item" href="{{ $item['url'] }}">
+                                            <i class="bi bi-{{ $item['icon'] }} me-1"></i>{{ $item['text'] }}
+                                        </a>
+                                    </li>
+                                @endif
                             @endforeach
-                            <li><hr class="dropdown-divider"></li>
-                            <li>
-                                <form action="/logout" method="POST" class="d-inline w-100">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">
-                                        <i class="bi bi-box-arrow-right me-1"></i>Cerrar Sesión
-                                    </button>
-                                </form>
-                            </li>
                         </ul>
                     </li>
                 @else
-                    <li class="nav-item auth-guest">
-                        <a href="/login" class="btn btn-primary btn-sm">
+                    <li class="nav-item ms-2">
+                        <a href="/login" class="btn btn-primary">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Acceder
                         </a>
                     </li>
@@ -65,8 +75,3 @@
         </div>
     </div>
 </nav>
-
-<!-- Bootstrap Bundle with Popper -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="{{ asset('js/auth.js') }}"></script>

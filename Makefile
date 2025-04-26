@@ -145,6 +145,30 @@ serve-dev:
 	@echo "$(BLUE)Presiona Ctrl+C para detener ambos servidores$(END)"
 	@(trap 'kill 0' SIGINT; npm run dev & php artisan serve --host 0.0.0.0)
 
+#########################################################
+# Servidor externo para desarrollo con Vite
+#########################################################
+serve-external:
+	@echo "$(GREEN)Iniciando servidores de desarrollo accesibles externamente...$(END)"
+	@echo -n "$(GREEN)Direcciones IP disponibles: $(END)" && hostname -I
+	@echo "$(BLUE)Frontend (Vite): http://IP:5173$(END)"
+	@echo "$(BLUE)Backend (Laravel): http://IP:8000$(END)"
+	@echo "$(BLUE)Presiona Ctrl+C para detener ambos servidores$(END)"
+	@(trap 'kill 0' SIGINT; npm run dev -- --host 0.0.0.0 & php artisan serve --host 0.0.0.0)
+
+# Versiones individuales para servidores externos
+npm-external:
+	@echo "$(GREEN)Iniciando servidor npm/vite accesible externamente...$(END)"
+	@echo -n "$(GREEN)Direcciones IP disponibles: $(END)" && hostname -I
+	@echo "$(BLUE)Frontend disponible en: http://IP:5173$(END)"
+	npm run dev -- --host 0.0.0.0
+
+artisan-external:
+	@echo "$(GREEN)Iniciando servidor artisan accesible externamente...$(END)"
+	@echo -n "$(GREEN)Direcciones IP disponibles: $(END)" && hostname -I
+	@echo "$(BLUE)Backend disponible en: http://IP:8000$(END)"
+	php artisan serve --host 0.0.0.0
+
 # Comandos para gestión de submódulos
 submodules:
 	@echo "🔄 Inicializando submódulos..."
