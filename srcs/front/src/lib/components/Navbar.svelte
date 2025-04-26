@@ -41,7 +41,7 @@
         <!-- Auth menu -->
         {#if isAuthenticated}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+            <a class="nav-link dropdown-toggle" href="#`" data-bs-toggle="dropdown">
               <i class="bi bi-person-circle me-1"></i>{userName}
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
