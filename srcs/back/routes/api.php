@@ -35,13 +35,7 @@ use App\Http\Controllers\API\ApiInfoController;
 Route::prefix('v1')->group(function () {
     // Rutas para películas
     Route::resource('movies', MovieController::class);
-    
-    // Rutas para cines
-    Route::get('/cinemas', [CinemaController::class, 'index']);
-    Route::get('/cinemas/{cinema}', [CinemaController::class, 'show']);
-    Route::get('/cinemas/by-location/{location}', [CinemaController::class, 'byLocation']);
-    Route::get('/cinemas/search', [CinemaController::class, 'search']);
-
+  
     // Rutas para géneros (solo lectura)
     Route::get('genres', [GenreController::class, 'index']);
     Route::get('genres/{genre}', [GenreController::class, 'show']);
@@ -63,7 +57,7 @@ Route::prefix('v1')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
 
     // Rutas protegidas
-    Route::middleware('auth:api')->group(function () {
+    Route::middleware('auth:sanctum')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('me', [AuthController::class, 'me']);
         

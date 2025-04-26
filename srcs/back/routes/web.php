@@ -6,7 +6,6 @@
  */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CinemaController;
 use App\Http\Controllers\SimpleEndpointController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\MovieController;
@@ -38,5 +37,4 @@ Route::get(
     [LanguageController::class, 'switchLang']
 )->name('language');
 
-Route::resource('cinema', CinemaController::class);
 Route::get('movies', [MovieController::class, 'index']);
