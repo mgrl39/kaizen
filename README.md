@@ -2,11 +2,7 @@
 <img src="public/assets/images/kaizen_logo_transparent.png" height="90px"/>
 <h1>Kaizen Cinema<br/><sub>API backend for cinema management.</sub></h1>
 
-<br/>
-
 ▶️ <a href="#quick-start">Quickstart</a> | <a href="#overview">Overview</a> | <a href="#api-endpoints">API Endpoints</a> | <a href="#development">Development</a>
-
-<br/>
 
 <a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.1%2B-8892BF?style=flat-square&logo=php"/></a>
 <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-10.x-FF2D20?style=flat-square&logo=laravel"/></a>
@@ -15,19 +11,14 @@
 
 </div>
 <hr/>
-<br/>
 
 **Kaizen Cinema is a RESTful API backend that powers cinema management functionality.**
 
 This Laravel-based API provides the essential backend services for movie management, session scheduling, and seat booking. It's designed to be consumed by any frontend client (web, mobile, or desktop).
 
-<br/>
-
 > ➡️ Get started quickly using our [Quick Start](#quick-start) guide ⭐️
 
-<br/>
 <hr/>
-<br/>
 
 ## Overview
 
@@ -40,8 +31,6 @@ Kaizen Cinema API provides the essential endpoints for cinema management:
 - User authentication
 
 The API uses JSON for all requests and responses, with standard HTTP status codes and error handling.
-
-<br/>
 
 ## Quick Start
 
@@ -62,8 +51,6 @@ make db
 > **Note**  
 > Make sure you have configured your database settings in the `.env` file before running migrations.
 
-<br/>
-
 ## API Endpoints
 
 The API provides the following main endpoint groups:
@@ -80,8 +67,6 @@ Full API documentation can be generated with:
 cd srcs/back
 php artisan route:list
 ```
-
-<br/>
 
 ## Development
 
@@ -109,13 +94,4 @@ make fresh
 make clear
 ```
 
-<br/>
-
 ## Project Structure
-
-```
-kaizen/
-├── srcs/
-│   ├── back/          # Laravel backend API
-│   └── front/         #
-```
