@@ -96,3 +96,14 @@ Route::fallback(function () {
 });
 
 Route::get('v1/endpoints', [ApiInfoController::class, 'listEndpoints']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+});
+
+// Rutas públicas básicas
+Route::get('/ping', function () {
+    return ['status' => 'OK', 'message' => 'API running'];
+});

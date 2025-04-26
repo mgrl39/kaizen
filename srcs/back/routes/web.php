@@ -23,11 +23,7 @@ use App\Http\Controllers\MovieController;
 
 // Root route with API info
 Route::get('/', function () {
-    return response()->json([
-        'message' => 'API Server',
-        'api_version' => 'v1',
-        'documentation' => '/api/v1/endpoints'
-    ]);
+    return ['message' => 'API Backend - Use /api endpoints'];
 });
 
 // API routes for frontend consumption
