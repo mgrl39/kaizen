@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { NavItem } from '$lib/types';
+  import { onMount } from 'svelte';
   
   // Menú de navegación
   const navItems: NavItem[] = [
@@ -18,9 +19,24 @@
   // Estado de autenticación (mock, se reemplazará por llamadas reales a la API)
   let isAuthenticated: boolean = false;
   let userName: string = 'Usuario';
+  
+  // Control del estado de scroll para ajustar la transparencia
+  let scrolled = false;
+  
+  onMount(() => {
+    const handleScroll = () => {
+      scrolled = window.scrollY > 20;
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
 </script>
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top stripe-navbar">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top {scrolled ? 'scrolled' : ''}">
   <div class="container">
     <!-- Brand -->
     <a href="/" class="navbar-brand d-flex align-items-center">
@@ -68,11 +84,4 @@
       </ul>
     </div>
   </div>
-</nav>
-
-<style>
-  .stripe-navbar {
-    background-color: rgba(33, 37, 41, 0.8);
-    backdrop-filter: blur(10px);
-  }
-</style> 
+</nav> 
