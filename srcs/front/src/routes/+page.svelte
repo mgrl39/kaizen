@@ -268,3 +268,6 @@
     background: linear-gradient(135deg, #0093E9, #80D0C7);
   }
 </style>
+
+<div class="decorative-blob blob-1"></div>
+<div class="decorative-blob blob-2"></div> 

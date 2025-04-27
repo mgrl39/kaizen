@@ -6,5 +6,5 @@
   </div>
 </div>
 
-<div class="stripe-blob blob-1"></div>
-<div class="stripe-blob blob-2"></div> 
+<div class="decorative-blob blob-1"></div>
+<div class="decorative-blob blob-2"></div> 

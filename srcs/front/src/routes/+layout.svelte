@@ -70,3 +70,6 @@
     border-radius: 2px;
   }
 </style> 
+
+<div class="decorative-blob blob-1"></div>
+<div class="decorative-blob blob-2"></div> 
