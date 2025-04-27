@@ -12,6 +12,7 @@ export interface Movie {
 	rating?: number;
 	genre?: string;
 	director?: string;
+	duration?: number;
 }
 
 // Interfaz para el cine
