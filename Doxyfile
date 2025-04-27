@@ -28,20 +28,18 @@ HTML_CODE_FOLDING      = YES
 HTML_TIMESTAMP         = YES
 
 # Directorios de entrada
-INPUT                  = srcs/back/ srcs/front/
+INPUT                  = srcs/back/ srcs/front/ srcs/conf/
 RECURSIVE              = YES
-FILE_PATTERNS          = *.php *.md *.js *.css *.svelte *.ts
+FILE_PATTERNS          = *.php *.md *.js *.css *.svelte *.ts *.yml *.yaml *.json *.sh *.sql *.config.js *.config.ts
 
 # Exclusiones
 EXCLUDE                = srcs/back/vendor/ \
                          srcs/front/node_modules/ \
-                         srcs/back/storage/ \
+                         srcs/back/storage/logs/ \
                          srcs/back/bootstrap/cache/ \
-                         srcs/front/public/ \
-                         srcs/back/tests/ \
-                         srcs/back/logs/ \
-                         srcs/back/database/migrations/
-EXCLUDE_PATTERNS       = *.min.js *.min.css
+                         srcs/front/.svelte-kit/ \
+                         srcs/back/tests/
+EXCLUDE_PATTERNS       = *.min.js *.min.css *.lock
 
 # Gráficos y diagramas mejorados
 HAVE_DOT                = YES
@@ -60,8 +58,7 @@ DOT_CLEANUP             = YES
 
 # Configuración para diferentes lenguajes
 OPTIMIZE_OUTPUT_FOR_PHP = YES
-OPTIMIZE_OUTPUT_JAVA    = NO
-OPTIMIZE_OUTPUT_VHDL    = NO
+EXTENSION_MAPPING       = svelte=JavaScript ts=JavaScript yml=Python yaml=Python sh=C sql=SQL
 MARKDOWN_SUPPORT        = YES
 TOC_INCLUDE_HEADINGS    = 5
 EXTRACT_ALL             = YES
@@ -97,8 +94,8 @@ ALPHABETICAL_INDEX      = YES
 COLS_IN_ALPHA_INDEX     = 3
 
 # Configuración para exclusiones específicas
-EXCLUDE_PATTERNS       += */tests/* */vendor/* */node_modules/* */storage/* */bootstrap/cache/*
-EXCLUDE_PATTERNS       += *.test.php *.spec.php
+EXCLUDE_PATTERNS       += */vendor/* */node_modules/* */storage/logs/* */bootstrap/cache/* */.svelte-kit/*
+EXCLUDE_PATTERNS       += *.test.* *.spec.* *.lock *-lock.json
 
 # Configuraciones adicionales para mejor apariencia
 BRIEF_MEMBER_DESC       = YES
@@ -112,3 +109,7 @@ SEPARATE_MEMBER_PAGES   = NO
 DISTRIBUTE_GROUP_DOC    = YES
 SUBGROUPING             = YES
 SORT_MEMBERS_CTORS_1ST  = YES
+
+# Agregar documentación para scripts y configuraciones
+FILTER_PATTERNS        = *.sh=doxygenfilter
+EXTENSION_MAPPING     += md=md
