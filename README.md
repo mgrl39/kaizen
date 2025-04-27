@@ -36,3 +36,72 @@ La API de Kaizen Cinema proporciona los endpoints esenciales para la gestión de
 La API utiliza JSON para todas las peticiones y respuestas, con códigos de estado HTTP estándar y manejo de errores.
 
 ## Inicio Rápido
+
+```bash
+git clone https://github.com/mgrl39/kaizen.git && cd kaizen # Clonar repositorio
+cd srcs/conf/postgres && ./pg-podman.sh start # Iniciar contenedor PostgreSQL
+make install # Usar el Makefile para configuración fácil
+make back # Iniciar el servidor API
+make db # (Opcional) Ejecutar migraciones de base de datos
+```
+
+> **Nota**  
+> La base de datos PostgreSQL está automáticamente configurada en un contenedor Podman. Tu archivo `.env` ya debería estar configurado para conectarse a ella.
+
+## Endpoints API
+
+La API proporciona los siguientes grupos principales de endpoints:
+
+- `/api/auth` - Endpoints de autenticación
+- `/api/movies` - Gestión de películas
+- `/api/cinemas` - Configuración de cines y salas
+- `/api/screenings` - Programación de sesiones
+- `/api/bookings` - Gestión de reservas
+
+La documentación completa de la API puede generarse con:
+
+```bash
+cd srcs/back && php artisan route:list # Generar documentación API
+```
+
+## Desarrollo
+
+### Requisitos
+
+- PHP 8.1+
+- Composer
+- Podman (para PostgreSQL en contenedor)
+
+### Gestión de Contenedores
+
+La base de datos PostgreSQL se ejecuta en un contenedor Podman para facilitar el desarrollo:
+
+```bash
+cd srcs/conf/postgres && ./pg-podman.sh start # Iniciar contenedor de base de datos
+cd srcs/conf/postgres && ./pg-podman.sh logs # Ver logs de la base de datos
+cd srcs/conf/postgres && ./pg-podman.sh shell # Acceder al shell de PostgreSQL
+cd srcs/conf/postgres && ./pg-podman.sh reset # Resetear base de datos (precaución: elimina todos los datos)
+```
+
+### Comandos Útiles
+
+Usa nuestro Makefile simplificado para tareas comunes de desarrollo:
+
+```bash
+make install # Instalar dependencias
+make back # Ejecutar el servidor backend (API) con acceso externo
+make fresh # Resetear la base de datos
+make clear # Limpiar todas las cachés
+```
+
+## Colaboradores
+
+<div align="center">
+
+<a href="https://github.com/mgrl39/kaizen/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=mgrl39/kaizen" />
+</a>
+
+¡Kaizen Cinema es mejorado y mantenido por personas como tú! 🚀
+
+</div>
