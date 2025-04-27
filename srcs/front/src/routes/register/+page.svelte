@@ -67,6 +67,37 @@
         return Object.keys(errors).length === 0;
     }
 
+    async function registerUser(userData: any) {
+        try {
+            const response = await fetch('http://localhost:8000/api/v1/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: data.message || 'Error en el registro'
+                };
+            }
+
+            return {
+                success: true,
+                data
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: 'Error de conexión con el servidor'
+            };
+        }
+    }
+
     // Form submission
     async function handleSubmit() {
         if (!validateForm()) {
