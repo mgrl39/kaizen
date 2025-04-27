@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import type { LoginCredentials } from '$lib/types';
   
   let email: string = '';
   let password: string = '';
