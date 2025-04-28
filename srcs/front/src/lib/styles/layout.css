@@ -1,11 +1,9 @@
-/* Base layout styling */
 body {
 	padding-top: 56px;
 	position: relative;
 	min-height: 100vh;
 }
 
-/* Content container styling */
 .content-wrapper {
 	position: relative;
 	z-index: 1;
@@ -17,7 +15,6 @@ body {
 	margin-bottom: var(--spacing-md);
 }
 
-/* Optimize container space usage */
 .container {
 	padding-left: calc(var(--spacing-md) * 0.75);
 	padding-right: calc(var(--spacing-md) * 0.75);
@@ -32,14 +29,12 @@ body {
 	}
 }
 
-/* Reduce space after navbar */
 .navbar + .container,
 .navbar + main,
 .navbar + div {
 	padding-top: 0.75rem;
 }
 
-/* Background elements */
 #particles-js {
 	position: fixed;
 	width: 100%;
@@ -50,7 +45,6 @@ body {
 	background: linear-gradient(135deg, #121212 0%, #1e1e2f 100%);
 }
 
-/* Central decorative line */
 body::before {
 	content: '';
 	position: fixed;

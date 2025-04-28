@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   const links = [
     { href: "/", text: "Inicio" },
     { href: "/cinemas", text: "Cines" },

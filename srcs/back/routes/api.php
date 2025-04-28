@@ -41,27 +41,12 @@ Route::prefix('v1')->group(function () {
     Route::get('genres/{genre}', [GenreController::class, 'show']);
     Route::get('genres/{genre}/movies', [GenreController::class, 'movies']);
 
-    // Rutas para actores (solo lectura)
-    // Route::get('actors', [ActorController::class, 'index']);
-    // Route::get('actors/{actor}', [ActorController::class, 'show']);
-    // Route::get('actors/{actor}/movies', [ActorController::class, 'movies']);
-
-    // Rutas para funciones/proyecciones (solo lectura)
-    Route::get('screenings', [FunctionController::class, 'index']);
-    Route::get('screenings/today', [FunctionController::class, 'today']);
-    Route::get('screenings/upcoming', [FunctionController::class, 'upcoming']);
-    Route::get('screenings/{screening}/seats', [FunctionController::class, 'seats']);
-
-    // Rutas de autenticación
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 
     // Rutas protegidas
-    Route::middleware('auth:sanctum')->group(function () {
+    Route::middleware('auth:api')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
-        Route::get('me', [AuthController::class, 'me']);
-        
-        // Otras rutas protegidas irían aquí
     });
 });
 
