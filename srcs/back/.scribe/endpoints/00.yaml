@@ -1,0 +1,783 @@
+name: Endpoints
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/movies
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Obtener listado de películas'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '[{"id":1,"title":"Quia alias iste.","synopsis":"Iure placeat enim omnis quis distinctio. Quidem est suscipit accusantium perspiciatis iure. Voluptatem quo architecto velit iusto aperiam earum modi. Est quam temporibus voluptate nesciunt culpa.","duration":149,"rating":"PG","release_date":"1997-11-05T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/009933?text=movies+enim","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":2,"title":"Qui consequatur placeat rem.","synopsis":"Dignissimos laudantium quasi quibusdam qui earum totam. Itaque quam illum ut accusamus id. Tenetur tempora sapiente voluptatibus minima iusto modi perspiciatis. At eum fugit est non dolores.","duration":208,"rating":"PG","release_date":"2007-03-05T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/00aa55?text=movies+qui","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":3,"title":"Et assumenda possimus.","synopsis":"Aliquid et in et dolorem sunt. Qui occaecati consequuntur ea atque ut. Sed autem asperiores labore architecto nisi.","duration":166,"rating":"PG","release_date":"2020-06-08T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/00ccaa?text=movies+ex","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":4,"title":"Minima expedita consequuntur perspiciatis.","synopsis":"Eaque architecto rerum possimus eveniet omnis ducimus numquam nemo. Quia placeat rem officia ea perferendis vel. Itaque id odit quis alias facilis dolor molestiae.","duration":196,"rating":"PG-13","release_date":"2013-02-11T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/0099dd?text=movies+voluptas","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":5,"title":"Ipsum et possimus enim.","synopsis":"Ea ut rem architecto cum perspiciatis. Mollitia suscipit quis deleniti iusto architecto.","duration":85,"rating":"PG-13","release_date":"2013-02-01T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/00bb77?text=movies+consequatur","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":6,"title":"Id voluptas consectetur eum assumenda.","synopsis":"Rerum quibusdam voluptas aliquam soluta quia harum est. Asperiores consequatur earum mollitia. Quia inventore illum sequi repellat explicabo.","duration":83,"rating":"NC-17","release_date":"2013-08-10T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/006611?text=movies+sed","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":7,"title":"Cumque animi corrupti.","synopsis":"Illo ipsa sunt alias consequatur et non ut iusto. Quaerat quasi qui quo doloribus repellat omnis ipsum. Ut nihil nihil vel et id voluptatem nemo animi. Totam exercitationem et deserunt distinctio sunt.","duration":192,"rating":"NC-17","release_date":"2008-03-20T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/000022?text=movies+voluptas","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":8,"title":"Et quos omnis perferendis.","synopsis":"Aut asperiores ut aperiam error. Laudantium ea et perferendis repellendus recusandae. Rerum qui asperiores velit expedita consequatur id sint velit. Id atque dolor aliquid enim ipsam et quasi.","duration":111,"rating":"PG-13","release_date":"2016-11-17T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/009911?text=movies+illum","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":9,"title":"Eum nam tempora magni consequuntur.","synopsis":"Tenetur modi ad corporis nobis cupiditate maiores. Dolore consectetur adipisci facere dicta voluptatem. Ipsa porro est voluptatum qui necessitatibus iure. Eum debitis nisi et sit.","duration":76,"rating":"NC-17","release_date":"1999-02-28T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/004466?text=movies+dolorum","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":10,"title":"Id id.","synopsis":"Cumque dignissimos perspiciatis perspiciatis minima. Nisi deleniti voluptas officiis natus voluptatem maxime. Sit at quo quod inventore vitae placeat.","duration":129,"rating":"PG-13","release_date":"2003-12-17T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/002255?text=movies+quia","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":11,"title":"Quas et est.","synopsis":"Ea expedita ut laboriosam voluptatem consequatur repellat voluptas voluptatem. Quos reprehenderit dolore sunt sunt minima corporis possimus. Ea tempore labore libero aliquid. Corrupti hic quia est alias voluptate eos sunt.","duration":75,"rating":"PG-13","release_date":"2007-12-12T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/006677?text=movies+autem","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":12,"title":"Odio cupiditate molestiae.","synopsis":"Dolore et aut ut incidunt. Recusandae quia eaque consequatur est tenetur ut.","duration":199,"rating":"NC-17","release_date":"2003-11-09T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/002299?text=movies+omnis","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":13,"title":"Porro dignissimos repudiandae inventore.","synopsis":"Repellendus magni minima eligendi et rerum sint similique. Nulla eos veritatis quae ea possimus. Quos in rerum et harum omnis a.","duration":78,"rating":"NC-17","release_date":"1997-07-04T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/0033bb?text=movies+harum","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":14,"title":"Sed aspernatur rerum officia eos.","synopsis":"Eligendi ducimus nulla blanditiis non ipsam sit blanditiis. Et laudantium necessitatibus in itaque laudantium quae veniam. Vel atque dolor qui id. Cumque aliquid ut enim explicabo corporis qui.","duration":145,"rating":"PG-13","release_date":"2007-07-10T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/0011dd?text=movies+eos","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":15,"title":"Et deserunt in.","synopsis":"Iste quas et pariatur veritatis repellendus quas inventore atque. Dolor sed delectus necessitatibus quasi minima deserunt. Quia vitae iure sint omnis aut vero et.","duration":179,"rating":"PG","release_date":"2010-03-07T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/0055dd?text=movies+omnis","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":16,"title":"Quam aspernatur.","synopsis":"Occaecati voluptate itaque sed vel ad totam. Recusandae minima perspiciatis porro voluptatem aut pariatur. Est non minima voluptatem vero expedita doloremque non quo. Placeat quae velit qui. Quibusdam porro omnis nobis.","duration":96,"rating":"NC-17","release_date":"1999-12-05T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/003399?text=movies+rem","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":17,"title":"Culpa vel quia qui.","synopsis":"Et blanditiis eos et dolor ut est quos sed. Ullam rerum eaque officia fuga harum tenetur rerum. Sint doloremque repellendus accusantium sint quis rerum nisi.","duration":203,"rating":"PG-13","release_date":"2011-08-28T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/0011ff?text=movies+quia","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":18,"title":"Necessitatibus quaerat hic.","synopsis":"Qui a dolorem incidunt accusamus reiciendis. Eum ratione omnis vitae quia odio quae voluptates amet.","duration":191,"rating":"R","release_date":"2023-09-20T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/009999?text=movies+ipsa","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":19,"title":"Id repellat architecto.","synopsis":"Tempore autem earum qui voluptate dolorum optio et. Qui qui aliquam ad laudantium nisi mollitia rerum. Unde laudantium dolor culpa doloribus harum ratione. Est ab eligendi beatae dicta. Rerum ut cum atque quia amet.","duration":188,"rating":"R","release_date":"2002-09-30T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/009922?text=movies+modi","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":20,"title":"Veniam ea.","synopsis":"Maxime facilis corporis iusto repellat necessitatibus. Aut sed commodi rerum ducimus dolorem. Voluptatum eum saepe nobis perspiciatis quasi.","duration":209,"rating":"R","release_date":"1997-04-21T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/00bbcc?text=movies+voluptatem","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":21,"title":"El Padrino","synopsis":"La historia de la familia Corleone bajo el patriarcado de Don Vito Corleone.","duration":175,"rating":"R","release_date":"1972-03-24T00:00:00.000000Z","photo_url":"https:\/\/m.media-amazon.com\/images\/M\/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":22,"title":"Pulp Fiction","synopsis":"Las vidas de dos mafiosos, un boxeador, la esposa de un g\u00e1ngster y un par de bandidos se entrelazan en cuatro historias de violencia y redenci\u00f3n.","duration":154,"rating":"R","release_date":"1994-10-14T00:00:00.000000Z","photo_url":"https:\/\/m.media-amazon.com\/images\/M\/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},{"id":23,"title":"Interestelar","synopsis":"Un equipo de exploradores viaja a trav\u00e9s de un agujero de gusano en el espacio en un intento de garantizar la supervivencia de la humanidad.","duration":169,"rating":"PG-13","release_date":"2014-11-07T00:00:00.000000Z","photo_url":"https:\/\/m.media-amazon.com\/images\/M\/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"}]'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '59'
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/movies
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Crear una nueva película'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      title:
+        name: title
+        description: validation.max.
+        required: true
+        example: vmqeopfuudtdsufvyvddq
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      duration:
+        name: duration
+        description: ''
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      synopsis:
+        name: synopsis
+        description: ''
+        required: false
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanBodyParameters:
+      title: vmqeopfuudtdsufvyvddq
+      duration: 17
+      synopsis: consequatur
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/movies/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Mostrar una película específica'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the movie.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"data":{"id":1,"title":"Quia alias iste.","synopsis":"Iure placeat enim omnis quis distinctio. Quidem est suscipit accusantium perspiciatis iure. Voluptatem quo architecto velit iusto aperiam earum modi. Est quam temporibus voluptate nesciunt culpa.","duration":149,"rating":"PG","release_date":"1997-11-05T00:00:00.000000Z","photo_url":"https:\/\/via.placeholder.com\/640x480.png\/009933?text=movies+enim","created_at":"2025-04-27T00:37:53.000000Z","updated_at":"2025-04-27T00:37:53.000000Z"},"message":"Pel\u00edcula obtenida correctamente"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '58'
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'api/v1/movies/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Actualizar una película'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the movie.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      title:
+        name: title
+        description: validation.max.
+        required: false
+        example: vmqeopfuudtdsufvyvddq
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      duration:
+        name: duration
+        description: ''
+        required: false
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      synopsis:
+        name: synopsis
+        description: ''
+        required: false
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: true
+        custom: []
+    cleanBodyParameters:
+      title: vmqeopfuudtdsufvyvddq
+      duration: 17
+      synopsis: consequatur
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/v1/movies/{id}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Eliminar una película'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the movie.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/genres
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Obtener todos los géneros'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"success":true,"count":0,"data":[],"message":"G\u00e9neros obtenidos correctamente"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '57'
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/genres/{genre}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Obtener un género específico'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      genre:
+        name: genre
+        description: 'The genre.'
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      genre: 17
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 500
+        content: '{"success":false,"message":"Server error","status":500}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '56'
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/v1/genres/{genre}/movies'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Obtener películas de un género'
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      genre:
+        name: genre
+        description: 'The genre.'
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      genre: 17
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 500
+        content: '{"success":false,"message":"Server error","status":500}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '55'
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/register
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      username:
+        name: username
+        description: validation.max.
+        required: true
+        example: vmqeopfuudtdsufvyvddq
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      email:
+        name: email
+        description: 'validation.email validation.max.'
+        required: true
+        example: kunde.eloisa@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      password:
+        name: password
+        description: validation.min.
+        required: true
+        example: '4[*UyPJ"}6'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      username: vmqeopfuudtdsufvyvddq
+      email: kunde.eloisa@example.com
+      password: '4[*UyPJ"}6'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/login
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      identifier:
+        name: identifier
+        description: ''
+        required: true
+        example: consequatur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+      password:
+        name: password
+        description: ''
+        required: true
+        example: 'O[2UZ5ij-e/dl4m{o,'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanBodyParameters:
+      identifier: consequatur
+      password: 'O[2UZ5ij-e/dl4m{o,'
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/v1/logout
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/{fallbackPlaceholder}'
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      fallbackPlaceholder:
+        name: fallbackPlaceholder
+        description: ''
+        required: true
+        example: 2UZ5i
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        custom: []
+    cleanUrlParameters:
+      fallbackPlaceholder: 2UZ5i
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 404
+        content: '{"success":false,"message":"API version not specified or invalid. Please use \/api\/v1\/","status":404}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '54'
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/v1/endpoints
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"api_version":"v1","total_endpoints":14,"endpoints_by_category":{"movies":[{"method":"GET|HEAD","uri":"api\/v1\/movies","name":"movies.index"},{"method":"GET|HEAD","uri":"api\/v1\/movies\/create","name":"movies.create"},{"method":"POST","uri":"api\/v1\/movies","name":"movies.store"},{"method":"GET|HEAD","uri":"api\/v1\/movies\/{movie}","name":"movies.show"},{"method":"GET|HEAD","uri":"api\/v1\/movies\/{movie}\/edit","name":"movies.edit"},{"method":"PUT|PATCH","uri":"api\/v1\/movies\/{movie}","name":"movies.update"},{"method":"DELETE","uri":"api\/v1\/movies\/{movie}","name":"movies.destroy"}],"genres":[{"method":"GET|HEAD","uri":"api\/v1\/genres","name":"unnamed"},{"method":"GET|HEAD","uri":"api\/v1\/genres\/{genre}","name":"unnamed"},{"method":"GET|HEAD","uri":"api\/v1\/genres\/{genre}\/movies","name":"unnamed"}],"register":[{"method":"POST","uri":"api\/v1\/register","name":"unnamed"}],"login":[{"method":"POST","uri":"api\/v1\/login","name":"unnamed"}],"logout":[{"method":"POST","uri":"api\/v1\/logout","name":"unnamed"}],"endpoints":[{"method":"GET|HEAD","uri":"api\/v1\/endpoints","name":"unnamed"}]}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '53'
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/user
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 500
+        content: '{"success":false,"message":"Server error","status":500}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: api/ping
+    metadata:
+      groupName: Endpoints
+      groupDescription: ''
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"OK","message":"API running"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '60'
+          x-ratelimit-remaining: '52'
+          access-control-allow-origin: '*'
+          access-control-allow-methods: 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+          access-control-allow-headers: 'Content-Type, Authorization, X-Requested-With, X-CSRF-TOKEN'
+          access-control-allow-credentials: 'true'
+          access-control-max-age: '86400'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
