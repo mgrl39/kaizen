@@ -1,0 +1,204 @@
+{
+  "info": {
+    "name": "Kaizen Cinema API",
+    "description": "Endpoints para la API de Kaizen Cinema",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "description": "Endpoints de autenticación",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"testuser\",\n    \"name\": \"Test User\",\n    \"email\": \"test@example.com\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/register",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "register"]
+            },
+            "description": "Registrar un nuevo usuario en el sistema"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"identifier\": \"testuser\",\n    \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/v1/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "login"]
+            },
+            "description": "Iniciar sesión y obtener token JWT"
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/logout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "logout"]
+            },
+            "description": "Cerrar sesión (invalidar token)"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Movies",
+      "description": "Endpoints para gestión de películas",
+      "item": [
+        {
+          "name": "Get All Movies",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/movies",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "movies"]
+            },
+            "description": "Obtener todas las películas"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Genres",
+      "description": "Endpoints para géneros",
+      "item": [
+        {
+          "name": "Get All Genres",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/v1/genres",
+              "host": ["{{base_url}}"],
+              "path": ["api", "v1", "genres"]
+            },
+            "description": "Obtener todos los géneros"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Basic",
+      "description": "Endpoints básicos",
+      "item": [
+        {
+          "name": "Ping",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ping",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ping"]
+            },
+            "description": "Verificar si la API está funcionando"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Capturar token automáticamente de la respuesta de login",
+          "if (pm.response.code === 200 && pm.info.requestName === \"Login\") {",
+          "    const responseJson = pm.response.json();",
+          "    if (responseJson.token) {",
+          "        pm.environment.set(\"token\", responseJson.token);",
+          "        console.log(\"Token JWT guardado automáticamente\");",
+          "    }",
+          "}"
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ]
+}
