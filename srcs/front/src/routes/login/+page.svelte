@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
   
-  let email: string = '';
+  let identifier: string = '';
   let password: string = '';
   let loading: boolean = false;
   let errorMessage: string = '';
@@ -11,18 +12,30 @@
     showError = false;
     
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const response = await fetch('http://localhost:8000/api/v1/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ identifier, password })
+      });
       
-      if (email === 'admin@example.com' && password === 'password') {
-        window.location.href = '/';
+      const data = await response.json();
+      
+      if (response.ok && data.success) {
+        // Guardar solo el token en localStorage
+        localStorage.setItem('token', data.token);
+        
+        // Redirigir a la página principal
+        goto('/');
       } else {
-        errorMessage = 'Credenciales incorrectas';
+        errorMessage = data.message || 'Credenciales incorrectas';
         showError = true;
-        loading = false;
       }
     } catch (error) {
-      errorMessage = 'Error de conexión';
+      errorMessage = 'Error de conexión con el servidor';
       showError = true;
+    } finally {
       loading = false;
     }
   }
@@ -43,10 +56,10 @@
 
           <form on:submit|preventDefault={handleSubmit}>
             <div class="mb-3">
-              <input type="email" 
-                     bind:value={email}
+              <input type="text" 
+                     bind:value={identifier}
                      class="form-control" 
-                     placeholder="Email" 
+                     placeholder="Email o nombre de usuario" 
                      required
                      disabled={loading}>
             </div>

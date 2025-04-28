@@ -3,6 +3,7 @@
 
     // Form data
     let username: string = '';
+    let name: string = '';
     let email: string = '';
     let password: string = '';
     let passwordConfirmation: string = '';
@@ -11,6 +12,7 @@
     // Error handling
     type ErrorsType = {
         username?: string;
+        name?: string;
         email?: string;
         password?: string;
         passwordConfirmation?: string;
@@ -34,6 +36,11 @@
             errors.username = 'El nombre de usuario debe tener al menos 3 caracteres';
         }
         
+        // Name validation
+        if (!name) {
+            errors.name = 'El nombre es obligatorio';
+        }
+        
         // Email validation
         if (!email) {
             errors.email = 'El email es obligatorio';
@@ -53,10 +60,8 @@
             errors.passwordConfirmation = 'Las contraseñas no coinciden';
         }
         
-        // Birthdate validation
-        if (!birthdate) {
-            errors.birthdate = 'La fecha de nacimiento es obligatoria';
-        } else {
+        // Birthdate validation is optional now
+        if (birthdate) {
             const today = new Date();
             const selectedDate = new Date(birthdate);
             if (selectedDate >= today) {
@@ -80,10 +85,27 @@
             const data = await response.json();
 
             if (!response.ok) {
+                if (data.errors) {
+                    // Formatear errores específicos de Laravel para mostrarlos
+                    const formattedErrors: ErrorsType = {};
+                    for (const key in data.errors) {
+                        formattedErrors[key] = data.errors[key][0]; // Tomar el primer mensaje de error
+                    }
+                    return {
+                        success: false,
+                        message: 'Por favor corrige los errores en el formulario',
+                        errors: formattedErrors
+                    };
+                }
                 return {
                     success: false,
                     message: data.message || 'Error en el registro'
                 };
+            }
+
+            // Guardar solo el token, no información del usuario
+            if (data.token) {
+                localStorage.setItem('token', data.token);
             }
 
             return {
@@ -110,10 +132,10 @@
         try {
             const userData = {
                 username,
+                name,
                 email,
                 password,
-                password_confirmation: passwordConfirmation,
-                birthdate
+                birthdate: birthdate || null
             };
             
             const response = await registerUser(userData);
@@ -125,135 +147,154 @@
                     goto('/login');
                 }, 2000);
             } else {
-                generalError = response.message || 'Error en el registro';
+                if (response.errors) {
+                    errors = response.errors;
+                } else {
+                    generalError = response.message || 'Error en el registro';
+                }
             }
         } catch (error: any) {
-            if (error.errors) {
-                errors = error.errors as ErrorsType;
-            } else {
-                generalError = error.message || 'Error en el registro';
-            }
+            generalError = 'Error desconocido durante el registro';
         } finally {
             isSubmitting = false;
         }
     }
 </script>
 
-<svelte:head>
-    <title>Registro - Cinema App</title>
-</svelte:head>
+<div class="container auth-container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <div class="card auth-card">
+        <div class="card-body p-4">
+          <h4 class="text-center mb-4">Crear cuenta</h4>
 
-<div class="container mx-auto px-4 py-8">
-    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 class="text-2xl font-bold mb-6 text-center">Crear cuenta</h1>
-        
-        {#if registrationSuccess}
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                <p>¡Registro exitoso! Redireccionando al inicio de sesión...</p>
+          {#if registrationSuccess}
+            <div class="alert alert-success mb-3">
+              ¡Registro exitoso! Redireccionando al inicio de sesión...
             </div>
-        {:else}
+          {:else}
             {#if generalError}
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                    <p>{generalError}</p>
-                </div>
+              <div class="alert alert-danger mb-3">
+                {generalError}
+              </div>
             {/if}
-            
-            <form on:submit|preventDefault={handleSubmit} class="space-y-4">
-                <!-- Username field -->
-                <div>
-                    <label for="username" class="block text-sm font-medium text-gray-700">Nombre de usuario</label>
-                    <input
-                        type="text"
-                        id="username"
-                        bind:value={username}
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                    {#if errors.username}
-                        <p class="text-red-500 text-xs mt-1">{errors.username}</p>
-                    {/if}
-                </div>
-                
-                <!-- Email field -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input
-                        type="email"
-                        id="email"
-                        bind:value={email}
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                    {#if errors.email}
-                        <p class="text-red-500 text-xs mt-1">{errors.email}</p>
-                    {/if}
-                </div>
-                
-                <!-- Password field -->
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Contraseña</label>
-                    <input
-                        type="password"
-                        id="password"
-                        bind:value={password}
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                    {#if errors.password}
-                        <p class="text-red-500 text-xs mt-1">{errors.password}</p>
-                    {/if}
-                </div>
-                
-                <!-- Password confirmation field -->
-                <div>
-                    <label for="passwordConfirmation" class="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
-                    <input
-                        type="password"
-                        id="passwordConfirmation"
-                        bind:value={passwordConfirmation}
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                    {#if errors.passwordConfirmation}
-                        <p class="text-red-500 text-xs mt-1">{errors.passwordConfirmation}</p>
-                    {/if}
-                </div>
-                
-                <!-- Birthdate field -->
-                <div>
-                    <label for="birthdate" class="block text-sm font-medium text-gray-700">Fecha de nacimiento</label>
-                    <input
-                        type="date"
-                        id="birthdate"
-                        bind:value={birthdate}
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                    {#if errors.birthdate}
-                        <p class="text-red-500 text-xs mt-1">{errors.birthdate}</p>
-                    {/if}
-                </div>
-                
-                <!-- Submit button -->
-                <div>
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-                    >
-                        {#if isSubmitting}
-                            Procesando...
-                        {:else}
-                            Registrarse
-                        {/if}
-                    </button>
-                </div>
+
+            <form on:submit|preventDefault={handleSubmit}>
+              <!-- Username field -->
+              <div class="mb-3">
+                <input 
+                  type="text" 
+                  bind:value={username}
+                  class="form-control" 
+                  placeholder="Nombre de usuario" 
+                  required
+                  disabled={isSubmitting}>
+                {#if errors.username}
+                  <small class="text-danger">{errors.username}</small>
+                {/if}
+              </div>
+              
+              <!-- Name field -->
+              <div class="mb-3">
+                <input 
+                  type="text" 
+                  bind:value={name}
+                  class="form-control" 
+                  placeholder="Nombre completo" 
+                  required
+                  disabled={isSubmitting}>
+                {#if errors.name}
+                  <small class="text-danger">{errors.name}</small>
+                {/if}
+              </div>
+              
+              <!-- Email field -->
+              <div class="mb-3">
+                <input 
+                  type="email" 
+                  bind:value={email}
+                  class="form-control" 
+                  placeholder="Email" 
+                  required
+                  disabled={isSubmitting}>
+                {#if errors.email}
+                  <small class="text-danger">{errors.email}</small>
+                {/if}
+              </div>
+              
+              <!-- Password field -->
+              <div class="mb-3">
+                <input 
+                  type="password" 
+                  bind:value={password}
+                  class="form-control" 
+                  placeholder="Contraseña" 
+                  required
+                  disabled={isSubmitting}>
+                {#if errors.password}
+                  <small class="text-danger">{errors.password}</small>
+                {/if}
+              </div>
+              
+              <!-- Password confirmation field -->
+              <div class="mb-3">
+                <input 
+                  type="password" 
+                  bind:value={passwordConfirmation}
+                  class="form-control" 
+                  placeholder="Confirmar contraseña" 
+                  required
+                  disabled={isSubmitting}>
+                {#if errors.passwordConfirmation}
+                  <small class="text-danger">{errors.passwordConfirmation}</small>
+                {/if}
+              </div>
+              
+              <!-- Birthdate field -->
+              <div class="mb-4">
+                <input 
+                  type="date" 
+                  bind:value={birthdate}
+                  class="form-control" 
+                  placeholder="Fecha de nacimiento (opcional)" 
+                  disabled={isSubmitting}>
+                {#if errors.birthdate}
+                  <small class="text-danger">{errors.birthdate}</small>
+                {/if}
+              </div>
+              
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary" disabled={isSubmitting}>
+                  {#if isSubmitting}
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Procesando...
+                  {:else}
+                    Registrarse
+                  {/if}
+                </button>
+              </div>
+              
+              <div class="text-center">
+                <small>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></small>
+              </div>
             </form>
-            
-            <div class="mt-4 text-center">
-                <p class="text-sm text-gray-600">
-                    ¿Ya tienes cuenta?
-                    <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">Inicia sesión</a>
-                </p>
-            </div>
-        {/if}
+          {/if}
+        </div>
+      </div>
     </div>
-</div> 
+  </div>
+</div>
+
+<style>
+  .auth-container {
+    padding-top: 2rem;
+  }
+  
+  .auth-card {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+</style> 
 
 <div class="decorative-blob blob-1"></div>
 <div class="decorative-blob blob-2"></div> 
