@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { API_URL } from '$lib/config';
   
   let identifier: string = '';
   let password: string = '';
@@ -12,7 +13,7 @@
     showError = false;
     
     try {
-      const response = await fetch('http://localhost:8000/api/v1/login', {
+      const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
