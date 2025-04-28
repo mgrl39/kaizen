@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  focalboard:
+    image: docker.io/mattermost/focalboard:latest
+    container_name: kaizen_focalboard
+    volumes:
+      - focalboard_data:/data
+    environment:
+      - VIRTUAL_HOST=localhost
+      - VIRTUAL_PORT=8000
+      - VIRTUAL_ROOT=/
+    ports:
+      - "8090:8000"
+    restart: unless-stopped
+
+volumes:
+  focalboard_data:
+    name: kaizen_focalboard_data

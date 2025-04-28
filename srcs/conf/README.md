@@ -16,23 +16,43 @@ cd postgres
 ./pg-podman.sh reset   # Reiniciar y limpiar datos (¡Cuidado!)
 ```
 
-## Ejecutar manualmente con Podman
+## Focalboard (Gestión de Proyectos)
+
+Focalboard es una herramienta de gestión visual que combina tableros Kanban, listas y más:
 
 ```bash
-# Crear volumen
-podman volume create kaizen_pgdata
-
-# Iniciar PostgreSQL
-podman run -d --name kaizen_postgres \
-  -e POSTGRES_DB=kaizendb \
-  -e POSTGRES_USER=kaizen \
-  -e POSTGRES_PASSWORD=kaizen_secure_password \
-  -v kaizen_pgdata:/var/lib/postgresql/data \
-  -p 5432:5432 \
-  postgres:15
+# Usar el script de administración
+cd focalboard
+./fb-podman.sh start    # Iniciar Focalboard
+./fb-podman.sh stop     # Detener Focalboard
+./fb-podman.sh status   # Ver estado
+./fb-podman.sh logs     # Ver logs
+./fb-podman.sh reset    # Reiniciar (¡Cuidado!)
+./fb-podman.sh info     # Mostrar información de acceso
 ```
 
-## Conexión a la base de datos
+Acceso a Focalboard:
+
+- URL: http://localhost:8090
+- Sin credenciales iniciales (crear usuario en el primer acceso)
+
+### Configuración recomendada para planificación de sprints:
+
+1. Crear un tablero "Sprint Planning"
+2. Configurar columnas para: Backlog, To Do, In Progress, Review, Done
+3. Crear una tarjeta para cada tarea con:
+
+   - Título descriptivo
+   - Descripción y criterios de aceptación
+   - Etiquetas para prioridades (Alta, Media, Baja)
+   - Asignados
+   - Fecha límite
+
+4. Usar vista Kanban para seguimiento diario
+5. Usar vista Calendario para planificación semanal
+6. Usar vista de Tabla para tener una visión general
+
+## Conexión a la base de datos PostgreSQL
 
 - **Host**: localhost
 - **Puerto**: 5432
