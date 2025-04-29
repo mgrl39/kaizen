@@ -21,9 +21,7 @@ jobs:
       - name: Enable auto-merge for Dependabot PRs
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
-          (steps.metadata.outputs.update-type == 'version-update:semver-minor' &&
-           (contains(steps.metadata.outputs.dependency-names, 'composer') ||
-            contains(steps.metadata.outputs.dependency-names, 'npm')))
+          steps.metadata.outputs.update-type == 'version-update:semver-minor'
         run: |
           gh pr review --approve "$PR_URL"
           gh pr merge --auto --merge "$PR_URL"
@@ -31,10 +29,10 @@ jobs:
           PR_URL: ${{github.event.pull_request.html_url}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Label major updates for review
+      - name: Label major updates
         if: steps.metadata.outputs.update-type == 'version-update:semver-major'
         run: |
-          gh pr edit "$PR_URL" --add-label "major-update,needs-review"
+          gh pr edit "$PR_URL" --add-label "dependencies"
           echo "⚠️ Major update detected. Manual review required."
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
@@ -43,10 +41,13 @@ jobs:
       - name: Add component labels
         run: |
           if [[ "${{ steps.metadata.outputs.package-ecosystem }}" == "composer" ]]; then
-            gh pr edit "$PR_URL" --add-label "backend"
+            gh pr edit "$PR_URL" --add-label "php,backend"
           elif [[ "${{ steps.metadata.outputs.package-ecosystem }}" == "npm" ]]; then
-            gh pr edit "$PR_URL" --add-label "frontend"
+            gh pr edit "$PR_URL" --add-label "javascript,frontend"
+          elif [[ "${{ steps.metadata.outputs.package-ecosystem }}" == "github-actions" ]]; then
+            gh pr edit "$PR_URL" --add-label "github_actions"
           fi
+        continue-on-error: true
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
