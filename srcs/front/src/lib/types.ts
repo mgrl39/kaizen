@@ -6,13 +6,14 @@
 export interface Movie {
 	id: number;
 	title: string;
-	photo_url: string;
-	synopsis?: string;
-	release_date?: string;
-	rating?: number;
-	genre?: string;
-	director?: string;
-	duration?: number;
+	synopsis: string;
+	duration: number;
+	rating: number;
+	release_date: string;
+	photo_url: string | null;
+	slug: string;
+	created_at: string;
+	updated_at: string;
 }
 
 // Interfaz para el cine

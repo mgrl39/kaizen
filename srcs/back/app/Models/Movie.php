@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Movie extends Model
 {
@@ -20,7 +21,8 @@ class Movie extends Model
         'duration',
         'rating',
         'release_date',
-        'photo_url'
+        'photo_url',
+        'slug'
     ];
 
     /**
@@ -32,6 +34,26 @@ class Movie extends Model
         'release_date' => 'date',
         'duration' => 'integer'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($movie) {
+            $movie->slug = Str::slug($movie->title);
+        });
+
+        static::updating(function ($movie) {
+            if ($movie->isDirty('title')) {
+                $movie->slug = Str::slug($movie->title);
+            }
+        });
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
 
     /**
      * Obtener los géneros asociados con esta película.

@@ -17,12 +17,33 @@ class MovieController extends Controller
     /**
      * Obtener listado de películas
      *
+     * @param Request $request
      * @return Illuminate\Http\JsonResponse json
      */
-    public function index()
+    public function index(Request $request)
     {
-        $movies = Movie::all();
-        return response()->json($movies);
+        $query = Movie::query();
+
+        // Filtrar por nombre si se proporciona
+        if ($request->has('name')) {
+            $searchTerm = $request->name;
+            $searchWords = array_filter(explode(' ', trim($searchTerm)));
+            
+            $query->where(function($q) use ($searchWords) {
+                foreach ($searchWords as $word) {
+                    $q->orWhere('title', 'ILIKE', '%' . $word . '%')
+                      ->orWhere('synopsis', 'ILIKE', '%' . $word . '%');
+                }
+            });
+        }
+
+        $movies = $query->get();
+        
+        return response()->json([
+            'success' => true,
+            'data' => $movies,
+            'message' => 'Películas obtenidas correctamente'
+        ]);
     }
 
     /**
@@ -47,89 +68,108 @@ class MovieController extends Controller
     /**
      * Mostrar una película específica
      * 
-     * @param int $id ID de la película
+     * @param string $slug Slug de la película
      * @return Illuminate\Http\JsonResponse json
      */
-    public function show($id)
+    public function show($slug)
     {
-        $movie = Movie::findOrFail($id);
-        return response()->json([
-            'success' => true,
-            'data' => $movie,
-            'message' => 'Película obtenida correctamente'
-        ]);
+        try {
+            $movie = Movie::where('slug', $slug)->firstOrFail();
+            return response()->json([
+                'success' => true,
+                'data' => $movie,
+                'message' => 'Película obtenida correctamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontró la película',
+                'error' => $e->getMessage()
+            ], 404);
+        }
     }
 
     /**
      * Versión 2 del endpoint de detalle de película
      * Incluye información adicional como géneros, proyecciones disponibles, etc.
      * 
-     * @param int $id ID de la película
+     * @param string $slug Slug de la película
      * @return Illuminate\Http\JsonResponse json
      */
-    public function showV2($id)
+    public function showV2($slug)
     {
-        $movie = Movie::with(['genres', 'functions.room.cinema'])->findOrFail($id);
-        
-        // Formatear proyecciones para agruparlas por cine
-        $screenings = [];
-        foreach ($movie->functions as $function) {
-            $cinemaId = $function->room->cinema->id;
+        try {
+            $movie = Movie::with(['genres', 'functions.room.cinema'])
+                         ->where('slug', $slug)
+                         ->firstOrFail();
             
-            if (!isset($screenings[$cinemaId])) {
-                $screenings[$cinemaId] = [
-                    'cinema' => [
-                        'id' => $function->room->cinema->id,
-                        'name' => $function->room->cinema->name,
-                        'address' => $function->room->cinema->address,
-                    ],
-                    'dates' => []
+            // Formatear proyecciones para agruparlas por cine
+            $screenings = [];
+            foreach ($movie->functions as $function) {
+                $cinemaId = $function->room->cinema->id;
+                
+                if (!isset($screenings[$cinemaId])) {
+                    $screenings[$cinemaId] = [
+                        'cinema' => [
+                            'id' => $function->room->cinema->id,
+                            'name' => $function->room->cinema->name,
+                            'address' => $function->room->cinema->address,
+                        ],
+                        'dates' => []
+                    ];
+                }
+                
+                $date = $function->date->format('Y-m-d');
+                if (!isset($screenings[$cinemaId]['dates'][$date])) {
+                    $screenings[$cinemaId]['dates'][$date] = [];
+                }
+                
+                $screenings[$cinemaId]['dates'][$date][] = [
+                    'id' => $function->id,
+                    'time' => $function->time,
+                    'room' => $function->room->name,
+                    'price' => $function->price,
+                    'available_seats' => $function->available_seats
                 ];
             }
             
-            $date = $function->date->format('Y-m-d');
-            if (!isset($screenings[$cinemaId]['dates'][$date])) {
-                $screenings[$cinemaId]['dates'][$date] = [];
+            // Convertir a formato de array indexado para el JSON
+            $formattedScreenings = [];
+            foreach ($screenings as $cinema) {
+                $formattedDates = [];
+                foreach ($cinema['dates'] as $date => $times) {
+                    $formattedDates[] = [
+                        'date' => $date,
+                        'times' => $times
+                    ];
+                }
+                $cinema['dates'] = $formattedDates;
+                $formattedScreenings[] = $cinema;
             }
             
-            $screenings[$cinemaId]['dates'][$date][] = [
-                'id' => $function->id,
-                'time' => $function->time,
-                'room' => $function->room->name,
-                'price' => $function->price,
-                'available_seats' => $function->available_seats
-            ];
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'id' => $movie->id,
+                    'title' => $movie->title,
+                    'synopsis' => $movie->synopsis,
+                    'duration' => $movie->duration,
+                    'rating' => $movie->rating,
+                    'release_date' => $movie->release_date ? $movie->release_date->format('Y-m-d') : null,
+                    'photo_url' => $movie->photo_url,
+                    'slug' => $movie->slug,
+                    'genres' => $movie->genres->pluck('name'),
+                    'screenings' => $formattedScreenings
+                ],
+                'message' => 'Información detallada de película obtenida correctamente'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No se encontró la película',
+                'error' => $e->getMessage()
+            ], 404);
         }
-        
-        // Convertir a formato de array indexado para el JSON
-        $formattedScreenings = [];
-        foreach ($screenings as $cinema) {
-            $formattedDates = [];
-            foreach ($cinema['dates'] as $date => $times) {
-                $formattedDates[] = [
-                    'date' => $date,
-                    'times' => $times
-                ];
-            }
-            $cinema['dates'] = $formattedDates;
-            $formattedScreenings[] = $cinema;
-        }
-        
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'id' => $movie->id,
-                'title' => $movie->title,
-                'synopsis' => $movie->synopsis,
-                'duration' => $movie->duration,
-                'rating' => $movie->rating,
-                'release_date' => $movie->release_date ? $movie->release_date->format('Y-m-d') : null,
-                'photo_url' => $movie->photo_url,
-                'genres' => $movie->genres->pluck('name'),
-                'screenings' => $formattedScreenings
-            ],
-            'message' => 'Información detallada de película obtenida correctamente'
-        ]);
     }
 
     /**
@@ -202,21 +242,41 @@ class MovieController extends Controller
     }
 
     /**
-     * Buscar películas
+     * Buscar películas por varios criterios
+     *
+     * @param Request $request
+     * @return Illuminate\Http\JsonResponse
      */
     public function search(Request $request)
     {
-        $query = $request->get('q');
-        $movies = Movie::where('title', 'like', "%{$query}%")
-                      ->orWhere('synopsis', 'like', "%{$query}%")
-                      ->get();
-        
+        $query = Movie::query();
+
+        // Búsqueda por título
+        if ($request->has('title')) {
+            $query->where('title', 'LIKE', '%' . $request->title . '%');
+        }
+
+        // Búsqueda por duración
+        if ($request->has('duration')) {
+            $query->where('duration', '=', $request->duration);
+        }
+
+        // Búsqueda por rating
+        if ($request->has('rating')) {
+            $query->where('rating', '=', $request->rating);
+        }
+
+        // Búsqueda por fecha de estreno
+        if ($request->has('release_date')) {
+            $query->whereDate('release_date', '=', $request->release_date);
+        }
+
+        $movies = $query->get();
+
         return response()->json([
             'success' => true,
-            'query' => $query,
-            'count' => $movies->count(),
             'data' => $movies,
-            'message' => 'Búsqueda completada'
+            'message' => 'Búsqueda realizada correctamente'
         ]);
     }
 

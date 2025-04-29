@@ -1,29 +1,25 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import type { Movie, ApiResponse } from '$lib/types';
   import { API_URL } from '$lib/config';
+  import type { Movie } from '$lib/types';
   
-  // Estado para película
   let movie: Movie | null = null;
   let loading: boolean = true;
   let error: string | null = null;
   
-  // Obtener ID de la película de la URL
-  const movieId = $page.params.id;
+  const slug = $page.params.slug;
   
   onMount(async () => {
     try {
-      // Fetch data from the API endpoint with the specific movie ID
-      const response = await fetch(`${API_URL}/movies/${movieId}`);
+      const response = await fetch(`${API_URL}/movies/${slug}`);
       
       if (!response.ok) {
         throw new Error(`API respondió con estado: ${response.status}`);
       }
       
-      const data: ApiResponse<Movie> = await response.json();
+      const data = await response.json();
       
-      // Check if the response has the expected structure
       if (data && data.success && data.data) {
         movie = data.data;
       } else {
@@ -38,7 +34,6 @@
     }
   });
   
-  // Función para formatear fecha
   function formatDate(dateString: string): string {
     if (!dateString) return 'Fecha no disponible';
     
@@ -50,7 +45,6 @@
     });
   }
   
-  // Función para convertir minutos a formato horas y minutos
   function formatDuration(minutes: number): string {
     if (!minutes) return 'Duración no disponible';
     
@@ -93,10 +87,10 @@
           
           <div class="movie-meta mb-4">
             <span class="meta-item">
-              <i class="bi bi-calendar3 me-2"></i>Estreno: {formatDate(movie.release_date || '')}
+              <i class="bi bi-calendar3 me-2"></i>Estreno: {formatDate(movie.release_date)}
             </span>
             <span class="meta-item ms-3">
-              <i class="bi bi-clock me-2"></i>Duración: {formatDuration(movie.duration || 0)}
+              <i class="bi bi-clock me-2"></i>Duración: {formatDuration(movie.duration)}
             </span>
           </div>
           
@@ -116,36 +110,6 @@
         </div>
       </div>
     </div>
-    
-    <!-- Sección de información adicional -->
-    <div class="row mt-4">
-      <div class="col-12">
-        <div class="content-wrapper p-4">
-          <h3 class="section-subtitle mb-4">Detalles</h3>
-          
-          <div class="row">
-            <div class="col-md-6">
-              <div class="detail-item">
-                <span class="detail-label">Clasificación:</span>
-                <span class="detail-value">{movie.rating || 'No disponible'}</span>
-              </div>
-              
-              <div class="detail-item">
-                <span class="detail-label">Género:</span>
-                <span class="detail-value">{movie.genre || 'No disponible'}</span>
-              </div>
-            </div>
-            
-            <div class="col-md-6">
-              <div class="detail-item">
-                <span class="detail-label">Director:</span>
-                <span class="detail-value">{movie.director || 'No disponible'}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   {:else}
     <div class="alert alert-info">
       No se encontró información para esta película
@@ -153,5 +117,54 @@
   {/if}
 </div>
 
-<div class="decorative-blob blob-1"></div>
-<div class="decorative-blob blob-2"></div> 
+<style>
+  .movie-poster-container {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+
+  .movie-poster {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .movie-rating {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .rating-badge {
+    background: rgba(var(--bs-primary-rgb), 0.9);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: bold;
+  }
+
+  .movie-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+  }
+
+  .meta-item {
+    color: var(--bs-gray-600);
+    font-size: 1.1rem;
+  }
+
+  .section-subtitle {
+    color: var(--bs-primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+
+  .content-wrapper {
+    background: var(--bs-light);
+    border-radius: 15px;
+    height: 100%;
+  }
+</style> 
