@@ -1,6 +1,6 @@
 <script lang="ts">
   // Importa solo la función, las variables explícitas aquí
-  import { handleSubmit } from './login.ts';
+  import { handleSubmit } from './login';
 
   let identifier: string = '';
   let password: string = '';

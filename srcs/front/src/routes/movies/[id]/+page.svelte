@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import type { Movie, ApiResponse } from '$lib/types';
+  import { API_URL } from '$lib/config';
   
   // Estado para película
   let movie: Movie | null = null;
@@ -14,7 +15,7 @@
   onMount(async () => {
     try {
       // Fetch data from the API endpoint with the specific movie ID
-      const response = await fetch(`http://localhost:8000/api/v1/movies/${movieId}`);
+      const response = await fetch(`${API_URL}/movies/${movieId}`);
       
       if (!response.ok) {
         throw new Error(`API respondió con estado: ${response.status}`);

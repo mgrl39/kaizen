@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { Movie } from '$lib/types';
+  import { API_URL } from '$lib/config';
+  import { goto } from '$app/navigation';
   
   // Estado para películas
   let movies: Movie[] = [];
@@ -9,8 +11,11 @@
   
   onMount(async () => {
     try {
-      // Fetch data from the actual API endpoint
-      const response = await fetch('http://localhost:8000/api/v1/movies');
+      const response = await fetch(`${API_URL}/movies`, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
       
       if (!response.ok) {
         throw new Error(`API responded with status: ${response.status}`);
@@ -81,9 +86,6 @@
                  class="card-img-top" alt={movie.title}>
             <div class="card-body">
               <h5 class="card-title">{movie.title}</h5>
-              <p class="card-text small">
-                Lanzamiento: {formatDate(movie.release_date || '')}
-              </p>
               <div class="d-flex justify-content-between align-items-center">
                 <span class="badge bg-primary">
                   <i class="bi bi-star-fill me-1"></i>{movie.rating || '?'}
