@@ -1,45 +1,12 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import { API_URL } from '$lib/config';
-  
+  // Importa solo la función, las variables explícitas aquí
+  import { handleSubmit } from './login.ts';
+
   let identifier: string = '';
   let password: string = '';
   let loading: boolean = false;
   let errorMessage: string = '';
   let showError: boolean = false;
-  
-  async function handleSubmit(): Promise<void> {
-    loading = true;
-    showError = false;
-    
-    try {
-      const response = await fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ identifier, password })
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok && data.success) {
-        // Guardar solo el token en localStorage
-        localStorage.setItem('token', data.token);
-        
-        // Recargar la página para que la navbar se actualice correctamente
-        window.location.href = '/';
-      } else {
-        errorMessage = data.message || 'Credenciales incorrectas';
-        showError = true;
-      }
-    } catch (error) {
-      errorMessage = 'Error de conexión con el servidor';
-      showError = true;
-    } finally {
-      loading = false;
-    }
-  }
 </script>
 
 <div class="container auth-container py-5">
@@ -55,7 +22,7 @@
             </div>
           {/if}
 
-          <form on:submit|preventDefault={handleSubmit}>
+          <form on:submit|preventDefault={() => handleSubmit({ identifier, password, setLoading: v => loading = v, setShowError: v => showError = v, setErrorMessage: v => errorMessage = v })}>
             <div class="mb-3">
               <input type="text" 
                      bind:value={identifier}
