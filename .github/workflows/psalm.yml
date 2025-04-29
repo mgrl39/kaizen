@@ -7,32 +7,52 @@ name: Psalm Security Scan
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+      - "srcs/back/**"
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: ["main"]
+    paths:
+      - "srcs/back/**"
   schedule:
-    - cron: '41 13 * * *'
+    - cron: "41 13 * * *"
 
 permissions:
   contents: read
 
 jobs:
   php-security:
+    name: PHP Security Analysis
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: srcs/back
+
     permissions:
-      contents: read # for actions/checkout to fetch code
-      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
-      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+      contents: read
+      security-events: write
+      actions: read
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, xml
+
+      - name: Install dependencies
+        run: composer install --no-progress
+
       - name: Psalm Security Scan
-        uses: psalm/psalm-github-security-scan@9ec1b5e2b854b3f048fa32e8c4aaa9ae05d77345
+        run: |
+          composer require --dev vimeo/psalm
+          ./vendor/bin/psalm --output-format=sarif --report=results.sarif
 
       - name: Upload Security Analysis results to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: results.sarif
+          sarif_file: srcs/back/results.sarif
+          category: psalm-backend

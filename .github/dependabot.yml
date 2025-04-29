@@ -1,28 +1,30 @@
 version: 2
 updates:
-  # Mantener las dependencias de Composer actualizadas
+  # Backend: Dependencias de Composer
   - package-ecosystem: "composer"
-    directory: "/"
+    directory: "/srcs/back"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
     labels:
       - "dependencies"
       - "php"
+      - "backend"
     versioning-strategy: "auto"
-    
-  # Mantener las dependencias de npm actualizadas
+
+  # Frontend: Dependencias de npm
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/srcs/front"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10
     labels:
       - "dependencies"
       - "javascript"
+      - "frontend"
     versioning-strategy: "auto"
 
-  # Mantener las acciones de GitHub actualizadas
+  # Acciones de GitHub
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

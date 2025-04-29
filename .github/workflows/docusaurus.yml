@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - development
+    paths:
+      - "docs/**"
+      - "wiki-source/**"
+      - ".github/workflows/docusaurus.yml"
   # Manual trigger mantenido por si acaso
   workflow_dispatch:
   # Cuando se actualiza la wiki
@@ -17,6 +21,7 @@ permissions:
 
 jobs:
   build-wiki-docs:
+    name: Build and Deploy Documentation
     runs-on: ubuntu-latest
 
     steps:
@@ -33,8 +38,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
-          cache: 'npm'
+          node-version: "18"
+          cache: "npm"
 
       - name: Initialize Docusaurus
         run: |
@@ -45,33 +50,47 @@ jobs:
       - name: Configure Docusaurus
         run: |
           cd temp-docs
-          mkdir -p docs
-          
+          mkdir -p docs/{frontend,backend,general}
+
           # Copiar el contenido de la wiki
-          cp -r ../wiki-source/* docs/
-          
+          cp -r ../wiki-source/* docs/general/
+
           # Asegurar que existe un index.md
-          if [ ! -f "docs/Home.md" ]; then
-            echo "# Kaizen Wiki" > docs/index.md
+          if [ ! -f "docs/general/Home.md" ]; then
+            echo "# Kaizen Documentation" > docs/index.md
           else
-            cp docs/Home.md docs/index.md
+            cp docs/general/Home.md docs/index.md
           fi
-          
+
           # Generar sidebar.js automáticamente
           echo "Generando sidebar.js..."
           echo "const sidebars = {
-            tutorialSidebar: [
+            docs: [
               'index',
-              $(find docs -type f -name "*.md" ! -name "index.md" -exec basename {} .md \; | sed 's/^/"\0",/' | tr '\n' ' ')
+              {
+                type: 'category',
+                label: 'Frontend (Svelte)',
+                items: $(find docs/frontend -type f -name "*.md" -exec basename {} .md \; | sed 's/^/"\0",/' | tr '\n' ' '),
+              },
+              {
+                type: 'category',
+                label: 'Backend (Laravel)',
+                items: $(find docs/backend -type f -name "*.md" -exec basename {} .md \; | sed 's/^/"\0",/' | tr '\n' ' '),
+              },
+              {
+                type: 'category',
+                label: 'General',
+                items: $(find docs/general -type f -name "*.md" ! -name "Home.md" -exec basename {} .md \; | sed 's/^/"\0",/' | tr '\n' ' '),
+              },
             ],
           };
-          
+
           module.exports = sidebars;" > sidebars.js
-          
+
           cat > docusaurus.config.js << 'EOF'
           module.exports = {
-            title: 'Kaizen Wiki',
-            tagline: 'Documentation from Kaizen Wiki',
+            title: 'Kaizen Documentation',
+            tagline: 'Frontend and Backend Documentation',
             url: 'https://mgrl39.github.io',
             baseUrl: '/kaizen/',
             onBrokenLinks: 'warn',
@@ -101,6 +120,16 @@ jobs:
                 title: 'Kaizen Documentation',
                 items: [
                   {
+                    to: '/frontend',
+                    label: 'Frontend',
+                    position: 'left',
+                  },
+                  {
+                    to: '/backend',
+                    label: 'Backend',
+                    position: 'left',
+                  },
+                  {
                     href: 'https://github.com/mgrl39/kaizen/wiki',
                     label: 'Wiki',
                     position: 'right',
@@ -129,7 +158,7 @@ jobs:
           publish_branch: gh-pages
           force_orphan: false
           enable_jekyll: false
-          commit_message: 'docs: update wiki documentation'
+          commit_message: "docs: update documentation"
           keep_files: true
 
       - name: Debug Information

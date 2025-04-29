@@ -8,6 +8,7 @@ permissions:
 
 jobs:
   dependabot:
+    name: Dependabot Auto-merge Check
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
@@ -20,7 +21,9 @@ jobs:
       - name: Enable auto-merge for Dependabot PRs
         if: |
           steps.metadata.outputs.update-type == 'version-update:semver-patch' ||
-          steps.metadata.outputs.update-type == 'version-update:semver-minor'
+          (steps.metadata.outputs.update-type == 'version-update:semver-minor' &&
+           (contains(steps.metadata.outputs.dependency-names, 'composer') ||
+            contains(steps.metadata.outputs.dependency-names, 'npm')))
         run: |
           gh pr review --approve "$PR_URL"
           gh pr merge --auto --merge "$PR_URL"
@@ -37,13 +40,13 @@ jobs:
           PR_URL: ${{github.event.pull_request.html_url}}
           GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-      - name: Add labels based on dependency type
+      - name: Add component labels
         run: |
-          if [[ "${{ steps.metadata.outputs.dependency-type }}" == "direct:production" ]]; then
-            gh pr edit "$PR_URL" --add-label "production"
-          elif [[ "${{ steps.metadata.outputs.dependency-type }}" == "direct:development" ]]; then
-            gh pr edit "$PR_URL" --add-label "development"
+          if [[ "${{ steps.metadata.outputs.package-ecosystem }}" == "composer" ]]; then
+            gh pr edit "$PR_URL" --add-label "backend"
+          elif [[ "${{ steps.metadata.outputs.package-ecosystem }}" == "npm" ]]; then
+            gh pr edit "$PR_URL" --add-label "frontend"
           fi
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
-          GH_TOKEN: ${{secrets.GITHUB_TOKEN}} 
+          GH_TOKEN: ${{secrets.GITHUB_TOKEN}}
