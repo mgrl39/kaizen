@@ -42,6 +42,13 @@ Route::prefix('v1')->group(function () {
     Route::get('genres/{genre}', [GenreController::class, 'show']);
     Route::get('genres/{genre}/movies', [GenreController::class, 'movies']);
 
+    // Rutas para cines
+    Route::get('cinemas/search', [CinemaController::class, 'search']);
+    Route::get('cinemas/location/{location}', [CinemaController::class, 'byLocation']);
+    Route::get('cinemas/{cinema}/rooms', [CinemaController::class, 'rooms']);
+    Route::get('cinemas/{cinema}/movies', [CinemaController::class, 'movies']);
+    Route::resource('cinemas', CinemaController::class);
+
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 
