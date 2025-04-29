@@ -13,58 +13,77 @@ class CinemaSeeder extends Seeder
      */
     public function run(): void
     {
-        // Datos de ejemplo de cines en España
         $cinemas = [
             [
                 'name' => 'Cinesa La Maquinista',
-                'location' => 'Barcelona, Centro Comercial La Maquinista'
+                'location' => 'Barcelona',
+                'address' => 'C.C. La Maquinista, Calle Potosí, 2, 08030',
+                'phone' => '+34 932 25 17 88',
+                'image_url' => 'https://source.unsplash.com/random/500x300/?cinema,1',
+                'rooms_count' => 12,
+                'has_3d' => true,
+                'has_imax' => true,
+                'has_vip' => true,
             ],
             [
                 'name' => 'Yelmo Cines Ideal',
-                'location' => 'Madrid, Calle Doctor Cortezo, 6'
-            ],
-            [
-                'name' => 'Kinépolis Ciudad de la Imagen',
-                'location' => 'Pozuelo de Alarcón, Madrid'
+                'location' => 'Madrid',
+                'address' => 'Calle del Doctor Cortezo, 6, 28012',
+                'phone' => '+34 902 22 09 22',
+                'image_url' => 'https://source.unsplash.com/random/500x300/?cinema,2',
+                'rooms_count' => 8,
+                'has_3d' => true,
+                'has_imax' => false,
+                'has_vip' => true,
             ],
             [
                 'name' => 'Cines Callao',
-                'location' => 'Madrid, Plaza del Callao, 3'
+                'location' => 'Madrid',
+                'address' => 'Plaza del Callao, 3, 28013',
+                'phone' => '+34 915 31 95 00',
+                'image_url' => 'https://source.unsplash.com/random/500x300/?cinema,3',
+                'rooms_count' => 5,
+                'has_3d' => false,
+                'has_imax' => false,
+                'has_vip' => true,
             ],
             [
                 'name' => 'Cinesa Diagonal',
-                'location' => 'Barcelona, Centro Comercial L\'illa Diagonal'
+                'location' => 'Barcelona',
+                'address' => 'Av. Diagonal, 3, 08019',
+                'phone' => '+34 931 22 33 96',
+                'image_url' => 'https://source.unsplash.com/random/500x300/?cinema,4',
+                'rooms_count' => 10,
+                'has_3d' => true,
+                'has_imax' => true,
+                'has_vip' => true,
             ],
             [
-                'name' => 'Cines Lys',
-                'location' => 'Valencia, Passeig Russafa, 3'
+                'name' => 'Cines Aragonia',
+                'location' => 'Zaragoza',
+                'address' => 'Avda. Juan Carlos I, 44, 50009',
+                'phone' => '+34 976 56 15 83',
+                'image_url' => 'https://source.unsplash.com/random/500x300/?cinema,5',
+                'rooms_count' => 7,
+                'has_3d' => true,
+                'has_imax' => false,
+                'has_vip' => false,
             ],
             [
-                'name' => 'Multicines Monopol',
-                'location' => 'Las Palmas de Gran Canaria'
+                'name' => 'OCine Aqua',
+                'location' => 'Valencia',
+                'address' => 'C.C. Aqua Multiespacio, Calle Menorca, 19, 46023',
+                'phone' => '+34 963 44 66 02',
+                'image_url' => 'https://source.unsplash.com/random/500x300/?cinema,6',
+                'rooms_count' => 9,
+                'has_3d' => true,
+                'has_imax' => false,
+                'has_vip' => true,
             ],
-            [
-                'name' => 'Cinesur Nervión Plaza',
-                'location' => 'Sevilla, Centro Comercial Nervión Plaza'
-            ],
-            [
-                'name' => 'Yelmo Cines Plaza Mayor',
-                'location' => 'Málaga, Centro Comercial Plaza Mayor'
-            ],
-            [
-                'name' => 'Cinebox Parque Astur',
-                'location' => 'Avilés, Centro Comercial Parque Astur'
-            ]
         ];
 
-        foreach ($cinemas as $cinemaData) {
-            $cinema = Cinema::create($cinemaData);
-
-            // Asignar algunos administradores aleatoriamente a cada cine
-            $admins = User::where('role', 'admin')->inRandomOrder()->take(rand(1, 3))->get();
-            foreach ($admins as $admin) {
-                $cinema->admins()->attach($admin->id);
-            }
+        foreach ($cinemas as $cinema) {
+            Cinema::create($cinema);
         }
     }
 } 

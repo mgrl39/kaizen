@@ -1,184 +1,191 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Movie } from '$lib/types';
   import { API_URL } from '$lib/config';
-  import { goto } from '$app/navigation';
-  
-  // Estado para películas
-  let movies: Movie[] = [];
-  let loading: boolean = true;
-  let error: string | null = null;
-  let searchTerm: string = '';
-  let searchTimeout: ReturnType<typeof setTimeout>;
-  let initialMovies: Movie[] = [];
-  
-  async function fetchMovies(name?: string) {
+
+  let movies = [];
+  let loading = true;
+  let error = null;
+  let searchQuery = '';
+  let filters = {
+    genre: '',
+    year: '',
+    rating: ''
+  };
+
+  // Para los filtros
+  let genres = [];
+  let years = [];
+
+  async function fetchMovies() {
     loading = true;
-    error = null;
-    
     try {
-      let endpoint = `${API_URL}/movies`;
-      if (name?.trim()) {
-        endpoint += `?name=${encodeURIComponent(name.trim())}`;
+      // Construir URL con parámetros de búsqueda y filtros
+      let url = `${API_URL}/movies`;
+      let params = new URLSearchParams();
+      
+      if (searchQuery) {
+        params.append('search', searchQuery);
       }
       
-      const response = await fetch(endpoint, {
+      if (filters.genre) {
+        params.append('genre', filters.genre);
+      }
+      
+      if (filters.year) {
+        params.append('year', filters.year);
+      }
+      
+      if (filters.rating) {
+        params.append('rating', filters.rating);
+      }
+      
+      // Añadir parámetros a la URL si hay alguno
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+      
+      const response = await fetch(url, {
         headers: {
           'Accept': 'application/json'
         }
       });
       
-      if (!response.ok) {
-        throw new Error(`API responded with status: ${response.status}`);
-      }
-      
       const data = await response.json();
       
-      if (data && data.success && Array.isArray(data.data)) {
-        movies = data.data;
-        if (!name) {
-          initialMovies = data.data;
-        }
+      if (response.ok) {
+        movies = data.data || data;
       } else {
-        throw new Error('Unexpected API response format');
+        error = data.message || 'Error al cargar las películas';
       }
-    } catch (err) {
-      console.error('Error cargando películas:', err);
-      error = "No se pudieron cargar las películas: " + (err instanceof Error ? err.message : String(err));
+    } catch (e) {
+      error = 'Error de conexión con el servidor';
     } finally {
       loading = false;
     }
   }
-  
-  // Función para manejar la búsqueda con debounce
-  function handleSearch() {
-    // Cancelar el timeout anterior si existe
-    if (searchTimeout) clearTimeout(searchTimeout);
-    
-    // Si el término de búsqueda está vacío, restaurar las películas iniciales
-    if (!searchTerm.trim()) {
-      movies = initialMovies;
-      loading = false;
-      return;
+
+  async function fetchFilters() {
+    try {
+      // En una implementación real, obtendrías esta información del servidor
+      genres = ['Acción', 'Aventura', 'Comedia', 'Drama', 'Ciencia Ficción', 'Terror'];
+      years = ['2023', '2022', '2021', '2020', '2019'];
+    } catch (e) {
+      console.error('Error al cargar filtros:', e);
     }
-    
-    // Crear un nuevo timeout
-    searchTimeout = setTimeout(() => {
-      fetchMovies(searchTerm);
-    }, 300); // Esperar 300ms después de que el usuario deje de escribir
-  }
-  
-  // Función para formatear fecha
-  function formatDate(dateString: string): string {
-    if (!dateString) return 'Fecha no disponible';
-    
-    const date = new Date(dateString);
-    return date.toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
   }
 
-  // Función para resaltar texto de búsqueda
-  function highlightText(text: string, search: string): string {
-    if (!search.trim()) return text;
-    
-    const searchWords = search.trim().toLowerCase().split(/\s+/);
-    let result = text;
-    
-    searchWords.forEach(word => {
-      if (word) {
-        const regex = new RegExp(`(${word})`, 'gi');
-        result = result.replace(regex, '<span class="highlight">$1</span>');
-      }
-    });
-    
-    return result;
+  function handleSearch() {
+    fetchMovies();
   }
-  
+
+  function resetFilters() {
+    filters = {
+      genre: '',
+      year: '',
+      rating: ''
+    };
+    searchQuery = '';
+    fetchMovies();
+  }
+
   onMount(() => {
     fetchMovies();
+    fetchFilters();
   });
 </script>
 
-<div class="container mt-4">
-  <div class="row mb-4">
-    <div class="col-12">
-      <h1 class="section-title">Películas</h1>
-      <div class="input-group">
-        <span class="input-group-text">
-          <i class="bi bi-search"></i>
-        </span>
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Buscar por título o descripción..."
-          bind:value={searchTerm}
-          on:input={handleSearch}
-        >
-        {#if searchTerm}
-          <button 
-            class="btn btn-outline-secondary" 
-            on:click={() => {
-              searchTerm = '';
-              movies = initialMovies;
-            }}
+<div class="container py-4">
+  <h1 class="section-title mb-4">Películas</h1>
+  
+  <!-- Buscador y Filtros -->
+  <div class="filters-container mb-4">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="input-group">
+          <input 
+            type="text" 
+            class="form-control" 
+            placeholder="Buscar películas..." 
+            bind:value={searchQuery}
+            on:keyup={(e) => e.key === 'Enter' && handleSearch()}
           >
-            <i class="bi bi-x-lg"></i>
+          <button class="btn btn-primary" on:click={handleSearch}>
+            <i class="bi bi-search me-1"></i>Buscar
           </button>
-        {/if}
-      </div>
-      {#if searchTerm}
-        <div class="text-center text-muted small mt-2">
-          <i class="bi bi-info-circle me-1"></i>
-          Buscando en títulos y sinopsis. La búsqueda no distingue mayúsculas/minúsculas.
         </div>
-      {/if}
+      </div>
+      
+      <div class="col-md-2">
+        <select class="form-select" bind:value={filters.genre} on:change={handleSearch}>
+          <option value="">Género</option>
+          {#each genres as genre}
+            <option value={genre}>{genre}</option>
+          {/each}
+        </select>
+      </div>
+      
+      <div class="col-md-2">
+        <select class="form-select" bind:value={filters.year} on:change={handleSearch}>
+          <option value="">Año</option>
+          {#each years as year}
+            <option value={year}>{year}</option>
+          {/each}
+        </select>
+      </div>
+      
+      <div class="col-md-2">
+        <select class="form-select" bind:value={filters.rating} on:change={handleSearch}>
+          <option value="">Calificación</option>
+          <option value="5">5 estrellas</option>
+          <option value="4">4+ estrellas</option>
+          <option value="3">3+ estrellas</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="mt-2">
+      <button class="btn btn-sm btn-outline-secondary" on:click={resetFilters}>
+        <i class="bi bi-x-circle me-1"></i>Limpiar filtros
+      </button>
     </div>
   </div>
   
   {#if loading}
-    <div class="d-flex justify-content-center my-5">
+    <div class="text-center my-5">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
+      <p class="mt-2">Cargando películas...</p>
     </div>
   {:else if error}
-    <div class="col-12 text-center">
-      <div class="alert alert-danger">
-        {error}
-      </div>
-    </div>
+    <div class="alert alert-danger">{error}</div>
   {:else if movies.length === 0}
-    <div class="col-12 text-center">
-      <div class="alert alert-info">
-        {searchTerm ? 'No se encontraron películas que coincidan con tu búsqueda' : 'No hay películas disponibles'}
-      </div>
-    </div>
+    <div class="alert alert-info">No se encontraron películas con los criterios seleccionados.</div>
   {:else}
     <div class="row g-4">
       {#each movies as movie}
         <div class="col-md-6 col-lg-4">
           <div class="card movie-card h-100">
             <img src={movie.photo_url || '/img/default-movie.jpg'} 
-                 class="card-img-top" alt={movie.title}>
+                class="card-img-top" 
+                alt={movie.title}
+                loading="lazy">
             <div class="card-body">
-              <h5 class="card-title">
-                {#if searchTerm}
-                  {@html highlightText(movie.title, searchTerm)}
-                {:else}
-                  {movie.title}
-                {/if}
-              </h5>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="badge bg-primary">
-                  <i class="bi bi-star-fill me-1"></i>{movie.rating || '?'}
+              <h5 class="card-title">{movie.title}</h5>
+              <p class="card-text text-muted">
+                {movie.year || 'Sin año'} | {movie.genre || 'Sin género'}
+              </p>
+              <p class="card-text description">{movie.description || 'Sin descripción disponible'}</p>
+            </div>
+            <div class="card-footer bg-transparent border-top-0">
+              <a href={`/movies/${movie.id}`} class="btn btn-primary btn-sm">
+                Ver detalles
+              </a>
+              {#if movie.rating}
+                <span class="float-end badge bg-warning text-dark">
+                  <i class="bi bi-star-fill me-1"></i>{movie.rating}
                 </span>
-                <a href={`/movies/${movie.slug}`} class="btn btn-primary btn-sm">
-                  <i class="bi bi-ticket me-1"></i>Reservar
-                </a>
-              </div>
+              {/if}
             </div>
           </div>
         </div>
@@ -188,28 +195,53 @@
 </div>
 
 <style>
+  .filters-container {
+    background-color: rgba(33, 37, 41, 0.7);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
   .movie-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   
   .movie-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
   
-  .card-img-top {
-    height: 350px;
+  .movie-card .card-img-top {
+    height: 250px;
     object-fit: cover;
   }
   
-  .input-group {
-    max-width: 600px;
-    margin: 1rem auto;
+  .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
   
-  :global(.highlight) {
-    background-color: rgba(var(--bs-warning-rgb), 0.3);
-    padding: 0 2px;
+  .section-title {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--bs-light);
+    border-bottom: 2px solid #6d28d9;
+    padding-bottom: 0.5rem;
+    display: inline-block;
+    margin-bottom: 2rem;
+  }
+  
+  .section-title::after {
+    content: '';
+    display: block;
+    width: 50%;
+    height: 2px;
+    background-color: #6d28d9;
+    position: absolute;
+    bottom: -2px;
+    left: 0;
     border-radius: 2px;
   }
 </style>
