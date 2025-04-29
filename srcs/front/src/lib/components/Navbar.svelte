@@ -13,7 +13,7 @@
     {url: '/profile', icon: 'person', text: 'Mi Perfil'},
     {url: '/bookings', icon: 'ticket', text: 'Mis Reservas'},
     {divider: true, url: '', icon: '', text: ''},
-    {url: '#', icon: 'box-arrow-right', text: 'Cerrar Sesión', action: 'logout'}
+    {url: 'javascript:void(0)', icon: 'box-arrow-right', text: 'Cerrar Sesión', action: 'logout'}
   ];
 
   let isAuthenticated: boolean = false;
@@ -112,18 +112,23 @@
         {:else}
           {#if isAuthenticated}
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              <button 
+                class="nav-link dropdown-toggle btn btn-link p-0 border-0 text-white" 
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                type="button"
+              >
                 <i class="bi bi-person-circle me-1"></i>{userName}
-              </a>
+              </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 {#each userMenu as item}
                   {#if item.divider}
                     <li><hr class="dropdown-divider"></li>
                   {:else if item.action === 'logout'}
                     <li>
-                      <a class="dropdown-item" href="#" on:click={handleLogout}>
+                      <button class="dropdown-item" on:click={handleLogout}>
                         <i class="bi bi-{item.icon} me-1"></i>{item.text}
-                      </a>
+                      </button>
                     </li>
                   {:else}
                     <li>

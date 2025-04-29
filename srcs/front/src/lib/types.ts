@@ -6,11 +6,14 @@
 export interface Movie {
 	id: number;
 	title: string;
+	description?: string;
+	year?: number;
+	genre?: string;
+	rating?: number;
+	photo_url?: string;
 	synopsis: string;
 	duration: number;
-	rating: number;
 	release_date: string;
-	photo_url: string | null;
 	slug: string;
 	created_at: string;
 	updated_at: string;
@@ -20,8 +23,10 @@ export interface Movie {
 export interface Cinema {
 	id: number;
 	name: string;
-	address: string;
-	photo_url: string;
+	location: string;
+	address?: string;
+	phone?: string;
+	image_url?: string;
 	screens: number;
 	city?: string;
 	description?: string;
@@ -29,7 +34,6 @@ export interface Cinema {
 	has_food?: boolean;
 	is_premium?: boolean;
 	features?: string[];
-	phone?: string;
 }
 
 // Interfaz para categoría
@@ -46,12 +50,14 @@ export interface NavItem {
 	icon: string;
 	text: string;
 	divider?: boolean;
+	action?: string;
 }
 
 // Interfaz para el usuario
 export interface User {
 	id: number;
 	name: string;
+	username: string;
 	email: string;
 	role: string;
 }
