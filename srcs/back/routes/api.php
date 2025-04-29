@@ -49,6 +49,9 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::get('profile', [ProfileController::class, 'me']);
+        Route::get('/profile', [ProfileController::class, 'show']);
+        Route::put('/profile', [ProfileController::class, 'update']);
+        Route::put('/profile/password', [ProfileController::class, 'changePassword']);
     });
 });
 
