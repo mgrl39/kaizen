@@ -1,97 +1,55 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { Cinema } from '$lib/types';
-  
-  let cinemas: Cinema[] = [];
-  let loading: boolean = true;
+  import { API_URL } from '$lib/config';
+
+  let cinemas: Array<{ id: number; name: string; location: string }> = [];
+  let loading = true;
   let error: string | null = null;
-  
-  onMount(async () => {
+
+  async function fetchCinemas() {
     try {
-      const response = await fetch('http://localhost:8000/api/v1/cinemas');
-      
-      if (!response.ok) {
-        throw new Error(`API respondió con estado: ${response.status}`);
-      }
-      
+      const response = await fetch(`${API_URL}/cinemas`, {
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
       const data = await response.json();
-      
-      if (data && Array.isArray(data)) {
-        cinemas = data;
-      } else if (data && data.data && Array.isArray(data.data)) {
-        cinemas = data.data;
+      if (response.ok) {
+        cinemas = data.data ?? data; // Soporta ambos formatos
       } else {
-        throw new Error('Formato de respuesta API inesperado');
+        error = data.message || 'Error al cargar los cines';
       }
-      
-      loading = false;
-    } catch (err) {
-      console.error('Error cargando cines:', err);
-      error = "No se pudieron cargar los cines: " + (err instanceof Error ? err.message : String(err));
+    } catch (e) {
+      error = 'Error de conexión con el servidor';
+    } finally {
       loading = false;
     }
+  }
+
+  onMount(() => {
+    fetchCinemas();
   });
 </script>
 
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-12">
-      <h1 class="mb-4">Nuestros Cines</h1>
-    </div>
-  </div>
-  
+<div class="container py-5">
+  <h2 class="mb-4 section-title">Cines</h2>
   {#if loading}
-    <div class="d-flex justify-content-center my-5">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando...</span>
-      </div>
+    <div class="text-center my-5">
+      <span class="spinner-border text-primary" role="status" aria-hidden="true"></span>
+      <div class="mt-2">Cargando...</div>
     </div>
   {:else if error}
-    <div class="col-12 text-center">
-      <div class="alert alert-danger">
-        {error}
-      </div>
-    </div>
+    <div class="alert alert-danger">{error}</div>
   {:else if cinemas.length === 0}
-    <div class="col-12 text-center">
-      <p>No hay cines disponibles</p>
-    </div>
+    <div class="alert alert-info">No hay cines disponibles.</div>
   {:else}
-    <div class="row g-4">
+    <div class="row">
       {#each cinemas as cinema}
-        <div class="col-md-6 col-lg-4">
-          <div class="card h-100">
-            <div class="position-relative">
-              <img src={cinema.photo_url || '/img/default-cinema.jpg'} 
-                  class="card-img-top" alt={cinema.name}>
-              <div class="position-absolute bottom-0 start-0 p-2">
-                <span class="badge bg-dark">
-                  <i class="bi bi-geo-alt-fill me-1"></i>{cinema.city || 'Ciudad no disponible'}
-                </span>
-              </div>
-            </div>
+        <div class="col-md-6 col-lg-4 mb-4">
+          <div class="card h-100 shadow-sm">
             <div class="card-body">
               <h5 class="card-title">{cinema.name}</h5>
-              <p class="card-text text-muted small mb-3">
-                <i class="bi bi-map me-1"></i>{cinema.address || 'Dirección no disponible'}
-              </p>
-              <p class="card-text">{cinema.description || 'Sin descripción disponible'}</p>
-              <div class="d-flex justify-content-between align-items-center mt-3">
-                <div>
-                  {#if cinema.has_parking}
-                    <i class="bi bi-p-square-fill me-2" title="Parking disponible"></i>
-                  {/if}
-                  {#if cinema.has_food}
-                    <i class="bi bi-cup-hot-fill me-2" title="Servicio de comida"></i>
-                  {/if}
-                  {#if cinema.is_premium}
-                    <i class="bi bi-star-fill" title="Cine premium"></i>
-                  {/if}
-                </div>
-                <a href={`/cinemas/${cinema.id}`} class="btn btn-primary btn-sm">
-                  <i class="bi bi-info-circle me-1"></i>Ver detalles
-                </a>
-              </div>
+              <p class="card-text text-muted">{cinema.location}</p>
             </div>
           </div>
         </div>
@@ -99,6 +57,14 @@
     </div>
   {/if}
 </div>
+
+<style>
+  .section-title {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--bs-primary, #0d6efd);
+  }
+</style>
 
 <div class="decorative-blob blob-1"></div>
 <div class="decorative-blob blob-2"></div>
