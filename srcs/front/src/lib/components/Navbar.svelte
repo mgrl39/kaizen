@@ -1,7 +1,9 @@
 <script lang="ts">
   import type { NavItem } from '$lib/types';
   import { onMount } from 'svelte';
-  
+  import { goto } from '$app/navigation';
+  import { API_URL } from '$lib/config';
+
   const navItems: NavItem[] = [
     {url: '/cinemas', icon: 'building', text: 'Cines'},
     {url: '/movies', icon: 'film', text: 'Películas'}
@@ -11,21 +13,73 @@
     {url: '/profile', icon: 'person', text: 'Mi Perfil'},
     {url: '/bookings', icon: 'ticket', text: 'Mis Reservas'},
     {divider: true, url: '', icon: '', text: ''},
-    {url: '/logout', icon: 'box-arrow-right', text: 'Cerrar Sesión'}
+    {url: '#', icon: 'box-arrow-right', text: 'Cerrar Sesión', action: 'logout'}
   ];
 
   let isAuthenticated: boolean = false;
   let userName: string = 'Usuario';
-  
   let scrolled = false;
-  
+  let loadingProfile: boolean = true;
+
+  async function fetchProfile() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      isAuthenticated = false;
+      loadingProfile = false;
+      return;
+    }
+    try {
+      const response = await fetch(`${API_URL}/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        isAuthenticated = true;
+        userName = data.user.name || data.user.username;
+      } else {
+        isAuthenticated = false;
+        localStorage.removeItem('token');
+      }
+    } catch {
+      isAuthenticated = false;
+      localStorage.removeItem('token');
+    } finally {
+      loadingProfile = false;
+    }
+  }
+
+  async function handleLogout(event: Event) {
+    event.preventDefault();
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        await fetch(`${API_URL}/logout`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          }
+        });
+      } catch (e) {
+        // Ignorar errores de red
+      }
+      localStorage.removeItem('token');
+      isAuthenticated = false;
+      userName = 'Usuario';
+      goto('/login');
+    }
+  }
+
   onMount(() => {
+    fetchProfile();
+
     const handleScroll = () => {
       scrolled = window.scrollY > 20;
     };
-    
     window.addEventListener('scroll', handleScroll);
-    
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
@@ -48,31 +102,46 @@
           </li>
         {/each}
         
-        {#if isAuthenticated}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-              <i class="bi bi-person-circle me-1"></i>{userName}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              {#each userMenu as item}
-                {#if item.divider}
-                  <li><hr class="dropdown-divider"></li>
-                {:else}
-                  <li>
-                    <a class="dropdown-item" href={item.url}>
-                      <i class="bi bi-{item.icon} me-1"></i>{item.text}
-                    </a>
-                  </li>
-                {/if}
-              {/each}
-            </ul>
+        {#if loadingProfile}
+          <li class="nav-item ms-2">
+            <span class="navbar-text">
+              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              Cargando...
+            </span>
           </li>
         {:else}
-          <li class="nav-item ms-2">
-            <a href="/login" class="btn btn-primary">
-              <i class="bi bi-box-arrow-in-right me-1"></i>Acceder
-            </a>
-          </li>
+          {#if isAuthenticated}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+                <i class="bi bi-person-circle me-1"></i>{userName}
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                {#each userMenu as item}
+                  {#if item.divider}
+                    <li><hr class="dropdown-divider"></li>
+                  {:else if item.action === 'logout'}
+                    <li>
+                      <a class="dropdown-item" href="#" on:click={handleLogout}>
+                        <i class="bi bi-{item.icon} me-1"></i>{item.text}
+                      </a>
+                    </li>
+                  {:else}
+                    <li>
+                      <a class="dropdown-item" href={item.url}>
+                        <i class="bi bi-{item.icon} me-1"></i>{item.text}
+                      </a>
+                    </li>
+                  {/if}
+                {/each}
+              </ul>
+            </li>
+          {:else}
+            <li class="nav-item ms-2">
+              <a href="/login" class="btn btn-primary">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Acceder
+              </a>
+            </li>
+          {/if}
         {/if}
       </ul>
     </div>

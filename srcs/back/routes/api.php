@@ -19,6 +19,7 @@ use App\Http\Controllers\API\FunctionController;
 use App\Http\Controllers\MovieController as MovieControllerAlias;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\ApiInfoController;
+use App\Http\Controllers\API\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,6 +48,7 @@ Route::prefix('v1')->group(function () {
     // Rutas protegidas
     Route::middleware('auth:api')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
+        Route::get('profile', [ProfileController::class, 'me']);
     });
 });
 

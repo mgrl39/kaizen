@@ -27,8 +27,8 @@
         // Guardar solo el token en localStorage
         localStorage.setItem('token', data.token);
         
-        // Redirigir a la página principal
-        goto('/');
+        // Recargar la página para que la navbar se actualice correctamente
+        window.location.href = '/';
       } else {
         errorMessage = data.message || 'Credenciales incorrectas';
         showError = true;
