@@ -1,15 +1,20 @@
 <?php
 
+/**
+ * @file channels.php
+ * Este archivo proporciona las definiciones de canales de difusión para comunicación en tiempo real
+ */
+
 use Illuminate\Support\Facades\Broadcast;
 
 /*
 |--------------------------------------------------------------------------
-| Broadcast Channels
+| Canales de Difusión
 |--------------------------------------------------------------------------
 |
-| Here you may register all of the event broadcasting channels that your
-| application supports. The given channel authorization callbacks are
-| used to check if an authenticated user can listen to the channel.
+| Aquí puedes registrar todos los canales de difusión de eventos que tu
+| aplicación soporta. Las funciones de autorización de canales proporcionadas
+| se utilizan para verificar si un usuario autenticado puede escuchar el canal.
 |
 */
 
