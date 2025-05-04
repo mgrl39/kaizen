@@ -6,14 +6,6 @@
   import 'bootstrap/dist/css/bootstrap.min.css';
   import 'bootstrap-icons/font/bootstrap-icons.css';
   import '$lib/styles/index.css';
-  
-  // Importar Bootstrap JS
-  import { onMount } from 'svelte';
-  
-  onMount(() => {
-    // Importar Bootstrap JS dinámicamente
-    import('bootstrap/dist/js/bootstrap.bundle.min.js');
-  });
 </script>
 
 <!-- Layout principal de la aplicación -->
