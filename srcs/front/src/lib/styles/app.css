@@ -53,3 +53,111 @@ h6 {
 .cinema-card .card-text {
 	margin-bottom: 1rem;
 }
+
+/* Estilos específicos de la página home */
+.hero-banner {
+	position: relative;
+	padding: 6rem 0;
+	background:
+		linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+		url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+	background-size: cover;
+	background-position: center;
+	border-radius: 16px;
+	overflow: hidden;
+}
+
+.hero-content {
+	position: relative;
+	z-index: 2;
+	padding: 0 2rem;
+}
+
+.glow-text {
+	text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+}
+
+.movie-card {
+	transition: transform 0.3s ease;
+}
+
+.card-image-wrapper {
+	position: relative;
+	overflow: hidden;
+	border-radius: 16px 16px 0 0;
+}
+
+.card-image-wrapper img {
+	height: 300px;
+	object-fit: cover;
+	transition: transform 0.3s ease;
+}
+
+.card-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.movie-card:hover .card-overlay {
+	opacity: 1;
+}
+
+.movie-card:hover img {
+	transform: scale(1.05);
+}
+
+.rating-badge {
+	background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+	color: white;
+	padding: 0.25rem 0.75rem;
+	border-radius: 20px;
+	font-size: 0.875rem;
+}
+
+.category-card {
+	transition: transform 0.3s ease;
+}
+
+.category-icon-wrapper {
+	width: 60px;
+	height: 60px;
+	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.1);
+}
+
+.category-icon {
+	font-size: 1.75rem;
+}
+
+.category-btn {
+	border: none;
+	padding: 0.5rem 1.5rem;
+	border-radius: 20px;
+	color: white;
+	transition: all 0.3s ease;
+}
+
+.gradient-danger {
+	background: linear-gradient(135deg, #ff4e50, #f9d423);
+}
+
+.gradient-warning {
+	background: linear-gradient(135deg, #f6d365, #fda085);
+}
+
+.gradient-info {
+	background: linear-gradient(135deg, #0093e9, #80d0c7);
+}

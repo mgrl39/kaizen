@@ -2,9 +2,9 @@
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
 
-  let cinemas = [];
+  let cinemas: any[] = [];
   let loading = true;
-  let error = null;
+  let error: string | null = null;
   let searchQuery = '';
   let locationFilter = '';
 
@@ -40,7 +40,7 @@
       const data = await response.json();
       
       if (response.ok) {
-        cinemas = data.data ?? data; // Soporta ambos formatos
+        cinemas = data.data ?? data;
         console.log("Cines cargados:", cinemas);
       } else {
         error = data.message || 'Error al cargar los cines';
