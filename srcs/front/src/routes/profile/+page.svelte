@@ -211,23 +211,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  /* Reutiliza estilos inspirados en movies */
-  .movie-card {
-    border-radius: 18px;
-    background: var(--bs-light, #f8f9fa);
-    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-    margin-bottom: 2rem;
-    padding: 2rem 1.5rem;
-  }
-  .section-title {
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    color: var(--bs-primary, #0d6efd);
-  }
-  .section-subtitle {
-    font-weight: 600;
-    color: var(--bs-primary, #0d6efd);
-  }
-</style> 

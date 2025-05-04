@@ -61,17 +61,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .auth-container {
-    padding-top: 2rem;
-  }
-  
-  .auth-card {
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  }
-</style> 
-
-<div class="decorative-blob blob-1"></div>
-<div class="decorative-blob blob-2"></div> 
