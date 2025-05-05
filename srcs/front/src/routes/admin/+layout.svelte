@@ -59,7 +59,6 @@
         user = data.user;
         // Verificar si es administrador
         isAdmin = data.user.role === 'admin';
-        
         if (!isAdmin) {
           // Redireccionar si no es admin
           goto('/');
