@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            CinemaSeeder::class,   // Solo creamos los cines
+            CinemaSeeder::class,
         ]);
     }
 }

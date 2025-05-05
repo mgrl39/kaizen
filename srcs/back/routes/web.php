@@ -25,12 +25,3 @@ use App\Http\Controllers\MovieController;
 Route::get('/', function () {
     return ['message' => 'API Backend - Use /api endpoints'];
 });
-
-// API routes for frontend consumption
-Route::get('/urls', [SimpleEndpointController::class, 'index']);
-Route::get(
-    'lang/{locale}',
-    [LanguageController::class, 'switchLang']
-)->name('language');
-
-Route::get('movies', [MovieController::class, 'index']);

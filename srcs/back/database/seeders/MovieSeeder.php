@@ -24,10 +24,7 @@ class MovieSeeder extends Seeder
      */
     public function run()
     {
-        // Crear 20 películas aleatorias usando la factory
         Movie::factory(20)->create();
-
-        // Array de películas específicas con datos predefinidos
         $specificMovies = [
             [
                 'title' => 'El Padrino',
@@ -54,8 +51,6 @@ class MovieSeeder extends Seeder
                 'photo_url' => 'https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg',
             ],
         ];
-
-        // Crear cada película específica en la base de datos
         foreach ($specificMovies as $movie) {
             Movie::create($movie);
         }
