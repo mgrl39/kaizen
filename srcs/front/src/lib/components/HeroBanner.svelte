@@ -1,20 +1,23 @@
 <script lang="ts">
-  export let title = "Kaizen Cinema";
-  export let subtitle = "La mejor experiencia cinematográfica con las últimas películas y los cines más confortables.";
+  import { t } from '$lib/i18n';
+  
+  // Opcionales: props para sobreescribir las traducciones si es necesario
+  export let title = undefined;
+  export let subtitle = undefined;
 </script>
 
 <div class="hero-banner mb-5">
   <div class="hero-content">
     <div class="row align-items-center">
       <div class="col-md-6 px-0">
-        <h1 class="display-4 fw-bold glow-text">{title}</h1>
-        <p class="lead my-4">{subtitle}</p>
+        <h1 class="display-4 fw-bold glow-text">{title || $t('heroBannerTitle')}</h1>
+        <p class="lead my-4">{subtitle || $t('heroBannerSubtitle')}</p>
         <div class="d-flex gap-3">
           <a href="/movies" class="btn btn-primary glow-effect">
-            <i class="bi bi-film me-2"></i>Ver películas
+            <i class="bi bi-film me-2"></i>{$t('viewMovies')}
           </a>
           <a href="/cinemas" class="btn btn-outline-light hover-glow">
-            <i class="bi bi-building me-2"></i>Explorar cines
+            <i class="bi bi-building me-2"></i>{$t('exploreCinemas')}
           </a>
         </div>
       </div>

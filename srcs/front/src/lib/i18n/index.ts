@@ -22,7 +22,40 @@ export type TranslationKey =
 	| 'category_drama'
 	// FeaturedMovies component
 	| 'featuredMoviesTitle'
-	| 'noFeaturedMovies';
+	| 'noFeaturedMovies'
+	// HeroBanner component
+	| 'heroBannerTitle'
+	| 'heroBannerSubtitle'
+	| 'viewMovies'
+	| 'exploreCinemas'
+
+	// Register page
+	| 'createAccount'
+	| 'registerSuccess'
+	| 'username'
+	| 'fullName'
+	| 'email'
+	| 'password'
+	| 'confirmPassword'
+	| 'birthdate'
+	| 'processing'
+	| 'alreadyHaveAccount'
+	| 'login'
+
+	// Register validation errors
+	| 'usernameRequired'
+	| 'usernameMinLength'
+	| 'nameRequired'
+	| 'emailRequired'
+	| 'emailInvalid'
+	| 'passwordRequired'
+	| 'passwordMinLength'
+	| 'passwordsDontMatch'
+	| 'birthdateInvalid'
+	| 'formErrors'
+	| 'registerError'
+	| 'connectionError'
+	| 'unknownError';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

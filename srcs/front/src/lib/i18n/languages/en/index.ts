@@ -22,7 +22,42 @@ const en: TranslationDictionary = {
 
 	// FeaturedMovies component
 	featuredMoviesTitle: 'Featured Movies',
-	noFeaturedMovies: 'No featured movies available at this time.'
+	noFeaturedMovies: 'No featured movies available at this time.',
+
+	// HeroBanner component
+	heroBannerTitle: 'Kaizen Cinema',
+	heroBannerSubtitle:
+		'The best cinematic experience with the latest movies and most comfortable theaters.',
+	viewMovies: 'View movies',
+	exploreCinemas: 'Explore cinemas',
+
+	// Register page
+	createAccount: 'Create Account',
+	registerSuccess: 'Registration successful! Redirecting to login...',
+	username: 'Username',
+	fullName: 'Full Name',
+	email: 'Email',
+	password: 'Password',
+	confirmPassword: 'Confirm Password',
+	birthdate: 'Birth Date (optional)',
+	processing: 'Processing...',
+	alreadyHaveAccount: 'Already have an account?',
+	login: 'Log in',
+
+	// Register validation errors
+	usernameRequired: 'Username is required',
+	usernameMinLength: 'Username must be at least 3 characters',
+	nameRequired: 'Name is required',
+	emailRequired: 'Email is required',
+	emailInvalid: 'Email format is invalid',
+	passwordRequired: 'Password is required',
+	passwordMinLength: 'Password must be at least 8 characters',
+	passwordsDontMatch: 'Passwords do not match',
+	birthdateInvalid: 'Birth date must be earlier than today',
+	formErrors: 'Please correct the errors in the form',
+	registerError: 'Registration error',
+	connectionError: 'Connection error with the server',
+	unknownError: 'Unknown error during registration'
 };
 
 export default en;

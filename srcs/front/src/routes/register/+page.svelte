@@ -1,5 +1,6 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
+    import { t } from '$lib/i18n';
 
     // Form data
     let username: string = '';
@@ -31,33 +32,33 @@
         
         // Username validation
         if (!username) {
-            errors.username = 'El nombre de usuario es obligatorio';
+            errors.username = $t('usernameRequired');
         } else if (username.length < 3) {
-            errors.username = 'El nombre de usuario debe tener al menos 3 caracteres';
+            errors.username = $t('usernameMinLength');
         }
         
         // Name validation
         if (!name) {
-            errors.name = 'El nombre es obligatorio';
+            errors.name = $t('nameRequired');
         }
         
         // Email validation
         if (!email) {
-            errors.email = 'El email es obligatorio';
+            errors.email = $t('emailRequired');
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            errors.email = 'El formato del email no es válido';
+            errors.email = $t('emailInvalid');
         }
         
         // Password validation
         if (!password) {
-            errors.password = 'La contraseña es obligatoria';
+            errors.password = $t('passwordRequired');
         } else if (password.length < 8) {
-            errors.password = 'La contraseña debe tener al menos 8 caracteres';
+            errors.password = $t('passwordMinLength');
         }
         
         // Password confirmation
         if (password !== passwordConfirmation) {
-            errors.passwordConfirmation = 'Las contraseñas no coinciden';
+            errors.passwordConfirmation = $t('passwordsDontMatch');
         }
         
         // Birthdate validation is optional now
@@ -65,7 +66,7 @@
             const today = new Date();
             const selectedDate = new Date(birthdate);
             if (selectedDate >= today) {
-                errors.birthdate = 'La fecha de nacimiento debe ser anterior a hoy';
+                errors.birthdate = $t('birthdateInvalid');
             }
         }
         
@@ -93,13 +94,13 @@
                     }
                     return {
                         success: false,
-                        message: 'Por favor corrige los errores en el formulario',
+                        message: $t('formErrors'),
                         errors: formattedErrors
                     };
                 }
                 return {
                     success: false,
-                    message: data.message || 'Error en el registro'
+                    message: data.message || $t('registerError')
                 };
             }
 
@@ -115,7 +116,7 @@
         } catch (error) {
             return {
                 success: false,
-                message: 'Error de conexión con el servidor'
+                message: $t('connectionError')
             };
         }
     }
@@ -150,11 +151,11 @@
                 if (response.errors) {
                     errors = response.errors;
                 } else {
-                    generalError = response.message || 'Error en el registro';
+                    generalError = response.message || $t('registerError');
                 }
             }
         } catch (error: any) {
-            generalError = 'Error desconocido durante el registro';
+            generalError = $t('unknownError');
         } finally {
             isSubmitting = false;
         }
@@ -166,11 +167,11 @@
     <div class="col-md-5">
       <div class="card auth-card">
         <div class="card-body p-4">
-          <h4 class="text-center mb-4">Crear cuenta</h4>
+          <h4 class="text-center mb-4">{$t('createAccount')}</h4>
 
           {#if registrationSuccess}
             <div class="alert alert-success mb-3">
-              ¡Registro exitoso! Redireccionando al inicio de sesión...
+              {$t('registerSuccess')}
             </div>
           {:else}
             {#if generalError}
@@ -186,7 +187,7 @@
                   type="text" 
                   bind:value={username}
                   class="form-control" 
-                  placeholder="Nombre de usuario" 
+                  placeholder={$t('username')} 
                   required
                   disabled={isSubmitting}>
                 {#if errors.username}
@@ -200,7 +201,7 @@
                   type="text" 
                   bind:value={name}
                   class="form-control" 
-                  placeholder="Nombre completo" 
+                  placeholder={$t('fullName')} 
                   required
                   disabled={isSubmitting}>
                 {#if errors.name}
@@ -214,7 +215,7 @@
                   type="email" 
                   bind:value={email}
                   class="form-control" 
-                  placeholder="Email" 
+                  placeholder={$t('email')} 
                   required
                   disabled={isSubmitting}>
                 {#if errors.email}
@@ -228,7 +229,7 @@
                   type="password" 
                   bind:value={password}
                   class="form-control" 
-                  placeholder="Contraseña" 
+                  placeholder={$t('password')} 
                   required
                   disabled={isSubmitting}>
                 {#if errors.password}
@@ -242,7 +243,7 @@
                   type="password" 
                   bind:value={passwordConfirmation}
                   class="form-control" 
-                  placeholder="Confirmar contraseña" 
+                  placeholder={$t('confirmPassword')} 
                   required
                   disabled={isSubmitting}>
                 {#if errors.passwordConfirmation}
@@ -256,7 +257,7 @@
                   type="date" 
                   bind:value={birthdate}
                   class="form-control" 
-                  placeholder="Fecha de nacimiento (opcional)" 
+                  placeholder={$t('birthdate')} 
                   disabled={isSubmitting}>
                 {#if errors.birthdate}
                   <small class="text-danger">{errors.birthdate}</small>
@@ -267,15 +268,15 @@
                 <button type="submit" class="btn btn-primary" disabled={isSubmitting}>
                   {#if isSubmitting}
                     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    Procesando...
+                    {$t('processing')}
                   {:else}
-                    Registrarse
+                    {$t('register')}
                   {/if}
                 </button>
               </div>
               
               <div class="text-center">
-                <small>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></small>
+                <small>{$t('alreadyHaveAccount')} <a href="/login">{$t('login')}</a></small>
               </div>
             </form>
           {/if}
