@@ -1,15 +1,19 @@
 <script lang="ts">
+  import { goto } from '$app/navigation';
+  import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
 
+  // Lista de ciudades para el filtro (movido desde +page.ts)
+  const cities = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Zaragoza'];
+
+  export let data;
+  
   let cinemas: any[] = [];
   let loading = true;
   let error: string | null = null;
-  let searchQuery = '';
-  let locationFilter = '';
-
-  // Lista de ciudades para el filtro (esto podría venir del backend)
-  let cities = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Zaragoza'];
+  let searchQuery = data.searchQuery || '';
+  let locationFilter = data.locationFilter || '';
 
   async function fetchCinemas() {
     loading = true;
@@ -37,13 +41,12 @@
         }
       });
       
-      const data = await response.json();
+      const result = await response.json();
       
       if (response.ok) {
-        cinemas = data.data ?? data;
-        console.log("Cines cargados:", cinemas);
+        cinemas = result.data ?? result;
       } else {
-        error = data.message || 'Error al cargar los cines';
+        error = result.message || 'Error al cargar los cines';
       }
     } catch (e) {
       error = 'Error de conexión con el servidor';
@@ -53,13 +56,23 @@
   }
 
   function handleSearch() {
-    fetchCinemas();
+    const params = new URLSearchParams();
+    
+    if (searchQuery) {
+      params.set('search', searchQuery);
+    }
+    
+    if (locationFilter) {
+      params.set('location', locationFilter);
+    }
+    
+    goto(`?${params.toString()}`);
   }
 
   function resetFilters() {
     locationFilter = '';
     searchQuery = '';
-    fetchCinemas();
+    goto('?');
   }
 
   onMount(() => {

@@ -26,31 +26,63 @@ class AuthController extends Controller
         }
 
         try {
-            // Create user with essential fields - added 'name' field
-            $user = User::create([
+            // Create user with essential fields
+            $userData = [
                 'username' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'name' => $request->username,
-                'birthdate' => null
-            ]);
+                'name' => $request->name ?? $request->username,
+                'birthdate' => null,
+                'role' => 'user'
+            ];
             
-            // Generate token immediately after registration
-            $token = JWTAuth::fromUser($user);
+            Log::info('Attempting to create user with data: ' . json_encode(array_diff_key($userData, ['password' => ''])));
+            
+            $user = User::create($userData);
+            
+            Log::info('User created successfully with ID: ' . $user->id);
+            
+            try {
+                // Generate token immediately after registration
+                $token = JWTAuth::fromUser($user);
+                
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Registration successful',
+                    'token' => $token,
+                    'user' => [
+                        'id' => $user->id,
+                        'username' => $user->username,
+                        'email' => $user->email,
+                        'name' => $user->name
+                    ]
+                ], 201);
+            } catch (\Exception $tokenEx) {
+                Log::error('Token generation error: ' . $tokenEx->getMessage());
+                
+                // Si falla la generación del token, el usuario ya está creado
+                // Devolver respuesta exitosa sin token
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Registration successful but token generation failed',
+                    'user' => [
+                        'id' => $user->id,
+                        'username' => $user->username,
+                        'email' => $user->email,
+                        'name' => $user->name
+                    ]
+                ], 201);
+            }
+        } catch (QueryException $e) {
+            Log::error('Database error during registration: ' . $e->getMessage());
             
             return response()->json([
-                'success' => true,
-                'message' => 'Registration successful',
-                'token' => $token,
-                'user' => [
-                    'id' => $user->id,
-                    'username' => $user->username,
-                    'email' => $user->email
-                ]
-            ], 201);
-            
+                'success' => false,
+                'message' => 'Registration failed: Database error',
+                'details' => $e->getMessage()
+            ], 500);
         } catch (\Exception $e) {
-            Log::error('Registration error: ' . $e->getMessage());
+            Log::error('Registration error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
             
             return response()->json([
                 'success' => false,
@@ -77,10 +109,17 @@ class AuthController extends Controller
                 ->first();
             
             // Check if user exists and password is correct
-            if (!$user || !Hash::check($request->password, $user->password)) {
+            if (!$user) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'Invalid credentials'
+                    'message' => 'Invalid credentials: User not found'
+                ], 401);
+            }
+            
+            if (!Hash::check($request->password, $user->password)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid credentials: Password is incorrect'
                 ], 401);
             }
             
@@ -98,12 +137,14 @@ class AuthController extends Controller
                 'user' => [
                     'id' => $user->id,
                     'username' => $user->username,
-                    'email' => $user->email
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    'role' => $user->role
                 ]
             ], 200);
             
         } catch (\Exception $e) {
-            Log::error('Login error: ' . $e->getMessage());
+            Log::error('Login error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
             
             return response()->json([
                 'success' => false,
