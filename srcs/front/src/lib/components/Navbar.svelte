@@ -20,15 +20,23 @@
     {url: '/movies', icon: 'film', text: 'Películas'}
   ];
 
-  const userMenu: NavItem[] = [
+  // Usuario normal - menú básico
+  const baseUserMenu: NavItem[] = [
     {url: '/profile', icon: 'person', text: 'Mi Perfil'},
     {url: '/bookings', icon: 'ticket', text: 'Mis Reservas'},
     {divider: true, url: '', icon: '', text: ''},
     {url: 'javascript:void(0)', icon: 'box-arrow-right', text: 'Cerrar Sesión', action: 'logout'}
   ];
+  
+  // Opciones de administrador (se añadirán dinámicamente)
+  const adminOptions: NavItem[] = [
+    {url: '/admin/dashboard', icon: 'speedometer2', text: 'Panel Admin'},
+    {divider: true, url: '', icon: '', text: ''}
+  ];
 
   // Estado
   let isAuthenticated: boolean = false;
+  let isAdmin: boolean = false; // Nueva variable para controlar si es admin
   let userName: string = 'Usuario';
   let userAvatar: string | null = null;
   let scrolled = false;
@@ -36,6 +44,7 @@
   let mobileMenuOpen = false;
   let dropdownOpen = false;
   let notificationCount = 0;
+  let userMenu: NavItem[] = [...baseUserMenu]; // Inicialmente menú básico
 
   // Referencia al dropdown para cerrar al hacer clic fuera
   let dropdownElement: HTMLElement;
@@ -86,6 +95,16 @@
         userName = data.user.name || data.user.username;
         userAvatar = data.user.avatar || null; // Asumiendo que el API podría devolver un avatar
         notificationCount = data.notifications?.unread || 0; // Asumiendo que el API podría devolver notificaciones
+        
+        // Verificar si el usuario es administrador
+        isAdmin = data.user.role === 'admin';
+        
+        // Ajustar el menú según el rol
+        if (isAdmin) {
+          userMenu = [...adminOptions, ...baseUserMenu];
+        } else {
+          userMenu = [...baseUserMenu];
+        }
       } else {
         isAuthenticated = false;
         localStorage.removeItem('token');
