@@ -52,6 +52,11 @@ Route::prefix('v1')->group(function () {
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 
+    // Rutas para usuarios (públicas - sin middleware 'auth:api')
+    Route::get('users', [App\Http\Controllers\API\UserController::class, 'index']);
+    Route::get('users/{user}', [App\Http\Controllers\API\UserController::class, 'show']);
+    Route::delete('users/{user}', [App\Http\Controllers\API\UserController::class, 'destroy']);
+
     // Rutas protegidas
     Route::middleware('auth:api')->group(function () {
         Route::post('logout', [AuthController::class, 'logout']);
