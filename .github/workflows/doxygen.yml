@@ -34,29 +34,26 @@ jobs:
             echo "Creando directorio .github/assets..."
             mkdir -p .github/assets
           fi
-          
+
           # Verificar que existe el archivo CSS
           echo "Verificando archivo doxygen-awesome.css..."
           if [ ! -f ".github/assets/doxygen-awesome.css" ]; then
             echo "⚠️ ADVERTENCIA: No se encontró el archivo .github/assets/doxygen-awesome.css, descargando de la fuente oficial..."
             curl -o .github/assets/doxygen-awesome.css https://raw.githubusercontent.com/jothepro/doxygen-awesome-css/main/doxygen-awesome.css
           fi
-          
+
           echo "Archivo CSS disponible en: $(ls -la .github/assets/doxygen-awesome.css || echo 'No encontrado')"
 
       - name: Generate documentation with Doxygen
         run: |
           # Limpiar directorio de docs si existe
           rm -rf docs
-          
-          # Generar la documentación (Doxyfile tiene configurado OUTPUT_DIRECTORY=docs)
-          doxygen Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
+
+          # Generar la documentación especificando la ubicación del Doxyfile
+          doxygen srcs/conf/Doxyfile || { echo "❌ Doxygen generation failed"; exit 1; }
 
           # Crear .nojekyll para deshabilitar Jekyll
           touch docs/.nojekyll
-
-          # No es necesario crear index.html de redirección, ya que Doxygen generará su propio index.html
-          # Ya que HTML_OUTPUT = . en Doxyfile, el index.html ya estará en la raíz de docs/
 
       - name: Debug Information
         run: |
@@ -77,5 +74,5 @@ jobs:
           publish_branch: gh-pages
           force_orphan: true
           enable_jekyll: false
-          commit_message: 'docs: update documentation'
+          commit_message: "docs: update documentation"
           keep_files: false
