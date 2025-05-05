@@ -42,7 +42,6 @@ const en: TranslationDictionary = {
 	birthdate: 'Birth Date (optional)',
 	processing: 'Processing...',
 	alreadyHaveAccount: 'Already have an account?',
-	login: 'Log in',
 
 	// Register validation errors
 	usernameRequired: 'Username is required',
