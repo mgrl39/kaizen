@@ -31,7 +31,7 @@
   // @ts-ignore - Requerido por SvelteKit pero no usado
   // export let data: any;
 
-  let isAdmin = false;
+  let isAdmin : boolean = false;
   let user: any = null;
   let loading = true;
   let isSideNavExpanded = true;

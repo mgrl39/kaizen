@@ -28,10 +28,10 @@ class CinemaFactory extends Factory
         $cinemaNames = ['Cinesa', 'Yelmo Cines'];
 
         return [
-            'name' => $this->faker->randomElement($cinemaNames) . \
+            'name' => $this->faker->randomElement($cinemaNames) . 
                 ' ' . $this->faker->word(),
             'location' => $this->faker->streetAddress() .
-                \ ', ' . $this->faker->randomElement($cities),
+                 ', ' . $this->faker->randomElement($cities),
             'created_at' => $this->faker->dateTimeBetween('-2 years', 'now'),
             'updated_at' => function (array $attributes) {
                 return $this->faker->dateTimeBetween($attributes['created_at'], 'now');

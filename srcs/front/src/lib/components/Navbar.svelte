@@ -4,39 +4,42 @@
   import { fly, fade } from 'svelte/transition';
   import { goto } from '$app/navigation';
   import { API_URL } from '$lib/config';
+  
+  // Importar el sistema de internacionalización
+  import { t } from '$lib/i18n';
+  import LanguageSelector from '$lib/components/LanguageSelector.svelte';
 
   // Tipado mejorado
   interface NavItem {
     url: string;
     icon: string;
     text: string;
+    i18nKey: string; // Clave para traducción
     divider?: boolean;
     action?: string;
     children?: NavItem[];
   }
 
   const navItems: NavItem[] = [
-    {url: '/cinemas', icon: 'building', text: 'Cines'},
-    {url: '/movies', icon: 'film', text: 'Películas'}
+    {url: '/cinemas', icon: 'building', text: 'Cines', i18nKey: 'cinemas'},
+    {url: '/movies', icon: 'film', text: 'Películas', i18nKey: 'movies'}
   ];
 
-  // Usuario normal - menú básico
-  const baseUserMenu: NavItem[] = [
-    {url: '/profile', icon: 'person', text: 'Mi Perfil'},
-    {url: '/bookings', icon: 'ticket', text: 'Mis Reservas'},
-    {divider: true, url: '', icon: '', text: ''},
-    {url: 'javascript:void(0)', icon: 'box-arrow-right', text: 'Cerrar Sesión', action: 'logout'}
+  const userMenu: NavItem[] = [
+    {url: '/profile', icon: 'person', text: 'Mi Perfil', i18nKey: 'profile'},
+    {url: '/bookings', icon: 'ticket', text: 'Mis Reservas', i18nKey: 'bookings'},
+    {divider: true, url: '', icon: '', text: '', i18nKey: ''},
+    {url: 'javascript:void(0)', icon: 'box-arrow-right', text: 'Cerrar Sesión', i18nKey: 'logout', action: 'logout'}
   ];
-  
-  // Opciones de administrador (se añadirán dinámicamente)
-  const adminOptions: NavItem[] = [
-    {url: '/admin/dashboard', icon: 'speedometer2', text: 'Panel Admin'},
-    {divider: true, url: '', icon: '', text: ''}
-  ];
+
+  // Opción Admin para usuarios con rol de administrador
+  const adminOption: NavItem = {
+    url: '/admin/dashboard', icon: 'speedometer2', text: 'Panel Admin', i18nKey: 'adminPanel'
+  };
 
   // Estado
   let isAuthenticated: boolean = false;
-  let isAdmin: boolean = false; // Nueva variable para controlar si es admin
+  let isAdmin: boolean = false;
   let userName: string = 'Usuario';
   let userAvatar: string | null = null;
   let scrolled = false;
@@ -44,7 +47,6 @@
   let mobileMenuOpen = false;
   let dropdownOpen = false;
   let notificationCount = 0;
-  let userMenu: NavItem[] = [...baseUserMenu]; // Inicialmente menú básico
 
   // Referencia al dropdown para cerrar al hacer clic fuera
   let dropdownElement: HTMLElement;
@@ -96,15 +98,8 @@
         userAvatar = data.user.avatar || null; // Asumiendo que el API podría devolver un avatar
         notificationCount = data.notifications?.unread || 0; // Asumiendo que el API podría devolver notificaciones
         
-        // Verificar si el usuario es administrador
+        // Detectar si es administrador
         isAdmin = data.user.role === 'admin';
-        
-        // Ajustar el menú según el rol
-        if (isAdmin) {
-          userMenu = [...adminOptions, ...baseUserMenu];
-        } else {
-          userMenu = [...baseUserMenu];
-        }
       } else {
         isAuthenticated = false;
         localStorage.removeItem('token');
@@ -214,16 +209,34 @@
               aria-current={isActive(item.url) ? 'page' : undefined}
             >
               <i class="bi bi-{item.icon} me-1" aria-hidden="true"></i>
-              <span>{item.text}</span>
+              <span>{$t(item.i18nKey)}</span>
             </a>
           </li>
         {/each}
+        
+        {#if isAdmin}
+          <li class="nav-item">
+            <a 
+              href={adminOption.url} 
+              class="nav-link {isActive(adminOption.url) ? 'active' : ''}"
+              aria-current={isActive(adminOption.url) ? 'page' : undefined}
+            >
+              <i class="bi bi-{adminOption.icon} me-1" aria-hidden="true"></i>
+              <span>{$t(adminOption.i18nKey)}</span>
+            </a>
+          </li>
+        {/if}
+        
+        <!-- Selector de idioma -->
+        <li class="nav-item me-2">
+          <LanguageSelector />
+        </li>
         
         {#if loadingProfile}
           <li class="nav-item ms-2">
             <span class="navbar-text loading-indicator">
               <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              <span>Cargando...</span>
+              <span>{$t('loading')}</span>
             </span>
           </li>
         {:else}
@@ -236,7 +249,7 @@
                   <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
                     transition:fade={{ duration: 200 }}>
                     {notificationCount}
-                    <span class="visually-hidden">notificaciones sin leer</span>
+                    <span class="visually-hidden">{$t('unreadNotifications')}</span>
                   </span>
                 {/if}
               </a>
@@ -276,7 +289,7 @@
                             on:click={handleLogout}
                           >
                             <i class="bi bi-{item.icon} me-1" aria-hidden="true"></i>
-                            <span>{item.text}</span>
+                            <span>{$t(item.i18nKey)}</span>
                           </button>
                         </li>
                       {:else}
@@ -287,7 +300,7 @@
                             aria-current={isActive(item.url) ? 'page' : undefined}
                           >
                             <i class="bi bi-{item.icon} me-1" aria-hidden="true"></i>
-                            <span>{item.text}</span>
+                            <span>{$t(item.i18nKey)}</span>
                           </a>
                         </li>
                       {/if}
@@ -299,11 +312,11 @@
           {:else}
             <li class="nav-item ms-2 d-flex">
               <a href="/register" class="btn btn-outline-light me-2 d-none d-sm-inline-block">
-                Registrarse
+                {$t('register')}
               </a>
               <a href="/login" class="btn btn-primary">
                 <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>
-                <span>Acceder</span>
+                <span>{$t('login')}</span>
               </a>
             </li>
           {/if}
