@@ -14,7 +14,7 @@
 </script>
 
 <ErrorPage 
-  statusCode={statusCode}
+  statusCode={statusCode.toString()}
   title={errorTitle}
   message={errorMessage}
 /> 

@@ -10,7 +10,7 @@
   };
   
   let loading = true;
-  let error = null;
+  let error : string | null = null;
   
   // Datos de ejemplo para las gráficas
   const monthlyData = [

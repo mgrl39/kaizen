@@ -4,7 +4,7 @@
   import { page } from '$app/stores';
   import { API_URL } from '$lib/config';
 
-  // Importaciones de Carbon Components (sin los iconos problemáticos)
+  // Importaciones de Carbon Components
   import {
     Header,
     HeaderUtilities,
@@ -15,21 +15,24 @@
     SideNavItems,
     SideNavMenu,
     SideNavMenuItem,
-    SideNavLink,
     SkipToContent,
     Content,
     Theme,
-    Button,
     Loading
   } from "carbon-components-svelte";
   
-  // Seguimos usando Bootstrap Icons
+  // Iconos de Bootstrap
   import 'bootstrap-icons/font/bootstrap-icons.css';
 
-  export let data;
+  // Opción 1: Usar export const para datos de referencia externa
+  export const data: any = {}; // Cambio de 'export let' a 'export const'
+  
+  // O, opción 2: Mantener 'export let' pero silenciar el error con un comentario
+  // @ts-ignore - Requerido por SvelteKit pero no usado
+  // export let data: any;
 
   let isAdmin = false;
-  let user = null;
+  let user: any = null;
   let loading = true;
   let isSideNavExpanded = true;
 
@@ -115,7 +118,8 @@
     isSideNavExpanded = !isSideNavExpanded;
   }
 
-  function handleNavigation(url) {
+  // Añadimos tipo para url
+  function handleNavigation(url: string) {
     goto(url);
   }
 
@@ -124,8 +128,12 @@
     checkAuth();
   });
 
-  // Obtener el título de la página actual
-  $: currentPageTitle = $page.url.pathname.split('/').pop().charAt(0).toUpperCase() + $page.url.pathname.split('/').pop().slice(1);
+  // Usando nullish coalescing para evitar undefined
+  $: currentPageTitle = $page.url.pathname.split('/')
+    .pop()
+    ?.charAt(0)
+    .toUpperCase() + 
+    ($page.url.pathname.split('/').pop()?.slice(1) || '');
 </script>
 
 <!-- Importar los estilos base de Carbon -->
@@ -173,24 +181,29 @@
   {#if loading}
     <Loading withOverlay description="Cargando..." />
   {:else if isAdmin}
-    <Header platformName="Kaizen Admin" bind:isSideNavExpanded on:toggle={toggleSideNav}>
+    <Header platformName="Kaizen Admin">
+      <svelte:fragment slot="skip-to-content">
+        <SkipToContent />
+      </svelte:fragment>
+      
       <HeaderNav>
         <HeaderNavItem text="Cines" href="/admin/cinemas" />
         <HeaderNavItem text="Películas" href="/admin/movies" />
         <HeaderNavItem text="Usuarios" href="/admin/users" />
       </HeaderNav>
+      
       <HeaderUtilities>
-        <HeaderGlobalAction tooltipAlignment="center" aria-label="Perfil">
+        <HeaderGlobalAction aria-label="Perfil" on:click={() => goto('/admin/profile')}>
           <div class="carbon-icon-wrapper">
             <i class="bi bi-person"></i>
           </div>
         </HeaderGlobalAction>
-        <HeaderGlobalAction tooltipAlignment="center" aria-label="Ajustes">
+        <HeaderGlobalAction aria-label="Ajustes" on:click={() => goto('/admin/settings')}>
           <div class="carbon-icon-wrapper">
             <i class="bi bi-gear"></i>
           </div>
         </HeaderGlobalAction>
-        <HeaderGlobalAction tooltipAlignment="center" aria-label="Cerrar sesión" on:click={handleLogout}>
+        <HeaderGlobalAction aria-label="Cerrar sesión" on:click={handleLogout}>
           <div class="carbon-icon-wrapper">
             <i class="bi bi-box-arrow-right"></i>
           </div>
@@ -198,49 +211,49 @@
       </HeaderUtilities>
     </Header>
 
-    <SideNav bind:expanded={isSideNavExpanded} rail>
+    <SideNav isOpen={isSideNavExpanded} rail>
       <SideNavItems>
         {#each adminMenus as section}
-          <SideNavMenu text={section.title}>
+          <SideNavMenu title={section.title}>
             {#each section.items as item}
               <SideNavMenuItem 
-                text={item.name}
                 href={item.url}
                 on:click={() => handleNavigation(item.url)}
               >
-                <div class="carbon-icon-wrapper" slot="icon">
+                <div class="carbon-icon-wrapper">
                   <i class="bi bi-{item.icon}"></i>
                 </div>
+                {item.name}
               </SideNavMenuItem>
             {/each}
           </SideNavMenu>
         {/each}
-        <SideNavMenu text="Configuración">
+        <SideNavMenu title="Configuración">
           <SideNavMenuItem 
-            text="Mi Perfil"
             href="/admin/profile"
             on:click={() => handleNavigation('/admin/profile')}
           >
-            <div class="carbon-icon-wrapper" slot="icon">
+            <div class="carbon-icon-wrapper">
               <i class="bi bi-person"></i>
             </div>
+            Mi Perfil
           </SideNavMenuItem>
           <SideNavMenuItem 
-            text="Ajustes"
             href="/admin/settings"
             on:click={() => handleNavigation('/admin/settings')}
           >
-            <div class="carbon-icon-wrapper" slot="icon">
+            <div class="carbon-icon-wrapper">
               <i class="bi bi-gear"></i>
             </div>
+            Ajustes
           </SideNavMenuItem>
           <SideNavMenuItem 
-            text="Cerrar Sesión"
             on:click={handleLogout}
           >
-            <div class="carbon-icon-wrapper" slot="icon">
+            <div class="carbon-icon-wrapper">
               <i class="bi bi-box-arrow-right"></i>
             </div>
+            Cerrar Sesión
           </SideNavMenuItem>
         </SideNavMenu>
       </SideNavItems>
