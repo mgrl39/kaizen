@@ -68,13 +68,20 @@ class MovieController extends Controller
     /**
      * Mostrar una película específica
      * 
-     * @param string $slug Slug de la película
+     * @param string $identifier ID o slug de la película
      * @return Illuminate\Http\JsonResponse json
      */
-    public function show($slug)
+    public function show($identifier)
     {
         try {
-            $movie = Movie::where('slug', $slug)->firstOrFail();
+            // Intentar buscar primero por ID si es numérico
+            if (is_numeric($identifier)) {
+                $movie = Movie::findOrFail($identifier);
+            } else {
+                // Si no es numérico, buscar por slug
+                $movie = Movie::where('slug', $identifier)->firstOrFail();
+            }
+            
             return response()->json([
                 'success' => true,
                 'data' => $movie,
