@@ -1,28 +1,41 @@
 <script lang="ts">
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import { page } from '$app/stores';
   
   // Importar Bootstrap y otros estilos
   import 'bootstrap/dist/css/bootstrap.min.css';
   import 'bootstrap-icons/font/bootstrap-icons.css';
   import '$lib/styles/index.css';
+  
+  // Verificar si estamos en rutas de admin
+  $: isAdminRoute = $page.url.pathname.startsWith('/admin');
 </script>
 
-<!-- Layout principal de la aplicación -->
-<div class="app-wrapper d-flex flex-column min-vh-100">
-  <!-- Barra de navegación -->
-  <Navbar />
-  
-  <!-- Contenido principal con padding reducido -->
-  <main class="container py-3 mt-2 flex-grow-1">
-    <slot />
-  </main>
-  
-  <!-- Footer -->
-  <Footer />
-</div>
+{#if isAdminRoute}
+  <!-- Para rutas admin, solo pasa el contenido sin estilos ni componentes adicionales -->
+  <slot />
+{:else}
+  <!-- Layout principal SOLO para usuarios normales -->
+  <div class="app-wrapper d-flex flex-column min-vh-100">
+    <!-- Barra de navegación -->
+    <Navbar />
+    
+    <!-- Contenido principal con padding reducido -->
+    <main class="container py-3 mt-2 flex-grow-1">
+      <slot />
+    </main>
+    
+    <!-- Footer -->
+    <Footer />
+  </div>
+
+  <div class="decorative-blob blob-1"></div>
+  <div class="decorative-blob blob-2"></div>
+{/if}
 
 <style>
+  /* Estos estilos SOLO se aplican fuera de /admin */
   :global(body) {
     background-color: #121212;
     color: #f8f9fa;
@@ -62,6 +75,3 @@
     border-radius: 2px;
   }
 </style> 
-
-<div class="decorative-blob blob-1"></div>
-<div class="decorative-blob blob-2"></div> 
