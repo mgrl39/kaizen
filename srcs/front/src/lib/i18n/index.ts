@@ -14,7 +14,15 @@ export type TranslationKey =
 	| 'login'
 	| 'adminPanel'
 	| 'loading'
-	| 'unreadNotifications';
+	| 'unreadNotifications'
+	// Traducciones para la página principal
+	| 'featuredMoviesError'
+	| 'category_action'
+	| 'category_comedy'
+	| 'category_drama'
+	// FeaturedMovies component
+	| 'featuredMoviesTitle'
+	| 'noFeaturedMovies';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Movie } from '$lib/types';
+  import { t } from '$lib/i18n';
   import MovieCard from '../MovieCard.svelte';
   
   export let loading: boolean;
@@ -9,13 +10,13 @@
 
 <section class="featured-movies mb-5">
   <h2 class="section-title mb-4">
-    <i class="bi bi-stars me-2"></i>Películas Destacadas
+    <i class="bi bi-stars me-2"></i>{$t('featuredMoviesTitle')}
   </h2>
   
   {#if loading}
     <div class="d-flex justify-content-center my-5">
       <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando...</span>
+        <span class="visually-hidden">{$t('loading')}</span>
       </div>
     </div>
   {:else if error}
@@ -24,7 +25,7 @@
     </div>
   {:else if featuredMovies.length == 0}
     <div class="alert alert-info">
-      <i class="bi bi-info-circle me-2"></i>No hay películas destacadas disponibles en este momento.
+      <i class="bi bi-info-circle me-2"></i>{$t('noFeaturedMovies')}
     </div>
   {:else}
     <div class="row g-4">

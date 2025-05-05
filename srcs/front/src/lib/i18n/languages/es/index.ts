@@ -12,7 +12,17 @@ const es: TranslationDictionary = {
 	login: 'Acceder',
 	adminPanel: 'Panel Admin',
 	loading: 'Cargando...',
-	unreadNotifications: 'notificaciones sin leer'
+	unreadNotifications: 'notificaciones sin leer',
+
+	// Página principal
+	featuredMoviesError: 'No se pudieron cargar las películas destacadas:',
+	category_action: 'Acción',
+	category_comedy: 'Comedia',
+	category_drama: 'Drama',
+
+	// Componente FeaturedMovies
+	featuredMoviesTitle: 'Películas Destacadas',
+	noFeaturedMovies: 'No hay películas destacadas disponibles en este momento.'
 };
 
 export default es;

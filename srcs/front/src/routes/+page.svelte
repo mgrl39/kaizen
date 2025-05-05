@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { Movie, Category } from '$lib/types';
+  import { t } from '$lib/i18n';
   
   // Importar componentes - Rutas corregidas
   import HeroBanner from '$lib/components/HeroBanner.svelte';
@@ -13,10 +14,10 @@
   let error: string | null = null;
   
   // Categorías para la sección de categorías
-  const categories: Category[] = [
-    {name: 'Acción', icon: 'lightning', color: 'danger', gradient: 'danger'},
-    {name: 'Comedia', icon: 'emoji-laughing', color: 'warning', gradient: 'warning'},
-    {name: 'Drama', icon: 'mask', color: 'info', gradient: 'info'}
+  $: categories = [
+    {name: $t('category_action'), icon: 'lightning', color: 'danger', gradient: 'danger'},
+    {name: $t('category_comedy'), icon: 'emoji-laughing', color: 'warning', gradient: 'warning'},
+    {name: $t('category_drama'), icon: 'mask', color: 'info', gradient: 'info'}
   ];
   
   // Función para obtener películas aleatorias de un array
@@ -54,7 +55,7 @@
       loading = false;
     } catch (err) {
       console.error('Error cargando películas:', err);
-      error = "No se pudieron cargar las películas destacadas: " + (err instanceof Error ? err.message : String(err));
+      error = `${$t('featuredMoviesError')} ` + (err instanceof Error ? err.message : String(err));
       loading = false;
     }
   });
