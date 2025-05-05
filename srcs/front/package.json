@@ -38,6 +38,6 @@
 		"bootstrap-icons": "^1.11.1",
 		"carbon-components-svelte": "^0.89.2",
 		"carbon-icons-svelte": "^13.3.0",
-		"svelte": "^4.2.7"
+		"svelte": "^5.28.2"
 	}
 }
