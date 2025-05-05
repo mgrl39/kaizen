@@ -56,7 +56,8 @@ const en: TranslationDictionary = {
 	formErrors: 'Please correct the errors in the form',
 	registerError: 'Registration error',
 	connectionError: 'Connection error with the server',
-	unknownError: 'Unknown error during registration'
+	unknownError: 'Unknown error during registration',
+	showFilms: 'Show Films'
 };
 
 export default en;

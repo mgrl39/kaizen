@@ -55,7 +55,8 @@ export type TranslationKey =
 	| 'formErrors'
 	| 'registerError'
 	| 'connectionError'
-	| 'unknownError';
+	| 'unknownError'
+	| 'showFilms';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;
