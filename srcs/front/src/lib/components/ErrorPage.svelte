@@ -35,8 +35,6 @@
         {buttonText}
       </a>
     {/if}
-    
-    <!-- Slot para contenido adicional -->
     <slot />
   </div>
 </div>
