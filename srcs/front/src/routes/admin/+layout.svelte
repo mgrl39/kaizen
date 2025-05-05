@@ -1,11 +1,29 @@
- <script lang="ts">
+<script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { page } from '$app/stores';
   import { API_URL } from '$lib/config';
+
+  // Importaciones de Carbon Components (sin los iconos problemáticos)
+  import {
+    Header,
+    HeaderUtilities,
+    HeaderGlobalAction,
+    HeaderNav,
+    HeaderNavItem,
+    SideNav,
+    SideNavItems,
+    SideNavMenu,
+    SideNavMenuItem,
+    SideNavLink,
+    SkipToContent,
+    Content,
+    Theme,
+    Button,
+    Loading
+  } from "carbon-components-svelte";
   
-  // Importa solo lo necesario
-  import 'bootstrap/dist/css/bootstrap.min.css';
+  // Seguimos usando Bootstrap Icons
   import 'bootstrap-icons/font/bootstrap-icons.css';
 
   export let data;
@@ -13,10 +31,10 @@
   let isAdmin = false;
   let user = null;
   let loading = true;
-  let sidebarOpen = true;
+  let isSideNavExpanded = true;
 
-  // Menú de administración
-  const adminMenu = [
+  // Menú de administración con iconos de Bootstrap
+  const adminMenus = [
     { 
       title: 'General',
       items: [
@@ -29,14 +47,6 @@
         { name: 'Cines', icon: 'building', url: '/admin/cinemas' },
         { name: 'Películas', icon: 'film', url: '/admin/movies' },
         { name: 'Usuarios', icon: 'people', url: '/admin/users' },
-      ]
-    },
-    {
-      title: 'Configuración',
-      items: [
-        { name: 'Ajustes', icon: 'gear', url: '/admin/settings' },
-        { name: 'Mi Perfil', icon: 'person', url: '/admin/profile' },
-        { name: 'Salir', icon: 'box-arrow-left', url: '/admin/logout', action: 'logout' }
       ]
     }
   ];
@@ -61,10 +71,12 @@
       
       if (response.ok && data.success) {
         user = data.user;
+        // Verificar si es administrador
         console.log("User data:", data.user);
         isAdmin = data.user && data.user.role === 'admin';
         
         if (!isAdmin) {
+          // Redireccionar si no es admin
           goto('/');
         }
       } else {
@@ -99,180 +111,152 @@
     }
   }
 
-  function toggleSidebar() {
-    sidebarOpen = !sidebarOpen;
+  function toggleSideNav() {
+    isSideNavExpanded = !isSideNavExpanded;
   }
 
-  function handleMenuAction(action) {
-    if (action === 'logout') {
-      handleLogout();
-    }
+  function handleNavigation(url) {
+    goto(url);
   }
 
   // Comprobar autorización al cargar
   onMount(() => {
     checkAuth();
   });
+
+  // Obtener el título de la página actual
+  $: currentPageTitle = $page.url.pathname.split('/').pop().charAt(0).toUpperCase() + $page.url.pathname.split('/').pop().slice(1);
 </script>
 
+<!-- Importar los estilos base de Carbon -->
 <svelte:head>
+  <link rel="stylesheet" href="https://unpkg.com/carbon-components/css/carbon-components.min.css" />
   <style>
-    body {
-      background-color: #f5f8fa !important;
+    :global(body) {
+      background-color: #f4f4f4 !important;
       margin: 0 !important;
       padding: 0 !important;
-      overflow-x: hidden !important;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+      height: 100vh !important;
+      overflow: hidden !important;
     }
     
-    .decorative-blob {
-      display: none !important;
+    :global(.bx--side-nav) {
+      position: fixed !important;
+      height: 100% !important;
+    }
+    
+    :global(.bx--content) {
+      margin-left: 16rem !important;
+      transition: margin-left 0.3s ease !important;
+      height: calc(100vh - 3rem) !important;
+      overflow-y: auto !important;
+      padding: 1.5rem !important;
+    }
+    
+    :global(.bx--side-nav--collapsed ~ .bx--content) {
+      margin-left: 3rem !important;
+    }
+    
+    /* Estilo para los iconos de Bootstrap dentro de Carbon */
+    :global(.carbon-icon-wrapper) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
     }
   </style>
 </svelte:head>
 
-{#if loading}
-  <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Cargando...</span>
-    </div>
-  </div>
-{:else if isAdmin}
-  <div class="admin-wrapper d-flex">
-    <!-- Sidebar fija -->
-    <div class="sidebar bg-dark text-white" style="width: {sidebarOpen ? '250px' : '70px'}; transition: width 0.3s ease;">
-      <div class="d-flex justify-content-between align-items-center p-3 border-bottom border-secondary">
-        <div class="d-flex align-items-center">
-          <img src="/logo.png" alt="Kaizen" width="40" height="40" class="me-2">
-          {#if sidebarOpen}
-            <span class="fw-bold">Kaizen Admin</span>
-          {/if}
-        </div>
-        <button class="btn btn-sm text-white" on:click={toggleSidebar}>
-          <i class="bi bi-chevron-{sidebarOpen ? 'left' : 'right'}"></i>
-        </button>
-      </div>
-      
-      <div class="p-2">
-        {#each adminMenu as section}
-          <div class="mb-3">
-            {#if sidebarOpen}
-              <div class="text-uppercase small text-muted ms-3 mt-3 mb-2">{section.title}</div>
-            {:else}
-              <hr class="my-2 opacity-25">
-            {/if}
-            
-            <ul class="nav flex-column">
-              {#each section.items as item}
-                <li class="nav-item">
-                  <a 
-                    class="nav-link rounded d-flex align-items-center {sidebarOpen ? 'px-3' : 'justify-content-center'} py-2 {$page.url.pathname === item.url || $page.url.pathname.startsWith(item.url + '/') ? 'active bg-primary bg-opacity-25 text-white' : 'text-light'}" 
-                    href={item.action ? 'javascript:void(0)' : item.url}
-                    on:click={() => item.action && handleMenuAction(item.action)}
-                  >
-                    <i class="bi bi-{item.icon} {sidebarOpen ? 'me-3' : ''}"></i>
-                    {#if sidebarOpen}
-                      <span>{item.name}</span>
-                    {/if}
-                  </a>
-                </li>
-              {/each}
-            </ul>
+<Theme theme="g90">
+  {#if loading}
+    <Loading withOverlay description="Cargando..." />
+  {:else if isAdmin}
+    <Header platformName="Kaizen Admin" bind:isSideNavExpanded on:toggle={toggleSideNav}>
+      <HeaderNav>
+        <HeaderNavItem text="Cines" href="/admin/cinemas" />
+        <HeaderNavItem text="Películas" href="/admin/movies" />
+        <HeaderNavItem text="Usuarios" href="/admin/users" />
+      </HeaderNav>
+      <HeaderUtilities>
+        <HeaderGlobalAction tooltipAlignment="center" aria-label="Perfil">
+          <div class="carbon-icon-wrapper">
+            <i class="bi bi-person"></i>
           </div>
-        {/each}
-      </div>
-    </div>
-    
-    <!-- Contenido principal -->
-    <div class="content-wrapper" style="flex: 1; margin-left: {sidebarOpen ? '250px' : '70px'}; transition: margin-left 0.3s ease;">
-      <!-- Barra superior -->
-      <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top">
-        <div class="container-fluid px-4">
-          <button class="navbar-toggler border-0 d-lg-none" type="button" on:click={toggleSidebar}>
-            <i class="bi bi-list"></i>
-          </button>
-          
-          <div class="d-flex align-items-center">
-            <span class="fw-bold text-uppercase text-primary me-4">
-              {$page.url.pathname.split('/').pop().charAt(0).toUpperCase() + $page.url.pathname.split('/').pop().slice(1)}
-            </span>
-            
-            <div class="d-none d-md-flex">
-              <a href="/admin/cinemas" class="me-3 nav-link px-2">Cines</a>
-              <a href="/admin/movies" class="me-3 nav-link px-2">Películas</a>
-              <a href="/admin/users" class="nav-link px-2">Usuarios</a>
-            </div>
+        </HeaderGlobalAction>
+        <HeaderGlobalAction tooltipAlignment="center" aria-label="Ajustes">
+          <div class="carbon-icon-wrapper">
+            <i class="bi bi-gear"></i>
           </div>
-          
-          <div class="d-flex align-items-center">
-            <div class="dropdown">
-              <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-2" style="width: 36px; height: 36px;">
-                  {user?.name?.charAt(0) || user?.username?.charAt(0) || 'A'}
-                </div>
-                <span class="d-none d-md-inline">{user?.name || user?.username || 'Admin'}</span>
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="userDropdown">
-                <li><a class="dropdown-item" href="/admin/profile"><i class="bi bi-person me-2"></i>Perfil</a></li>
-                <li><a class="dropdown-item" href="/admin/settings"><i class="bi bi-gear me-2"></i>Ajustes</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#" on:click={handleLogout}><i class="bi bi-box-arrow-right me-2"></i>Cerrar sesión</a></li>
-              </ul>
-            </div>
+        </HeaderGlobalAction>
+        <HeaderGlobalAction tooltipAlignment="center" aria-label="Cerrar sesión" on:click={handleLogout}>
+          <div class="carbon-icon-wrapper">
+            <i class="bi bi-box-arrow-right"></i>
           </div>
-        </div>
-      </nav>
-      
-      <!-- Contenido de la página -->
-      <div class="container-fluid p-4">
-        <slot />
-      </div>
-    </div>
-  </div>
-{/if}
+        </HeaderGlobalAction>
+      </HeaderUtilities>
+    </Header>
 
-<style>
-  .sidebar {
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    overflow-y: auto;
-    z-index: 1030;
-  }
-  
-  .content-wrapper {
-    min-height: 100vh;
-  }
-  
-  /* Estilos para que el dashboard no necesite scroll horizontal */
-  :global(.dashboard-container) {
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-  
-  :global(.dashboard-container .row) {
-    margin-right: -10px;
-    margin-left: -10px;
-  }
-  
-  :global(.dashboard-container [class*="col-"]) {
-    padding-right: 10px;
-    padding-left: 10px;
-  }
-  
-  @media (max-width: 992px) {
-    .sidebar {
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
-    }
-    
-    .sidebar.open {
-      transform: translateX(0);
-    }
-    
-    .content-wrapper {
-      margin-left: 0 !important;
-    }
-  }
-</style>
+    <SideNav bind:expanded={isSideNavExpanded} rail>
+      <SideNavItems>
+        {#each adminMenus as section}
+          <SideNavMenu text={section.title}>
+            {#each section.items as item}
+              <SideNavMenuItem 
+                text={item.name}
+                href={item.url}
+                on:click={() => handleNavigation(item.url)}
+              >
+                <div class="carbon-icon-wrapper" slot="icon">
+                  <i class="bi bi-{item.icon}"></i>
+                </div>
+              </SideNavMenuItem>
+            {/each}
+          </SideNavMenu>
+        {/each}
+        <SideNavMenu text="Configuración">
+          <SideNavMenuItem 
+            text="Mi Perfil"
+            href="/admin/profile"
+            on:click={() => handleNavigation('/admin/profile')}
+          >
+            <div class="carbon-icon-wrapper" slot="icon">
+              <i class="bi bi-person"></i>
+            </div>
+          </SideNavMenuItem>
+          <SideNavMenuItem 
+            text="Ajustes"
+            href="/admin/settings"
+            on:click={() => handleNavigation('/admin/settings')}
+          >
+            <div class="carbon-icon-wrapper" slot="icon">
+              <i class="bi bi-gear"></i>
+            </div>
+          </SideNavMenuItem>
+          <SideNavMenuItem 
+            text="Cerrar Sesión"
+            on:click={handleLogout}
+          >
+            <div class="carbon-icon-wrapper" slot="icon">
+              <i class="bi bi-box-arrow-right"></i>
+            </div>
+          </SideNavMenuItem>
+        </SideNavMenu>
+      </SideNavItems>
+    </SideNav>
+
+    <Content>
+      <div class="bx--grid">
+        <div class="bx--row">
+          <div class="bx--col">
+            <h2 class="bx--type-productive-heading-04" style="margin-bottom: 1.5rem;">
+              {currentPageTitle}
+            </h2>
+            <slot />
+          </div>
+        </div>
+      </div>
+    </Content>
+  {/if}
+</Theme>
