@@ -2,6 +2,7 @@ import type { NavItem } from '$lib/types';
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation';
 import { API_URL } from '$lib/config';
+import { currentLanguage, languages } from '$lib/i18n';
 
 export function setupNavbar() {
 	const navItems: NavItem[] = [
@@ -20,6 +21,14 @@ export function setupNavbar() {
 	let userName: string = 'Usuario';
 	let scrolled = false;
 	let loadingProfile: boolean = true;
+
+	// Verificar y establecer idioma predeterminado
+	function setupDefaultLanguage() {
+		if (!languages.includes(get(currentLanguage))) {
+			// Si el idioma no es válido, usar español como predeterminado
+			currentLanguage.set('es');
+		}
+	}
 
 	async function fetchProfile() {
 		const token = localStorage.getItem('token');
@@ -92,6 +101,7 @@ export function setupNavbar() {
 		loadingProfile,
 		fetchProfile,
 		handleLogout,
-		setupScrollListener
+		setupScrollListener,
+		setupDefaultLanguage
 	};
 }

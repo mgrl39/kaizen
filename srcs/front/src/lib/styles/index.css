@@ -1,4 +1,34 @@
 /* Global CSS imports */
-@import './layout.css';
 @import './authentication.css';
 @import './app.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Agrega tus estilos personalizados aquí */
+@layer base {
+	body {
+		@apply bg-dark text-light;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	}
+}
+
+@layer components {
+	.card {
+		@apply bg-card border border-white/10;
+	}
+
+	.btn-primary {
+		@apply bg-primary border-primary text-white hover:bg-primary-hover hover:border-primary-hover;
+	}
+
+	.section-title {
+		@apply font-semibold mb-8 relative inline-block;
+	}
+
+	.section-title::after {
+		content: '';
+		@apply absolute left-0 -bottom-2 w-3/5 h-[3px] bg-gradient-to-r from-primary to-transparent rounded-md;
+	}
+}

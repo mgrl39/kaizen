@@ -6,44 +6,36 @@
   export let subtitle = undefined;
 </script>
 
-<div class="hero-banner mb-5">
-  <div class="hero-content">
-    <div class="row align-items-center">
-      <div class="col-md-6 px-0">
-        <h1 class="display-4 fw-bold glow-text">{title || $t('heroBannerTitle')}</h1>
-        <p class="lead my-4">{subtitle || $t('heroBannerSubtitle')}</p>
-        <div class="d-flex gap-3">
-          <a href="/movies" class="btn btn-primary glow-effect">
-            <i class="bi bi-film me-2"></i>{$t('viewMovies')}
-          </a>
-          <a href="/cinemas" class="btn btn-outline-light hover-glow">
-            <i class="bi bi-building me-2"></i>{$t('exploreCinemas')}
-          </a>
-        </div>
+<div class="w-full mx-auto mb-8 overflow-hidden rounded-2xl relative bg-no-repeat bg-center bg-cover py-12 sm:py-16 md:py-24" 
+  style="background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)), url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"
+>
+  <div class="container mx-auto px-4 md:px-8 relative z-10">
+    <div class="max-w-3xl mx-auto md:mx-0">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">
+        {title || $t('heroBannerTitle')}
+      </h1>
+      <p class="text-lg sm:text-xl mb-6 text-gray-200 max-w-2xl">
+        {subtitle || $t('heroBannerSubtitle')}
+      </p>
+      <div class="flex flex-wrap gap-3 sm:gap-4">
+        <a href="/movies" class="px-4 py-2.5 bg-primary hover:bg-primary-hover text-white rounded-md shadow-lg hover:shadow-xl transition-all flex items-center justify-center sm:justify-start">
+          <i class="bi bi-film mr-2"></i>
+          <span>{$t('viewMovies')}</span>
+        </a>
+        <a href="/cinemas" class="px-4 py-2.5 border border-white text-white hover:bg-white/10 rounded-md transition-all flex items-center justify-center sm:justify-start">
+          <i class="bi bi-building mr-2"></i>
+          <span>{$t('exploreCinemas')}</span>
+        </a>
       </div>
     </div>
   </div>
+  
+  <!-- Overlay de gradiente para mejorar contraste -->
+  <div class="absolute inset-0 bg-gradient-to-r from-purple-900/10 to-transparent pointer-events-none"></div>
 </div>
 
 <style>
-  .hero-banner {
-    position: relative;
-    padding: 6rem 0;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-    background-size: cover;
-    background-position: center;
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    padding: 0 2rem;
-  }
-
-  .glow-text {
+  .text-shadow-lg {
     text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
   }
 </style>
