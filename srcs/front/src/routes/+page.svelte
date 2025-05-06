@@ -13,11 +13,11 @@
   let loading: boolean = true;
   let error: string | null = null;
   
-  // Categorías para la sección de categorías
+  // Categorías para la sección de categorías (adaptadas a Tailwind)
   $: categories = [
-    {name: $t('category_action'), icon: 'lightning', color: 'danger', gradient: 'danger'},
-    {name: $t('category_comedy'), icon: 'emoji-laughing', color: 'warning', gradient: 'warning'},
-    {name: $t('category_drama'), icon: 'mask', color: 'info', gradient: 'info'}
+    {name: $t('category_action'), icon: 'lightning', color: 'text-red-500', gradient: 'bg-gradient-to-r from-red-600 to-red-400'},
+    {name: $t('category_comedy'), icon: 'emoji-laughing', color: 'text-yellow-500', gradient: 'bg-gradient-to-r from-yellow-600 to-yellow-400'},
+    {name: $t('category_drama'), icon: 'mask', color: 'text-blue-500', gradient: 'bg-gradient-to-r from-blue-600 to-blue-400'}
   ];
   
   // Función para obtener películas aleatorias de un array
@@ -61,11 +61,13 @@
   });
 </script>
 
-<div class="home-page">
+<div class="w-full mt-20">
   <HeroBanner />
-  <FeaturedMovies {loading} {error} {featuredMovies} />
-  <CategoriesSection {categories} />
+  <div class="container mx-auto px-4">
+    <FeaturedMovies {loading} {error} {featuredMovies} />
+    <CategoriesSection {categories} />
+  </div>
 </div>
 
-<div class="decorative-blob blob-1"></div>
-<div class="decorative-blob blob-2"></div> 
+<div class="fixed -z-10 top-1/3 left-1/4 w-96 h-96 rounded-full bg-purple-900/20 blur-3xl"></div>
+<div class="fixed -z-10 bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-purple-800/10 blur-3xl"></div> 

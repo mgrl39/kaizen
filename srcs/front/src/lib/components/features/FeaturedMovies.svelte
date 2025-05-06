@@ -8,29 +8,28 @@
   export let featuredMovies: Movie[] = [];
 </script>
 
-<section class="featured-movies mb-5">
-  <h2 class="section-title mb-4">
-    <i class="bi bi-stars me-2"></i>{$t('featuredMoviesTitle')}
+<section class="mb-12">
+  <h2 class="section-title text-2xl font-semibold mb-6 relative inline-block">
+    <i class="bi bi-stars mr-2"></i>{$t('featuredMoviesTitle')}
   </h2>
   
   {#if loading}
-    <div class="d-flex justify-content-center my-5">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">{$t('loading')}</span>
-      </div>
+    <div class="flex justify-center items-center my-10">
+      <div class="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+      <span class="sr-only">{$t('loading')}</span>
     </div>
   {:else if error}
-    <div class="alert alert-info">
-      <i class="bi bi-info-circle me-2"></i>{error}
+    <div class="bg-blue-900/20 border border-blue-800 text-blue-100 px-4 py-3 rounded-md">
+      <i class="bi bi-info-circle mr-2"></i>{error}
     </div>
   {:else if featuredMovies.length == 0}
-    <div class="alert alert-info">
-      <i class="bi bi-info-circle me-2"></i>{$t('noFeaturedMovies')}
+    <div class="bg-blue-900/20 border border-blue-800 text-blue-100 px-4 py-3 rounded-md">
+      <i class="bi bi-info-circle mr-2"></i>{$t('noFeaturedMovies')}
     </div>
   {:else}
-    <div class="row g-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {#each featuredMovies as movie}
-        <div class="col-md-4">
+        <div>
           <MovieCard {movie} />
         </div>
       {/each}
