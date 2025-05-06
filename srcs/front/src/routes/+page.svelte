@@ -61,7 +61,7 @@
   });
 </script>
 
-<div class="w-full mt-20">
+<div class="w-full mt-15">
   <HeroBanner />
   <div class="container mx-auto px-4">
     <FeaturedMovies {loading} {error} {featuredMovies} />
