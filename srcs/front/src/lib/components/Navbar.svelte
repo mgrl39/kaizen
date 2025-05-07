@@ -1,89 +1,72 @@
 <script lang="ts">
-  import { onMount, tick } from 'svelte';
+  import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import { fly, fade } from 'svelte/transition';
   import { goto } from '$app/navigation';
   import { API_URL } from '$lib/config';
-  
-  // Importar el sistema de internacionalización
   import { t } from '$lib/i18n';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
-
-  // Tipado mejorado
-  interface NavItem {
-    url: string;
-    icon: string;
-    text: string;
-    i18nKey: string; // Clave para traducción
-    divider?: boolean;
-    action?: string;
-    children?: NavItem[];
-  }
-
-  const navItems: NavItem[] = [
-    {url: '/cinemas', icon: 'building', text: 'Cines', i18nKey: 'cinemas'},
-    {url: '/movies', icon: 'film', text: 'Películas', i18nKey: 'movies'}
-  ];
-
-  const userMenu: NavItem[] = [
-    {url: '/profile', icon: 'person', text: 'Mi Perfil', i18nKey: 'profile'},
-    {url: '/bookings', icon: 'ticket', text: 'Mis Reservas', i18nKey: 'bookings'},
-    {divider: true, url: '', icon: '', text: '', i18nKey: ''},
-    {url: 'javascript:void(0)', icon: 'box-arrow-right', text: 'Cerrar Sesión', i18nKey: 'logout', action: 'logout'}
-  ];
-
-  // Opción Admin para usuarios con rol de administrador
-  const adminOption: NavItem = {
-    url: '/admin/dashboard', icon: 'speedometer2', text: 'Panel Admin', i18nKey: 'adminPanel'
-  };
-
-  // Estado
-  let isAuthenticated: boolean = false;
-  let isAdmin: boolean = false;
-  let userName: string = 'Usuario';
-  let userAvatar: string | null = null;
-  let scrolled = false;
-  let loadingProfile: boolean = true;
+  import { writable } from 'svelte/store';
+  
+  // Stores para estado de usuario
+  const authState = writable({
+    isAuthenticated: false,
+    isAdmin: false,
+    userName: 'Usuario',
+    notificationCount: 0,
+    loading: true
+  });
+  
+  // Estado local para UI
   let mobileMenuOpen = false;
-  let dropdownOpen = false;
-  let notificationCount = 0;
-
-  // Referencia al dropdown para cerrar al hacer clic fuera
-  let dropdownElement: HTMLElement;
-
-  // Acción para detectar clics fuera de un elemento
-  function clickOutside(node: HTMLElement, { enabled: initialEnabled, cb }: { enabled: boolean, cb: () => void }) {
-    const handleClick = (event: MouseEvent) => {
-      if (!node.contains(event.target as Node) && !event.defaultPrevented) {
-        cb();
-      }
-    };
-    
-    function update({ enabled }: { enabled: boolean }) {
-      if (enabled) {
-        document.addEventListener('click', handleClick, true);
-      } else {
-        document.removeEventListener('click', handleClick, true);
+  let scrolled = false;
+  
+  $: ({ isAuthenticated, isAdmin, userName, notificationCount, loading } = $authState);
+  
+  onMount(() => {
+    // Cargar estado guardado inmediatamente para reducir parpadeo
+    const cachedState = localStorage.getItem('authState');
+    if (cachedState) {
+      try {
+        const parsed = JSON.parse(cachedState);
+        authState.set({ 
+          ...parsed, 
+          loading: true
+        });
+      } catch (e) {
+        // Ignorar errores de parsing
       }
     }
     
-    update({ enabled: initialEnabled });
+    fetchProfile();
     
-    return {
-      update,
-      destroy() {
-        document.removeEventListener('click', handleClick, true);
-      }
+    const handleScroll = () => {
+      scrolled = window.scrollY > 20;
     };
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  });
+  
+  function toggleMobileMenu() {
+    mobileMenuOpen = !mobileMenuOpen;
   }
-
+  
   async function fetchProfile() {
     const token = localStorage.getItem('token');
     if (!token) {
-      isAuthenticated = false;
-      loadingProfile = false;
+      authState.set({
+        isAuthenticated: false,
+        isAdmin: false,
+        userName: 'Usuario',
+        notificationCount: 0,
+        loading: false
+      });
+      localStorage.removeItem('authState');
       return;
     }
+    
     try {
       const response = await fetch(`${API_URL}/profile`, {
         headers: {
@@ -91,238 +74,315 @@
           'Accept': 'application/json'
         }
       });
+      
       const data = await response.json();
+      
       if (response.ok && data.success) {
-        isAuthenticated = true;
-        userName = data.user.name || data.user.username;
-        userAvatar = data.user.avatar || null; // Asumiendo que el API podría devolver un avatar
-        notificationCount = data.notifications?.unread || 0; // Asumiendo que el API podría devolver notificaciones
+        const newState = {
+          isAuthenticated: true,
+          isAdmin: data.user.role === 'admin',
+          userName: data.user.name || data.user.username,
+          notificationCount: data.notifications?.unread || 0,
+          loading: false
+        };
         
-        // Detectar si es administrador
-        isAdmin = data.user.role === 'admin';
+        // Actualizar store
+        authState.set(newState);
+        
+        // Guardar en localStorage para carga rápida en futuras visitas
+        localStorage.setItem('authState', JSON.stringify(newState));
       } else {
-        isAuthenticated = false;
+        authState.set({
+          isAuthenticated: false,
+          isAdmin: false,
+          userName: 'Usuario',
+          notificationCount: 0,
+          loading: false
+        });
         localStorage.removeItem('token');
+        localStorage.removeItem('authState');
       }
-    } catch {
-      isAuthenticated = false;
+    } catch (err) {
+      authState.set({
+        isAuthenticated: false,
+        isAdmin: false,
+        userName: 'Usuario',
+        notificationCount: 0,
+        loading: false
+      });
       localStorage.removeItem('token');
-    } finally {
-      loadingProfile = false;
+      localStorage.removeItem('authState');
     }
   }
-
-  async function handleLogout(event: Event) {
-    event.preventDefault();
+  
+  async function handleLogout() {
     const token = localStorage.getItem('token');
     if (token) {
+      // Actualizar UI inmediatamente para mejorar percepción de velocidad
+      authState.set({
+        isAuthenticated: false,
+        isAdmin: false,
+        userName: 'Usuario',
+        notificationCount: 0,
+        loading: false
+      });
+      
+      localStorage.removeItem('token');
+      localStorage.removeItem('authState');
+      
+      // Hacer petición de logout en segundo plano
       try {
-        const response = await fetch(`${API_URL}/logout`, {
+        await fetch(`${API_URL}/logout`, {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${token}`,
-            'Accept': 'application/json'
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
           }
         });
-        
-        if (!response.ok) {
-          throw new Error('Error al cerrar sesión');
-        }
       } catch (e) {
-        console.error('Error en logout:', e);
-      } finally {
-        localStorage.removeItem('token');
-        isAuthenticated = false;
-        userName = 'Usuario';
-        await goto('/login');
+        console.error("Error en logout:", e);
       }
+      
+      goto('/login');
     }
-  }
-
-  function toggleDropdown() {
-    dropdownOpen = !dropdownOpen;
-  }
-
-  function closeDropdown() {
-    dropdownOpen = false;
-  }
-
-  function toggleMobileMenu() {
-    mobileMenuOpen = !mobileMenuOpen;
   }
 
   function isActive(path: string): boolean {
     if (path === '/') return $page.url.pathname === '/';
     return $page.url.pathname.startsWith(path);
   }
-
-  onMount(() => {
-    fetchProfile();
-
-    const handleScroll = () => {
-      scrolled = window.scrollY > 20;
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  });
-
-  // Función para cerrar menú móvil al cambiar de ruta
-  $: if ($page) {
-    mobileMenuOpen = false;
-    dropdownOpen = false;
-  }
 </script>
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top {scrolled ? 'scrolled' : ''}" aria-label="Navegación principal">
-  <div class="container">
-    <a href="/" class="navbar-brand d-flex align-items-center" aria-label="Inicio">
-      <span class="logo-text">Kaizen</span>
-    </a>
-
-    <!-- Botón de menú móvil -->
-    <button 
-      class="navbar-toggler" 
-      type="button" 
-      aria-controls="navbarContent"
-      aria-expanded={mobileMenuOpen} 
-      aria-label="Alternar navegación"
-      on:click={toggleMobileMenu}
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div 
-      class="collapse navbar-collapse {mobileMenuOpen ? 'show' : ''}" 
-      id="navbarContent"
-      transition:fly={{ y: -10, duration: 200, opacity: 0.95 }}
-    >
-      <ul class="navbar-nav ms-auto align-items-center">
-        {#each navItems as item}
-          <li class="nav-item">
-            <a 
-              href={item.url} 
-              class="nav-link {isActive(item.url) ? 'active' : ''}"
-              aria-current={isActive(item.url) ? 'page' : undefined}
-            >
-              <i class="bi bi-{item.icon} me-1" aria-hidden="true"></i>
-              <span>{$t(item.i18nKey)}</span>
-            </a>
-          </li>
-        {/each}
+<nav class="fixed top-0 left-0 right-0 z-50 bg-dark/90 {scrolled ? 'py-2 shadow-lg' : 'py-3'} backdrop-blur-md transition-all">
+  <div class="container mx-auto px-4">
+    <!-- Navbar interior con mejor manejo de espacio -->
+    <div class="flex items-center justify-between h-12">
+      
+      <!-- Logo - siempre visible -->
+      <a href="/" class="text-xl font-bold text-white whitespace-nowrap">
+        Kaizen
+      </a>
+      
+      <!-- Elementos principales de navegación - visible en pantallas lg y superior -->
+      <div class="hidden lg:flex items-center space-x-4 ml-4 flex-grow">
+        <a 
+          href="/cinemas" 
+          class="text-white hover:text-purple-300 px-3 py-2 {isActive('/cinemas') ? 'border-b-2 border-purple-500' : ''}"
+        >
+          <i class="bi bi-building mr-2"></i>
+          <span>{$t('cinemas')}</span>
+        </a>
+        <a 
+          href="/movies" 
+          class="text-white hover:text-purple-300 px-3 py-2 {isActive('/movies') ? 'border-b-2 border-purple-500' : ''}"
+        >
+          <i class="bi bi-film mr-2"></i>
+          <span>{$t('movies')}</span>
+        </a>
         
         {#if isAdmin}
-          <li class="nav-item">
-            <a 
-              href={adminOption.url} 
-              class="nav-link {isActive(adminOption.url) ? 'active' : ''}"
-              aria-current={isActive(adminOption.url) ? 'page' : undefined}
-            >
-              <i class="bi bi-{adminOption.icon} me-1" aria-hidden="true"></i>
-              <span>{$t(adminOption.i18nKey)}</span>
-            </a>
-          </li>
+          <a 
+            href="/admin/dashboard" 
+            class="text-white hover:text-purple-300 px-3 py-2 {isActive('/admin') ? 'border-b-2 border-purple-500' : ''}"
+          >
+            <i class="bi bi-speedometer2 mr-2"></i>
+            <span>{$t('adminPanel')}</span>
+          </a>
         {/if}
+      </div>
+      
+      <!-- Elementos secundarios - Versión compacta con iconos en pantallas md pero no lg -->
+      <div class="hidden md:flex lg:hidden items-center space-x-2">
+        <a 
+          href="/cinemas" 
+          class="text-white hover:text-purple-300 px-2 py-2 {isActive('/cinemas') ? 'border-b-2 border-purple-500' : ''}"
+          title={$t('cinemas')}
+        >
+          <i class="bi bi-building"></i>
+        </a>
+        <a 
+          href="/movies" 
+          class="text-white hover:text-purple-300 px-2 py-2 {isActive('/movies') ? 'border-b-2 border-purple-500' : ''}"
+          title={$t('movies')}
+        >
+          <i class="bi bi-film"></i>
+        </a>
         
-        <!-- Selector de idioma -->
-        <li class="nav-item me-2">
+        {#if isAdmin}
+          <a 
+            href="/admin/dashboard" 
+            class="text-white hover:text-purple-300 px-2 py-2 {isActive('/admin') ? 'border-b-2 border-purple-500' : ''}"
+            title={$t('adminPanel')}
+          >
+            <i class="bi bi-speedometer2"></i>
+          </a>
+        {/if}
+      </div>
+      
+      <!-- Acciones de usuario - ajustadas para ser más compactas en breakpoints intermedios -->
+      <div class="hidden md:flex items-center ml-auto">
+        <!-- Selector de idioma - versión compacta en md -->
+        <div class="mr-2">
           <LanguageSelector />
-        </li>
+        </div>
         
-        {#if loadingProfile}
-          <li class="nav-item ms-2">
-            <span class="navbar-text loading-indicator">
-              <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-              <span>{$t('loading')}</span>
-            </span>
-          </li>
+        {#if loading}
+          <!-- Placeholder durante carga -->
+          <div class="ml-2 flex items-center gap-2">
+            <div class="w-8 h-8 bg-white/10 rounded-full animate-pulse"></div>
+          </div>
+        {:else if isAuthenticated}
+          <div class="flex items-center">
+            <!-- Sólo iconos en md, texto + iconos en lg -->
+            <a href="/notifications" class="relative px-2 lg:px-3 py-2 text-white hover:text-purple-300 hover:bg-white/5 rounded-md">
+              <i class="bi bi-bell"></i>
+              <span class="hidden lg:inline ml-2">Notificaciones</span>
+              {#if notificationCount > 0}
+                <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {notificationCount}
+                </span>
+              {/if}
+            </a>
+            
+            <div class="relative group ml-1">
+              <button class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2">
+                <i class="bi bi-person-circle"></i>
+                <span class="hidden lg:inline ml-2">{userName}</span>
+                <i class="bi bi-chevron-down text-xs ml-1"></i>
+              </button>
+              
+              <div class="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg hidden group-hover:block">
+                <a href="/profile" class="block px-4 py-2 text-white hover:bg-purple-900/20">
+                  <i class="bi bi-person mr-2"></i>
+                  {$t('profile')}
+                </a>
+                <a href="/bookings" class="block px-4 py-2 text-white hover:bg-purple-900/20">
+                  <i class="bi bi-ticket mr-2"></i>
+                  {$t('bookings')}
+                </a>
+                <hr class="border-white/10 my-1">
+                <button 
+                  class="w-full text-left px-4 py-2 text-white hover:bg-purple-900/20"
+                  on:click={handleLogout}
+                >
+                  <i class="bi bi-box-arrow-right mr-2"></i>
+                  {$t('logout')}
+                </button>
+              </div>
+            </div>
+          </div>
         {:else}
-          {#if isAuthenticated}
-            <!-- Botón de notificaciones -->
-            <li class="nav-item me-2">
-              <a href="/notifications" class="nav-link position-relative">
-                <i class="bi bi-bell" aria-hidden="true"></i>
+          <div class="flex items-center ml-1">
+            <a href="/login" class="bg-purple-800 text-white px-3 py-1.5 rounded-md hover:bg-purple-700 flex items-center">
+              <i class="bi bi-box-arrow-in-right mr-0 lg:mr-2"></i>
+              <span class="hidden lg:inline">{$t('login')}</span>
+            </a>
+            <a href="/register" class="border border-white text-white px-3 py-1.5 rounded-md ml-2 hover:bg-white/10 hidden sm:flex">
+              <span>{$t('register')}</span>
+            </a>
+          </div>
+        {/if}
+      </div>
+      
+      <!-- Botón de menú móvil - solo visible en pantallas pequeñas -->
+      <button 
+        class="md:hidden p-2 text-white hover:bg-white/10 rounded-md"
+        on:click={toggleMobileMenu}
+      >
+        <i class="bi bi-{mobileMenuOpen ? 'x' : 'list'} text-xl"></i>
+      </button>
+    </div>
+    
+    <!-- Menú móvil - solo visible en pantallas pequeñas cuando está abierto -->
+    {#if mobileMenuOpen}
+      <div class="md:hidden py-3 bg-dark border-t border-white/10 mt-2">
+        <div class="flex flex-col space-y-2">
+          <a 
+            href="/cinemas" 
+            class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/cinemas') ? 'bg-white/10' : ''}"
+          >
+            <i class="bi bi-building mr-3 text-lg"></i>
+            <span>{$t('cinemas')}</span>
+          </a>
+          <a 
+            href="/movies" 
+            class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/movies') ? 'bg-white/10' : ''}"
+          >
+            <i class="bi bi-film mr-3 text-lg"></i>
+            <span>{$t('movies')}</span>
+          </a>
+          
+          {#if isAdmin}
+            <a 
+              href="/admin/dashboard" 
+              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/admin') ? 'bg-white/10' : ''}"
+            >
+              <i class="bi bi-speedometer2 mr-3 text-lg"></i>
+              <span>{$t('adminPanel')}</span>
+            </a>
+          {/if}
+          
+          <!-- Selector de idioma en móvil -->
+          <div class="px-3 py-2">
+            <LanguageSelector />
+          </div>
+          
+          {#if loading}
+            <!-- Placeholder durante carga -->
+            <div class="mt-2 pt-2 border-t border-white/10 px-3">
+              <div class="h-10 bg-white/10 rounded animate-pulse my-2"></div>
+              <div class="h-10 bg-white/10 rounded animate-pulse my-2"></div>
+            </div>
+          {:else if isAuthenticated}
+            <div class="mt-2 pt-2 border-t border-white/10">
+              <div class="px-3 py-2 flex items-center">
+                <i class="bi bi-person-circle mr-2 text-lg"></i>
+                <span class="font-medium">{userName}</span>
+              </div>
+              
+              <a href="/profile" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
+                <i class="bi bi-person mr-3 text-lg"></i>
+                <span>{$t('profile')}</span>
+              </a>
+              
+              <a href="/bookings" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
+                <i class="bi bi-ticket mr-3 text-lg"></i>
+                <span>{$t('bookings')}</span>
+              </a>
+              
+              <a href="/notifications" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
+                <i class="bi bi-bell mr-3 text-lg"></i>
+                <span>Notificaciones</span>
                 {#if notificationCount > 0}
-                  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
-                    transition:fade={{ duration: 200 }}>
+                  <span class="ml-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
                     {notificationCount}
-                    <span class="visually-hidden">{$t('unreadNotifications')}</span>
                   </span>
                 {/if}
               </a>
-            </li>
-            
-            <!-- Menú de usuario -->
-            <li class="nav-item dropdown">
-              <div class="dropdown-wrapper" bind:this={dropdownElement} use:clickOutside={{ enabled: dropdownOpen, cb: closeDropdown }}>
-                <button 
-                  class="nav-link dropdown-toggle user-menu-button" 
-                  aria-expanded={dropdownOpen}
-                  aria-haspopup="true"
-                  type="button"
-                  on:click={toggleDropdown}
-                >
-                  {#if userAvatar}
-                    <img src={userAvatar} alt="" class="avatar me-1" width="24" height="24" />
-                  {:else}
-                    <i class="bi bi-person-circle me-1" aria-hidden="true"></i>
-                  {/if}
-                  <span>{userName}</span>
-                </button>
-                
-                {#if dropdownOpen}
-                  <ul 
-                    class="dropdown-menu dropdown-menu-end show shadow-sm" 
-                    transition:fly={{ y: 5, duration: 200, opacity: 0.98 }}
-                  >
-                    {#each userMenu as item}
-                      {#if item.divider}
-                        <li><hr class="dropdown-divider"></li>
-                      {:else if item.action === 'logout'}
-                        <li>
-                          <button 
-                            class="dropdown-item" 
-                            type="button" 
-                            on:click={handleLogout}
-                          >
-                            <i class="bi bi-{item.icon} me-1" aria-hidden="true"></i>
-                            <span>{$t(item.i18nKey)}</span>
-                          </button>
-                        </li>
-                      {:else}
-                        <li>
-                          <a 
-                            class="dropdown-item {isActive(item.url) ? 'active' : ''}" 
-                            href={item.url}
-                            aria-current={isActive(item.url) ? 'page' : undefined}
-                          >
-                            <i class="bi bi-{item.icon} me-1" aria-hidden="true"></i>
-                            <span>{$t(item.i18nKey)}</span>
-                          </a>
-                        </li>
-                      {/if}
-                    {/each}
-                  </ul>
-                {/if}
-              </div>
-            </li>
+              
+              <button 
+                class="w-full text-left px-3 py-3 text-red-300 hover:bg-red-900/20 rounded-md flex items-center mt-2"
+                on:click={handleLogout}
+              >
+                <i class="bi bi-box-arrow-right mr-3 text-lg"></i>
+                <span>{$t('logout')}</span>
+              </button>
+            </div>
           {:else}
-            <li class="nav-item ms-2 d-flex">
-              <a href="/register" class="btn btn-outline-light me-2 d-none d-sm-inline-block">
-                {$t('register')}
-              </a>
-              <a href="/login" class="btn btn-primary">
-                <i class="bi bi-box-arrow-in-right me-1" aria-hidden="true"></i>
+            <div class="mt-2 pt-2 border-t border-white/10 px-3 space-y-2">
+              <a href="/login" class="flex items-center justify-center bg-purple-800 text-white p-3 rounded-md">
+                <i class="bi bi-box-arrow-in-right mr-2"></i>
                 <span>{$t('login')}</span>
               </a>
-            </li>
+              
+              <a href="/register" class="flex items-center justify-center border border-white text-white p-3 rounded-md hover:bg-white/10">
+                <span>{$t('register')}</span>
+              </a>
+            </div>
           {/if}
-        {/if}
-      </ul>
-    </div>
+        </div>
+      </div>
+    {/if}
   </div>
 </nav>
 

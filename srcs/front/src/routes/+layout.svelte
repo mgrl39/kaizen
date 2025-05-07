@@ -3,10 +3,9 @@
   import Footer from '$lib/components/Footer.svelte';
   import { page } from '$app/stores';
   
-  // Importar Bootstrap y otros estilos
-  import 'bootstrap/dist/css/bootstrap.min.css';
-  import 'bootstrap-icons/font/bootstrap-icons.css';
+  // Importar Tailwind CSS y Bootstrap Icons
   import '$lib/styles/index.css';
+  import 'bootstrap-icons/font/bootstrap-icons.css';
   
   // Verificar si estamos en rutas de admin
   $: isAdminRoute = $page.url.pathname.startsWith('/admin');
@@ -16,13 +15,13 @@
   <!-- Para rutas admin, solo pasa el contenido sin estilos ni componentes adicionales -->
   <slot />
 {:else}
-  <!-- Layout principal SOLO para usuarios normales -->
-  <div class="app-wrapper d-flex flex-column min-vh-100">
+  <!-- Layout principal con clases Tailwind -->
+  <div class="app-wrapper flex flex-col min-h-screen">
     <!-- Barra de navegación -->
     <Navbar />
     
-    <!-- Contenido principal con padding reducido -->
-    <main class="container py-3 mt-2 flex-grow-1">
+    <!-- Contenido principal -->
+    <main class="container mx-auto py-3 mt-2 flex-grow">
       <slot />
     </main>
     
