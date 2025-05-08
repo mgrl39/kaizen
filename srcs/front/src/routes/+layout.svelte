@@ -1,14 +1,27 @@
 <script lang="ts">
+  import { page } from '$app/stores';
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
-  import { page } from '$app/stores';
   
   // Importar Tailwind CSS y Bootstrap Icons
   import '$lib/styles/index.css';
   import 'bootstrap-icons/font/bootstrap-icons.css';
   
+  // List of routes where navbar should be hidden
+  const routesWithoutNavbar = [];
+  
+  // List of routes where footer should be hidden
+  const routesWithoutFooter = ['/login', '/register'];
+  
+  // Check if current route should have navbar/footer
+  $: showNavbar = !routesWithoutNavbar.includes($page.url.pathname);
+  $: showFooter = !routesWithoutFooter.includes($page.url.pathname);
+  
   // Verificar si estamos en rutas de admin
   $: isAdminRoute = $page.url.pathname.startsWith('/admin');
+  
+  // Verificar si estamos en rutas de login/register
+  $: isAuthRoute = routesWithoutFooter.includes($page.url.pathname);
 </script>
 
 <!-- Añadimos la etiqueta para gestionar clases del body -->
@@ -24,22 +37,33 @@
   {/if}
 </svelte:head>
 
+{#if showNavbar}
+  <Navbar />
+{/if}
+
 {#if isAdminRoute}
   <!-- Para rutas admin, SOLO se pasa el contenido sin nada más -->
   <slot />
+{:else if isAuthRoute}
+  <!-- Para rutas de autenticación, sin footer -->
+  <div class="app-wrapper flex flex-col min-h-screen">
+    <!-- Contenido principal -->
+    <main class="container mx-auto py-3 mt-2 flex-grow">
+      <slot />
+    </main>
+  </div>
 {:else}
   <!-- Layout principal con clases Tailwind -->
   <div class="app-wrapper flex flex-col min-h-screen">
-    <!-- Barra de navegación -->
-    <Navbar />
-    
     <!-- Contenido principal -->
     <main class="container mx-auto py-3 mt-2 flex-grow">
       <slot />
     </main>
     
     <!-- Footer -->
-    <Footer />
+    {#if showFooter}
+      <Footer />
+    {/if}
   </div>
 
   <div class="decorative-blob blob-1"></div>

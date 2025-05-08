@@ -19,8 +19,37 @@
   // Estado local para UI
   let mobileMenuOpen = false;
   let scrolled = false;
+  let showAdminConfirmDialog = false;
   
   $: ({ isAuthenticated, isAdmin, userName, notificationCount, loading } = $authState);
+  
+  // Definir estructura de navegación
+  const navItems = [
+    { 
+      path: '/cinemas', 
+      icon: 'building', 
+      label: 'cinemas'
+    },
+    { 
+      path: '/movies', 
+      icon: 'film', 
+      label: 'movies'
+    }
+  ];
+  
+  // Definir elementos del menú de usuario
+  const userMenuItems = [
+    { 
+      path: '/profile', 
+      icon: 'person', 
+      label: 'profile'
+    },
+    { 
+      path: '/bookings', 
+      icon: 'ticket', 
+      label: 'bookings'
+    }
+  ];
   
   onMount(() => {
     // Cargar estado guardado inmediatamente para reducir parpadeo
@@ -51,6 +80,26 @@
   
   function toggleMobileMenu() {
     mobileMenuOpen = !mobileMenuOpen;
+  }
+  
+  // Función para manejar el clic en el enlace de administrador
+  function handleAdminClick(event) {
+    // Prevenir la navegación predeterminada
+    event.preventDefault();
+    
+    // Mostrar el diálogo de confirmación
+    showAdminConfirmDialog = true;
+  }
+  
+  // Función para confirmar y navegar al panel de administrador
+  function confirmAdminAccess() {
+    showAdminConfirmDialog = false;
+    goto('/admin');
+  }
+  
+  // Función para cancelar el acceso al panel de administrador
+  function cancelAdminAccess() {
+    showAdminConfirmDialog = false;
   }
   
   async function fetchProfile() {
@@ -165,24 +214,20 @@
       
       <!-- Elementos principales de navegación - visible en pantallas lg y superior -->
       <div class="hidden lg:flex items-center space-x-4 ml-4 flex-grow">
-        <a 
-          href="/cinemas" 
-          class="text-white hover:text-purple-300 px-3 py-2 {isActive('/cinemas') ? 'border-b-2 border-purple-500' : ''}"
-        >
-          <i class="bi bi-building mr-2"></i>
-          <span>{$t('cinemas')}</span>
-        </a>
-        <a 
-          href="/movies" 
-          class="text-white hover:text-purple-300 px-3 py-2 {isActive('/movies') ? 'border-b-2 border-purple-500' : ''}"
-        >
-          <i class="bi bi-film mr-2"></i>
-          <span>{$t('movies')}</span>
-        </a>
+        {#each navItems as item}
+          <a 
+            href={item.path} 
+            class="text-white hover:text-purple-300 px-3 py-2 {isActive(item.path) ? 'border-b-2 border-purple-500' : ''}"
+          >
+            <i class="bi bi-{item.icon} mr-2"></i>
+            <span>{$t(item.label)}</span>
+          </a>
+        {/each}
         
         {#if isAdmin}
           <a 
-            href="/admin/dashboard" 
+            href="/admin" 
+            on:click={handleAdminClick}
             class="text-white hover:text-purple-300 px-3 py-2 {isActive('/admin') ? 'border-b-2 border-purple-500' : ''}"
           >
             <i class="bi bi-speedometer2 mr-2"></i>
@@ -193,26 +238,21 @@
       
       <!-- Elementos secundarios - Versión compacta con iconos en pantallas md pero no lg -->
       <div class="hidden md:flex lg:hidden items-center space-x-2">
-        <a 
-          href="/cinemas" 
-          class="text-white hover:text-purple-300 px-2 py-2 {isActive('/cinemas') ? 'border-b-2 border-purple-500' : ''}"
-          title={$t('cinemas')}
-        >
-          <i class="bi bi-building"></i>
-        </a>
-        <a 
-          href="/movies" 
-          class="text-white hover:text-purple-300 px-2 py-2 {isActive('/movies') ? 'border-b-2 border-purple-500' : ''}"
-          title={$t('movies')}
-        >
-          <i class="bi bi-film"></i>
-        </a>
+        {#each navItems as item}
+          <a 
+            href={item.path} 
+            class="text-white hover:text-purple-300 px-2 py-2 {isActive(item.path) ? 'border-b-2 border-purple-500' : ''}"
+            aria-label={$t(item.label)}
+          >
+            <i class="bi bi-{item.icon}"></i>
+          </a>
+        {/each}
         
         {#if isAdmin}
           <a 
-            href="/admin/dashboard" 
+            href="/admin" 
             class="text-white hover:text-purple-300 px-2 py-2 {isActive('/admin') ? 'border-b-2 border-purple-500' : ''}"
-            title={$t('adminPanel')}
+            aria-label={$t('adminPanel')}
           >
             <i class="bi bi-speedometer2"></i>
           </a>
@@ -234,7 +274,11 @@
         {:else if isAuthenticated}
           <div class="flex items-center">
             <!-- Sólo iconos en md, texto + iconos en lg -->
-            <a href="/notifications" class="relative px-2 lg:px-3 py-2 text-white hover:text-purple-300 hover:bg-white/5 rounded-md">
+            <a 
+              href="/notifications" 
+              class="relative px-2 lg:px-3 py-2 text-white hover:text-purple-300 hover:bg-white/5 rounded-md"
+              aria-label={notificationCount > 0 ? `${$t('notifications')} (${notificationCount})` : $t('notifications')}
+            >
               <i class="bi bi-bell"></i>
               <span class="hidden lg:inline ml-2">Notificaciones</span>
               {#if notificationCount > 0}
@@ -245,25 +289,26 @@
             </a>
             
             <div class="relative group ml-1">
-              <button class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2">
+              <button class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2"
+                aria-label={$t('userMenu')}>
                 <i class="bi bi-person-circle"></i>
                 <span class="hidden lg:inline ml-2">{userName}</span>
                 <i class="bi bi-chevron-down text-xs ml-1"></i>
               </button>
               
               <div class="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg hidden group-hover:block">
-                <a href="/profile" class="block px-4 py-2 text-white hover:bg-purple-900/20">
-                  <i class="bi bi-person mr-2"></i>
-                  {$t('profile')}
-                </a>
-                <a href="/bookings" class="block px-4 py-2 text-white hover:bg-purple-900/20">
-                  <i class="bi bi-ticket mr-2"></i>
-                  {$t('bookings')}
-                </a>
+                {#each userMenuItems as item}
+                  <a href={item.path} class="block px-4 py-2 text-white hover:bg-purple-900/20">
+                    <i class="bi bi-{item.icon} mr-2"></i>
+                    {$t(item.label)}
+                  </a>
+                {/each}
+                
                 <hr class="border-white/10 my-1">
                 <button 
                   class="w-full text-left px-4 py-2 text-white hover:bg-purple-900/20"
                   on:click={handleLogout}
+                  aria-label={$t('logout')}
                 >
                   <i class="bi bi-box-arrow-right mr-2"></i>
                   {$t('logout')}
@@ -288,6 +333,7 @@
       <button 
         class="md:hidden p-2 text-white hover:bg-white/10 rounded-md"
         on:click={toggleMobileMenu}
+        aria-label={$t('toggleMenu')}
       >
         <i class="bi bi-{mobileMenuOpen ? 'x' : 'list'} text-xl"></i>
       </button>
@@ -297,24 +343,19 @@
     {#if mobileMenuOpen}
       <div class="md:hidden py-3 bg-dark border-t border-white/10 mt-2">
         <div class="flex flex-col space-y-2">
-          <a 
-            href="/cinemas" 
-            class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/cinemas') ? 'bg-white/10' : ''}"
-          >
-            <i class="bi bi-building mr-3 text-lg"></i>
-            <span>{$t('cinemas')}</span>
-          </a>
-          <a 
-            href="/movies" 
-            class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/movies') ? 'bg-white/10' : ''}"
-          >
-            <i class="bi bi-film mr-3 text-lg"></i>
-            <span>{$t('movies')}</span>
-          </a>
+          {#each navItems as item}
+            <a 
+              href={item.path} 
+              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive(item.path) ? 'bg-white/10' : ''}"
+            >
+              <i class="bi bi-{item.icon} mr-3 text-lg"></i>
+              <span>{$t(item.label)}</span>
+            </a>
+          {/each}
           
           {#if isAdmin}
             <a 
-              href="/admin/dashboard" 
+              href="/admin" 
               class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/admin') ? 'bg-white/10' : ''}"
             >
               <i class="bi bi-speedometer2 mr-3 text-lg"></i>
@@ -340,15 +381,12 @@
                 <span class="font-medium">{userName}</span>
               </div>
               
-              <a href="/profile" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
-                <i class="bi bi-person mr-3 text-lg"></i>
-                <span>{$t('profile')}</span>
-              </a>
-              
-              <a href="/bookings" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
-                <i class="bi bi-ticket mr-3 text-lg"></i>
-                <span>{$t('bookings')}</span>
-              </a>
+              {#each userMenuItems as item}
+                <a href={item.path} class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
+                  <i class="bi bi-{item.icon} mr-3 text-lg"></i>
+                  <span>{$t(item.label)}</span>
+                </a>
+              {/each}
               
               <a href="/notifications" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
                 <i class="bi bi-bell mr-3 text-lg"></i>
@@ -363,6 +401,7 @@
               <button 
                 class="w-full text-left px-3 py-3 text-red-300 hover:bg-red-900/20 rounded-md flex items-center mt-2"
                 on:click={handleLogout}
+                aria-label={$t('logout')}
               >
                 <i class="bi bi-box-arrow-right mr-3 text-lg"></i>
                 <span>{$t('logout')}</span>
@@ -386,8 +425,34 @@
   </div>
 </nav>
 
+<!-- Modal de confirmación para acceso al panel de administrador -->
+{#if showAdminConfirmDialog}
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] backdrop-blur-sm">
+    <div class="bg-card border border-white/10 rounded-lg shadow-lg p-6 max-w-md mx-4">
+      <h3 class="text-xl font-semibold text-white mb-2">Acceso a Panel de Administrador</h3>
+      <p class="text-gray-300 mb-6">Está a punto de acceder al panel de administración. ¿Desea continuar?</p>
+      
+      <div class="flex justify-end gap-3">
+        <button 
+          class="px-4 py-2 border border-white/20 text-white rounded hover:bg-white/10 transition-colors"
+          on:click={cancelAdminAccess}
+        >
+          Cancelar
+        </button>
+        <button 
+          class="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-600 transition-colors"
+          on:click={confirmAdminAccess}
+        >
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
+
 <style>
-  .navbar {
+  /* Mantenemos solo los selectores globales que ya están funcionando */
+  :global(.navbar) {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     transition: all 0.3s ease;
@@ -395,14 +460,14 @@
     backdrop-filter: blur(10px);
   }
   
-  .navbar.scrolled {
+  :global(.navbar.scrolled) {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     background-color: rgba(18, 18, 18, 0.95);
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
   }
   
-  .logo-text {
+  :global(.logo-text) {
     font-weight: 700;
     font-size: 1.4rem;
     background: linear-gradient(to right, #fff, #a78bfa);
@@ -411,94 +476,6 @@
     transition: all 0.3s ease;
   }
   
-  .nav-link {
-    position: relative;
-    padding: 0.5rem 0.8rem;
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-  
-  .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0.8rem;
-    right: 0.8rem;
-    height: 2px;
-    background: linear-gradient(to right, #6d28d9, transparent);
-    border-radius: 2px;
-  }
-  
-  .user-menu-button {
-    display: flex;
-    align-items: center;
-    background: transparent;
-    border: none;
-    color: white;
-    padding: 0.5rem 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  
-  .dropdown-wrapper {
-    position: relative;
-  }
-  
-  .dropdown-menu {
-    animation-fill-mode: forwards;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: #212529;
-  }
-  
-  .dropdown-item {
-    color: #f8f9fa;
-    padding: 0.5rem 1.25rem;
-    transition: background-color 0.2s;
-  }
-  
-  .dropdown-item:hover {
-    background-color: rgba(109, 40, 217, 0.2);
-    color: #fff;
-  }
-  
-  .dropdown-item.active {
-    background-color: #6d28d9;
-  }
-  
-  .loading-indicator {
-    display: flex;
-    align-items: center;
-    color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .avatar {
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  @media (max-width: 768px) {
-    .navbar-nav {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
-    
-    .dropdown-menu {
-      position: static !important;
-      float: none;
-      width: auto;
-      margin-top: 0;
-      border: 0;
-      box-shadow: none;
-      background-color: rgba(33, 37, 41, 0.5);
-    }
-    
-    .nav-item {
-      width: 100%;
-    }
-    
-    .user-menu-button {
-      padding: 0.75rem 0;
-      justify-content: flex-start;
-    }
-  }
+  /* Eliminamos todos los selectores no utilizados */
+  /* Si necesitas estos estilos en el futuro, puedes convertirlos a :global() o añadirlos de nuevo */
 </style> 

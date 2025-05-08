@@ -1,149 +1,470 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
   
-  // Ítems del menú lateral con colores y nombres de ruta consistentes
+  // Estado para el sidebar
+  let sidebarOpen = false;
+  let isBrowser = false;
+  let showExitConfirmation = false;
+  
+  // Estructura del menú de navegación simplificada (sin submenu)
   const menuItems = [
-    { name: 'dashboard', path: '/admin', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-    { name: 'movies', path: '/admin/movies', icon: 'M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z' },
-    { name: 'cinema', path: '/admin/cinemas', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-    { name: 'users', path: '/admin/users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-    { name: 'bookings', path: '/admin/bookings', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
-    { name: 'reports', path: '/admin/reports', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-    { name: 'settings', path: '/admin/settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' },
+    { id: 'dashboard', name: 'Dashboard', icon: 'speedometer2', path: '/admin' },
+    { id: 'movies', name: 'Películas', icon: 'film', path: '/admin/movies' },
+    { id: 'cinemas', name: 'Cines', icon: 'building', path: '/admin/cinemas' },
+    { id: 'users', name: 'Usuarios', icon: 'people', path: '/admin/users' },
+    { id: 'bookings', name: $t('bookings'), icon: 'ticket', path: '/admin/bookings' },
+    { id: 'reports', name: 'Informes', icon: 'bar-chart', path: '/admin/reports' },
+    { id: 'settings', name: 'Configuración', icon: 'gear', path: '/admin/settings' }
   ];
-
-  // Toggle para menú móvil
-  let showMobileMenu = false;
   
-  // Color primario consistente
-  const primaryColor = "indigo";
+  // Función para verificar si una ruta está activa
+  function isActive(path) {
+    if (path === '/admin') {
+      return $page.url.pathname === '/admin' || $page.url.pathname === '/admin/';
+    }
+    return $page.url.pathname.startsWith(path);
+  }
+  
+  // Función para mostrar confirmación antes de salir
+  function promptExitAdminPanel() {
+    showExitConfirmation = true;
+  }
+  
+  // Función para salir del panel de administración
+  function exitAdminPanel() {
+    showExitConfirmation = false;
+    goto('/');
+  }
+  
+  // Función para cancelar la salida
+  function cancelExit() {
+    showExitConfirmation = false;
+  }
+  
+  onMount(() => {
+    isBrowser = true;
+    
+    // Manejar cambio de ruta para cerrar sidebar en pantallas pequeñas
+    if (isBrowser && window.innerWidth < 768) {
+      sidebarOpen = false;
+    }
+  });
+  
+  // Reacción al cambio de ruta
+  $: if ($page && isBrowser && window.innerWidth < 768) {
+    sidebarOpen = false;
+  }
 </script>
 
-<div class="flex h-screen w-full overflow-hidden" style="margin-top: 0; padding-top: 0">
-  <!-- Sidebar - versión escritorio -->
-  <aside class="hidden md:block w-64 bg-gray-900 flex-shrink-0 h-full">
-    <div class="p-4 border-b border-gray-800 flex items-center">
-      <svg class="w-8 h-8 text-{primaryColor}-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-      </svg>
-      <h1 class="text-xl font-bold text-white">{$t('adminPanel')}</h1>
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar {sidebarOpen ? 'sidebar-open' : ''}" id="admin-sidebar">
+    <div class="sidebar-header">
+      <h1 class="sidebar-title">Admin Panel</h1>
+      <button 
+        class="sidebar-toggle"
+        on:click={() => (sidebarOpen = !sidebarOpen)}
+        aria-label={sidebarOpen ? "Cerrar menú lateral" : "Abrir menú lateral"}
+      >
+        <i class="bi bi-{sidebarOpen ? 'x' : 'list'}"></i>
+      </button>
     </div>
     
-    <nav class="py-4 overflow-y-auto" style="height: calc(100% - 74px)">
-      <ul class="px-2 space-y-1">
+    <nav class="sidebar-nav">
+      <ul class="sidebar-menu">
         {#each menuItems as item}
-          <li>
-            <a 
-              href={item.path} 
-              class="flex items-center px-4 py-2.5 rounded-lg {$page.url.pathname === item.path ? `bg-${primaryColor}-600 text-white` : 'text-gray-300 hover:bg-gray-800 hover:text-white'} transition-colors duration-200"
-            >
-              <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
-              </svg>
-              <span>{$t(item.name)}</span>
+          <li class="sidebar-item {isActive(item.path) ? 'active' : ''}">
+            <a href={item.path} class="sidebar-link {isActive(item.path) ? 'active' : ''}">
+              <i class="bi bi-{item.icon}"></i>
+              <span>{item.name}</span>
             </a>
           </li>
         {/each}
+        
+        <!-- Botón para salir del panel de administración -->
+        <li class="sidebar-item exit-admin">
+          <button on:click={promptExitAdminPanel} class="sidebar-link exit-button">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>Salir del panel</span>
+          </button>
+        </li>
       </ul>
     </nav>
-    
-    <div class="absolute bottom-0 w-64 p-4 border-t border-gray-800">
-      <a href="/" class="flex items-center text-gray-400 hover:text-white transition-colors duration-200">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        <span>{$t('backToSite')}</span>
-      </a>
-    </div>
   </aside>
   
   <!-- Contenido principal -->
-  <div class="flex flex-col flex-1 h-full overflow-hidden">
-    <!-- Header móvil -->
-    <header class="bg-white border-b border-gray-200 z-10 p-4 md:hidden flex items-center justify-between">
+  <div class="main-content">
+    <header class="admin-header">
       <button 
-        class="text-gray-600 focus:outline-none" 
-        on:click={() => showMobileMenu = !showMobileMenu}
+        class="mobile-menu-btn"
+        on:click={() => (sidebarOpen = !sidebarOpen)}
+        aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        <i class="bi bi-{sidebarOpen ? 'x' : 'list'}"></i>
       </button>
-      <div class="flex items-center">
-        <svg class="w-7 h-7 text-{primaryColor}-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-        </svg>
-        <h1 class="text-xl font-bold text-gray-800">{$t('adminPanel')}</h1>
+      
+      <div class="header-title">
+        {#each menuItems as item}
+          {#if isActive(item.path)}
+            <h1>{item.name}</h1>
+          {/if}
+        {/each}
       </div>
-      <div class="w-6"></div> <!-- Espaciador para centrar el título -->
+      
+      <!-- Botón para salir en la cabecera (visible en pantallas grandes) -->
+      <div class="ml-auto">
+        <button on:click={promptExitAdminPanel} class="exit-header-button">
+          <i class="bi bi-box-arrow-left mr-2"></i>
+          <span>Volver al sitio</span>
+        </button>
+      </div>
     </header>
     
-    <!-- Menú móvil -->
-    {#if showMobileMenu}
-      <div class="fixed inset-0 z-40 md:hidden" on:click={() => showMobileMenu = false}>
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity"></div>
-        <div class="fixed top-0 left-0 bottom-0 w-64 bg-gray-900 pt-0 transform transition ease-in-out duration-300">
-          <div class="p-4 border-b border-gray-800 flex items-center">
-            <svg class="w-8 h-8 text-{primaryColor}-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-            </svg>
-            <h1 class="text-xl font-bold text-white">{$t('adminPanel')}</h1>
-          </div>
-          <nav class="p-4">
-            <ul class="space-y-1">
-              {#each menuItems as item}
-                <li>
-                  <a 
-                    href={item.path} 
-                    class="flex items-center px-4 py-2.5 rounded-lg {$page.url.pathname === item.path ? `bg-${primaryColor}-600 text-white` : 'text-gray-300 hover:bg-gray-800 hover:text-white'} transition-colors duration-200"
-                  >
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
-                    </svg>
-                    <span>{$t(item.name)}</span>
-                  </a>
-                </li>
-              {/each}
-            </ul>
-          </nav>
-          
-          <div class="absolute bottom-0 w-full p-4 border-t border-gray-800">
-            <a href="/" class="flex items-center text-gray-400 hover:text-white transition-colors duration-200">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              <span>{$t('backToSite')}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    {/if}
-    
-    <!-- Contenido de la página -->
-    <main class="flex-1 overflow-auto bg-gray-100">
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
-        <slot />
-      </div>
+    <main class="admin-main">
+      <slot></slot>
     </main>
   </div>
+  
+  <!-- Modal de confirmación para salir -->
+  {#if showExitConfirmation}
+    <div class="modal-backdrop" on:click={cancelExit} on:keydown={(e) => e.key === 'Escape' && cancelExit()}>
+      <div class="modal-content" on:click|stopPropagation>
+        <div class="modal-header">
+          <h3>¿Salir del panel de administración?</h3>
+          <button class="close-button" on:click={cancelExit}>
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas salir del panel de administración y volver al sitio principal?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="cancel-button" on:click={cancelExit}>Cancelar</button>
+          <button class="confirm-button" on:click={exitAdminPanel}>Salir</button>
+        </div>
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
-  /* Estilos específicos para la sección de admin */
-  :global(body.admin-route) {
-    margin: 0 !important;
-    padding: 0 !important;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #f9fafb;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Estilos básicos y limpios con colores del tema principal */
+  .admin-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #121212;
+    color: #f8f9fa;
   }
   
-  /* Asegurarse de que el admin ocupe toda la pantalla sin márgenes */
-  :global(body.admin-route #svelte) {
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    background-color: #212529;
+    color: white;
     height: 100vh;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
     margin: 0;
+    background: linear-gradient(to right, #fff, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.25rem;
+  }
+  
+  .sidebar-nav {
+    padding: 1rem 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
     padding: 0;
+    margin: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-item {
+    margin-bottom: 0.25rem;
+  }
+  
+  .sidebar-item.exit-admin {
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: #ccc;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .sidebar-link:hover {
+    background-color: rgba(109, 40, 217, 0.2);
+    color: white;
+  }
+  
+  .sidebar-link.active {
+    background-color: rgba(109, 40, 217, 0.3);
+    color: white;
+    border-left: 3px solid #6d28d9;
+  }
+  
+  .sidebar-link i {
+    margin-right: 0.75rem;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .exit-button {
+    color: #ff6b6b;
+  }
+  
+  .exit-button:hover {
+    background-color: rgba(255, 107, 107, 0.1);
+  }
+  
+  /* Contenido principal */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    background-color: #121212;
+  }
+  
+  .admin-header {
+    background-color: #1e1e1e;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    cursor: pointer;
+    color: white;
+  }
+  
+  .header-title h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: white;
+  }
+  
+  .exit-header-button {
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .exit-header-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .ml-auto {
+    margin-left: auto;
+  }
+  
+  .admin-main {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      z-index: 1000;
+      transform: translateX(-100%);
+    }
+    
+    .sidebar-open {
+      transform: translateX(0);
+    }
+    
+    .sidebar-toggle {
+      display: block;
+    }
+    
+    .mobile-menu-btn {
+      display: block;
+    }
+    
+    .exit-header-button span {
+      display: none;
+    }
+    
+    .exit-header-button {
+      padding: 0.5rem;
+    }
+    
+    .exit-header-button i {
+      margin-right: 0;
+    }
+  }
+  
+  /* Estilos para el modal de confirmación */
+  .modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(3px);
+  }
+  
+  .modal-content {
+    background-color: #212529;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  
+  .modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .modal-header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+  }
+  
+  .close-button {
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.25rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+  }
+  
+  .close-button:hover {
+    color: white;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .modal-body p {
+    margin: 0;
+    color: #ccc;
+    line-height: 1.5;
+  }
+  
+  .modal-footer {
+    padding: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+  }
+  
+  .cancel-button {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .cancel-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .confirm-button {
+    background-color: #ff6b6b;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .confirm-button:hover {
+    background-color: #ff5252;
   }
 </style>

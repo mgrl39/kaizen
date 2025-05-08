@@ -1,6 +1,8 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { t } from '$lib/i18n';
+    import { API_URL } from '$lib/config';
+    import { onMount } from 'svelte';
 
     // Form data
     let username: string = '';
@@ -75,10 +77,11 @@
 
     async function registerUser(userData: any) {
         try {
-            const response = await fetch('http://localhost:8000/api/v1/register', {
+            const response = await fetch(`${API_URL}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(userData)
             });
@@ -136,6 +139,7 @@
                 name,
                 email,
                 password,
+                password_confirmation: passwordConfirmation,
                 birthdate: birthdate || null
             };
             
@@ -160,128 +164,201 @@
             isSubmitting = false;
         }
     }
+
+    // Verificar si ya hay sesión
+    onMount(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            goto('/');
+        }
+    });
 </script>
 
-<div class="container auth-container py-5">
-  <div class="row justify-content-center">
-    <div class="col-md-5">
-      <div class="card auth-card">
-        <div class="card-body p-4">
-          <h4 class="text-center mb-4">{$t('createAccount')}</h4>
-
-          {#if registrationSuccess}
-            <div class="alert alert-success mb-3">
-              {$t('registerSuccess')}
-            </div>
-          {:else}
-            {#if generalError}
-              <div class="alert alert-danger mb-3">
-                {generalError}
-              </div>
-            {/if}
-
-            <form on:submit|preventDefault={handleSubmit}>
-              <!-- Username field -->
-              <div class="mb-3">
-                <input 
-                  type="text" 
-                  bind:value={username}
-                  class="form-control" 
-                  placeholder={$t('username')} 
-                  required
-                  disabled={isSubmitting}>
-                {#if errors.username}
-                  <small class="text-danger">{errors.username}</small>
-                {/if}
-              </div>
-              
-              <!-- Name field -->
-              <div class="mb-3">
-                <input 
-                  type="text" 
-                  bind:value={name}
-                  class="form-control" 
-                  placeholder={$t('fullName')} 
-                  required
-                  disabled={isSubmitting}>
-                {#if errors.name}
-                  <small class="text-danger">{errors.name}</small>
-                {/if}
-              </div>
-              
-              <!-- Email field -->
-              <div class="mb-3">
-                <input 
-                  type="email" 
-                  bind:value={email}
-                  class="form-control" 
-                  placeholder={$t('email')} 
-                  required
-                  disabled={isSubmitting}>
-                {#if errors.email}
-                  <small class="text-danger">{errors.email}</small>
-                {/if}
-              </div>
-              
-              <!-- Password field -->
-              <div class="mb-3">
-                <input 
-                  type="password" 
-                  bind:value={password}
-                  class="form-control" 
-                  placeholder={$t('password')} 
-                  required
-                  disabled={isSubmitting}>
-                {#if errors.password}
-                  <small class="text-danger">{errors.password}</small>
-                {/if}
-              </div>
-              
-              <!-- Password confirmation field -->
-              <div class="mb-3">
-                <input 
-                  type="password" 
-                  bind:value={passwordConfirmation}
-                  class="form-control" 
-                  placeholder={$t('confirmPassword')} 
-                  required
-                  disabled={isSubmitting}>
-                {#if errors.passwordConfirmation}
-                  <small class="text-danger">{errors.passwordConfirmation}</small>
-                {/if}
-              </div>
-              
-              <!-- Birthdate field -->
-              <div class="mb-4">
-                <input 
-                  type="date" 
-                  bind:value={birthdate}
-                  class="form-control" 
-                  placeholder={$t('birthdate')} 
-                  disabled={isSubmitting}>
-                {#if errors.birthdate}
-                  <small class="text-danger">{errors.birthdate}</small>
-                {/if}
-              </div>
-              
-              <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary" disabled={isSubmitting}>
-                  {#if isSubmitting}
-                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    {$t('processing')}
-                  {:else}
-                    {$t('register')}
-                  {/if}
-                </button>
-              </div>
-              
-              <div class="text-center">
-                <small>{$t('alreadyHaveAccount')} <a href="/login">{$t('login')}</a></small>
-              </div>
-            </form>
-          {/if}
+<div class="flex flex-col items-center justify-center px-4 py-8 bg-dark" style="min-height: calc(100vh - 64px);">
+    <div class="w-full max-w-md">
+        <!-- Logo y título -->
+        <div class="text-center mb-4">
+            <h1 class="text-3xl font-bold text-white mb-2">{$t('createAccount')}</h1>
+            <p class="text-gray-400">{$t('joinKaizenCinema')}</p>
         </div>
-      </div>
+        
+        <!-- Tarjeta de registro -->
+        <div class="bg-card border border-white/10 rounded-lg shadow-lg p-5">
+            {#if registrationSuccess}
+                <div class="bg-green-900/20 border border-green-500/30 text-green-200 rounded-md p-3 mb-4">
+                    {$t('registerSuccess')}
+                </div>
+            {:else}
+                {#if generalError}
+                    <div class="bg-red-900/20 border border-red-500/30 text-red-200 rounded-md p-3 mb-4">
+                        <p>{generalError}</p>
+                    </div>
+                {/if}
+                
+                <form on:submit|preventDefault={handleSubmit} class="space-y-4">
+                    <!-- Username and Name side by side -->
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <!-- Username field -->
+                        <div class="flex-1">
+                            <label for="username" class="block text-sm font-medium text-gray-300 mb-1">
+                                {$t('username')}
+                            </label>
+                            <input 
+                                type="text" 
+                                id="username"
+                                bind:value={username}
+                                class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                placeholder={$t('username')} 
+                                required
+                                disabled={isSubmitting}
+                            />
+                            {#if errors.username}
+                                <p class="mt-1 text-sm text-red-400">{errors.username}</p>
+                            {/if}
+                        </div>
+                        
+                        <!-- Name field -->
+                        <div class="flex-1">
+                            <label for="name" class="block text-sm font-medium text-gray-300 mb-1">
+                                {$t('fullName')}
+                            </label>
+                            <input 
+                                type="text" 
+                                id="name"
+                                bind:value={name}
+                                class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                placeholder={$t('fullName')} 
+                                required
+                                disabled={isSubmitting}
+                            />
+                            {#if errors.name}
+                                <p class="mt-1 text-sm text-red-400">{errors.name}</p>
+                            {/if}
+                        </div>
+                    </div>
+                    
+                    <!-- Email field -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-300 mb-1">
+                            {$t('email')}
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email"
+                            bind:value={email}
+                            class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                            placeholder={$t('email')} 
+                            required
+                            disabled={isSubmitting}
+                        />
+                        {#if errors.email}
+                            <p class="mt-1 text-sm text-red-400">{errors.email}</p>
+                        {/if}
+                    </div>
+                    
+                    <!-- Password fields side by side -->
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <!-- Password field -->
+                        <div class="flex-1">
+                            <label for="password" class="block text-sm font-medium text-gray-300 mb-1">
+                                {$t('password')}
+                            </label>
+                            <input 
+                                type="password" 
+                                id="password"
+                                bind:value={password}
+                                class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                placeholder="••••••••" 
+                                required
+                                disabled={isSubmitting}
+                            />
+                            {#if errors.password}
+                                <p class="mt-1 text-sm text-red-400">{errors.password}</p>
+                            {/if}
+                        </div>
+                        
+                        <!-- Password confirmation field -->
+                        <div class="flex-1">
+                            <label for="passwordConfirmation" class="block text-sm font-medium text-gray-300 mb-1">
+                                {$t('confirmPassword')}
+                            </label>
+                            <input 
+                                type="password" 
+                                id="passwordConfirmation"
+                                bind:value={passwordConfirmation}
+                                class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                                placeholder="••••••••" 
+                                required
+                                disabled={isSubmitting}
+                            />
+                            {#if errors.passwordConfirmation}
+                                <p class="mt-1 text-sm text-red-400">{errors.passwordConfirmation}</p>
+                            {/if}
+                        </div>
+                    </div>
+                    
+                    <!-- Birthdate field -->
+                    <div>
+                        <label for="birthdate" class="block text-sm font-medium text-gray-300 mb-1">
+                            {$t('birthdate')} <span class="text-gray-500 text-xs">({$t('optional')})</span>
+                        </label>
+                        <input 
+                            type="date" 
+                            id="birthdate"
+                            bind:value={birthdate}
+                            class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                            disabled={isSubmitting}
+                        />
+                        {#if errors.birthdate}
+                            <p class="mt-1 text-sm text-red-400">{errors.birthdate}</p>
+                        {/if}
+                    </div>
+                    
+                    <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        class="w-full bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-md transition-colors mt-2"
+                    >
+                        {#if isSubmitting}
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            {$t('processing')}
+                        {:else}
+                            {$t('register')}
+                        {/if}
+                    </button>
+                </form>
+            {/if}
+            
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-400">
+                    {$t('alreadyHaveAccount')}
+                    <a href="/login" class="text-purple-400 hover:text-purple-300 font-medium">
+                        {$t('login')}
+                    </a>
+                </p>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
+
+<style>
+  /* Estilos específicos para esta página */
+  :global(body) {
+    background-color: #121212;
+    color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  :global(.bg-card) {
+    background-color: #212529;
+  }
+  
+  :global(.bg-dark) {
+    background-color: #121212;
+  }
+</style>

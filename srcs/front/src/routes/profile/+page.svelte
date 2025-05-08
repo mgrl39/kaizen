@@ -160,17 +160,35 @@
                 </div>
               {:else}
                 <form on:submit|preventDefault={updateProfile} class="w-100">
-                  <div class="mb-3">
-                    <label class="form-label">Nombre de usuario</label>
-                    <input type="text" class="form-control" bind:value={formData.username} required>
+                  <div class="mb-4">
+                    <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Nombre de usuario</label>
+                    <input
+                      id="username"
+                      type="text"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      bind:value={formData.username}
+                      required
+                    />
                   </div>
-                  <div class="mb-3">
-                    <label class="form-label">Nombre completo</label>
-                    <input type="text" class="form-control" bind:value={formData.name} required>
+                  <div class="mb-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+                    <input
+                      id="name"
+                      type="text"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      bind:value={formData.name}
+                      required
+                    />
                   </div>
-                  <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" bind:value={formData.email} required>
+                  <div class="mb-4">
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input
+                      id="email"
+                      type="email"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      bind:value={formData.email}
+                      required
+                    />
                   </div>
                   <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary">
@@ -188,17 +206,35 @@
             <div class="mt-5">
               <h4 class="section-subtitle mb-3">Cambiar Contraseña</h4>
               <form on:submit|preventDefault={changePassword}>
-                <div class="mb-3">
-                  <label class="form-label">Contraseña actual</label>
-                  <input type="password" class="form-control" bind:value={formData.current_password} required>
+                <div class="mb-4">
+                  <label for="current_password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña actual</label>
+                  <input
+                    id="current_password"
+                    type="password"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    bind:value={formData.current_password}
+                    required
+                  />
                 </div>
-                <div class="mb-3">
-                  <label class="form-label">Nueva contraseña</label>
-                  <input type="password" class="form-control" bind:value={formData.new_password} required>
+                <div class="mb-4">
+                  <label for="new_password" class="block text-sm font-medium text-gray-700 mb-1">Nueva contraseña</label>
+                  <input
+                    id="new_password"
+                    type="password"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    bind:value={formData.new_password}
+                    required
+                  />
                 </div>
-                <div class="mb-3">
-                  <label class="form-label">Confirmar nueva contraseña</label>
-                  <input type="password" class="form-control" bind:value={formData.new_password_confirmation} required>
+                <div class="mb-4">
+                  <label for="confirm_password" class="block text-sm font-medium text-gray-700 mb-1">Confirmar contraseña</label>
+                  <input
+                    id="confirm_password"
+                    type="password"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    bind:value={formData.new_password_confirmation}
+                    required
+                  />
                 </div>
                 <button type="submit" class="btn btn-primary">
                   <i class="bi bi-key me-1"></i> Cambiar Contraseña
