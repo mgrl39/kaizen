@@ -9,32 +9,29 @@
   
   // Estructura del menú de navegación
   const menuItems = [
-    { id: 'dashboard', name: $t('dashboard'), icon: 'speedometer2', path: '/admin' },
+    { id: 'dashboard', name: 'Dashboard', icon: 'speedometer2', path: '/admin' },
     { 
       id: 'movies', 
-      name: $t('movies'), 
+      name: 'Películas', 
       icon: 'film', 
       submenu: [
-        { name: $t('allMovies'), path: '/admin/movies' },
-        { name: $t('addMovie'), path: '/admin/movies/add' }
+        { name: 'Todas las películas', path: '/admin/movies' },
+        { name: 'Añadir película', path: '/admin/movies/add' }
       ]
     },
     { 
       id: 'cinemas', 
-      name: $t('cinemas'), 
+      name: 'Cines', 
       icon: 'building', 
-      submenu: [
-        { name: $t('allCinemas'), path: '/admin/cinemas' },
-        { name: $t('addCinema'), path: '/admin/cinemas/add' }
-      ]
+      path: '/admin/cinemas'
     },
     { 
       id: 'users', 
-      name: $t('users'), 
+      name: 'Usuarios', 
       icon: 'people', 
       submenu: [
-        { name: $t('allUsers'), path: '/admin/users' },
-        { name: $t('addUser'), path: '/admin/users/add' }
+        { name: 'Todos los usuarios', path: '/admin/users' },
+        { name: 'Añadir usuario', path: '/admin/users/add' }
       ]
     },
     { 
@@ -45,13 +42,13 @@
     },
     { 
       id: 'reports', 
-      name: $t('reports'), 
+      name: 'Informes', 
       icon: 'bar-chart', 
       path: '/admin/reports' 
     },
     { 
       id: 'settings', 
-      name: $t('settings'), 
+      name: 'Configuración', 
       icon: 'gear', 
       path: '/admin/settings' 
     }
@@ -75,12 +72,17 @@
   }
   
   // Cerrar sidebar en pantallas pequeñas cuando cambia la ruta
-  $: if ($page && window.innerWidth < 768) {
-    sidebarOpen = false;
-  }
+  let isBrowser = false;
   
-  // Abrir automáticamente los submenús de la ruta actual
   onMount(() => {
+    isBrowser = true;
+    
+    // Manejar cambio de ruta para cerrar sidebar en pantallas pequeñas
+    if (isBrowser && window.innerWidth < 768) {
+      sidebarOpen = false;
+    }
+    
+    // Abrir automáticamente los submenús de la ruta actual
     menuItems.forEach(item => {
       if (item.submenu && item.submenu.some(subitem => isActive(subitem.path))) {
         if (!openSubmenus.includes(item.id)) {
@@ -89,6 +91,11 @@
       }
     });
   });
+  
+  // Reacción al cambio de ruta
+  $: if ($page && isBrowser && window.innerWidth < 768) {
+    sidebarOpen = false;
+  }
 </script>
 
 <div class="admin-layout">

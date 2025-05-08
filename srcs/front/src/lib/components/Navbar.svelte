@@ -22,6 +22,34 @@
   
   $: ({ isAuthenticated, isAdmin, userName, notificationCount, loading } = $authState);
   
+  // Definir estructura de navegación
+  const navItems = [
+    { 
+      path: '/cinemas', 
+      icon: 'building', 
+      label: 'cinemas'
+    },
+    { 
+      path: '/movies', 
+      icon: 'film', 
+      label: 'movies'
+    }
+  ];
+  
+  // Definir elementos del menú de usuario
+  const userMenuItems = [
+    { 
+      path: '/profile', 
+      icon: 'person', 
+      label: 'profile'
+    },
+    { 
+      path: '/bookings', 
+      icon: 'ticket', 
+      label: 'bookings'
+    }
+  ];
+  
   onMount(() => {
     // Cargar estado guardado inmediatamente para reducir parpadeo
     const cachedState = localStorage.getItem('authState');
@@ -165,24 +193,19 @@
       
       <!-- Elementos principales de navegación - visible en pantallas lg y superior -->
       <div class="hidden lg:flex items-center space-x-4 ml-4 flex-grow">
-        <a 
-          href="/cinemas" 
-          class="text-white hover:text-purple-300 px-3 py-2 {isActive('/cinemas') ? 'border-b-2 border-purple-500' : ''}"
-        >
-          <i class="bi bi-building mr-2"></i>
-          <span>{$t('cinemas')}</span>
-        </a>
-        <a 
-          href="/movies" 
-          class="text-white hover:text-purple-300 px-3 py-2 {isActive('/movies') ? 'border-b-2 border-purple-500' : ''}"
-        >
-          <i class="bi bi-film mr-2"></i>
-          <span>{$t('movies')}</span>
-        </a>
+        {#each navItems as item}
+          <a 
+            href={item.path} 
+            class="text-white hover:text-purple-300 px-3 py-2 {isActive(item.path) ? 'border-b-2 border-purple-500' : ''}"
+          >
+            <i class="bi bi-{item.icon} mr-2"></i>
+            <span>{$t(item.label)}</span>
+          </a>
+        {/each}
         
         {#if isAdmin}
           <a 
-            href="/admin/dashboard" 
+            href="/admin" 
             class="text-white hover:text-purple-300 px-3 py-2 {isActive('/admin') ? 'border-b-2 border-purple-500' : ''}"
           >
             <i class="bi bi-speedometer2 mr-2"></i>
@@ -193,24 +216,19 @@
       
       <!-- Elementos secundarios - Versión compacta con iconos en pantallas md pero no lg -->
       <div class="hidden md:flex lg:hidden items-center space-x-2">
-        <a 
-          href="/cinemas" 
-          class="text-white hover:text-purple-300 px-2 py-2 {isActive('/cinemas') ? 'border-b-2 border-purple-500' : ''}"
-          aria-label={$t('cinemas')}
-        >
-          <i class="bi bi-building"></i>
-        </a>
-        <a 
-          href="/movies" 
-          class="text-white hover:text-purple-300 px-2 py-2 {isActive('/movies') ? 'border-b-2 border-purple-500' : ''}"
-          aria-label={$t('movies')}
-        >
-          <i class="bi bi-film"></i>
-        </a>
+        {#each navItems as item}
+          <a 
+            href={item.path} 
+            class="text-white hover:text-purple-300 px-2 py-2 {isActive(item.path) ? 'border-b-2 border-purple-500' : ''}"
+            aria-label={$t(item.label)}
+          >
+            <i class="bi bi-{item.icon}"></i>
+          </a>
+        {/each}
         
         {#if isAdmin}
           <a 
-            href="/admin/dashboard" 
+            href="/admin" 
             class="text-white hover:text-purple-300 px-2 py-2 {isActive('/admin') ? 'border-b-2 border-purple-500' : ''}"
             aria-label={$t('adminPanel')}
           >
@@ -257,14 +275,13 @@
               </button>
               
               <div class="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg hidden group-hover:block">
-                <a href="/profile" class="block px-4 py-2 text-white hover:bg-purple-900/20">
-                  <i class="bi bi-person mr-2"></i>
-                  {$t('profile')}
-                </a>
-                <a href="/bookings" class="block px-4 py-2 text-white hover:bg-purple-900/20">
-                  <i class="bi bi-ticket mr-2"></i>
-                  {$t('bookings')}
-                </a>
+                {#each userMenuItems as item}
+                  <a href={item.path} class="block px-4 py-2 text-white hover:bg-purple-900/20">
+                    <i class="bi bi-{item.icon} mr-2"></i>
+                    {$t(item.label)}
+                  </a>
+                {/each}
+                
                 <hr class="border-white/10 my-1">
                 <button 
                   class="w-full text-left px-4 py-2 text-white hover:bg-purple-900/20"
@@ -304,24 +321,19 @@
     {#if mobileMenuOpen}
       <div class="md:hidden py-3 bg-dark border-t border-white/10 mt-2">
         <div class="flex flex-col space-y-2">
-          <a 
-            href="/cinemas" 
-            class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/cinemas') ? 'bg-white/10' : ''}"
-          >
-            <i class="bi bi-building mr-3 text-lg"></i>
-            <span>{$t('cinemas')}</span>
-          </a>
-          <a 
-            href="/movies" 
-            class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/movies') ? 'bg-white/10' : ''}"
-          >
-            <i class="bi bi-film mr-3 text-lg"></i>
-            <span>{$t('movies')}</span>
-          </a>
+          {#each navItems as item}
+            <a 
+              href={item.path} 
+              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive(item.path) ? 'bg-white/10' : ''}"
+            >
+              <i class="bi bi-{item.icon} mr-3 text-lg"></i>
+              <span>{$t(item.label)}</span>
+            </a>
+          {/each}
           
           {#if isAdmin}
             <a 
-              href="/admin/dashboard" 
+              href="/admin" 
               class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/admin') ? 'bg-white/10' : ''}"
             >
               <i class="bi bi-speedometer2 mr-3 text-lg"></i>
@@ -347,15 +359,12 @@
                 <span class="font-medium">{userName}</span>
               </div>
               
-              <a href="/profile" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
-                <i class="bi bi-person mr-3 text-lg"></i>
-                <span>{$t('profile')}</span>
-              </a>
-              
-              <a href="/bookings" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
-                <i class="bi bi-ticket mr-3 text-lg"></i>
-                <span>{$t('bookings')}</span>
-              </a>
+              {#each userMenuItems as item}
+                <a href={item.path} class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
+                  <i class="bi bi-{item.icon} mr-3 text-lg"></i>
+                  <span>{$t(item.label)}</span>
+                </a>
+              {/each}
               
               <a href="/notifications" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
                 <i class="bi bi-bell mr-3 text-lg"></i>
