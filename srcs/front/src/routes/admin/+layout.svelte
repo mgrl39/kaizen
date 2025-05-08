@@ -1,149 +1,360 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import { page } from '$app/stores';
+  import { onMount } from 'svelte';
   
-  // Ítems del menú lateral con colores y nombres de ruta consistentes
+  // Estado para el sidebar
+  let sidebarOpen = false;
+  let openSubmenus = [];
+  
+  // Estructura del menú de navegación
   const menuItems = [
-    { name: 'dashboard', path: '/admin', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-    { name: 'movies', path: '/admin/movies', icon: 'M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z' },
-    { name: 'cinema', path: '/admin/cinemas', icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4' },
-    { name: 'users', path: '/admin/users', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-    { name: 'bookings', path: '/admin/bookings', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
-    { name: 'reports', path: '/admin/reports', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-    { name: 'settings', path: '/admin/settings', icon: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' },
+    { id: 'dashboard', name: $t('dashboard'), icon: 'speedometer2', path: '/admin' },
+    { 
+      id: 'movies', 
+      name: $t('movies'), 
+      icon: 'film', 
+      submenu: [
+        { name: $t('allMovies'), path: '/admin/movies' },
+        { name: $t('addMovie'), path: '/admin/movies/add' }
+      ]
+    },
+    { 
+      id: 'cinemas', 
+      name: $t('cinemas'), 
+      icon: 'building', 
+      submenu: [
+        { name: $t('allCinemas'), path: '/admin/cinemas' },
+        { name: $t('addCinema'), path: '/admin/cinemas/add' }
+      ]
+    },
+    { 
+      id: 'users', 
+      name: $t('users'), 
+      icon: 'people', 
+      submenu: [
+        { name: $t('allUsers'), path: '/admin/users' },
+        { name: $t('addUser'), path: '/admin/users/add' }
+      ]
+    },
+    { 
+      id: 'bookings', 
+      name: $t('bookings'), 
+      icon: 'ticket', 
+      path: '/admin/bookings' 
+    },
+    { 
+      id: 'reports', 
+      name: $t('reports'), 
+      icon: 'bar-chart', 
+      path: '/admin/reports' 
+    },
+    { 
+      id: 'settings', 
+      name: $t('settings'), 
+      icon: 'gear', 
+      path: '/admin/settings' 
+    }
   ];
-
-  // Toggle para menú móvil
-  let showMobileMenu = false;
   
-  // Color primario consistente
-  const primaryColor = "indigo";
+  // Función para alternar submenús
+  function toggleSubmenu(id) {
+    if (openSubmenus.includes(id)) {
+      openSubmenus = openSubmenus.filter(item => item !== id);
+    } else {
+      openSubmenus = [...openSubmenus, id];
+    }
+  }
+  
+  // Función para verificar si una ruta está activa
+  function isActive(path) {
+    if (path === '/admin') {
+      return $page.url.pathname === '/admin' || $page.url.pathname === '/admin/';
+    }
+    return $page.url.pathname.startsWith(path);
+  }
+  
+  // Cerrar sidebar en pantallas pequeñas cuando cambia la ruta
+  $: if ($page && window.innerWidth < 768) {
+    sidebarOpen = false;
+  }
+  
+  // Abrir automáticamente los submenús de la ruta actual
+  onMount(() => {
+    menuItems.forEach(item => {
+      if (item.submenu && item.submenu.some(subitem => isActive(subitem.path))) {
+        if (!openSubmenus.includes(item.id)) {
+          openSubmenus = [...openSubmenus, item.id];
+        }
+      }
+    });
+  });
 </script>
 
-<div class="flex h-screen w-full overflow-hidden" style="margin-top: 0; padding-top: 0">
-  <!-- Sidebar - versión escritorio -->
-  <aside class="hidden md:block w-64 bg-gray-900 flex-shrink-0 h-full">
-    <div class="p-4 border-b border-gray-800 flex items-center">
-      <svg class="w-8 h-8 text-{primaryColor}-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-      </svg>
-      <h1 class="text-xl font-bold text-white">{$t('adminPanel')}</h1>
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar {sidebarOpen ? 'sidebar-open' : ''}" id="admin-sidebar">
+    <div class="sidebar-header">
+      <h1 class="sidebar-title">Admin Panel</h1>
+      <button 
+        class="sidebar-toggle"
+        on:click={() => (sidebarOpen = !sidebarOpen)}
+        aria-label={sidebarOpen ? "Cerrar menú lateral" : "Abrir menú lateral"}
+      >
+        <i class="bi bi-{sidebarOpen ? 'x' : 'list'}"></i>
+      </button>
     </div>
     
-    <nav class="py-4 overflow-y-auto" style="height: calc(100% - 74px)">
-      <ul class="px-2 space-y-1">
+    <nav class="sidebar-nav">
+      <ul class="sidebar-menu">
         {#each menuItems as item}
-          <li>
-            <a 
-              href={item.path} 
-              class="flex items-center px-4 py-2.5 rounded-lg {$page.url.pathname === item.path ? `bg-${primaryColor}-600 text-white` : 'text-gray-300 hover:bg-gray-800 hover:text-white'} transition-colors duration-200"
-            >
-              <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
-              </svg>
-              <span>{$t(item.name)}</span>
-            </a>
+          <li class="sidebar-item {isActive(item.path || '') ? 'active' : ''}">
+            {#if item.submenu}
+              <button
+                class="sidebar-link has-submenu"
+                on:click={() => toggleSubmenu(item.id)}
+                on:keydown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleSubmenu(item.id);
+                  }
+                }}
+                aria-expanded={openSubmenus.includes(item.id)}
+                aria-controls={`submenu-${item.id}`}
+              >
+                <i class="bi bi-{item.icon}"></i>
+                <span>{item.name}</span>
+                <i class="bi bi-chevron-{openSubmenus.includes(item.id) ? 'down' : 'right'} submenu-icon"></i>
+              </button>
+              
+              {#if openSubmenus.includes(item.id)}
+                <ul class="submenu" id={`submenu-${item.id}`}>
+                  {#each item.submenu as subitem}
+                    <li class="submenu-item {isActive(subitem.path) ? 'active' : ''}">
+                      <a href={subitem.path} class="submenu-link">
+                        {subitem.name}
+                      </a>
+                    </li>
+                  {/each}
+                </ul>
+              {/if}
+            {:else}
+              <a href={item.path} class="sidebar-link {isActive(item.path) ? 'active' : ''}">
+                <i class="bi bi-{item.icon}"></i>
+                <span>{item.name}</span>
+              </a>
+            {/if}
           </li>
         {/each}
       </ul>
     </nav>
-    
-    <div class="absolute bottom-0 w-64 p-4 border-t border-gray-800">
-      <a href="/" class="flex items-center text-gray-400 hover:text-white transition-colors duration-200">
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        <span>{$t('backToSite')}</span>
-      </a>
-    </div>
   </aside>
   
   <!-- Contenido principal -->
-  <div class="flex flex-col flex-1 h-full overflow-hidden">
-    <!-- Header móvil -->
-    <header class="bg-white border-b border-gray-200 z-10 p-4 md:hidden flex items-center justify-between">
+  <div class="main-content">
+    <header class="admin-header">
       <button 
-        class="text-gray-600 focus:outline-none" 
-        on:click={() => showMobileMenu = !showMobileMenu}
+        class="mobile-menu-btn"
+        on:click={() => (sidebarOpen = !sidebarOpen)}
+        aria-label={sidebarOpen ? "Cerrar menú" : "Abrir menú"}
       >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
+        <i class="bi bi-{sidebarOpen ? 'x' : 'list'}"></i>
       </button>
-      <div class="flex items-center">
-        <svg class="w-7 h-7 text-{primaryColor}-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-        </svg>
-        <h1 class="text-xl font-bold text-gray-800">{$t('adminPanel')}</h1>
+      
+      <div class="header-title">
+        {#each menuItems as item}
+          {#if isActive(item.path || '')}
+            <h1>{item.name}</h1>
+          {:else if item.submenu && item.submenu.some(subitem => isActive(subitem.path))}
+            <h1>{item.name} / {item.submenu.find(subitem => isActive(subitem.path)).name}</h1>
+          {/if}
+        {/each}
       </div>
-      <div class="w-6"></div> <!-- Espaciador para centrar el título -->
     </header>
     
-    <!-- Menú móvil -->
-    {#if showMobileMenu}
-      <div class="fixed inset-0 z-40 md:hidden" on:click={() => showMobileMenu = false}>
-        <div class="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity"></div>
-        <div class="fixed top-0 left-0 bottom-0 w-64 bg-gray-900 pt-0 transform transition ease-in-out duration-300">
-          <div class="p-4 border-b border-gray-800 flex items-center">
-            <svg class="w-8 h-8 text-{primaryColor}-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-            </svg>
-            <h1 class="text-xl font-bold text-white">{$t('adminPanel')}</h1>
-          </div>
-          <nav class="p-4">
-            <ul class="space-y-1">
-              {#each menuItems as item}
-                <li>
-                  <a 
-                    href={item.path} 
-                    class="flex items-center px-4 py-2.5 rounded-lg {$page.url.pathname === item.path ? `bg-${primaryColor}-600 text-white` : 'text-gray-300 hover:bg-gray-800 hover:text-white'} transition-colors duration-200"
-                  >
-                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.icon} />
-                    </svg>
-                    <span>{$t(item.name)}</span>
-                  </a>
-                </li>
-              {/each}
-            </ul>
-          </nav>
-          
-          <div class="absolute bottom-0 w-full p-4 border-t border-gray-800">
-            <a href="/" class="flex items-center text-gray-400 hover:text-white transition-colors duration-200">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              <span>{$t('backToSite')}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    {/if}
-    
-    <!-- Contenido de la página -->
-    <main class="flex-1 overflow-auto bg-gray-100">
-      <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 md:px-8">
-        <slot />
-      </div>
+    <main class="admin-main">
+      <slot></slot>
     </main>
   </div>
 </div>
 
 <style>
-  /* Estilos específicos para la sección de admin */
-  :global(body.admin-route) {
-    margin: 0 !important;
-    padding: 0 !important;
-    height: 100vh;
-    overflow: hidden;
-    background-color: #f9fafb;
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Estilos básicos y limpios */
+  .admin-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #f5f5f5;
   }
   
-  /* Asegurarse de que el admin ocupe toda la pantalla sin márgenes */
-  :global(body.admin-route #svelte) {
+  /* Sidebar */
+  .sidebar {
+    width: 250px;
+    background-color: #333;
+    color: white;
     height: 100vh;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #444;
+  }
+  
+  .sidebar-title {
+    font-size: 1.25rem;
+    font-weight: 600;
     margin: 0;
+  }
+  
+  .sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.25rem;
+  }
+  
+  .sidebar-nav {
+    padding: 1rem 0;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
     padding: 0;
+    margin: 0;
+  }
+  
+  .sidebar-item {
+    margin-bottom: 0.25rem;
+  }
+  
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    color: #ccc;
+    text-decoration: none;
+    transition: background-color 0.2s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  
+  .sidebar-link:hover, .submenu-link:hover {
+    background-color: #444;
+    color: white;
+  }
+  
+  .sidebar-link.active {
+    background-color: #555;
+    color: white;
+    border-left: 3px solid #007bff;
+  }
+  
+  .sidebar-link i {
+    margin-right: 0.75rem;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .has-submenu {
+    position: relative;
+  }
+  
+  .submenu-icon {
+    margin-left: auto;
+  }
+  
+  .submenu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #2a2a2a;
+  }
+  
+  .submenu-link {
+    display: block;
+    padding: 0.5rem 1rem 0.5rem 3rem;
+    color: #bbb;
+    text-decoration: none;
+    transition: background-color 0.2s;
+  }
+  
+  .submenu-item.active .submenu-link {
+    color: white;
+    background-color: #444;
+    border-left: 3px solid #007bff;
+  }
+  
+  /* Contenido principal */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+  }
+  
+  .admin-header {
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+  
+  .header-title h1 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+  
+  .admin-main {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed;
+      z-index: 1000;
+      transform: translateX(-100%);
+    }
+    
+    .sidebar-open {
+      transform: translateX(0);
+    }
+    
+    .sidebar-toggle {
+      display: block;
+    }
+    
+    .mobile-menu-btn {
+      display: block;
+    }
   }
 </style>

@@ -11,7 +11,7 @@
 >
   <div class="container mx-auto px-4 md:px-8 relative z-10">
     <div class="max-w-3xl mx-auto md:mx-0">
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 drop-shadow-[0_0_15px_rgba(139,92,246,0.5)]">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-shadow-lg">
         {title || $t('heroBannerTitle')}
       </h1>
       <p class="text-lg sm:text-xl mb-6 text-gray-200 max-w-2xl">

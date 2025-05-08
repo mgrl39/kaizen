@@ -196,14 +196,14 @@
         <a 
           href="/cinemas" 
           class="text-white hover:text-purple-300 px-2 py-2 {isActive('/cinemas') ? 'border-b-2 border-purple-500' : ''}"
-          title={$t('cinemas')}
+          aria-label={$t('cinemas')}
         >
           <i class="bi bi-building"></i>
         </a>
         <a 
           href="/movies" 
           class="text-white hover:text-purple-300 px-2 py-2 {isActive('/movies') ? 'border-b-2 border-purple-500' : ''}"
-          title={$t('movies')}
+          aria-label={$t('movies')}
         >
           <i class="bi bi-film"></i>
         </a>
@@ -212,7 +212,7 @@
           <a 
             href="/admin/dashboard" 
             class="text-white hover:text-purple-300 px-2 py-2 {isActive('/admin') ? 'border-b-2 border-purple-500' : ''}"
-            title={$t('adminPanel')}
+            aria-label={$t('adminPanel')}
           >
             <i class="bi bi-speedometer2"></i>
           </a>
@@ -234,7 +234,11 @@
         {:else if isAuthenticated}
           <div class="flex items-center">
             <!-- Sólo iconos en md, texto + iconos en lg -->
-            <a href="/notifications" class="relative px-2 lg:px-3 py-2 text-white hover:text-purple-300 hover:bg-white/5 rounded-md">
+            <a 
+              href="/notifications" 
+              class="relative px-2 lg:px-3 py-2 text-white hover:text-purple-300 hover:bg-white/5 rounded-md"
+              aria-label={notificationCount > 0 ? `${$t('notifications')} (${notificationCount})` : $t('notifications')}
+            >
               <i class="bi bi-bell"></i>
               <span class="hidden lg:inline ml-2">Notificaciones</span>
               {#if notificationCount > 0}
@@ -245,7 +249,8 @@
             </a>
             
             <div class="relative group ml-1">
-              <button class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2">
+              <button class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2"
+                aria-label={$t('userMenu')}>
                 <i class="bi bi-person-circle"></i>
                 <span class="hidden lg:inline ml-2">{userName}</span>
                 <i class="bi bi-chevron-down text-xs ml-1"></i>
@@ -264,6 +269,7 @@
                 <button 
                   class="w-full text-left px-4 py-2 text-white hover:bg-purple-900/20"
                   on:click={handleLogout}
+                  aria-label={$t('logout')}
                 >
                   <i class="bi bi-box-arrow-right mr-2"></i>
                   {$t('logout')}
@@ -288,6 +294,7 @@
       <button 
         class="md:hidden p-2 text-white hover:bg-white/10 rounded-md"
         on:click={toggleMobileMenu}
+        aria-label={$t('toggleMenu')}
       >
         <i class="bi bi-{mobileMenuOpen ? 'x' : 'list'} text-xl"></i>
       </button>
@@ -363,6 +370,7 @@
               <button 
                 class="w-full text-left px-3 py-3 text-red-300 hover:bg-red-900/20 rounded-md flex items-center mt-2"
                 on:click={handleLogout}
+                aria-label={$t('logout')}
               >
                 <i class="bi bi-box-arrow-right mr-3 text-lg"></i>
                 <span>{$t('logout')}</span>
@@ -387,7 +395,8 @@
 </nav>
 
 <style>
-  .navbar {
+  /* Mantenemos solo los selectores globales que ya están funcionando */
+  :global(.navbar) {
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     transition: all 0.3s ease;
@@ -395,14 +404,14 @@
     backdrop-filter: blur(10px);
   }
   
-  .navbar.scrolled {
+  :global(.navbar.scrolled) {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     background-color: rgba(18, 18, 18, 0.95);
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
   }
   
-  .logo-text {
+  :global(.logo-text) {
     font-weight: 700;
     font-size: 1.4rem;
     background: linear-gradient(to right, #fff, #a78bfa);
@@ -411,94 +420,6 @@
     transition: all 0.3s ease;
   }
   
-  .nav-link {
-    position: relative;
-    padding: 0.5rem 0.8rem;
-    font-weight: 500;
-    transition: color 0.2s;
-  }
-  
-  .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0.8rem;
-    right: 0.8rem;
-    height: 2px;
-    background: linear-gradient(to right, #6d28d9, transparent);
-    border-radius: 2px;
-  }
-  
-  .user-menu-button {
-    display: flex;
-    align-items: center;
-    background: transparent;
-    border: none;
-    color: white;
-    padding: 0.5rem 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  
-  .dropdown-wrapper {
-    position: relative;
-  }
-  
-  .dropdown-menu {
-    animation-fill-mode: forwards;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background-color: #212529;
-  }
-  
-  .dropdown-item {
-    color: #f8f9fa;
-    padding: 0.5rem 1.25rem;
-    transition: background-color 0.2s;
-  }
-  
-  .dropdown-item:hover {
-    background-color: rgba(109, 40, 217, 0.2);
-    color: #fff;
-  }
-  
-  .dropdown-item.active {
-    background-color: #6d28d9;
-  }
-  
-  .loading-indicator {
-    display: flex;
-    align-items: center;
-    color: rgba(255, 255, 255, 0.7);
-  }
-  
-  .avatar {
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  @media (max-width: 768px) {
-    .navbar-nav {
-      padding-top: 1rem;
-      padding-bottom: 1rem;
-    }
-    
-    .dropdown-menu {
-      position: static !important;
-      float: none;
-      width: auto;
-      margin-top: 0;
-      border: 0;
-      box-shadow: none;
-      background-color: rgba(33, 37, 41, 0.5);
-    }
-    
-    .nav-item {
-      width: 100%;
-    }
-    
-    .user-menu-button {
-      padding: 0.75rem 0;
-      justify-content: flex-start;
-    }
-  }
+  /* Eliminamos todos los selectores no utilizados */
+  /* Si necesitas estos estilos en el futuro, puedes convertirlos a :global() o añadirlos de nuevo */
 </style> 
