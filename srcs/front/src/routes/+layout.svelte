@@ -11,8 +11,21 @@
   $: isAdminRoute = $page.url.pathname.startsWith('/admin');
 </script>
 
+<!-- Añadimos la etiqueta para gestionar clases del body -->
+<svelte:head>
+  {#if isAdminRoute}
+    <script>
+      document.body.classList.add('admin-route');
+    </script>
+  {:else}
+    <script>
+      document.body.classList.remove('admin-route');
+    </script>
+  {/if}
+</svelte:head>
+
 {#if isAdminRoute}
-  <!-- Para rutas admin, solo pasa el contenido sin estilos ni componentes adicionales -->
+  <!-- Para rutas admin, SOLO se pasa el contenido sin nada más -->
   <slot />
 {:else}
   <!-- Layout principal con clases Tailwind -->
@@ -34,36 +47,36 @@
 {/if}
 
 <style>
-  /* Estos estilos SOLO se aplican fuera de /admin */
-  :global(body) {
+  /* Aplicamos estilos solo a body que NO sea admin-route */
+  :global(body:not(.admin-route)) {
     background-color: #121212;
     color: #f8f9fa;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
-  :global(.card) {
+  :global(body:not(.admin-route) .card) {
     background-color: #212529;
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
-  :global(.btn-primary) {
+  :global(body:not(.admin-route) .btn-primary) {
     background-color: #6d28d9;
     border-color: #6d28d9;
   }
   
-  :global(.btn-primary:hover) {
+  :global(body:not(.admin-route) .btn-primary:hover) {
     background-color: #5b21b6;
     border-color: #5b21b6;
   }
   
-  :global(.section-title) {
+  :global(body:not(.admin-route) .section-title) {
     font-weight: 600;
     margin-bottom: 2rem;
     position: relative;
     display: inline-block;
   }
   
-  :global(.section-title::after) {
+  :global(body:not(.admin-route) .section-title::after) {
     content: '';
     position: absolute;
     left: 0;
@@ -73,4 +86,16 @@
     background: linear-gradient(to right, #6d28d9, transparent);
     border-radius: 2px;
   }
-</style> 
+  
+  /* Muy importante: ocultar la navbar fija en rutas admin */
+  :global(body.admin-route nav.fixed) {
+    display: none !important;
+  }
+  
+  /* Eliminar espacios en admin */
+  :global(body.admin-route) {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+</style>

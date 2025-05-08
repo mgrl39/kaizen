@@ -20,7 +20,7 @@
   const primaryColor = "indigo";
 </script>
 
-<div class="flex h-screen w-full overflow-hidden">
+<div class="flex h-screen w-full overflow-hidden" style="margin-top: 0; padding-top: 0">
   <!-- Sidebar - versión escritorio -->
   <aside class="hidden md:block w-64 bg-gray-900 flex-shrink-0 h-full">
     <div class="p-4 border-b border-gray-800 flex items-center">
@@ -128,3 +128,22 @@
     </main>
   </div>
 </div>
+
+<style>
+  /* Estilos específicos para la sección de admin */
+  :global(body.admin-route) {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #f9fafb;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  
+  /* Asegurarse de que el admin ocupe toda la pantalla sin márgenes */
+  :global(body.admin-route #svelte) {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+</style>
