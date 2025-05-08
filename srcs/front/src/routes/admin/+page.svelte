@@ -1,34 +1,35 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { onMount } from 'svelte';
   
-  // Datos del dashboard (actualizados para reflejar un solo cine)
-  const stats = [
+  // Datos iniciales del dashboard
+  let stats = [
     { 
       name: 'totalMovies', 
-      value: '125', 
+      value: '0', 
       path: '/admin/movies',
-      icon: 'M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z',
+      icon: 'film',
       color: 'indigo'
     },
     { 
       name: 'totalScreens', 
-      value: '8', 
+      value: '0', 
       path: '/admin/cinemas',
-      icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+      icon: 'building',
       color: 'emerald'
     },
     { 
       name: 'totalUsers', 
-      value: '1,240', 
+      value: '0', 
       path: '/admin/users',
-      icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z',
+      icon: 'people',
       color: 'violet'
     },
     { 
       name: 'totalBookings', 
-      value: '8,564', 
+      value: '0', 
       path: '/admin/bookings',
-      icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z',
+      icon: 'calendar',
       color: 'amber'
     }
   ];
@@ -39,6 +40,30 @@
     { id: 2, description: 'Actualización del cine: "Cineplex Central"', date: '14/07/2023' },
     { id: 3, description: 'Nuevo usuario registrado: maria.garcia@example.com', date: '13/07/2023' }
   ];
+
+  // Carga los datos desde la API
+  onMount(async () => {
+    try {
+      // Obtener conteo de usuarios
+      const usersResponse = await fetch('/api/v1/users');
+      if (usersResponse.ok) {
+        const userData = await usersResponse.json();
+        if (userData.success && userData.data) {
+          // Actualizar el conteo de usuarios
+          stats = stats.map(stat => 
+            stat.name === 'totalUsers' 
+              ? { ...stat, value: userData.data.total?.toString() || '0' } 
+              : stat
+          );
+        }
+      }
+      
+      // Aquí se pueden agregar llamadas para los otros contadores (películas, cines, reservas)
+      
+    } catch (error) {
+      console.error('Error al cargar datos del dashboard:', error);
+    }
+  });
 </script>
 
 <div>
@@ -51,9 +76,7 @@
         <div class="p-5">
           <div class="flex items-center">
             <div class="flex-shrink-0 bg-{stat.color}-500 rounded-md p-3">
-              <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={stat.icon} />
-              </svg>
+              <i class="bi bi-{stat.icon} h-6 w-6 text-white"></i>
             </div>
             <div class="ml-5 w-0 flex-1">
               <dl>
