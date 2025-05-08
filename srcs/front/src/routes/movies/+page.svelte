@@ -1,308 +1,339 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { API_URL } from '$lib/config';
+  import { t } from '$lib/i18n';
 
-  let movies = [];
-  let loading = true;
-  let error = null;
+  // Géneros para filtrar
+  const genres = [
+    'Acción', 'Aventura', 'Comedia', 'Drama', 'Ciencia Ficción', 
+    'Terror', 'Romance', 'Animación', 'Fantasía', 'Documental'
+  ];
+
+  // Datos hardcodeados de películas
+  const movies = [
+    {
+      id: 1,
+      title: 'Dune: Parte Dos',
+      slug: 'dune-parte-dos',
+      director: 'Denis Villeneuve',
+      duration: 166,
+      release_date: '2024-03-01',
+      genres: ['Ciencia Ficción', 'Aventura', 'Drama'],
+      rating: 8.7,
+      synopsis: 'Paul Atreides se une a los Fremen y comienza un viaje espiritual y político para vengar a su familia mientras trata de salvar el futuro de Arrakis y de toda la galaxia.',
+      image_url: 'https://source.unsplash.com/800x1200/?dune,movie',
+      trailer_url: 'https://www.youtube.com/watch?v=Way9Dexny3w',
+      is_featured: true,
+      is_now_playing: true
+    },
+    {
+      id: 2,
+      title: 'Oppenheimer',
+      slug: 'oppenheimer',
+      director: 'Christopher Nolan',
+      duration: 180,
+      release_date: '2023-07-21',
+      genres: ['Drama', 'Historia', 'Biografía'],
+      rating: 8.5,
+      synopsis: 'La historia del científico J. Robert Oppenheimer y su papel en el desarrollo de la bomba atómica durante la Segunda Guerra Mundial.',
+      image_url: 'https://source.unsplash.com/800x1200/?nuclear,explosion',
+      trailer_url: 'https://www.youtube.com/watch?v=uYPbbksJxIg',
+      is_featured: true,
+      is_now_playing: true
+    },
+    {
+      id: 3,
+      title: 'Barbie',
+      slug: 'barbie',
+      director: 'Greta Gerwig',
+      duration: 114,
+      release_date: '2023-07-21',
+      genres: ['Comedia', 'Aventura', 'Fantasía'],
+      rating: 7.3,
+      synopsis: 'Barbie y Ken disfrutan de una vida perfecta en el colorido y aparentemente perfecto mundo de Barbie Land. Sin embargo, cuando tienen la oportunidad de ir al mundo real, pronto descubren las alegrías y los peligros de vivir entre los humanos.',
+      image_url: 'https://source.unsplash.com/800x1200/?pink,doll',
+      trailer_url: 'https://www.youtube.com/watch?v=pBk4NYhWNMM',
+      is_featured: true,
+      is_now_playing: true
+    },
+    {
+      id: 4,
+      title: 'Pobres Criaturas',
+      slug: 'pobres-criaturas',
+      director: 'Yorgos Lanthimos',
+      duration: 141,
+      release_date: '2024-01-26',
+      genres: ['Comedia', 'Drama', 'Ciencia Ficción'],
+      rating: 8.1,
+      synopsis: 'La increíble historia de Bella Baxter, una joven que ha sido devuelta a la vida por el brillante y poco ortodoxo científico Dr. Godwin Baxter.',
+      image_url: 'https://source.unsplash.com/800x1200/?vintage,laboratory',
+      trailer_url: 'https://www.youtube.com/watch?v=RlbR5N6veqw',
+      is_featured: false,
+      is_now_playing: true
+    },
+    {
+      id: 5,
+      title: 'Los Asesinos de la Luna',
+      slug: 'los-asesinos-de-la-luna',
+      director: 'Martin Scorsese',
+      duration: 206,
+      release_date: '2023-10-20',
+      genres: ['Crimen', 'Drama', 'Historia'],
+      rating: 7.8,
+      synopsis: 'Miembros de la tribu Osage en Oklahoma son asesinados bajo misteriosas circunstancias en la década de 1920, desencadenando una importante investigación del FBI.',
+      image_url: 'https://source.unsplash.com/800x1200/?moon,western',
+      trailer_url: 'https://www.youtube.com/watch?v=EP34Yoxs3FQ',
+      is_featured: false,
+      is_now_playing: true
+    },
+    {
+      id: 6,
+      title: 'Napoleón',
+      slug: 'napoleon',
+      director: 'Ridley Scott',
+      duration: 158,
+      release_date: '2023-11-24',
+      genres: ['Acción', 'Drama', 'Historia'],
+      rating: 6.5,
+      synopsis: 'Una mirada personal a los orígenes de Napoleón Bonaparte y su rápido y despiadado ascenso a emperador.',
+      image_url: 'https://source.unsplash.com/800x1200/?napoleon,france',
+      trailer_url: 'https://www.youtube.com/watch?v=OAZWXUkrjPc',
+      is_featured: false,
+      is_now_playing: true
+    }
+  ];
+
+  // Estado para filtros
   let searchQuery = '';
-  let filters = {
-    genre: '',
-    year: '',
-    rating: ''
-  };
-
-  // Paginación
-  let currentPage = 1;
-  let totalPages = 1;
-  let itemsPerPage = 9;
-  let totalItems = 0;
-
-  // Para los filtros
-  let genres = [];
-  let years = [];
-
-  async function fetchMovies() {
-    loading = true;
-    try {
-      // Construir URL con parámetros de búsqueda, filtros y paginación
-      let url = `${API_URL}/movies`;
-      let params = new URLSearchParams();
-      
-      if (searchQuery) {
-        params.append('search', searchQuery);
+  let selectedGenre = '';
+  let sortBy = 'rating'; // 'rating', 'title', 'release_date'
+  
+  // Películas filtradas
+  $: filteredMovies = movies
+    .filter(movie => {
+      // Filtrar por búsqueda
+      if (searchQuery && !movie.title.toLowerCase().includes(searchQuery.toLowerCase())) {
+        return false;
       }
       
-      if (filters.genre) {
-        params.append('genre', filters.genre);
+      // Filtrar por género
+      if (selectedGenre && !movie.genres.includes(selectedGenre)) {
+        return false;
       }
       
-      if (filters.year) {
-        params.append('year', filters.year);
+      return true;
+    })
+    .sort((a, b) => {
+      // Ordenar según criterio
+      if (sortBy === 'rating') {
+        return b.rating - a.rating;
+      } else if (sortBy === 'title') {
+        return a.title.localeCompare(b.title);
+      } else if (sortBy === 'release_date') {
+        return new Date(b.release_date).getTime() - new Date(a.release_date).getTime();
       }
-      
-      if (filters.rating) {
-        params.append('rating', filters.rating);
-      }
-      
-      // Añadir parámetros de paginación
-      params.append('page', currentPage.toString());
-      params.append('limit', itemsPerPage.toString());
-      
-      // Añadir parámetros a la URL
-      url += `?${params.toString()}`;
-      
-      const response = await fetch(url, {
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-      
-      const data = await response.json();
-      
-      if (response.ok) {
-        movies = data.data || data;
-        // Asumiendo que el API devuelve metadata de paginación
-        totalItems = data.total || movies.length;
-        totalPages = data.pages || Math.ceil(totalItems / itemsPerPage);
-      } else {
-        error = data.message || 'Error al cargar las películas';
-      }
-    } catch (e) {
-      error = 'Error de conexión con el servidor';
-    } finally {
-      loading = false;
-    }
+      return 0;
+    });
+  
+  // Películas destacadas
+  $: featuredMovies = movies.filter(movie => movie.is_featured);
+  
+  // Formatear fecha
+  function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('es-ES', options);
   }
-
-  async function fetchFilters() {
-    try {
-      // En una implementación real, obtendrías esta información del servidor
-      genres = ['Acción', 'Aventura', 'Comedia', 'Drama', 'Ciencia Ficción', 'Terror'];
-      years = ['2023', '2022', '2021', '2020', '2019'];
-    } catch (e) {
-      console.error('Error al cargar filtros:', e);
-    }
-  }
-
-  function handleSearch() {
-    fetchMovies();
-  }
-
-  function handlePageChange(page) {
-    if (page >= 1 && page <= totalPages) {
-      currentPage = page;
-      fetchMovies();
-      window.scrollTo(0, 0);
-    }
-  }
-
+  
+  // Resetear filtros
   function resetFilters() {
-    filters = {
-      genre: '',
-      year: '',
-      rating: ''
-    };
     searchQuery = '';
-    currentPage = 1;
-    fetchMovies();
+    selectedGenre = '';
+    sortBy = 'rating';
   }
-
-  onMount(() => {
-    fetchMovies();
-    fetchFilters();
-  });
 </script>
 
-<div class="container mx-auto py-8 px-4 max-w-7xl">
-  <h1 class="text-3xl font-bold mb-6 text-gray-800">Catálogo de Películas</h1>
+<div class="max-w-7xl mx-auto px-4 py-8">
+  <h2 class="text-3xl font-bold mb-8 section-title">Cartelera</h2>
+  
+  <!-- Películas destacadas - Carrusel -->
+  {#if featuredMovies.length > 0}
+    <div class="mb-12">
+      <h3 class="text-2xl font-bold mb-6">Películas destacadas</h3>
+      
+      <div class="relative rounded-xl overflow-hidden">
+        <!-- Simplificado: mostramos solo la primera película destacada -->
+        {#if featuredMovies[0]}
+          <div class="relative h-96 md:h-[500px]">
+            <img 
+              src={featuredMovies[0].image_url} 
+              alt={featuredMovies[0].title} 
+              class="w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-6 md:p-10 w-full md:w-2/3">
+              <h1 class="text-4xl md:text-5xl font-bold text-white mb-3">{featuredMovies[0].title}</h1>
+              <div class="flex items-center text-white/80 mb-4">
+                <span class="bg-purple-800 text-white text-sm px-2 py-1 rounded mr-3">
+                  {featuredMovies[0].rating.toFixed(1)}
+                </span>
+                <span class="mr-4">{featuredMovies[0].duration} min</span>
+                <span>{formatDate(featuredMovies[0].release_date)}</span>
+              </div>
+              <p class="text-white/80 mb-6 line-clamp-2 md:line-clamp-3">
+                {featuredMovies[0].synopsis}
+              </p>
+              <div class="flex flex-wrap gap-2 mb-6">
+                {#each featuredMovies[0].genres as genre}
+                  <span class="bg-white/10 text-white text-xs py-1 px-2 rounded-md">
+                    {genre}
+                  </span>
+                {/each}
+              </div>
+              <div class="flex flex-col sm:flex-row gap-3">
+                <a 
+                  href={`/movies/${featuredMovies[0].slug}`} 
+                  class="bg-purple-800 hover:bg-purple-700 text-white py-2 px-4 rounded-md flex items-center justify-center transition-colors"
+                >
+                  <i class="bi bi-info-circle mr-2"></i>
+                  Ver detalles
+                </a>
+                <a 
+                  href={featuredMovies[0].trailer_url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="bg-transparent border border-white/20 text-white py-2 px-4 rounded-md flex items-center justify-center hover:bg-white/10 transition-colors"
+                >
+                  <i class="bi bi-play-circle mr-2"></i>
+                  Ver trailer
+                </a>
+              </div>
+            </div>
+          </div>
+        {/if}
+      </div>
+    </div>
+  {/if}
   
   <!-- Buscador y Filtros -->
-  <div class="mb-8 bg-white p-4 rounded-lg shadow-md">
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
-      <div class="md:col-span-6">
+  <div class="bg-card border border-white/10 rounded-lg p-4 mb-8">
+    <div class="flex flex-col md:flex-row gap-4">
+      <div class="flex-grow">
         <div class="relative">
           <input 
             type="text" 
-            class="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-colors" 
+            class="w-full bg-dark border border-white/10 rounded-md py-2 px-4 pr-10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
             placeholder="Buscar películas..." 
             bind:value={searchQuery}
-            on:keyup={(e) => e.key === 'Enter' && handleSearch()}
           >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 absolute left-3 top-3.5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-          <button 
-            class="absolute right-1 top-1 bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-md transition duration-150 ease-in-out"
-            on:click={handleSearch}
-          >
-            Buscar
-          </button>
+          <i class="bi bi-search absolute right-3 top-1/2 -translate-y-1/2 text-white/60"></i>
         </div>
       </div>
       
-      <div class="md:col-span-2">
-        <div class="relative">
+      <div class="md:w-48">
           <select 
-            class="w-full appearance-none pl-4 pr-10 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-colors bg-white" 
-            bind:value={filters.genre} 
-            on:change={handleSearch}
+          class="w-full bg-dark border border-white/10 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none"
+          bind:value={selectedGenre}
           >
             <option value="">Todos los géneros</option>
             {#each genres as genre}
               <option value={genre}>{genre}</option>
             {/each}
           </select>
-          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </div>
-        </div>
       </div>
       
-      <div class="md:col-span-2">
-        <div class="relative">
+      <div class="md:w-48">
           <select 
-            class="w-full appearance-none pl-4 pr-10 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-colors bg-white" 
-            bind:value={filters.year} 
-            on:change={handleSearch}
-          >
-            <option value="">Todos los años</option>
-            {#each years as year}
-              <option value={year}>{year}</option>
-            {/each}
+          class="w-full bg-dark border border-white/10 rounded-md py-2 px-4 text-white focus:outline-none focus:ring-2 focus:ring-purple-500 appearance-none"
+          bind:value={sortBy}
+        >
+          <option value="rating">Mejor valoradas</option>
+          <option value="release_date">Más recientes</option>
+          <option value="title">Alfabético</option>
           </select>
-          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </div>
-        </div>
       </div>
       
-      <div class="md:col-span-2">
-        <div class="relative">
-          <select 
-            class="w-full appearance-none pl-4 pr-10 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-0 transition-colors bg-white"
-            bind:value={filters.rating}
-            on:change={handleSearch}
-          >
-            <option value="">Todas las calificaciones</option>
-            <option value="5">5 estrellas</option>
-            <option value="4">4+ estrellas</option>
-            <option value="3">3+ estrellas</option>
-          </select>
-          <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-            </svg>
-          </div>
-        </div>
+      <div>
+        <button 
+          class="w-full md:w-auto bg-transparent border border-white/20 text-white py-2 px-4 rounded-md hover:bg-white/10 transition-colors"
+          on:click={resetFilters}
+        >
+          <i class="bi bi-x-circle mr-2"></i>Limpiar
+        </button>
       </div>
-    </div>
-    
-    <div class="mt-4">
-      <button 
-        class="flex items-center text-sm border border-gray-300 rounded-md px-4 py-2 bg-gray-50 hover:bg-gray-100 transition duration-150" 
-        on:click={resetFilters}
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-        Limpiar filtros
-      </button>
     </div>
   </div>
   
-  {#if loading}
-    <div class="text-center my-16">
-      <div class="inline-block w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-      <p class="mt-4 text-lg text-gray-600">Cargando películas...</p>
+  <!-- Lista de películas -->
+  {#if filteredMovies.length === 0}
+    <div class="bg-blue-900/20 border border-blue-500/50 text-blue-200 rounded-md p-4 mb-6">
+      <div class="flex items-center">
+        <i class="bi bi-info-circle mr-3 text-xl"></i>
+        <p>No hay películas disponibles con los filtros seleccionados.</p>
     </div>
-  {:else if error}
-    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-md text-red-700 mb-6">{error}</div>
-  {:else if movies.length === 0}
-    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md text-blue-700 mb-6">
-      No se encontraron películas con los criterios seleccionados.
     </div>
   {:else}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each movies as movie}
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-full transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-          <div class="relative h-60 overflow-hidden">
-            <img 
-              src={movie.photo_url || '/img/default-movie.jpg'} 
-              class="w-full h-full object-cover transform transition-transform duration-500 hover:scale-105" 
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {#each filteredMovies as movie}
+        <div class="bg-card border border-white/10 rounded-lg overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1">
+          <a href={`/movies/${movie.slug}`} class="block relative group">
+            <div class="relative aspect-[2/3] overflow-hidden">
+              <img 
+                src={movie.image_url} 
               alt={movie.title}
-              loading="lazy">
-            {#if movie.rating}
-              <div class="absolute top-3 right-3 bg-yellow-400 text-yellow-800 font-bold rounded-full w-10 h-10 flex items-center justify-center shadow-md">
-                {movie.rating}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span class="bg-purple-800/90 text-white py-2 px-4 rounded-md transform translate-y-4 group-hover:translate-y-0 transition-transform">
+                  Ver detalles
+                </span>
               </div>
-            {/if}
+              <div class="absolute top-2 right-2 bg-purple-800 text-white text-sm px-2 py-1 rounded">
+                {movie.rating.toFixed(1)}
+              </div>
           </div>
-          <div class="p-5 flex-grow">
-            <div class="flex justify-between items-start mb-2">
-              <h2 class="font-bold text-xl text-gray-800">{movie.title}</h2>
+          </a>
+          
+          <div class="p-4">
+            <h3 class="text-lg font-bold text-white mb-1 line-clamp-1">{movie.title}</h3>
+            
+            <div class="flex items-center text-gray-300 text-sm mb-2">
+              <span class="mr-2">{movie.duration} min</span>
+              <span class="text-white/30">•</span>
+              <span class="ml-2">{formatDate(movie.release_date).split('de')[2]}</span>
             </div>
-            <div class="flex items-center mb-3">
-              <span class="text-sm text-gray-500 mr-3">{movie.year || 'Sin año'}</span>
-              {#if movie.genre}
-                <span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{movie.genre}</span>
+            
+            <div class="flex flex-wrap gap-1 mb-3">
+              {#each movie.genres.slice(0, 2) as genre}
+                <span class="bg-white/10 text-white/80 text-xs py-0.5 px-1.5 rounded">
+                  {genre}
+                </span>
+              {/each}
+              {#if movie.genres.length > 2}
+                <span class="bg-white/10 text-white/80 text-xs py-0.5 px-1.5 rounded">
+                  +{movie.genres.length - 2}
+                </span>
               {/if}
             </div>
-            <p class="text-gray-600 line-clamp-3 mb-4 text-sm">{movie.description || 'Sin descripción disponible'}</p>
+            
+            <div class="flex justify-between items-center">
+              <a 
+                href={`/movies/${movie.slug}`} 
+                class="text-purple-400 hover:text-purple-300 text-sm flex items-center"
+              >
+                <i class="bi bi-info-circle mr-1"></i>
+                Detalles
+              </a>
+              
+              <a 
+                href="/bookings/new?movie={movie.id}" 
+                class="bg-purple-800 hover:bg-purple-700 text-white text-sm py-1 px-3 rounded transition-colors"
+              >
+                <i class="bi bi-ticket-perforated mr-1"></i>
+                Comprar
+              </a>
           </div>
-          <div class="px-5 pb-5 border-t border-gray-100 pt-3 mt-auto">
-            <a href={`/movies/${movie.id}`} class="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center font-medium px-4 py-2 rounded-lg transition duration-200">
-              Ver detalles
-            </a>
           </div>
         </div>
       {/each}
     </div>
-
-    <!-- Paginación -->
-    {#if totalPages > 1}
-      <div class="flex justify-center mt-10">
-        <nav class="flex items-center space-x-2">
-          <button 
-            class="px-3 py-2 rounded-md {currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'text-gray-700 hover:bg-gray-100'}"
-            disabled={currentPage === 1}
-            on:click={() => handlePageChange(currentPage - 1)}
-            aria-label="Página anterior"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-            </svg>
-          </button>
-          
-          {#each Array(totalPages) as _, i}
-            {#if i + 1 === currentPage || i + 1 === 1 || i + 1 === totalPages || (i + 1 >= currentPage - 1 && i + 1 <= currentPage + 1)}
-              <button 
-                class="w-10 h-10 rounded-md {i + 1 === currentPage ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-gray-100'}"
-                on:click={() => handlePageChange(i + 1)}
-              >
-                {i + 1}
-              </button>
-            {:else if i + 1 === currentPage - 2 || i + 1 === currentPage + 2}
-              <span class="px-1 text-gray-500">...</span>
-            {/if}
-          {/each}
-          
-          <button 
-            class="px-3 py-2 rounded-md {currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'text-gray-700 hover:bg-gray-100'}"
-            disabled={currentPage === totalPages}
-            on:click={() => handlePageChange(currentPage + 1)}
-            aria-label="Página siguiente"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-            </svg>
-          </button>
-        </nav>
-      </div>
-    {/if}
   {/if}
 </div>

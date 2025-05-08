@@ -1,92 +1,133 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { t } from '$lib/i18n';
+    import { API_URL } from '$lib/config';
+    import { onMount } from 'svelte';
 
-    // Form data
-    let username: string = '';
-    let name: string = '';
-    let email: string = '';
-    let password: string = '';
-    let passwordConfirmation: string = '';
-    let birthdate: string = '';
-
-    // Error handling
-    type ErrorsType = {
-        username?: string;
-        name?: string;
-        email?: string;
-        password?: string;
-        passwordConfirmation?: string;
-        birthdate?: string;
-        [key: string]: string | undefined;
-    };
+    // Datos del formulario
+    let name = '';
+    let email = '';
+    let password = '';
+    let passwordConfirmation = '';
+    let acceptTerms = false;
     
-    let errors: ErrorsType = {};
-    let isSubmitting = false;
-    let registrationSuccess = false;
-    let generalError = '';
+    // Estados
+    let loading = false;
+    let error: string | null = null;
+    let errors: Record<string, string> = {};
+    let currentStep = 1;
+    let totalSteps = 2;
 
-    // Client-side validation
-    function validateForm() {
+    // Validación de campos
+    function validateStep1() {
         errors = {};
+        let isValid = true;
         
-        // Username validation
-        if (!username) {
-            errors.username = $t('usernameRequired');
-        } else if (username.length < 3) {
-            errors.username = $t('usernameMinLength');
+        if (!name.trim()) {
+            errors.name = 'El nombre es obligatorio';
+            isValid = false;
         }
         
-        // Name validation
-        if (!name) {
-            errors.name = $t('nameRequired');
-        }
-        
-        // Email validation
-        if (!email) {
-            errors.email = $t('emailRequired');
+        if (!email.trim()) {
+            errors.email = 'El correo electrónico es obligatorio';
+            isValid = false;
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            errors.email = $t('emailInvalid');
+            errors.email = 'El correo electrónico no es válido';
+            isValid = false;
         }
         
-        // Password validation
+        return isValid;
+    }
+    
+    function validateStep2() {
+        errors = {};
+        let isValid = true;
+        
         if (!password) {
-            errors.password = $t('passwordRequired');
+            errors.password = 'La contraseña es obligatoria';
+            isValid = false;
         } else if (password.length < 8) {
-            errors.password = $t('passwordMinLength');
+            errors.password = 'La contraseña debe tener al menos 8 caracteres';
+            isValid = false;
         }
         
-        // Password confirmation
         if (password !== passwordConfirmation) {
-            errors.passwordConfirmation = $t('passwordsDontMatch');
+            errors.passwordConfirmation = 'Las contraseñas no coinciden';
+            isValid = false;
         }
         
-        // Birthdate validation is optional now
-        if (birthdate) {
-            const today = new Date();
-            const selectedDate = new Date(birthdate);
-            if (selectedDate >= today) {
-                errors.birthdate = $t('birthdateInvalid');
-            }
+        if (!acceptTerms) {
+            errors.acceptTerms = 'Debes aceptar los términos y condiciones';
+            isValid = false;
         }
         
-        return Object.keys(errors).length === 0;
+        return isValid;
+    }
+    
+    function nextStep() {
+        if (currentStep === 1 && validateStep1()) {
+            currentStep = 2;
+        }
+    }
+    
+    function prevStep() {
+        if (currentStep > 1) {
+            currentStep--;
+        }
     }
 
-    async function registerUser(userData: any) {
+    // Envío del formulario
+    async function handleRegister() {
+        if (!validateStep2()) return;
+        
+        error = null;
+        loading = true;
+        
         try {
-            const response = await fetch('http://localhost:8000/api/v1/register', {
+            const response = await fetch(`${API_URL}/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify(userData)
+                body: JSON.stringify({
+                    name,
+                    email,
+                    password,
+                    password_confirmation: passwordConfirmation
+                })
             });
-
+            
             const data = await response.json();
-
-            if (!response.ok) {
+            
+            if (response.ok && data.success) {
+                // Guardar token si la API lo devuelve
+                if (data.token) {
+                    localStorage.setItem('token', data.token);
+                }
+                
+                // Redirigir al usuario
+                goto('/login?registered=true');
+            } else {
                 if (data.errors) {
+                    // Errores de validación del servidor
+                    errors = Object.entries(data.errors).reduce((acc, [key, value]) => {
+                        acc[key] = Array.isArray(value) ? value[0] : value;
+                        return acc;
+                    }, {});
+                } else {
+                    error = data.message || 'Error al registrar la cuenta';
+                }
+            }
+        } catch (err) {
+            error = 'Error de conexión con el servidor';
+        } finally {
+            loading = false;
+        }
+    }
+    
+    // Verificar si ya hay sesión
+    onMount(() => {
                     // Formatear errores específicos de Laravel para mostrarlos
                     const formattedErrors: ErrorsType = {};
                     for (const key in data.errors) {
