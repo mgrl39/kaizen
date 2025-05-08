@@ -19,6 +19,7 @@
   // Estado local para UI
   let mobileMenuOpen = false;
   let scrolled = false;
+  let showAdminConfirmDialog = false;
   
   $: ({ isAuthenticated, isAdmin, userName, notificationCount, loading } = $authState);
   
@@ -79,6 +80,26 @@
   
   function toggleMobileMenu() {
     mobileMenuOpen = !mobileMenuOpen;
+  }
+  
+  // Función para manejar el clic en el enlace de administrador
+  function handleAdminClick(event) {
+    // Prevenir la navegación predeterminada
+    event.preventDefault();
+    
+    // Mostrar el diálogo de confirmación
+    showAdminConfirmDialog = true;
+  }
+  
+  // Función para confirmar y navegar al panel de administrador
+  function confirmAdminAccess() {
+    showAdminConfirmDialog = false;
+    goto('/admin');
+  }
+  
+  // Función para cancelar el acceso al panel de administrador
+  function cancelAdminAccess() {
+    showAdminConfirmDialog = false;
   }
   
   async function fetchProfile() {
@@ -206,6 +227,7 @@
         {#if isAdmin}
           <a 
             href="/admin" 
+            on:click={handleAdminClick}
             class="text-white hover:text-purple-300 px-3 py-2 {isActive('/admin') ? 'border-b-2 border-purple-500' : ''}"
           >
             <i class="bi bi-speedometer2 mr-2"></i>
@@ -402,6 +424,31 @@
     {/if}
   </div>
 </nav>
+
+<!-- Modal de confirmación para acceso al panel de administrador -->
+{#if showAdminConfirmDialog}
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] backdrop-blur-sm">
+    <div class="bg-card border border-white/10 rounded-lg shadow-lg p-6 max-w-md mx-4">
+      <h3 class="text-xl font-semibold text-white mb-2">Acceso a Panel de Administrador</h3>
+      <p class="text-gray-300 mb-6">Está a punto de acceder al panel de administración. ¿Desea continuar?</p>
+      
+      <div class="flex justify-end gap-3">
+        <button 
+          class="px-4 py-2 border border-white/20 text-white rounded hover:bg-white/10 transition-colors"
+          on:click={cancelAdminAccess}
+        >
+          Cancelar
+        </button>
+        <button 
+          class="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-600 transition-colors"
+          on:click={confirmAdminAccess}
+        >
+          Continuar
+        </button>
+      </div>
+    </div>
+  </div>
+{/if}
 
 <style>
   /* Mantenemos solo los selectores globales que ya están funcionando */
