@@ -11,9 +11,9 @@
                  $t('genericErrorTitle');
 </script>
 
-<div class="error-container">
+<div class="flex flex-col items-center justify-center px-4 bg-dark" style="height: calc(100vh - 64px);">
   <div class="w-full max-w-lg text-center">
-    <div class="bg-card border border-white/10 rounded-lg shadow-lg p-8 mb-4">
+    <div class="bg-card border border-white/10 rounded-lg shadow-lg p-8 mb-6">
       <div class="text-6xl font-bold text-purple-500 mb-4">
         {statusCode}
       </div>
@@ -41,34 +41,19 @@
 </div>
 
 <style>
-  .error-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 50;
-    background-color: #121212;
-  }
-  
-  /* Ajustes para tener en cuenta la navbar */
-  .error-container {
-    padding-top: 64px; /* Altura aproximada de la navbar */
-  }
-  
   :global(body) {
-    overflow: hidden;
+    background-color: #121212;
+    color: #f8f9fa;
     margin: 0;
     padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
   
   :global(.bg-card) {
     background-color: #212529;
+  }
+  
+  :global(.bg-dark) {
+    background-color: #121212;
   }
 </style> 

@@ -49,17 +49,17 @@
   <slot />
 {:else if isAuthRoute || isErrorPage}
   <!-- Para rutas de autenticación y páginas de error, sin footer -->
-  <div class="app-wrapper flex flex-col min-h-screen">
-    <!-- Contenido principal -->
-    <main class="container mx-auto py-3 mt-2 flex-grow">
+  <div class="app-wrapper flex flex-col">
+    <!-- Contenido principal con padding-top para la navbar -->
+    <main class="container mx-auto pt-16">
       <slot />
     </main>
   </div>
 {:else}
   <!-- Layout principal con clases Tailwind -->
   <div class="app-wrapper flex flex-col min-h-screen">
-    <!-- Contenido principal -->
-    <main class="container mx-auto py-3 mt-2 flex-grow">
+    <!-- Contenido principal con padding-top para la navbar -->
+    <main class="container mx-auto py-3 pt-16 flex-grow">
       <slot />
     </main>
     
@@ -79,6 +79,7 @@
     background-color: #121212;
     color: #f8f9fa;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 0; /* Quitamos padding del body */
   }
   
   :global(body:not(.admin-route) .card) {
