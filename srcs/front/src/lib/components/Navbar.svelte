@@ -3,9 +3,10 @@
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { API_URL } from '$lib/config';
-  import { t } from '$lib/i18n';
+  import { t, currentLanguage, languages } from '$lib/i18n';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
-  import { writable } from 'svelte/store';
+  import { writable, get } from 'svelte/store';
+  import type { NavItem } from '$lib/types';
   
   // Stores para estado de usuario
   const authState = writable({
@@ -22,35 +23,58 @@
   
   $: ({ isAuthenticated, isAdmin, userName, loading } = $authState);
   
-  // Definir estructura de navegación
-  const navItems = [
+  // Definir estructura de navegación - importado de navbar.ts
+  const navItems: NavItem[] = [
     { 
-      path: '/cinemas', 
+      url: '/cinemas', 
       icon: 'building', 
-      label: 'cinemas'
+      text: 'Cines'
     },
     { 
-      path: '/movies', 
+      url: '/movies', 
       icon: 'film', 
-      label: 'movies'
+      text: 'Películas'
     }
   ];
   
-  // Definir elementos del menú de usuario
-  const userMenuItems = [
+  // Definir elementos del menú de usuario - importado de navbar.ts
+  const userMenu: NavItem[] = [
     { 
-      path: '/profile', 
+      url: '/profile', 
       icon: 'person', 
-      label: 'profile'
+      text: 'Mi Perfil'
     },
     { 
-      path: '/bookings', 
+      url: '/bookings', 
       icon: 'ticket', 
-      label: 'bookings'
+      text: 'Mis Reservas'
+    },
+    { 
+      divider: true, 
+      url: '', 
+      icon: '', 
+      text: '' 
+    },
+    { 
+      url: '#', 
+      icon: 'box-arrow-right', 
+      text: 'Cerrar Sesión', 
+      action: 'logout' 
     }
   ];
+  
+  // Verificar y establecer idioma predeterminado - importado de navbar.ts
+  function setupDefaultLanguage() {
+    if (!languages.includes(get(currentLanguage))) {
+      // Si el idioma no es válido, usar español como predeterminado
+      currentLanguage.set('es');
+    }
+  }
   
   onMount(() => {
+    // Configurar idioma predeterminado
+    setupDefaultLanguage();
+    
     // Cargar estado guardado inmediatamente para reducir parpadeo
     const cachedState = localStorage.getItem('authState');
     if (cachedState) {
@@ -159,7 +183,9 @@
     }
   }
   
-  async function handleLogout() {
+  async function handleLogout(event) {
+    if (event) event.preventDefault();
+    
     const token = localStorage.getItem('token');
     if (token) {
       // Actualizar UI inmediatamente para mejorar percepción de velocidad
@@ -194,6 +220,12 @@
     if (path === '/') return $page.url.pathname === '/';
     return $page.url.pathname.startsWith(path);
   }
+  
+  function handleNavItemClick(item: NavItem, event) {
+    if (item.action === 'logout') {
+      handleLogout(event);
+    }
+  }
 </script>
 
 <nav class="fixed top-0 left-0 right-0 z-50 bg-dark/90 {scrolled ? 'py-2 shadow-lg' : 'py-3'} backdrop-blur-md transition-all">
@@ -210,11 +242,11 @@
       <div class="hidden lg:flex items-center space-x-4 ml-4 flex-grow">
         {#each navItems as item}
           <a 
-            href={item.path} 
-            class="text-white hover:text-purple-300 px-3 py-2 {isActive(item.path) ? 'border-b-2 border-purple-500' : ''}"
+            href={item.url} 
+            class="text-white hover:text-purple-300 px-3 py-2 {isActive(item.url) ? 'border-b-2 border-purple-500' : ''}"
           >
             <i class="bi bi-{item.icon} mr-2"></i>
-            <span>{$t(item.label)}</span>
+            <span>{item.text}</span>
           </a>
         {/each}
         
@@ -234,9 +266,9 @@
       <div class="hidden md:flex lg:hidden items-center space-x-2">
         {#each navItems as item}
           <a 
-            href={item.path} 
-            class="text-white hover:text-purple-300 px-2 py-2 {isActive(item.path) ? 'border-b-2 border-purple-500' : ''}"
-            aria-label={$t(item.label)}
+            href={item.url} 
+            class="text-white hover:text-purple-300 px-2 py-2 {isActive(item.url) ? 'border-b-2 border-purple-500' : ''}"
+            aria-label={item.text}
           >
             <i class="bi bi-{item.icon}"></i>
           </a>
@@ -276,22 +308,20 @@
               </button>
               
               <div class="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg hidden group-hover:block">
-                {#each userMenuItems as item}
-                  <a href={item.path} class="block px-4 py-2 text-white hover:bg-purple-900/20">
-                    <i class="bi bi-{item.icon} mr-2"></i>
-                    {$t(item.label)}
-                  </a>
+                {#each userMenu as item}
+                  {#if item.divider}
+                    <hr class="border-white/10 my-1">
+                  {:else}
+                    <a 
+                      href={item.url} 
+                      class="block px-4 py-2 text-white hover:bg-purple-900/20"
+                      on:click={(e) => handleNavItemClick(item, e)}
+                    >
+                      <i class="bi bi-{item.icon} mr-2"></i>
+                      {item.text}
+                    </a>
+                  {/if}
                 {/each}
-                
-                <hr class="border-white/10 my-1">
-                <button 
-                  class="w-full text-left px-4 py-2 text-white hover:bg-purple-900/20"
-                  on:click={handleLogout}
-                  aria-label={$t('logout')}
-                >
-                  <i class="bi bi-box-arrow-right mr-2"></i>
-                  {$t('logout')}
-                </button>
               </div>
             </div>
           </div>
@@ -324,11 +354,11 @@
         <div class="flex flex-col space-y-2">
           {#each navItems as item}
             <a 
-              href={item.path} 
-              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive(item.path) ? 'bg-white/10' : ''}"
+              href={item.url} 
+              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive(item.url) ? 'bg-white/10' : ''}"
             >
               <i class="bi bi-{item.icon} mr-3 text-lg"></i>
-              <span>{$t(item.label)}</span>
+              <span>{item.text}</span>
             </a>
           {/each}
           
@@ -360,21 +390,18 @@
                 <span class="font-medium">{userName}</span>
               </div>
               
-              {#each userMenuItems as item}
-                <a href={item.path} class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
-                  <i class="bi bi-{item.icon} mr-3 text-lg"></i>
-                  <span>{$t(item.label)}</span>
-                </a>
+              {#each userMenu as item}
+                {#if !item.divider}
+                  <a 
+                    href={item.url} 
+                    class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {item.action === 'logout' ? 'text-red-300 hover:bg-red-900/20' : ''}"
+                    on:click={(e) => handleNavItemClick(item, e)}
+                  >
+                    <i class="bi bi-{item.icon} mr-3 text-lg"></i>
+                    <span>{item.text}</span>
+                  </a>
+                {/if}
               {/each}
-              
-              <button 
-                class="w-full text-left px-3 py-3 text-red-300 hover:bg-red-900/20 rounded-md flex items-center mt-2"
-                on:click={handleLogout}
-                aria-label={$t('logout')}
-              >
-                <i class="bi bi-box-arrow-right mr-3 text-lg"></i>
-                <span>{$t('logout')}</span>
-              </button>
             </div>
           {:else}
             <div class="mt-2 pt-2 border-t border-white/10 px-3 space-y-2">
