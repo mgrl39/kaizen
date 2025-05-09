@@ -12,7 +12,6 @@
     isAuthenticated: false,
     isAdmin: false,
     userName: 'Usuario',
-    notificationCount: 0,
     loading: true
   });
   
@@ -21,7 +20,7 @@
   let scrolled = false;
   let showAdminConfirmDialog = false;
   
-  $: ({ isAuthenticated, isAdmin, userName, notificationCount, loading } = $authState);
+  $: ({ isAuthenticated, isAdmin, userName, loading } = $authState);
   
   // Definir estructura de navegación
   const navItems = [
@@ -109,7 +108,6 @@
         isAuthenticated: false,
         isAdmin: false,
         userName: 'Usuario',
-        notificationCount: 0,
         loading: false
       });
       localStorage.removeItem('authState');
@@ -131,7 +129,6 @@
           isAuthenticated: true,
           isAdmin: data.user.role === 'admin',
           userName: data.user.name || data.user.username,
-          notificationCount: data.notifications?.unread || 0,
           loading: false
         };
         
@@ -145,7 +142,6 @@
           isAuthenticated: false,
           isAdmin: false,
           userName: 'Usuario',
-          notificationCount: 0,
           loading: false
         });
         localStorage.removeItem('token');
@@ -156,7 +152,6 @@
         isAuthenticated: false,
         isAdmin: false,
         userName: 'Usuario',
-        notificationCount: 0,
         loading: false
       });
       localStorage.removeItem('token');
@@ -172,7 +167,6 @@
         isAuthenticated: false,
         isAdmin: false,
         userName: 'Usuario',
-        notificationCount: 0,
         loading: false
       });
       
@@ -273,21 +267,6 @@
           </div>
         {:else if isAuthenticated}
           <div class="flex items-center">
-            <!-- Sólo iconos en md, texto + iconos en lg -->
-            <a 
-              href="/notifications" 
-              class="relative px-2 lg:px-3 py-2 text-white hover:text-purple-300 hover:bg-white/5 rounded-md"
-              aria-label={notificationCount > 0 ? `${$t('notifications')} (${notificationCount})` : $t('notifications')}
-            >
-              <i class="bi bi-bell"></i>
-              <span class="hidden lg:inline ml-2">Notificaciones</span>
-              {#if notificationCount > 0}
-                <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {notificationCount}
-                </span>
-              {/if}
-            </a>
-            
             <div class="relative group ml-1">
               <button class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2"
                 aria-label={$t('userMenu')}>
@@ -388,16 +367,6 @@
                 </a>
               {/each}
               
-              <a href="/notifications" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
-                <i class="bi bi-bell mr-3 text-lg"></i>
-                <span>Notificaciones</span>
-                {#if notificationCount > 0}
-                  <span class="ml-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
-                    {notificationCount}
-                  </span>
-                {/if}
-              </a>
-              
               <button 
                 class="w-full text-left px-3 py-3 text-red-300 hover:bg-red-900/20 rounded-md flex items-center mt-2"
                 on:click={handleLogout}
@@ -475,7 +444,4 @@
     -webkit-text-fill-color: transparent;
     transition: all 0.3s ease;
   }
-  
-  /* Eliminamos todos los selectores no utilizados */
-  /* Si necesitas estos estilos en el futuro, puedes convertirlos a :global() o añadirlos de nuevo */
 </style> 
