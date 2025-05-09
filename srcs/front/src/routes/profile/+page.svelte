@@ -468,7 +468,10 @@
                     alt={movie.title} 
                     class="w-full h-full object-cover"
                   />
-                  <button class="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors">
+                  <button 
+                    class="absolute top-2 right-2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+                    aria-label="Remove from favorites"
+                  >
                     <i class="bi bi-heart-fill text-red-500"></i>
                   </button>
                 </div>
