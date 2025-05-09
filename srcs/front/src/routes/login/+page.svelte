@@ -49,16 +49,16 @@
 <Navbar />
 
 <!-- Main content with proper centering -->
-<div class="flex flex-col items-center justify-center px-4 py-10 bg-dark" style="min-height: calc(100vh - 64px);">
+<div class="flex flex-col items-center justify-center px-4 bg-dark" style="height: calc(100vh - 64px);">
   <div class="w-full max-w-md">
     <!-- Logo y título -->
-    <div class="text-center mb-6">
+    <div class="text-center mb-4">
       <h1 class="text-3xl font-bold text-white mb-2">Iniciar Sesión</h1>
       <p class="text-gray-400">Bienvenido de nuevo a Kaizen Cinema</p>
     </div>
     
     <!-- Tarjeta de login -->
-    <div class="bg-card border border-white/10 rounded-lg shadow-lg p-6">
+    <div class="bg-card border border-white/10 rounded-lg shadow-lg p-5">
       {#if showError}
         <div class="bg-red-900/20 border border-red-500/30 text-red-200 rounded-md p-3 mb-4">
           <p>{errorMessage}</p>
@@ -66,32 +66,35 @@
       {/if}
       
       <form on:submit|preventDefault={submitForm} class="space-y-4">
-        <div>
-          <label for="identifier" class="block text-sm font-medium text-gray-300 mb-1">
-            Email o nombre de usuario
-          </label>
-          <input
-            type="text"
-            id="identifier"
-            bind:value={identifier}
-            required
-            class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
-            placeholder="usuario@email.com"
-          />
-        </div>
-        
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-300 mb-1">
-            Contraseña
-          </label>
-          <input
-            type="password"
-            id="password"
-            bind:value={password}
-            required
-            class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
-            placeholder="••••••••"
-          />
+        <!-- Inputs side by side -->
+        <div class="flex flex-col md:flex-row gap-4">
+          <div class="flex-1">
+            <label for="identifier" class="block text-sm font-medium text-gray-300 mb-1">
+              Email o nombre de usuario
+            </label>
+            <input
+              type="text"
+              id="identifier"
+              bind:value={identifier}
+              required
+              class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+              placeholder="usuario@email.com"
+            />
+          </div>
+          
+          <div class="flex-1">
+            <label for="password" class="block text-sm font-medium text-gray-300 mb-1">
+              Contraseña
+            </label>
+            <input
+              type="password"
+              id="password"
+              bind:value={password}
+              required
+              class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+              placeholder="••••••••"
+            />
+          </div>
         </div>
         
         <div class="flex items-center justify-between">

@@ -15,13 +15,16 @@
   
   // Check if current route should have navbar/footer
   $: showNavbar = !routesWithoutNavbar.includes($page.url.pathname);
-  $: showFooter = !routesWithoutFooter.includes($page.url.pathname);
+  $: showFooter = !routesWithoutFooter.includes($page.url.pathname) && !$page.error;
   
   // Verificar si estamos en rutas de admin
   $: isAdminRoute = $page.url.pathname.startsWith('/admin');
   
   // Verificar si estamos en rutas de login/register
   $: isAuthRoute = routesWithoutFooter.includes($page.url.pathname);
+  
+  // Verificar si estamos en una página de error
+  $: isErrorPage = !!$page.error;
 </script>
 
 <!-- Añadimos la etiqueta para gestionar clases del body -->
@@ -44,19 +47,19 @@
 {#if isAdminRoute}
   <!-- Para rutas admin, SOLO se pasa el contenido sin nada más -->
   <slot />
-{:else if isAuthRoute}
-  <!-- Para rutas de autenticación, sin footer -->
-  <div class="app-wrapper flex flex-col min-h-screen">
-    <!-- Contenido principal -->
-    <main class="container mx-auto py-3 mt-2 flex-grow">
+{:else if isAuthRoute || isErrorPage}
+  <!-- Para rutas de autenticación y páginas de error, sin footer -->
+  <div class="app-wrapper flex flex-col">
+    <!-- Contenido principal con padding-top para la navbar -->
+    <main class="container mx-auto pt-16">
       <slot />
     </main>
   </div>
 {:else}
   <!-- Layout principal con clases Tailwind -->
   <div class="app-wrapper flex flex-col min-h-screen">
-    <!-- Contenido principal -->
-    <main class="container mx-auto py-3 mt-2 flex-grow">
+    <!-- Contenido principal con padding-top para la navbar -->
+    <main class="container mx-auto py-3 pt-16 flex-grow">
       <slot />
     </main>
     
@@ -76,6 +79,7 @@
     background-color: #121212;
     color: #f8f9fa;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 0; /* Quitamos padding del body */
   }
   
   :global(body:not(.admin-route) .card) {
