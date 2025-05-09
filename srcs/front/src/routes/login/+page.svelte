@@ -53,8 +53,8 @@
   <div class="w-full max-w-md">
     <!-- Logo y título -->
     <div class="text-center mb-4">
-      <h1 class="text-3xl font-bold text-white mb-2">Iniciar Sesión</h1>
-      <p class="text-gray-400">Bienvenido de nuevo a Kaizen Cinema</p>
+      <h1 class="text-3xl font-bold text-white mb-2">{$t('login')}</h1>
+      <p class="text-gray-400">{$t('welcomeBack')}</p>
     </div>
     
     <!-- Tarjeta de login -->
@@ -70,7 +70,7 @@
         <div class="flex flex-col md:flex-row gap-4">
           <div class="flex-1">
             <label for="identifier" class="block text-sm font-medium text-gray-300 mb-1">
-              Email o nombre de usuario
+              {$t('emailOrUsername')}
             </label>
             <input
               type="text"
@@ -78,13 +78,13 @@
               bind:value={identifier}
               required
               class="w-full bg-dark border border-white/10 rounded-md py-2 px-3 text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
-              placeholder="usuario@email.com"
+              placeholder={$t('emailPlaceholder')}
             />
           </div>
           
           <div class="flex-1">
             <label for="password" class="block text-sm font-medium text-gray-300 mb-1">
-              Contraseña
+              {$t('password')}
             </label>
             <input
               type="password"
@@ -104,18 +104,18 @@
         >
           {#if loading}
             <i class="bi bi-arrow-repeat spin-animation mr-2"></i>
-            Iniciando sesión...
+            {$t('loggingIn')}
           {:else}
-            Iniciar sesión
+            {$t('login')}
           {/if}
         </button>
       </form>
       
       <div class="mt-4 text-center">
         <p class="text-sm text-gray-400">
-          ¿No tienes una cuenta?
+          {$t('noAccount')}
           <a href="/register" class="text-purple-400 hover:text-purple-300 font-medium">
-            Regístrate
+            {$t('register')}
           </a>
         </p>
       </div>
