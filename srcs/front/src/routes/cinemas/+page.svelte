@@ -159,13 +159,13 @@
       <div class="mt-6">
         <h4 class="font-bold text-white mb-3">Síguenos</h4>
         <div class="flex space-x-3">
-          <a href="#" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
+          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
             <i class="bi bi-facebook text-lg"></i>
           </a>
-          <a href="#" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
+          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
             <i class="bi bi-instagram text-lg"></i>
           </a>
-          <a href="#" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
+          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
             <i class="bi bi-twitter text-lg"></i>
           </a>
         </div>

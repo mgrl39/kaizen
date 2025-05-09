@@ -56,7 +56,7 @@
       text: '' 
     },
     { 
-      url: '#', 
+      url: '#logout', 
       icon: 'box-arrow-right', 
       text: 'Cerrar Sesión', 
       action: 'logout' 
@@ -423,9 +423,14 @@
 
 <!-- Modal de confirmación para acceso al panel de administrador -->
 {#if showAdminConfirmDialog}
-  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] backdrop-blur-sm">
+  <div 
+    class="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="admin-dialog-title"
+  >
     <div class="bg-card border border-white/10 rounded-lg shadow-lg p-6 max-w-md mx-4">
-      <h3 class="text-xl font-semibold text-white mb-2">Acceso a Panel de Administrador</h3>
+      <h3 id="admin-dialog-title" class="text-xl font-semibold text-white mb-2">Acceso a Panel de Administrador</h3>
       <p class="text-gray-300 mb-6">Está a punto de acceder al panel de administración. ¿Desea continuar?</p>
       
       <div class="flex justify-end gap-3">
