@@ -150,7 +150,7 @@
   }
 </script>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
+<div>
   <h2 class="text-3xl font-bold mb-8 section-title">Cartelera</h2>
   
   <!-- Películas destacadas - Carrusel -->

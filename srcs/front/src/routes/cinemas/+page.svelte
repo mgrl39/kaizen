@@ -29,10 +29,7 @@
   ];
 </script>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
-  <h2 class="text-3xl font-bold mb-8 section-title">Nuestro Cine</h2>
-  
-  <!-- Hero section con imagen principal -->
+<div>
   <div class="relative rounded-xl overflow-hidden mb-8 h-64 md:h-80">
     <img 
       src={cinema.image_url} 
