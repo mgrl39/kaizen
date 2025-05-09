@@ -97,33 +97,13 @@
           </div>
         </div>
         
-        <div class="flex items-center justify-between">
-          <div class="flex items-center">
-            <input
-              type="checkbox"
-              id="remember-me"
-              class="h-4 w-4 rounded border-gray-600 bg-dark text-purple-600 focus:ring-purple-500"
-            />
-            <label for="remember-me" class="ml-2 block text-sm text-gray-300">
-              Recordarme
-            </label>
-          </div>
-          
-          <a href="/forgot-password" class="text-sm text-purple-400 hover:text-purple-300">
-            ¿Olvidaste tu contraseña?
-          </a>
-        </div>
-        
         <button
           type="submit"
           disabled={loading}
           class="w-full bg-purple-700 hover:bg-purple-600 text-white py-2 px-4 rounded-md transition-colors"
         >
           {#if loading}
-            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
+            <i class="bi bi-arrow-repeat spin-animation mr-2"></i>
             Iniciando sesión...
           {:else}
             Iniciar sesión
@@ -159,5 +139,16 @@
   
   :global(.bg-dark) {
     background-color: #121212;
+  }
+  
+  /* Animación para el icono de carga */
+  .spin-animation {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 </style>
