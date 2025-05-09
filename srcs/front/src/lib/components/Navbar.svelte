@@ -20,6 +20,8 @@
   let mobileMenuOpen = false;
   let scrolled = false;
   let showAdminConfirmDialog = false;
+  let userMenuOpen = false;
+  let languageSelectorOpen = false;
   
   $: ({ isAuthenticated, isAdmin, userName, loading } = $authState);
   
@@ -71,6 +73,44 @@
     }
   }
   
+  function toggleMobileMenu() {
+    mobileMenuOpen = !mobileMenuOpen;
+  }
+  
+  function toggleUserMenu() {
+    userMenuOpen = !userMenuOpen;
+    // Cerrar el selector de idioma si está abierto
+    if (userMenuOpen) {
+      languageSelectorOpen = false;
+    }
+  }
+  
+  function toggleLanguageSelector() {
+    languageSelectorOpen = !languageSelectorOpen;
+    // Cerrar el menú de usuario si está abierto
+    if (languageSelectorOpen) {
+      userMenuOpen = false;
+    }
+  }
+  
+  // Función para cerrar el menú de usuario cuando se hace clic fuera
+  function handleClickOutside(event: MouseEvent) {
+    const userMenu = document.getElementById('user-menu-dropdown');
+    const userButton = document.getElementById('user-menu-button');
+    const langSelector = document.getElementById('language-selector-dropdown');
+    const langButton = document.getElementById('language-selector-button');
+    
+    // Cerrar menú de usuario si el clic fue fuera
+    if (userMenu && userButton && !userMenu.contains(event.target as Node) && !userButton.contains(event.target as Node)) {
+      userMenuOpen = false;
+    }
+    
+    // Cerrar selector de idioma si el clic fue fuera
+    if (langSelector && langButton && !langSelector.contains(event.target as Node) && !langButton.contains(event.target as Node)) {
+      languageSelectorOpen = false;
+    }
+  }
+  
   onMount(() => {
     // Configurar idioma predeterminado
     setupDefaultLanguage();
@@ -96,14 +136,14 @@
     };
     window.addEventListener('scroll', handleScroll);
     
+    // Añadir event listener para cerrar el menú al hacer clic fuera
+    document.addEventListener('click', handleClickOutside);
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('click', handleClickOutside);
     };
   });
-  
-  function toggleMobileMenu() {
-    mobileMenuOpen = !mobileMenuOpen;
-  }
   
   // Función para manejar el clic en el enlace de administrador
   function handleAdminClick(event) {
@@ -234,7 +274,7 @@
     <div class="flex items-center justify-between h-12">
       
       <!-- Logo - siempre visible -->
-      <a href="/" class="text-xl font-bold text-white whitespace-nowrap">
+      <a href="/" class="text-xl font-bold text-white whitespace-nowrap logo-text">
         Kaizen
       </a>
       
@@ -289,7 +329,7 @@
       <div class="hidden md:flex items-center ml-auto">
         <!-- Selector de idioma - versión compacta en md -->
         <div class="mr-2">
-          <LanguageSelector />
+          <LanguageSelector isOpen={languageSelectorOpen} toggleMenu={toggleLanguageSelector} />
         </div>
         
         {#if loading}
@@ -299,15 +339,22 @@
           </div>
         {:else if isAuthenticated}
           <div class="flex items-center">
-            <div class="relative group ml-1">
-              <button class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2"
-                aria-label={$t('userMenu')}>
+            <div class="relative ml-1">
+              <button 
+                id="user-menu-button"
+                class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2"
+                aria-label={$t('userMenu')}
+                on:click|stopPropagation={toggleUserMenu}
+              >
                 <i class="bi bi-person-circle"></i>
                 <span class="hidden lg:inline ml-2">{userName}</span>
                 <i class="bi bi-chevron-down text-xs ml-1"></i>
               </button>
               
-              <div class="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg hidden group-hover:block">
+              <div 
+                id="user-menu-dropdown"
+                class="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg {userMenuOpen ? 'block' : 'hidden'}"
+              >
                 {#each userMenu as item}
                   {#if item.divider}
                     <hr class="border-white/10 my-1">
@@ -374,7 +421,7 @@
           
           <!-- Selector de idioma en móvil -->
           <div class="px-3 py-2">
-            <LanguageSelector />
+            <LanguageSelector isOpen={languageSelectorOpen} toggleMenu={toggleLanguageSelector} />
           </div>
           
           {#if loading}
