@@ -146,7 +146,7 @@
   });
   
   // Función para manejar el clic en el enlace de administrador
-  function handleAdminClick(event) {
+  function handleAdminClick(event: MouseEvent) {
     // Prevenir la navegación predeterminada
     event.preventDefault();
     
@@ -223,7 +223,7 @@
     }
   }
   
-  async function handleLogout(event) {
+  async function handleLogout(event: MouseEvent | null) {
     if (event) event.preventDefault();
     
     const token = localStorage.getItem('token');
@@ -261,7 +261,7 @@
     return $page.url.pathname.startsWith(path);
   }
   
-  function handleNavItemClick(item: NavItem, event) {
+  function handleNavItemClick(item: NavItem, event: MouseEvent) {
     if (item.action === 'logout') {
       handleLogout(event);
     }
@@ -387,7 +387,7 @@
       
       <!-- Botón de menú móvil - solo visible en pantallas pequeñas -->
       <button 
-        class="md:hidden p-2 text-white hover:bg-white/10 rounded-md"
+        class="md:hidden p-2 text-white hover:bg-purple-700/30 rounded-md transition-colors"
         on:click={toggleMobileMenu}
         aria-label={$t('toggleMenu')}
       >
@@ -397,51 +397,74 @@
     
     <!-- Menú móvil - solo visible en pantallas pequeñas cuando está abierto -->
     {#if mobileMenuOpen}
-      <div class="md:hidden py-3 bg-dark border-t border-white/10 mt-2">
-        <div class="flex flex-col space-y-2">
+      <div class="md:hidden py-3 bg-dark/95 border-t border-purple-500/20 mt-2 backdrop-blur-lg rounded-b-lg shadow-lg">
+        <div class="flex flex-col">
           {#each navItems as item}
             <a 
               href={item.url} 
-              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive(item.url) ? 'bg-white/10' : ''}"
+              class="text-white hover:bg-purple-700/20 px-4 py-3 flex items-center transition-colors {isActive(item.url) ? 'bg-purple-700/30 border-l-4 border-purple-500' : ''}"
             >
-              <i class="bi bi-{item.icon} mr-3 text-lg"></i>
-              <span>{item.text}</span>
+              <i class="bi bi-{item.icon} mr-3 text-lg {isActive(item.url) ? 'text-purple-400' : 'text-gray-400'}"></i>
+              <span class="font-medium">{item.text}</span>
             </a>
           {/each}
           
           {#if isAdmin}
             <a 
               href="/admin" 
-              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/admin') ? 'bg-white/10' : ''}"
+              class="text-white hover:bg-purple-700/20 px-4 py-3 flex items-center transition-colors {isActive('/admin') ? 'bg-purple-700/30 border-l-4 border-purple-500' : ''}"
             >
-              <i class="bi bi-speedometer2 mr-3 text-lg"></i>
-              <span>{$t('adminPanel')}</span>
+              <i class="bi bi-speedometer2 mr-3 text-lg {isActive('/admin') ? 'text-purple-400' : 'text-gray-400'}"></i>
+              <span class="font-medium">{$t('adminPanel')}</span>
             </a>
           {/if}
           
           <!-- Selector de idioma en móvil -->
-          <div class="px-3 py-2">
-            <LanguageSelector isOpen={languageSelectorOpen} toggleMenu={toggleLanguageSelector} />
+          <div class="border-t border-white/10 mt-2">
+            <div class="flex justify-between items-center px-4 py-3">
+              <p class="text-sm font-medium text-white">Idioma</p>
+              <div class="flex space-x-2">
+                <button 
+                  class="px-3 py-1.5 rounded-md flex items-center justify-center {$currentLanguage === 'es' ? 'bg-purple-700 text-white' : 'bg-dark/50 text-gray-400'}"
+                  on:click={() => { currentLanguage.set('es'); }}
+                >
+                  <span class="mr-1">🇪🇸</span>
+                  <span class="font-medium">ES</span>
+                </button>
+                <button 
+                  class="px-3 py-1.5 rounded-md flex items-center justify-center {$currentLanguage === 'en' ? 'bg-purple-700 text-white' : 'bg-dark/50 text-gray-400'}"
+                  on:click={() => { currentLanguage.set('en'); }}
+                >
+                  <span class="mr-1">🇬🇧</span>
+                  <span class="font-medium">EN</span>
+                </button>
+              </div>
+            </div>
           </div>
           
           {#if loading}
             <!-- Placeholder durante carga -->
-            <div class="mt-2 pt-2 border-t border-white/10 px-3">
-              <div class="h-10 bg-white/10 rounded animate-pulse my-2"></div>
-              <div class="h-10 bg-white/10 rounded animate-pulse my-2"></div>
+            <div class="mt-2 pt-2 border-t border-white/10 px-4">
+              <div class="h-10 bg-white/10 rounded-md animate-pulse my-2"></div>
+              <div class="h-10 bg-white/10 rounded-md animate-pulse my-2"></div>
             </div>
           {:else if isAuthenticated}
             <div class="mt-2 pt-2 border-t border-white/10">
-              <div class="px-3 py-2 flex items-center">
-                <i class="bi bi-person-circle mr-2 text-lg"></i>
-                <span class="font-medium">{userName}</span>
+              <div class="px-4 py-3 flex items-center">
+                <div class="w-8 h-8 rounded-full bg-purple-700/30 flex items-center justify-center mr-3">
+                  <i class="bi bi-person-circle text-lg text-purple-300"></i>
+                </div>
+                <div>
+                  <p class="font-medium">{userName}</p>
+                  <p class="text-xs text-gray-400">Usuario autenticado</p>
+                </div>
               </div>
               
               {#each userMenu as item}
                 {#if !item.divider}
                   <a 
                     href={item.url} 
-                    class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {item.action === 'logout' ? 'text-red-300 hover:bg-red-900/20' : ''}"
+                    class="text-white hover:bg-purple-700/20 px-4 py-3 flex items-center transition-colors {item.action === 'logout' ? 'text-red-300 hover:bg-red-900/20' : ''}"
                     on:click={(e) => handleNavItemClick(item, e)}
                   >
                     <i class="bi bi-{item.icon} mr-3 text-lg"></i>
@@ -451,14 +474,14 @@
               {/each}
             </div>
           {:else}
-            <div class="mt-2 pt-2 border-t border-white/10 px-3 space-y-2">
-              <a href="/login" class="flex items-center justify-center bg-purple-800 text-white p-3 rounded-md">
+            <div class="mt-2 pt-3 border-t border-white/10 px-4 space-y-3">
+              <a href="/login" class="flex items-center justify-center bg-purple-800 text-white p-3 rounded-md hover:bg-purple-700 transition-colors">
                 <i class="bi bi-box-arrow-in-right mr-2"></i>
-                <span>{$t('login')}</span>
+                <span class="font-medium">{$t('login')}</span>
               </a>
               
-              <a href="/register" class="flex items-center justify-center border border-white text-white p-3 rounded-md hover:bg-white/10">
-                <span>{$t('register')}</span>
+              <a href="/register" class="flex items-center justify-center border border-purple-500/50 text-white p-3 rounded-md hover:bg-purple-700/20 transition-colors">
+                <span class="font-medium">{$t('register')}</span>
               </a>
             </div>
           {/if}
