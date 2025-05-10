@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { handleSubmit } from './login';
   import { t } from '$lib/i18n';
   import { onMount } from 'svelte';
+  import { API_URL } from '$lib/config';
   import Navbar from '$lib/components/Navbar.svelte';
   
   // Importar estilos globales necesarios
@@ -26,14 +26,39 @@
     errorMessage = value;
   }
   
+  // Función de manejo de login integrada directamente en el componente
+  async function handleSubmit() {
+    setLoading(true);
+    setShowError(false);
+
+    try {
+      const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ identifier, password })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        localStorage.setItem('token', data.token);
+        window.location.href = '/';
+      } else {
+        setErrorMessage(data.message || 'Credenciales incorrectas');
+        setShowError(true);
+      }
+    } catch (error) {
+      setErrorMessage('Error de conexión con el servidor');
+      setShowError(true);
+    } finally {
+      setLoading(false);
+    }
+  }
+  
   function submitForm() {
-    handleSubmit({
-      identifier,
-      password,
-      setLoading,
-      setShowError,
-      setErrorMessage
-    });
+    handleSubmit();
   }
   
   // Verificar si ya hay sesión

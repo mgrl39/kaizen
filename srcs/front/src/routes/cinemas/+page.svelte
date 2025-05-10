@@ -1,6 +1,11 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { page } from '$app/stores';
   import HeroBanner from '$lib/components/HeroBanner.svelte';
+
+  // Obtener parámetros de búsqueda de la URL
+  $: searchQuery = $page.url.searchParams.get('search') || '';
+  $: locationFilter = $page.url.searchParams.get('location') || '';
 
   // Datos hardcodeados del cine
   const cinema = {
