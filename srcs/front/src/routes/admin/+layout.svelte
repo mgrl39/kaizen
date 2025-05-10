@@ -21,7 +21,7 @@
   ];
   
   // Función para verificar si una ruta está activa
-  function isActive(path) {
+  function isActive(path: string) {
     if (path === '/admin') {
       return $page.url.pathname === '/admin' || $page.url.pathname === '/admin/';
     }
@@ -130,12 +130,29 @@
   
   <!-- Modal de confirmación para salir -->
   {#if showExitConfirmation}
-    <div class="modal-backdrop" on:click={cancelExit} on:keydown={(e) => e.key === 'Escape' && cancelExit()}>
-      <div class="modal-content" on:click|stopPropagation>
+    <div 
+      class="modal-backdrop" 
+      on:click={cancelExit} 
+      on:keydown={(e) => e.key === 'Escape' && cancelExit()}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+    >
+      <div 
+        class="modal-content" 
+        on:click|stopPropagation 
+        on:keydown|stopPropagation
+        tabindex="0"
+        role="document"
+      >
         <div class="modal-header">
-          <h3>¿Salir del panel de administración?</h3>
-          <button class="close-button" on:click={cancelExit}>
-            <i class="bi bi-x-lg"></i>
+          <h3 id="modal-title">¿Salir del panel de administración?</h3>
+          <button 
+            class="close-button" 
+            on:click={cancelExit}
+            aria-label="Cerrar diálogo"
+          >
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
           </button>
         </div>
         <div class="modal-body">
