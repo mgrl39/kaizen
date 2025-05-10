@@ -3,16 +3,16 @@
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { API_URL } from '$lib/config';
-  import { t } from '$lib/i18n';
+  import { t, currentLanguage, languages } from '$lib/i18n';
   import LanguageSelector from '$lib/components/LanguageSelector.svelte';
-  import { writable } from 'svelte/store';
+  import { writable, get } from 'svelte/store';
+  import type { NavItem } from '$lib/types';
   
   // Stores para estado de usuario
   const authState = writable({
     isAuthenticated: false,
     isAdmin: false,
     userName: 'Usuario',
-    notificationCount: 0,
     loading: true
   });
   
@@ -20,38 +20,101 @@
   let mobileMenuOpen = false;
   let scrolled = false;
   let showAdminConfirmDialog = false;
+  let userMenuOpen = false;
+  let languageSelectorOpen = false;
   
-  $: ({ isAuthenticated, isAdmin, userName, notificationCount, loading } = $authState);
+  $: ({ isAuthenticated, isAdmin, userName, loading } = $authState);
   
-  // Definir estructura de navegación
-  const navItems = [
+  // Definir estructura de navegación - importado de navbar.ts
+  const navItems: NavItem[] = [
     { 
-      path: '/cinemas', 
+      url: '/cinemas', 
       icon: 'building', 
-      label: 'cinemas'
+      text: 'Cines'
     },
     { 
-      path: '/movies', 
+      url: '/movies', 
       icon: 'film', 
-      label: 'movies'
+      text: 'Películas'
     }
   ];
   
-  // Definir elementos del menú de usuario
-  const userMenuItems = [
+  // Definir elementos del menú de usuario - importado de navbar.ts
+  const userMenu: NavItem[] = [
     { 
-      path: '/profile', 
+      url: '/profile', 
       icon: 'person', 
-      label: 'profile'
+      text: 'Mi Perfil'
     },
     { 
-      path: '/bookings', 
+      url: '/bookings', 
       icon: 'ticket', 
-      label: 'bookings'
+      text: 'Mis Reservas'
+    },
+    { 
+      divider: true, 
+      url: '', 
+      icon: '', 
+      text: '' 
+    },
+    { 
+      url: '#logout', 
+      icon: 'box-arrow-right', 
+      text: 'Cerrar Sesión', 
+      action: 'logout' 
     }
   ];
+  
+  // Verificar y establecer idioma predeterminado - importado de navbar.ts
+  function setupDefaultLanguage() {
+    if (!languages.includes(get(currentLanguage))) {
+      // Si el idioma no es válido, usar español como predeterminado
+      currentLanguage.set('es');
+    }
+  }
+  
+  function toggleMobileMenu() {
+    mobileMenuOpen = !mobileMenuOpen;
+  }
+  
+  function toggleUserMenu() {
+    userMenuOpen = !userMenuOpen;
+    // Cerrar el selector de idioma si está abierto
+    if (userMenuOpen) {
+      languageSelectorOpen = false;
+    }
+  }
+  
+  function toggleLanguageSelector() {
+    languageSelectorOpen = !languageSelectorOpen;
+    // Cerrar el menú de usuario si está abierto
+    if (languageSelectorOpen) {
+      userMenuOpen = false;
+    }
+  }
+  
+  // Función para cerrar el menú de usuario cuando se hace clic fuera
+  function handleClickOutside(event: MouseEvent) {
+    const userMenu = document.getElementById('user-menu-dropdown');
+    const userButton = document.getElementById('user-menu-button');
+    const langSelector = document.getElementById('language-selector-dropdown');
+    const langButton = document.getElementById('language-selector-button');
+    
+    // Cerrar menú de usuario si el clic fue fuera
+    if (userMenu && userButton && !userMenu.contains(event.target as Node) && !userButton.contains(event.target as Node)) {
+      userMenuOpen = false;
+    }
+    
+    // Cerrar selector de idioma si el clic fue fuera
+    if (langSelector && langButton && !langSelector.contains(event.target as Node) && !langButton.contains(event.target as Node)) {
+      languageSelectorOpen = false;
+    }
+  }
   
   onMount(() => {
+    // Configurar idioma predeterminado
+    setupDefaultLanguage();
+    
     // Cargar estado guardado inmediatamente para reducir parpadeo
     const cachedState = localStorage.getItem('authState');
     if (cachedState) {
@@ -73,17 +136,17 @@
     };
     window.addEventListener('scroll', handleScroll);
     
+    // Añadir event listener para cerrar el menú al hacer clic fuera
+    document.addEventListener('click', handleClickOutside);
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('click', handleClickOutside);
     };
   });
   
-  function toggleMobileMenu() {
-    mobileMenuOpen = !mobileMenuOpen;
-  }
-  
   // Función para manejar el clic en el enlace de administrador
-  function handleAdminClick(event) {
+  function handleAdminClick(event: MouseEvent) {
     // Prevenir la navegación predeterminada
     event.preventDefault();
     
@@ -109,7 +172,6 @@
         isAuthenticated: false,
         isAdmin: false,
         userName: 'Usuario',
-        notificationCount: 0,
         loading: false
       });
       localStorage.removeItem('authState');
@@ -131,7 +193,6 @@
           isAuthenticated: true,
           isAdmin: data.user.role === 'admin',
           userName: data.user.name || data.user.username,
-          notificationCount: data.notifications?.unread || 0,
           loading: false
         };
         
@@ -145,7 +206,6 @@
           isAuthenticated: false,
           isAdmin: false,
           userName: 'Usuario',
-          notificationCount: 0,
           loading: false
         });
         localStorage.removeItem('token');
@@ -156,7 +216,6 @@
         isAuthenticated: false,
         isAdmin: false,
         userName: 'Usuario',
-        notificationCount: 0,
         loading: false
       });
       localStorage.removeItem('token');
@@ -164,7 +223,9 @@
     }
   }
   
-  async function handleLogout() {
+  async function handleLogout(event: MouseEvent | null) {
+    if (event) event.preventDefault();
+    
     const token = localStorage.getItem('token');
     if (token) {
       // Actualizar UI inmediatamente para mejorar percepción de velocidad
@@ -172,7 +233,6 @@
         isAuthenticated: false,
         isAdmin: false,
         userName: 'Usuario',
-        notificationCount: 0,
         loading: false
       });
       
@@ -200,6 +260,12 @@
     if (path === '/') return $page.url.pathname === '/';
     return $page.url.pathname.startsWith(path);
   }
+  
+  function handleNavItemClick(item: NavItem, event: MouseEvent) {
+    if (item.action === 'logout') {
+      handleLogout(event);
+    }
+  }
 </script>
 
 <nav class="fixed top-0 left-0 right-0 z-50 bg-dark/90 {scrolled ? 'py-2 shadow-lg' : 'py-3'} backdrop-blur-md transition-all">
@@ -208,7 +274,7 @@
     <div class="flex items-center justify-between h-12">
       
       <!-- Logo - siempre visible -->
-      <a href="/" class="text-xl font-bold text-white whitespace-nowrap">
+      <a href="/" class="text-xl font-bold text-white whitespace-nowrap logo-text">
         Kaizen
       </a>
       
@@ -216,11 +282,11 @@
       <div class="hidden lg:flex items-center space-x-4 ml-4 flex-grow">
         {#each navItems as item}
           <a 
-            href={item.path} 
-            class="text-white hover:text-purple-300 px-3 py-2 {isActive(item.path) ? 'border-b-2 border-purple-500' : ''}"
+            href={item.url} 
+            class="text-white hover:text-purple-300 px-3 py-2 {isActive(item.url) ? 'border-b-2 border-purple-500' : ''}"
           >
             <i class="bi bi-{item.icon} mr-2"></i>
-            <span>{$t(item.label)}</span>
+            <span>{item.text}</span>
           </a>
         {/each}
         
@@ -240,9 +306,9 @@
       <div class="hidden md:flex lg:hidden items-center space-x-2">
         {#each navItems as item}
           <a 
-            href={item.path} 
-            class="text-white hover:text-purple-300 px-2 py-2 {isActive(item.path) ? 'border-b-2 border-purple-500' : ''}"
-            aria-label={$t(item.label)}
+            href={item.url} 
+            class="text-white hover:text-purple-300 px-2 py-2 {isActive(item.url) ? 'border-b-2 border-purple-500' : ''}"
+            aria-label={item.text}
           >
             <i class="bi bi-{item.icon}"></i>
           </a>
@@ -263,7 +329,7 @@
       <div class="hidden md:flex items-center ml-auto">
         <!-- Selector de idioma - versión compacta en md -->
         <div class="mr-2">
-          <LanguageSelector />
+          <LanguageSelector isOpen={languageSelectorOpen} toggleMenu={toggleLanguageSelector} />
         </div>
         
         {#if loading}
@@ -273,46 +339,36 @@
           </div>
         {:else if isAuthenticated}
           <div class="flex items-center">
-            <!-- Sólo iconos en md, texto + iconos en lg -->
-            <a 
-              href="/notifications" 
-              class="relative px-2 lg:px-3 py-2 text-white hover:text-purple-300 hover:bg-white/5 rounded-md"
-              aria-label={notificationCount > 0 ? `${$t('notifications')} (${notificationCount})` : $t('notifications')}
-            >
-              <i class="bi bi-bell"></i>
-              <span class="hidden lg:inline ml-2">Notificaciones</span>
-              {#if notificationCount > 0}
-                <span class="absolute -top-1 -right-1 bg-red-600 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                  {notificationCount}
-                </span>
-              {/if}
-            </a>
-            
-            <div class="relative group ml-1">
-              <button class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2"
-                aria-label={$t('userMenu')}>
+            <div class="relative ml-1">
+              <button 
+                id="user-menu-button"
+                class="flex items-center text-white hover:text-purple-300 px-2 lg:px-3 py-2"
+                aria-label={$t('userMenu')}
+                on:click|stopPropagation={toggleUserMenu}
+              >
                 <i class="bi bi-person-circle"></i>
                 <span class="hidden lg:inline ml-2">{userName}</span>
                 <i class="bi bi-chevron-down text-xs ml-1"></i>
               </button>
               
-              <div class="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg hidden group-hover:block">
-                {#each userMenuItems as item}
-                  <a href={item.path} class="block px-4 py-2 text-white hover:bg-purple-900/20">
-                    <i class="bi bi-{item.icon} mr-2"></i>
-                    {$t(item.label)}
-                  </a>
+              <div 
+                id="user-menu-dropdown"
+                class="absolute right-0 mt-1 w-48 bg-card border border-white/10 rounded-md shadow-lg {userMenuOpen ? 'block' : 'hidden'}"
+              >
+                {#each userMenu as item}
+                  {#if item.divider}
+                    <hr class="border-white/10 my-1">
+                  {:else}
+                    <a 
+                      href={item.url} 
+                      class="block px-4 py-2 text-white hover:bg-purple-900/20"
+                      on:click={(e) => handleNavItemClick(item, e)}
+                    >
+                      <i class="bi bi-{item.icon} mr-2"></i>
+                      {item.text}
+                    </a>
+                  {/if}
                 {/each}
-                
-                <hr class="border-white/10 my-1">
-                <button 
-                  class="w-full text-left px-4 py-2 text-white hover:bg-purple-900/20"
-                  on:click={handleLogout}
-                  aria-label={$t('logout')}
-                >
-                  <i class="bi bi-box-arrow-right mr-2"></i>
-                  {$t('logout')}
-                </button>
               </div>
             </div>
           </div>
@@ -331,7 +387,7 @@
       
       <!-- Botón de menú móvil - solo visible en pantallas pequeñas -->
       <button 
-        class="md:hidden p-2 text-white hover:bg-white/10 rounded-md"
+        class="md:hidden p-2 text-white hover:bg-purple-700/30 rounded-md transition-colors"
         on:click={toggleMobileMenu}
         aria-label={$t('toggleMenu')}
       >
@@ -341,81 +397,91 @@
     
     <!-- Menú móvil - solo visible en pantallas pequeñas cuando está abierto -->
     {#if mobileMenuOpen}
-      <div class="md:hidden py-3 bg-dark border-t border-white/10 mt-2">
-        <div class="flex flex-col space-y-2">
+      <div class="md:hidden py-3 bg-dark/95 border-t border-purple-500/20 mt-2 backdrop-blur-lg rounded-b-lg shadow-lg">
+        <div class="flex flex-col">
           {#each navItems as item}
             <a 
-              href={item.path} 
-              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive(item.path) ? 'bg-white/10' : ''}"
+              href={item.url} 
+              class="text-white hover:bg-purple-700/20 px-4 py-3 flex items-center transition-colors {isActive(item.url) ? 'bg-purple-700/30 border-l-4 border-purple-500' : ''}"
             >
-              <i class="bi bi-{item.icon} mr-3 text-lg"></i>
-              <span>{$t(item.label)}</span>
+              <i class="bi bi-{item.icon} mr-3 text-lg {isActive(item.url) ? 'text-purple-400' : 'text-gray-400'}"></i>
+              <span class="font-medium">{item.text}</span>
             </a>
           {/each}
           
           {#if isAdmin}
             <a 
               href="/admin" 
-              class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center {isActive('/admin') ? 'bg-white/10' : ''}"
+              class="text-white hover:bg-purple-700/20 px-4 py-3 flex items-center transition-colors {isActive('/admin') ? 'bg-purple-700/30 border-l-4 border-purple-500' : ''}"
             >
-              <i class="bi bi-speedometer2 mr-3 text-lg"></i>
-              <span>{$t('adminPanel')}</span>
+              <i class="bi bi-speedometer2 mr-3 text-lg {isActive('/admin') ? 'text-purple-400' : 'text-gray-400'}"></i>
+              <span class="font-medium">{$t('adminPanel')}</span>
             </a>
           {/if}
           
           <!-- Selector de idioma en móvil -->
-          <div class="px-3 py-2">
-            <LanguageSelector />
+          <div class="border-t border-white/10 mt-2">
+            <div class="flex justify-between items-center px-4 py-3">
+              <p class="text-sm font-medium text-white">Idioma</p>
+              <div class="flex space-x-2">
+                <button 
+                  class="px-3 py-1.5 rounded-md flex items-center justify-center {$currentLanguage === 'es' ? 'bg-purple-700 text-white' : 'bg-dark/50 text-gray-400'}"
+                  on:click={() => { currentLanguage.set('es'); }}
+                >
+                  <span class="mr-1">🇪🇸</span>
+                  <span class="font-medium">ES</span>
+                </button>
+                <button 
+                  class="px-3 py-1.5 rounded-md flex items-center justify-center {$currentLanguage === 'en' ? 'bg-purple-700 text-white' : 'bg-dark/50 text-gray-400'}"
+                  on:click={() => { currentLanguage.set('en'); }}
+                >
+                  <span class="mr-1">🇬🇧</span>
+                  <span class="font-medium">EN</span>
+                </button>
+              </div>
+            </div>
           </div>
           
           {#if loading}
             <!-- Placeholder durante carga -->
-            <div class="mt-2 pt-2 border-t border-white/10 px-3">
-              <div class="h-10 bg-white/10 rounded animate-pulse my-2"></div>
-              <div class="h-10 bg-white/10 rounded animate-pulse my-2"></div>
+            <div class="mt-2 pt-2 border-t border-white/10 px-4">
+              <div class="h-10 bg-white/10 rounded-md animate-pulse my-2"></div>
+              <div class="h-10 bg-white/10 rounded-md animate-pulse my-2"></div>
             </div>
           {:else if isAuthenticated}
             <div class="mt-2 pt-2 border-t border-white/10">
-              <div class="px-3 py-2 flex items-center">
-                <i class="bi bi-person-circle mr-2 text-lg"></i>
-                <span class="font-medium">{userName}</span>
+              <div class="px-4 py-3 flex items-center">
+                <div class="w-8 h-8 rounded-full bg-purple-700/30 flex items-center justify-center mr-3">
+                  <i class="bi bi-person-circle text-lg text-purple-300"></i>
+                </div>
+                <div>
+                  <p class="font-medium">{userName}</p>
+                  <p class="text-xs text-gray-400">Usuario autenticado</p>
+                </div>
               </div>
               
-              {#each userMenuItems as item}
-                <a href={item.path} class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
-                  <i class="bi bi-{item.icon} mr-3 text-lg"></i>
-                  <span>{$t(item.label)}</span>
-                </a>
-              {/each}
-              
-              <a href="/notifications" class="text-white hover:bg-white/10 px-3 py-3 rounded-md flex items-center">
-                <i class="bi bi-bell mr-3 text-lg"></i>
-                <span>Notificaciones</span>
-                {#if notificationCount > 0}
-                  <span class="ml-2 bg-red-600 text-white text-xs px-2 py-1 rounded-full">
-                    {notificationCount}
-                  </span>
+              {#each userMenu as item}
+                {#if !item.divider}
+                  <a 
+                    href={item.url} 
+                    class="text-white hover:bg-purple-700/20 px-4 py-3 flex items-center transition-colors {item.action === 'logout' ? 'text-red-300 hover:bg-red-900/20' : ''}"
+                    on:click={(e) => handleNavItemClick(item, e)}
+                  >
+                    <i class="bi bi-{item.icon} mr-3 text-lg"></i>
+                    <span>{item.text}</span>
+                  </a>
                 {/if}
-              </a>
-              
-              <button 
-                class="w-full text-left px-3 py-3 text-red-300 hover:bg-red-900/20 rounded-md flex items-center mt-2"
-                on:click={handleLogout}
-                aria-label={$t('logout')}
-              >
-                <i class="bi bi-box-arrow-right mr-3 text-lg"></i>
-                <span>{$t('logout')}</span>
-              </button>
+              {/each}
             </div>
           {:else}
-            <div class="mt-2 pt-2 border-t border-white/10 px-3 space-y-2">
-              <a href="/login" class="flex items-center justify-center bg-purple-800 text-white p-3 rounded-md">
+            <div class="mt-2 pt-3 border-t border-white/10 px-4 space-y-3">
+              <a href="/login" class="flex items-center justify-center bg-purple-800 text-white p-3 rounded-md hover:bg-purple-700 transition-colors">
                 <i class="bi bi-box-arrow-in-right mr-2"></i>
-                <span>{$t('login')}</span>
+                <span class="font-medium">{$t('login')}</span>
               </a>
               
-              <a href="/register" class="flex items-center justify-center border border-white text-white p-3 rounded-md hover:bg-white/10">
-                <span>{$t('register')}</span>
+              <a href="/register" class="flex items-center justify-center border border-purple-500/50 text-white p-3 rounded-md hover:bg-purple-700/20 transition-colors">
+                <span class="font-medium">{$t('register')}</span>
               </a>
             </div>
           {/if}
@@ -427,9 +493,14 @@
 
 <!-- Modal de confirmación para acceso al panel de administrador -->
 {#if showAdminConfirmDialog}
-  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] backdrop-blur-sm">
+  <div 
+    class="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] backdrop-blur-sm"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="admin-dialog-title"
+  >
     <div class="bg-card border border-white/10 rounded-lg shadow-lg p-6 max-w-md mx-4">
-      <h3 class="text-xl font-semibold text-white mb-2">Acceso a Panel de Administrador</h3>
+      <h3 id="admin-dialog-title" class="text-xl font-semibold text-white mb-2">Acceso a Panel de Administrador</h3>
       <p class="text-gray-300 mb-6">Está a punto de acceder al panel de administración. ¿Desea continuar?</p>
       
       <div class="flex justify-end gap-3">
@@ -475,7 +546,4 @@
     -webkit-text-fill-color: transparent;
     transition: all 0.3s ease;
   }
-  
-  /* Eliminamos todos los selectores no utilizados */
-  /* Si necesitas estos estilos en el futuro, puedes convertirlos a :global() o añadirlos de nuevo */
 </style> 

@@ -3,7 +3,7 @@
   import type { Movie, Category } from '$lib/types';
   import { t } from '$lib/i18n';
   
-  // Importar componentes - Rutas corregidas
+  // Importar componentes
   import HeroBanner from '$lib/components/HeroBanner.svelte';
   import FeaturedMovies from '$lib/components/features/FeaturedMovies.svelte';
   import CategoriesSection from '$lib/components/features/CategoriesSection.svelte';
@@ -13,7 +13,7 @@
   let loading: boolean = true;
   let error: string | null = null;
   
-  // Categorías para la sección de categorías (adaptadas a Tailwind)
+  // Categorías para la sección de categorías
   $: categories = [
     {name: $t('category_action'), icon: 'lightning', color: 'text-red-500', gradient: 'bg-gradient-to-r from-red-600 to-red-400'},
     {name: $t('category_comedy'), icon: 'emoji-laughing', color: 'text-yellow-500', gradient: 'bg-gradient-to-r from-yellow-600 to-yellow-400'},
@@ -61,13 +61,20 @@
   });
 </script>
 
-<div class="w-full mt-15">
-  <HeroBanner />
-  <div class="container mx-auto px-4">
-    <FeaturedMovies {loading} {error} {featuredMovies} />
-    <CategoriesSection {categories} />
-  </div>
+<!-- Hero Banner con imagen específica para la página principal -->
+<HeroBanner 
+  title="Kaizen Cinema"
+  subtitle="Tu destino para las mejores experiencias cinematográficas"
+  imageUrl="https://source.unsplash.com/random/1920x1080/?cinema,movies,theater"
+  overlayOpacity="60"
+/>
+
+<!-- Contenido específico de la página -->
+<div class="container mx-auto px-4 py-8">
+  <FeaturedMovies {loading} {error} {featuredMovies} />
+  <CategoriesSection {categories} />
 </div>
 
+<!-- Efectos de fondo -->
 <div class="fixed -z-10 top-1/3 left-1/4 w-96 h-96 rounded-full bg-purple-900/20 blur-3xl"></div>
 <div class="fixed -z-10 bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-purple-800/10 blur-3xl"></div> 

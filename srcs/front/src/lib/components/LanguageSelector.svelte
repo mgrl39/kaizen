@@ -3,12 +3,11 @@
   import { currentLanguage, languages } from '$lib/i18n';
   import { browser } from '$app/environment';
   
-  let isOpen = false;
-  let selectorRef; // Referencia al elemento contenedor
+  // Props para controlar el estado desde el componente padre
+  export let isOpen = false;
+  export let toggleMenu = () => { isOpen = !isOpen; };
   
-  function toggleMenu() {
-    isOpen = !isOpen;
-  }
+  let selectorRef: HTMLElement; // Referencia al elemento contenedor con tipo explícito
   
   function selectLanguage(lang: string) {
     $currentLanguage = lang;
@@ -55,8 +54,9 @@
 </script>
 
 <!-- Contenedor con referencia para detectar clics fuera -->
-<div class="relative" bind:this={selectorRef}>
+<div class="relative" bind:this={selectorRef} id="language-selector-dropdown">
   <button 
+    id="language-selector-button"
     class="flex items-center text-white hover:bg-white/10 rounded-md transition-colors px-2 py-1.5"
     on:click|stopPropagation={toggleMenu}
     aria-label="Seleccionar idioma"
@@ -86,67 +86,4 @@
 </div>
 
 <style>
-  .language-selector {
-    position: relative;
-  }
-  
-  .lang-button {
-    display: flex;
-    align-items: center;
-    background: transparent;
-    border: none;
-    color: white;
-    padding: 0.5rem;
-    cursor: pointer;
-    border-radius: 4px;
-    font-size: 0.875rem;
-  }
-  
-  .lang-button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .flag {
-    margin-right: 0.25rem;
-    font-size: 1.25rem;
-  }
-  
-  .current-lang {
-    font-weight: 500;
-  }
-  
-  .lang-dropdown {
-    position: absolute;
-    top: calc(100% + 5px);
-    right: 0;
-    min-width: 120px;
-    background-color: #212529;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    overflow: hidden;
-  }
-  
-  .lang-option {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    padding: 0.5rem 1rem;
-    background: transparent;
-    border: none;
-    color: white;
-    text-align: left;
-    cursor: pointer;
-    transition: background-color 0.2s;
-  }
-  
-  .lang-option:hover {
-    background-color: rgba(109, 40, 217, 0.2);
-  }
-  
-  .lang-option.active {
-    background-color: rgba(109, 40, 217, 0.4);
-    font-weight: 500;
-  }
-</style> 
+</style>

@@ -38,9 +38,11 @@ export type TranslationKey =
 	| 'password'
 	| 'confirmPassword'
 	| 'birthdate'
+	| 'optional'
 	| 'processing'
 	| 'alreadyHaveAccount'
 	| 'login'
+	| 'joinKaizenCinema'
 
 	// Register validation errors
 	| 'usernameRequired'
@@ -56,7 +58,14 @@ export type TranslationKey =
 	| 'registerError'
 	| 'connectionError'
 	| 'unknownError'
-	| 'showFilms';
+	| 'showFilms'
+
+	// Login page
+	| 'welcomeBack'
+	| 'emailOrUsername'
+	| 'emailPlaceholder'
+	| 'loggingIn'
+	| 'noAccount';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import HeroBanner from '$lib/components/HeroBanner.svelte';
 
   // Datos hardcodeados del cine
   const cinema = {
@@ -10,7 +11,7 @@
     phone: '+34 912 345 678',
     email: 'info@kaizencinema.com',
     description: 'Bienvenidos a Kaizen Cinema, el lugar perfecto para disfrutar de las mejores películas con la mejor calidad de imagen y sonido. Nuestras modernas instalaciones están diseñadas para ofrecerte la mejor experiencia cinematográfica.',
-    image_url: 'https://source.unsplash.com/1200x600/?cinema,theater',
+    image_url: 'https://source.unsplash.com/random/1920x1080/?cinema,theater,auditorium',
     has_3d: true,
     has_imax: true,
     has_vip: true,
@@ -29,26 +30,15 @@
   ];
 </script>
 
-<div class="max-w-7xl mx-auto px-4 py-8">
-  <h2 class="text-3xl font-bold mb-8 section-title">Nuestro Cine</h2>
-  
-  <!-- Hero section con imagen principal -->
-  <div class="relative rounded-xl overflow-hidden mb-8 h-64 md:h-80">
-    <img 
-      src={cinema.image_url} 
-      alt={cinema.name} 
-      class="w-full h-full object-cover"
-    />
-    <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
-    <div class="absolute bottom-0 left-0 p-6">
-      <h1 class="text-4xl font-bold text-white mb-2">{cinema.name}</h1>
-      <div class="flex items-center text-white/80">
-        <i class="bi bi-geo-alt-fill mr-2"></i>
-        <span>{cinema.location}</span>
-      </div>
-    </div>
-  </div>
-  
+<!-- Hero Banner con imagen específica para la página de cines -->
+<HeroBanner 
+  title="Nuestro Cine"
+  subtitle="Descubre el mejor lugar para disfrutar del séptimo arte"
+  imageUrl={cinema.image_url}
+  overlayOpacity="60"
+/>
+
+<div class="container mx-auto px-4 py-8">
   <!-- Información principal y características -->
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
     <!-- Columna izquierda: Información de contacto -->
@@ -169,13 +159,13 @@
       <div class="mt-6">
         <h4 class="font-bold text-white mb-3">Síguenos</h4>
         <div class="flex space-x-3">
-          <a href="#" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
+          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
             <i class="bi bi-facebook text-lg"></i>
           </a>
-          <a href="#" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
+          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
             <i class="bi bi-instagram text-lg"></i>
           </a>
-          <a href="#" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
+          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors">
             <i class="bi bi-twitter text-lg"></i>
           </a>
         </div>

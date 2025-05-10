@@ -40,8 +40,10 @@ const en: TranslationDictionary = {
 	password: 'Password',
 	confirmPassword: 'Confirm Password',
 	birthdate: 'Birth Date (optional)',
+	optional: 'optional',
 	processing: 'Processing...',
 	alreadyHaveAccount: 'Already have an account?',
+	joinKaizenCinema: 'Join Kaizen Cinema',
 
 	// Register validation errors
 	usernameRequired: 'Username is required',
@@ -57,7 +59,14 @@ const en: TranslationDictionary = {
 	registerError: 'Registration error',
 	connectionError: 'Connection error with the server',
 	unknownError: 'Unknown error during registration',
-	showFilms: 'Show Films'
+	showFilms: 'Show Films',
+
+	// Login page
+	welcomeBack: 'Welcome back to Kaizen Cinema',
+	emailOrUsername: 'Email or username',
+	emailPlaceholder: 'user@email.com',
+	loggingIn: 'Logging in...',
+	noAccount: "Don't have an account?"
 };
 
 export default en;

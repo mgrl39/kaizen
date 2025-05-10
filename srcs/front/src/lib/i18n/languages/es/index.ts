@@ -9,7 +9,7 @@ const es: TranslationDictionary = {
 	notifications: 'Notificaciones',
 	logout: 'Cerrar Sesión',
 	register: 'Registrarse',
-	login: 'Acceder',
+	login: 'Iniciar Sesión',
 	adminPanel: 'Panel Admin',
 	loading: 'Cargando...',
 	unreadNotifications: 'notificaciones sin leer',
@@ -40,8 +40,10 @@ const es: TranslationDictionary = {
 	password: 'Contraseña',
 	confirmPassword: 'Confirmar contraseña',
 	birthdate: 'Fecha de nacimiento (opcional)',
+	optional: 'opcional',
 	processing: 'Procesando...',
 	alreadyHaveAccount: '¿Ya tienes cuenta?',
+	joinKaizenCinema: 'Únete a Kaizen Cinema',
 
 	// Register validation errors
 	usernameRequired: 'El nombre de usuario es obligatorio',
@@ -57,7 +59,14 @@ const es: TranslationDictionary = {
 	registerError: 'Error en el registro',
 	connectionError: 'Error de conexión con el servidor',
 	unknownError: 'Error desconocido durante el registro',
-	showFilms: 'Ver peliculas'
+	showFilms: 'Ver peliculas',
+
+	// Login page
+	welcomeBack: 'Bienvenido de nuevo a Kaizen Cinema',
+	emailOrUsername: 'Email o nombre de usuario',
+	emailPlaceholder: 'usuario@email.com',
+	loggingIn: 'Iniciando sesión...',
+	noAccount: '¿No tienes una cuenta?'
 };
 
 export default es;
