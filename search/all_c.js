@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['handle_0',['handle',['../classApp_1_1Console_1_1Commands_1_1CreateUser.html#a5ca11794a19abbb211b387918696e0b2',1,'App\Console\Commands\CreateUser\handle()'],['../classApp_1_1Http_1_1Middleware_1_1CorsMiddleware.html#ae48670dd190d8ae08f55c2e29ecf9d1e',1,'App\Http\Middleware\CorsMiddleware\handle()'],['../classApp_1_1Http_1_1Middleware_1_1RedirectIfAuthenticated.html#a2d02fec9428118d8e82300be4e7058ec',1,'App\Http\Middleware\RedirectIfAuthenticated\handle()'],['../classApp_1_1Http_1_1Middleware_1_1SetLocale.html#ad2d2439e4af7b34398bed02fc5956956',1,'App\Http\Middleware\SetLocale\handle()']]],
+  ['handleadminclick_1',['handleAdminClick',['../Navbar_8svelte.html#a59ff2ae941f74a2e2797556e63c1e44d',1,'Navbar.svelte']]],
+  ['handleclickoutside_2',['handleclickoutside',['../Navbar_8svelte.html#a832cc6cafdd00382e533dcd7e8a7dfbc',1,'handleClickOutside(event:MouseEvent):&#160;Navbar.svelte'],['../LanguageSelector_8svelte.html#a9434b8da2495d5a87cd5a2a1a45e834e',1,'handleClickOutside(event:MouseEvent):&#160;LanguageSelector.svelte']]],
+  ['handlelogout_3',['handleLogout',['../Navbar_8svelte.html#ac32e511cabb6ca2f6e807231a1a887ad',1,'Navbar.svelte']]],
+  ['handler_4',['Handler',['../classApp_1_1Exceptions_1_1Handler.html',1,'App::Exceptions']]],
+  ['handler_2ephp_5',['Handler.php',['../Handler_8php.html',1,'']]],
+  ['handlesubmit_6',['handlesubmit',['../admin_2cinemas_2edit_2_09page_8svelte.html#aead032d61293b69b3e3ef7344f85ed06',1,'handleSubmit():&#160;+page.svelte'],['../admin_2movies_2add_2_09page_8svelte.html#aead032d61293b69b3e3ef7344f85ed06',1,'handleSubmit():&#160;+page.svelte'],['../login_2_09page_8svelte.html#a1c8667d5bdd02d4b86ffd517766e047e',1,'handleSubmit():&#160;+page.svelte'],['../register_2_09page_8svelte.html#a1c8667d5bdd02d4b86ffd517766e047e',1,'handleSubmit():&#160;+page.svelte']]],
+  ['hashing_2ephp_7',['hashing.php',['../hashing_8php.html',1,'']]],
+  ['header_2esvelte_8',['Header.svelte',['../Header_8svelte.html',1,'']]],
+  ['healthcheck_9',['healthcheck',['../namespacepodman-compose.html#aa96134eb43a251a12c156b74c9349244',1,'podman-compose']]],
+  ['herobanner_2esvelte_10',['HeroBanner.svelte',['../HeroBanner_8svelte.html',1,'']]],
+  ['herobannersubtitle_11',['herobannersubtitle',['../i18n_2languages_2en_2index_8ts.html#a9702ef5c43e01331cd1e8170a662b99f',1,'heroBannerSubtitle:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#a9702ef5c43e01331cd1e8170a662b99f',1,'heroBannerSubtitle:&#160;index.ts']]],
+  ['herobannertitle_12',['herobannertitle',['../i18n_2languages_2en_2index_8ts.html#abd2775776d8e45966c1cb49d9a6fd842',1,'heroBannerTitle:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#abd2775776d8e45966c1cb49d9a6fd842',1,'heroBannerTitle:&#160;index.ts']]],
+  ['herodata_13',['heroData',['../movies_2_09page_8svelte.html#ad299e6ac7bc1fbeba4a4ed3183e78b10',1,'+page.svelte']]],
+  ['hidesensitiverequestdetails_14',['hideSensitiveRequestDetails',['../classApp_1_1Providers_1_1TelescopeServiceProvider.html#a6547a41c1423637385622a1e6b72e6d2',1,'App::Providers::TelescopeServiceProvider']]],
+  ['home_15',['HOME',['../classApp_1_1Providers_1_1RouteServiceProvider.html#ab3578e1d8c69b5c43a6656958a68573d',1,'App::Providers::RouteServiceProvider']]],
+  ['hosts_16',['hosts',['../classApp_1_1Http_1_1Middleware_1_1TrustHosts.html#a57465bf083dec211e877366c64681bfa',1,'App::Http::Middleware::TrustHosts']]]
+];

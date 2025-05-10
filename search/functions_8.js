@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['handle_0',['handle',['../classApp_1_1Console_1_1Commands_1_1CreateUser.html#a5ca11794a19abbb211b387918696e0b2',1,'App\Console\Commands\CreateUser\handle()'],['../classApp_1_1Http_1_1Middleware_1_1CorsMiddleware.html#ae48670dd190d8ae08f55c2e29ecf9d1e',1,'App\Http\Middleware\CorsMiddleware\handle()'],['../classApp_1_1Http_1_1Middleware_1_1RedirectIfAuthenticated.html#a2d02fec9428118d8e82300be4e7058ec',1,'App\Http\Middleware\RedirectIfAuthenticated\handle()'],['../classApp_1_1Http_1_1Middleware_1_1SetLocale.html#ad2d2439e4af7b34398bed02fc5956956',1,'App\Http\Middleware\SetLocale\handle()']]],
+  ['handleadminclick_1',['handleAdminClick',['../Navbar_8svelte.html#a59ff2ae941f74a2e2797556e63c1e44d',1,'Navbar.svelte']]],
+  ['handleclickoutside_2',['handleclickoutside',['../LanguageSelector_8svelte.html#a9434b8da2495d5a87cd5a2a1a45e834e',1,'handleClickOutside(event:MouseEvent):&#160;LanguageSelector.svelte'],['../Navbar_8svelte.html#a832cc6cafdd00382e533dcd7e8a7dfbc',1,'handleClickOutside(event:MouseEvent):&#160;Navbar.svelte']]],
+  ['handlelogout_3',['handleLogout',['../Navbar_8svelte.html#ac32e511cabb6ca2f6e807231a1a887ad',1,'Navbar.svelte']]],
+  ['handlesubmit_4',['handlesubmit',['../admin_2cinemas_2edit_2_09page_8svelte.html#aead032d61293b69b3e3ef7344f85ed06',1,'handleSubmit():&#160;+page.svelte'],['../admin_2movies_2add_2_09page_8svelte.html#aead032d61293b69b3e3ef7344f85ed06',1,'handleSubmit():&#160;+page.svelte'],['../login_2_09page_8svelte.html#a1c8667d5bdd02d4b86ffd517766e047e',1,'handleSubmit():&#160;+page.svelte'],['../register_2_09page_8svelte.html#a1c8667d5bdd02d4b86ffd517766e047e',1,'handleSubmit():&#160;+page.svelte']]],
+  ['hidesensitiverequestdetails_5',['hideSensitiveRequestDetails',['../classApp_1_1Providers_1_1TelescopeServiceProvider.html#a6547a41c1423637385622a1e6b72e6d2',1,'App::Providers::TelescopeServiceProvider']]],
+  ['hosts_6',['hosts',['../classApp_1_1Http_1_1Middleware_1_1TrustHosts.html#a57465bf083dec211e877366c64681bfa',1,'App::Http::Middleware::TrustHosts']]]
+];

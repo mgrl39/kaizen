@@ -1,0 +1,469 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/routes/admin/reports/+page.svelte</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('admin_2reports_2_09page_8svelte_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">+page.svelte</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="admin_2reports_2_09page_8svelte.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;script lang=<span class="stringliteral">&quot;ts&quot;</span>&gt;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>  <span class="keyword">import</span> { <a class="code hl_variable" href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a> } from <span class="stringliteral">&#39;$lib/i18n&#39;</span>;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>  <span class="keyword">import</span> { onMount } from <span class="stringliteral">&#39;svelte&#39;</span>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>  </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>  <span class="comment">// Datos para el panel de reportes</span></div>
+<div class="foldopen" id="foldopen00006" data-start="{" data-end="};">
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#aa31283d029fa18b02cff8abdb2173941">    6</a></span>  let <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#aa31283d029fa18b02cff8abdb2173941">salesData</a> = {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    daily: [1200, 980, 1400, 1150, 1700, 1950, 2100],</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    monthly: [28000, 32000, 35000, 30000, 42000, 48000],</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    yearly: [320000, 380000, 420000, 480000, 520000]</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>  };</div>
+</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>  </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a8ed5e8a6ba01c5e001a8ddcd2a943eb5">   12</a></span>  let <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8ed5e8a6ba01c5e001a8ddcd2a943eb5">moviesData</a> = [</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    { <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>: <span class="stringliteral">&quot;Dune: Part Two&quot;</span>, tickets: 1245, revenue: 14940 },</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    { <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>: <span class="stringliteral">&quot;The Batman&quot;</span>, tickets: 980, revenue: 11760 },</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    { <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>: <span class="stringliteral">&quot;Interstellar&quot;</span>, tickets: 750, revenue: 9000 },</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    { <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>: <span class="stringliteral">&quot;Avatar 3&quot;</span>, tickets: 620, revenue: 7440 },</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    { <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>: <span class="stringliteral">&quot;Inception&quot;</span>, tickets: 580, revenue: 6960 }</div>
+</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>  ];</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="};">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#aee4151838b93bbd9f4917686563ef19d">   20</a></span>  let <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#aee4151838b93bbd9f4917686563ef19d">screenUtilization</a> = [</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    { <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 1, utilization: 87, type: <span class="stringliteral">&quot;IMAX&quot;</span> },</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    { <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 2, utilization: 78, type: <span class="stringliteral">&quot;3D&quot;</span> },</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    { <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 3, utilization: 92, type: <span class="stringliteral">&quot;Standard&quot;</span> },</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    { <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 4, utilization: 65, type: <span class="stringliteral">&quot;Standard&quot;</span> },</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    { <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 5, utilization: 73, type: <span class="stringliteral">&quot;VIP&quot;</span> },</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    { <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 6, utilization: 81, type: <span class="stringliteral">&quot;Standard&quot;</span> },</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    { <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 7, utilization: 62, type: <span class="stringliteral">&quot;Standard&quot;</span> },</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    { <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 8, utilization: 76, type: <span class="stringliteral">&quot;3D&quot;</span> }</div>
+</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  ];</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>  </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="comment">// Estado para filtros de reportes</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a8640fb072a3612b37f6b72d1698c1611">   32</a></span>  let <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8640fb072a3612b37f6b72d1698c1611">timeRange</a> = <span class="stringliteral">&#39;weekly&#39;</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a80ecd24abc1c84472cb4d1232b166773">   33</a></span>  let <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a80ecd24abc1c84472cb4d1232b166773">isLoading</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  <span class="comment">// Fechas para el filtro</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a2c9b2063d4590c3ae09f2faa90db51d0">   36</a></span>  <span class="keyword">const</span> <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a2c9b2063d4590c3ae09f2faa90db51d0">currentDate</a> = <span class="keyword">new</span> Date();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">   37</a></span>  let <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a> = <span class="keyword">new</span> Date(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a2c9b2063d4590c3ae09f2faa90db51d0">currentDate</a>);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>  <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a>.setDate(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a2c9b2063d4590c3ae09f2faa90db51d0">currentDate</a>.getDate() - 7);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">   39</a></span>  let <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a> = <span class="keyword">new</span> Date(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a2c9b2063d4590c3ae09f2faa90db51d0">currentDate</a>);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="comment">// Formato de fecha para mostrar</span></div>
+<div class="foldopen" id="foldopen00042" data-start="{" data-end="}">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a2d2a229a1935c766480ffdee5aa8e967">   42</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a2d2a229a1935c766480ffdee5aa8e967">formatDate</a>(date) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">return</span> date.toISOString().split(<span class="charliteral">&#39;T&#39;</span>)[0];</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>  }</div>
+</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>  <span class="comment">// Actualizar rango de fechas según el filtro seleccionado</span></div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a173608891852d2f5330b307409c5f83c">   47</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a173608891852d2f5330b307409c5f83c">updateDateRange</a>(range) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8640fb072a3612b37f6b72d1698c1611">timeRange</a> = range;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a> = <span class="keyword">new</span> Date();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">if</span> (range === <span class="stringliteral">&#39;daily&#39;</span>) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a> = <span class="keyword">new</span> Date(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a>.setDate(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>.getDate() - 1);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (range === <span class="stringliteral">&#39;weekly&#39;</span>) {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a> = <span class="keyword">new</span> Date(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a>.setDate(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>.getDate() - 7);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (range === <span class="stringliteral">&#39;monthly&#39;</span>) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a> = <span class="keyword">new</span> Date(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a>.setMonth(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>.getMonth() - 1);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (range === <span class="stringliteral">&#39;yearly&#39;</span>) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a> = <span class="keyword">new</span> Date(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a>.setFullYear(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>.getFullYear() - 1);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  }</div>
+</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <span class="comment">// Función para obtener informes</span></div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a3462ab7274db0ce09974b46f8b93c44b">   67</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a3462ab7274db0ce09974b46f8b93c44b">fetchReports</a>() {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a80ecd24abc1c84472cb4d1232b166773">isLoading</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="comment">// En un entorno real, aquí harías una llamada a la API</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="comment">// Simulamos una carga con un pequeño retraso</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    setTimeout(() =&gt; {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a80ecd24abc1c84472cb4d1232b166773">isLoading</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }, 800);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  }</div>
+</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  <span class="comment">// Al cambiar el rango de tiempo, actualizamos los informes</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#ac876d51c7d9eb131ba58036ae9ba5e71">   78</a></span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>: <span class="keywordflow">if</span> (<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8640fb072a3612b37f6b72d1698c1611">timeRange</a>) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a173608891852d2f5330b307409c5f83c">updateDateRange</a>(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8640fb072a3612b37f6b72d1698c1611">timeRange</a>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a3462ab7274db0ce09974b46f8b93c44b">fetchReports</a>();</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>  }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  <span class="comment">// Calcular totales</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#aa349fb98d00fa3f1a428df3ea28baee5">   84</a></span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>: totalTickets = <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8ed5e8a6ba01c5e001a8ddcd2a943eb5">moviesData</a>.reduce((sum, <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>) =&gt; sum + <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.tickets, 0);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#afa6424b2ad453c1867b7270c762d89be">   85</a></span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>: totalRevenue = <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8ed5e8a6ba01c5e001a8ddcd2a943eb5">moviesData</a>.reduce((sum, <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>) =&gt; sum + <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.revenue, 0);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a4eae5990201c1e050696c65d8f7651d9">   86</a></span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>: averageUtilization = Math.round(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#aee4151838b93bbd9f4917686563ef19d">screenUtilization</a>.reduce((sum, <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>) =&gt; sum + <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>.utilization, 0) / <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#aee4151838b93bbd9f4917686563ef19d">screenUtilization</a>.length);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="comment">// Simular carga inicial</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>  onMount(() =&gt; {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a3462ab7274db0ce09974b46f8b93c44b">fetchReports</a>();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>  });</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>  <span class="comment">// Función para obtener la clase de color según el porcentaje de utilización</span></div>
+<div class="foldopen" id="foldopen00094" data-start="{" data-end="}">
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="admin_2reports_2_09page_8svelte.html#a241f299524f69b7bc7f55f7f38873eae">   94</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a241f299524f69b7bc7f55f7f38873eae">getUtilizationColorClass</a>(percent) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">if</span> (percent &gt;= 85) <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-green-500&#39;</span>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">if</span> (percent &gt;= 70) <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-blue-500&#39;</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">if</span> (percent &gt;= 50) <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-yellow-500&#39;</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-red-500&#39;</span>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  }</div>
+</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>&lt;/script&gt;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>&lt;div&gt;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex justify-between items-center mb-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    &lt;h1 <span class="keyword">class</span>=<span class="stringliteral">&quot;text-2xl font-bold text-gray-900&quot;</span>&gt;{$t(<span class="stringliteral">&#39;reports&#39;</span>)}&lt;/h1&gt;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex space-x-2&quot;</span>&gt;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      &lt;button </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keyword">class</span>=<span class="stringliteral">&quot;inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500&quot;</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        on:click={() =&gt; window.print()}</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>      &gt;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;-ml-1 mr-2 h-5 w-5&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>          &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z&quot;</span> /&gt;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        &lt;/svg&gt;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        {$t(<span class="stringliteral">&#39;printReport&#39;</span>)}</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      &lt;/button&gt;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      &lt;button </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="keyword">class</span>=<span class="stringliteral">&quot;inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500&quot;</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>      &gt;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;-ml-1 mr-2 h-5 w-5 text-gray-500&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>          &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z&quot;</span> /&gt;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        &lt;/svg&gt;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        {$t(<span class="stringliteral">&#39;exportPDF&#39;</span>)}</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>      &lt;/button&gt;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>  </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>  &lt;!-- Filtros --&gt;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white p-5 rounded-xl shadow mb-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;grid grid-cols-1 md:grid-cols-3 gap-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>      &lt;div&gt;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        &lt;label <span class="keywordflow">for</span>=<span class="stringliteral">&quot;time-range&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;block text-sm font-medium text-gray-700&quot;</span>&gt;{$t(<span class="stringliteral">&#39;timeRange&#39;</span>)}&lt;/label&gt;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        &lt;select </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>          <span class="keywordtype">id</span>=<span class="stringliteral">&quot;time-range&quot;</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>          <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>=<span class="stringliteral">&quot;time-range&quot;</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>          bind:<a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>={<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8640fb072a3612b37f6b72d1698c1611">timeRange</a>}</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>          <span class="keyword">class</span>=<span class="stringliteral">&quot;mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md&quot;</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        &gt;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;daily&quot;</span>&gt;{$t(<span class="stringliteral">&#39;daily&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;weekly&quot;</span>&gt;{$t(<span class="stringliteral">&#39;weekly&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;monthly&quot;</span>&gt;{$t(<span class="stringliteral">&#39;monthly&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;yearly&quot;</span>&gt;{$t(<span class="stringliteral">&#39;yearly&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        &lt;/select&gt;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>      </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>      &lt;div&gt;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        &lt;label <span class="keywordflow">for</span>=<span class="stringliteral">&quot;start-date&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;block text-sm font-medium text-gray-700&quot;</span>&gt;{$t(<span class="stringliteral">&#39;startDate&#39;</span>)}&lt;/label&gt;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        &lt;input </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>          type=<span class="stringliteral">&quot;date&quot;</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>          <span class="keywordtype">id</span>=<span class="stringliteral">&quot;start-date&quot;</span> </div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>          <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>=<span class="stringliteral">&quot;start-date&quot;</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>          <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>={<a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a2d2a229a1935c766480ffdee5aa8e967">formatDate</a>(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a>)}</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>          <span class="keyword">class</span>=<span class="stringliteral">&quot;mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md&quot;</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>          disabled</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        /&gt;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>      </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>      &lt;div&gt;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        &lt;label <span class="keywordflow">for</span>=<span class="stringliteral">&quot;end-date&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;block text-sm font-medium text-gray-700&quot;</span>&gt;{$t(<span class="stringliteral">&#39;endDate&#39;</span>)}&lt;/label&gt;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        &lt;input </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>          type=<span class="stringliteral">&quot;date&quot;</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>          <span class="keywordtype">id</span>=<span class="stringliteral">&quot;end-date&quot;</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>          <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>=<span class="stringliteral">&quot;end-date&quot;</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>          <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>={<a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a2d2a229a1935c766480ffdee5aa8e967">formatDate</a>(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>)}</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>          <span class="keyword">class</span>=<span class="stringliteral">&quot;mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md&quot;</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>          disabled</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        /&gt;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>  </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>  {#<span class="keywordflow">if</span> <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a80ecd24abc1c84472cb4d1232b166773">isLoading</a>}</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex justify-center items-center py-20&quot;</span>&gt;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>      &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;animate-spin -ml-1 mr-3 h-8 w-8 text-indigo-500&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span>&gt;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        &lt;circle <span class="keyword">class</span>=<span class="stringliteral">&quot;opacity-25&quot;</span> cx=<span class="stringliteral">&quot;12&quot;</span> cy=<span class="stringliteral">&quot;12&quot;</span> r=<span class="stringliteral">&quot;10&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> stroke-width=<span class="stringliteral">&quot;4&quot;</span>&gt;&lt;/circle&gt;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        &lt;path <span class="keyword">class</span>=<span class="stringliteral">&quot;opacity-75&quot;</span> fill=<span class="stringliteral">&quot;currentColor&quot;</span> d=<span class="stringliteral">&quot;M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z&quot;</span>&gt;&lt;/path&gt;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>      &lt;/svg&gt;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;text-lg text-gray-500&quot;</span>&gt;{$t(<span class="stringliteral">&#39;loadingReports&#39;</span>)}&lt;/span&gt;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>  {:<span class="keywordflow">else</span>}</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    &lt;!-- Tarjetas de resumen --&gt;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white rounded-xl shadow overflow-hidden&quot;</span>&gt;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;p-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>          &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex items-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex-shrink-0 bg-indigo-500 rounded-md p-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>              &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;h-6 w-6 text-white&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z&quot;</span> /&gt;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>              &lt;/svg&gt;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;ml-5 w-0 flex-1&quot;</span>&gt;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>              &lt;dl&gt;</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                &lt;dt <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm font-medium text-gray-500 truncate&quot;</span>&gt;{$t(<span class="stringliteral">&#39;totalTickets&#39;</span>)}&lt;/dt&gt;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>                &lt;dd <span class="keyword">class</span>=<span class="stringliteral">&quot;text-2xl font-semibold text-gray-900&quot;</span>&gt;{totalTickets}&lt;/dd&gt;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>              &lt;/dl&gt;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      </div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white rounded-xl shadow overflow-hidden&quot;</span>&gt;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;p-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>          &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex items-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex-shrink-0 bg-green-500 rounded-md p-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>              &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;h-6 w-6 text-white&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>                &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z&quot;</span> /&gt;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>              &lt;/svg&gt;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;ml-5 w-0 flex-1&quot;</span>&gt;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>              &lt;dl&gt;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>                &lt;dt <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm font-medium text-gray-500 truncate&quot;</span>&gt;{$t(<span class="stringliteral">&#39;totalRevenue&#39;</span>)}&lt;/dt&gt;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>                &lt;dd <span class="keyword">class</span>=<span class="stringliteral">&quot;text-2xl font-semibold text-gray-900&quot;</span>&gt;<a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{totalRevenue}&lt;/dd&gt;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>              &lt;/dl&gt;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>      </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white rounded-xl shadow overflow-hidden&quot;</span>&gt;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;p-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>          &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex items-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex-shrink-0 bg-blue-500 rounded-md p-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>              &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;h-6 w-6 text-white&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>                &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z&quot;</span> /&gt;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>              &lt;/svg&gt;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;ml-5 w-0 flex-1&quot;</span>&gt;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>              &lt;dl&gt;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                &lt;dt <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm font-medium text-gray-500 truncate&quot;</span>&gt;{$t(<span class="stringliteral">&#39;averageOccupancy&#39;</span>)}&lt;/dt&gt;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                &lt;dd <span class="keyword">class</span>=<span class="stringliteral">&quot;text-2xl font-semibold text-gray-900&quot;</span>&gt;{averageUtilization}%&lt;/dd&gt;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>              &lt;/dl&gt;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    &lt;!-- Reportes detallados --&gt;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;grid grid-cols-1 lg:grid-cols-2 gap-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>      &lt;!-- Top películas --&gt;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white rounded-xl shadow overflow-hidden&quot;</span>&gt;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;px-4 py-5 sm:px-6 border-b border-gray-200&quot;</span>&gt;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>          &lt;h3 <span class="keyword">class</span>=<span class="stringliteral">&quot;text-lg font-medium text-gray-900&quot;</span>&gt;{$t(<span class="stringliteral">&#39;topMovies&#39;</span>)}&lt;/h3&gt;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;overflow-x-auto&quot;</span>&gt;</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>          &lt;table <span class="keyword">class</span>=<span class="stringliteral">&quot;min-w-full divide-y divide-gray-200&quot;</span>&gt;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>            &lt;thead <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-gray-50&quot;</span>&gt;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>              &lt;tr&gt;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider&quot;</span>&gt;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>                  {$t(<span class="stringliteral">&#39;movie&#39;</span>)}</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>                &lt;/th&gt;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>                &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider&quot;</span>&gt;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                  {$t(<span class="stringliteral">&#39;tickets&#39;</span>)}</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                &lt;/th&gt;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider&quot;</span>&gt;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                  {$t(<span class="stringliteral">&#39;revenue&#39;</span>)}</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>                &lt;/th&gt;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>              &lt;/tr&gt;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>            &lt;/thead&gt;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>            &lt;tbody <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white divide-y divide-gray-200&quot;</span>&gt;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>              {#each <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8ed5e8a6ba01c5e001a8ddcd2a943eb5">moviesData</a> as <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>}</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>                &lt;tr&gt;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>                  &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900&quot;</span>&gt;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>                    {<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.name}</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>                  &lt;/td&gt;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>                  &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap text-sm text-gray-500&quot;</span>&gt;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                    {<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.tickets}</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>                  &lt;/td&gt;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>                  &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap text-sm text-gray-500&quot;</span>&gt;</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>                    <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.revenue}</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>                  &lt;/td&gt;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>                &lt;/tr&gt;</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>              {/each}</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>            &lt;/tbody&gt;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>          &lt;/table&gt;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>      </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>      &lt;!-- Utilización de salas --&gt;</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white rounded-xl shadow overflow-hidden&quot;</span>&gt;</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;px-4 py-5 sm:px-6 border-b border-gray-200&quot;</span>&gt;</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>          &lt;h3 <span class="keyword">class</span>=<span class="stringliteral">&quot;text-lg font-medium text-gray-900&quot;</span>&gt;{$t(<span class="stringliteral">&#39;screenUtilization&#39;</span>)}&lt;/h3&gt;</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;p-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>          &lt;ul <span class="keyword">class</span>=<span class="stringliteral">&quot;space-y-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>            {#each <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#aee4151838b93bbd9f4917686563ef19d">screenUtilization</a> as <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>}</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>              &lt;li&gt;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex items-center justify-between mb-1&quot;</span>&gt;</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>                  &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm font-medium text-gray-700&quot;</span>&gt;</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                    {$t(<span class="stringliteral">&#39;screen&#39;</span>)} {<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>.screen} ({<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>.type})</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>                  &lt;/span&gt;</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>                  &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm font-medium text-gray-700&quot;</span>&gt;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                    {<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>.utilization}%</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>                  &lt;/span&gt;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>                &lt;/div&gt;</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;w-full bg-gray-200 rounded-full h-2.5&quot;</span>&gt;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>                  &lt;div <span class="keyword">class</span>={`h-2.5 rounded-full <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{<a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a241f299524f69b7bc7f55f7f38873eae">getUtilizationColorClass</a>(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>.utilization)}`} style={`width: <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>.utilization}%`}&gt;&lt;/div&gt;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>                &lt;/div&gt;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>              &lt;/li&gt;</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            {/each}</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>          &lt;/ul&gt;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>      </div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>      &lt;!-- Ventas por período --&gt;</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white rounded-xl shadow overflow-hidden lg:col-span-2&quot;</span>&gt;</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;px-4 py-5 sm:px-6 border-b border-gray-200&quot;</span>&gt;</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>          &lt;h3 <span class="keyword">class</span>=<span class="stringliteral">&quot;text-lg font-medium text-gray-900&quot;</span>&gt;{$t(<span class="stringliteral">&#39;salesOverTime&#39;</span>)}&lt;/h3&gt;</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;p-6 h-80 flex items-center justify-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>          &lt;!-- Aquí iría un gráfico real, pero como <a class="code hl_variable" href="i18n_2index_8ts.html#ab15708319fa0442771c827e2d8451984">es</a> un ejemplo usamos un placeholder --&gt;</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>          &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>            &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;mx-auto h-12 w-12 text-gray-400&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>              &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z&quot;</span> /&gt;</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>            &lt;/svg&gt;</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>            &lt;p <span class="keyword">class</span>=<span class="stringliteral">&quot;mt-2 text-sm text-gray-500&quot;</span>&gt;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>              {$t(<span class="stringliteral">&#39;salesChartPlaceholder&#39;</span>)}</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>            &lt;/p&gt;</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>            &lt;p <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm text-gray-500&quot;</span>&gt;</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>              ({$t(<span class="stringliteral">&#39;timeRange&#39;</span>)}: {$t(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a8640fb072a3612b37f6b72d1698c1611">timeRange</a>)}, {<a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a2d2a229a1935c766480ffdee5aa8e967">formatDate</a>(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a>)} - {<a class="code hl_function" href="admin_2reports_2_09page_8svelte.html#a2d2a229a1935c766480ffdee5aa8e967">formatDate</a>(<a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a>)})</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>            &lt;/p&gt;</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>  {/<span class="keywordflow">if</span>}</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>&lt;/div&gt; </div>
+<div class="ttc" id="aDashboardCard_8svelte_html_aec1cc0f8b4de3ef546ada9f26d5619c4"><div class="ttname"><a href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a></div><div class="ttdeci">export let value</div><div class="ttdef"><b>Definition</b> <a href="DashboardCard_8svelte_source.html#l00003">DashboardCard.svelte:3</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a6e1be1b95a8ae40dbf962380bbbdbfe3"><div class="ttname"><a href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a></div><div class="ttdeci">$ $</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00011">HeroBanner.svelte:11</a></div></div>
+<div class="ttc" id="aMovieCard_8svelte_html_a8952b6e4e9fe569e87d7df8ee0dde779"><div class="ttname"><a href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let movie</div><div class="ttdef"><b>Definition</b> <a href="MovieCard_8svelte_source.html#l00004">MovieCard.svelte:4</a></div></div>
+<div class="ttc" id="aadmin_2cinemas_2edit_2_09page_8svelte_html_af144eb43e1438def2343a92d3c992ed1"><div class="ttname"><a href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; let name</div><div class="ttdef"><b>Definition</b> <a href="admin_2cinemas_2edit_2_09page_8svelte_source.html#l00005">+page.svelte:5</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a173608891852d2f5330b307409c5f83c"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a173608891852d2f5330b307409c5f83c">updateDateRange</a></div><div class="ttdeci">function updateDateRange(range)</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00047">+page.svelte:47</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a241f299524f69b7bc7f55f7f38873eae"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a241f299524f69b7bc7f55f7f38873eae">getUtilizationColorClass</a></div><div class="ttdeci">function getUtilizationColorClass(percent)</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00094">+page.svelte:94</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a2c9b2063d4590c3ae09f2faa90db51d0"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a2c9b2063d4590c3ae09f2faa90db51d0">currentDate</a></div><div class="ttdeci">const currentDate</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00036">+page.svelte:36</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a2d2a229a1935c766480ffdee5aa8e967"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a2d2a229a1935c766480ffdee5aa8e967">formatDate</a></div><div class="ttdeci">function formatDate(date)</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00042">+page.svelte:42</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a3462ab7274db0ce09974b46f8b93c44b"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a3462ab7274db0ce09974b46f8b93c44b">fetchReports</a></div><div class="ttdeci">function fetchReports()</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00067">+page.svelte:67</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a5402432a66cdc01c5e51946e1bb0054c"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a5402432a66cdc01c5e51946e1bb0054c">endDate</a></div><div class="ttdeci">let endDate</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00039">+page.svelte:39</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a6f9cbae15327aa864fff15a15c096218"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a6f9cbae15327aa864fff15a15c096218">startDate</a></div><div class="ttdeci">let startDate</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00037">+page.svelte:37</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a7a6bfdf1cd481e7be0f74bca96e2c40f"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a></div><div class="ttdeci">$ screen</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00086">+page.svelte:86</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a80ecd24abc1c84472cb4d1232b166773"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a80ecd24abc1c84472cb4d1232b166773">isLoading</a></div><div class="ttdeci">let isLoading</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00033">+page.svelte:33</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a8640fb072a3612b37f6b72d1698c1611"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a8640fb072a3612b37f6b72d1698c1611">timeRange</a></div><div class="ttdeci">let timeRange</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00032">+page.svelte:32</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a8ed5e8a6ba01c5e001a8ddcd2a943eb5"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a8ed5e8a6ba01c5e001a8ddcd2a943eb5">moviesData</a></div><div class="ttdeci">let moviesData</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00012">+page.svelte:12</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_aa31283d029fa18b02cff8abdb2173941"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#aa31283d029fa18b02cff8abdb2173941">salesData</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; let salesData</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00006">+page.svelte:6</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_aee4151838b93bbd9f4917686563ef19d"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#aee4151838b93bbd9f4917686563ef19d">screenUtilization</a></div><div class="ttdeci">let screenUtilization</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00020">+page.svelte:20</a></div></div>
+<div class="ttc" id="ai18n_2index_8ts_html_ab15708319fa0442771c827e2d8451984"><div class="ttname"><a href="i18n_2index_8ts.html#ab15708319fa0442771c827e2d8451984">es</a></div><div class="ttdeci">const es</div><div class="ttdef"><b>Definition</b> <a href="i18n_2index_8ts_source.html#l00099">index.ts:100</a></div></div>
+<div class="ttc" id="ai18n_2index_8ts_html_af73f66381d681447e082857e259e4ca1"><div class="ttname"><a href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a></div><div class="ttdeci">export const t</div><div class="ttdef"><b>Definition</b> <a href="i18n_2index_8ts_source.html#l00103">index.ts:103</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_711e061037f1f3e03ef0d7826512e504.html">routes</a></li><li class="navelem"><a class="el" href="dir_b41b5bfe653785ffeb64fb4b825f6860.html">admin</a></li><li class="navelem"><a class="el" href="dir_c8148aa1e8695e990eb1bfbd92d439ef.html">reports</a></li><li class="navelem"><a class="el" href="admin_2reports_2_09page_8svelte.html">+page.svelte</a></li>
+    <li class="footer">Generado el Sábado, 10 de mayo de 2025 00:23:32 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

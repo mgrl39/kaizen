@@ -1,0 +1,438 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/routes/admin/bookings/+page.svelte</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('admin_2bookings_2_09page_8svelte_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">+page.svelte</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="admin_2bookings_2_09page_8svelte.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;script lang=<span class="stringliteral">&quot;ts&quot;</span>&gt;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>  <span class="keyword">import</span> { <a class="code hl_variable" href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a> } from <span class="stringliteral">&#39;$lib/i18n&#39;</span>;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>  </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>  <span class="comment">// Datos de ejemplo para las reservas</span></div>
+<div class="foldopen" id="foldopen00005" data-start="{" data-end="};">
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#a9b0a796d2047061fc059b872dc39571f">    5</a></span>  <span class="keyword">const</span> <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a9b0a796d2047061fc059b872dc39571f">bookings</a> = [</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    { </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>      id: 1, </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>      <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>: <span class="stringliteral">&quot;Dune: Part Two&quot;</span>, </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 3, </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>      date: <span class="stringliteral">&quot;2023-07-18&quot;</span>, </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>      time: <span class="stringliteral">&quot;18:30&quot;</span>, </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>      <a class="code hl_variable" href="profile_2_09page_8svelte.html#a0838e3d3d339a6b9bd90ef9f99293a93">user</a>: <span class="stringliteral">&quot;juan.perez@example.com&quot;</span>, </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>      seats: <span class="stringliteral">&quot;A12, A13&quot;</span>, </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>      <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a>: <span class="stringliteral">&quot;confirmed&quot;</span>,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>      payment: <span class="stringliteral">&quot;paid&quot;</span>,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>      price: <span class="stringliteral">&quot;24.00&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    },</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    { </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>      id: 2, </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>      <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>: <span class="stringliteral">&quot;The Batman&quot;</span>, </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 1, </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>      date: <span class="stringliteral">&quot;2023-07-19&quot;</span>, </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>      time: <span class="stringliteral">&quot;20:15&quot;</span>, </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>      <a class="code hl_variable" href="profile_2_09page_8svelte.html#a0838e3d3d339a6b9bd90ef9f99293a93">user</a>: <span class="stringliteral">&quot;maria.garcia@example.com&quot;</span>, </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>      seats: <span class="stringliteral">&quot;B5, B6, B7&quot;</span>, </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>      <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a>: <span class="stringliteral">&quot;confirmed&quot;</span>,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>      payment: <span class="stringliteral">&quot;paid&quot;</span>,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>      price: <span class="stringliteral">&quot;36.00&quot;</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    },</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    { </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>      id: 3, </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>      <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>: <span class="stringliteral">&quot;Interstellar&quot;</span>, </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 2, </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      date: <span class="stringliteral">&quot;2023-07-18&quot;</span>, </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>      time: <span class="stringliteral">&quot;19:45&quot;</span>, </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      <a class="code hl_variable" href="profile_2_09page_8svelte.html#a0838e3d3d339a6b9bd90ef9f99293a93">user</a>: <span class="stringliteral">&quot;carlos.lopez@example.com&quot;</span>, </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>      seats: <span class="stringliteral">&quot;C8&quot;</span>, </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>      <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a>: <span class="stringliteral">&quot;confirmed&quot;</span>,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>      payment: <span class="stringliteral">&quot;paid&quot;</span>,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>      price: <span class="stringliteral">&quot;12.00&quot;</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    },</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    { </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>      id: 4, </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>      <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>: <span class="stringliteral">&quot;Pulp Fiction&quot;</span>, </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 4, </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      date: <span class="stringliteral">&quot;2023-07-20&quot;</span>, </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>      time: <span class="stringliteral">&quot;21:00&quot;</span>, </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>      <a class="code hl_variable" href="profile_2_09page_8svelte.html#a0838e3d3d339a6b9bd90ef9f99293a93">user</a>: <span class="stringliteral">&quot;ana.martinez@example.com&quot;</span>, </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      seats: <span class="stringliteral">&quot;D11, D12&quot;</span>, </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>      <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a>: <span class="stringliteral">&quot;pending&quot;</span>,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      payment: <span class="stringliteral">&quot;pending&quot;</span>,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      price: <span class="stringliteral">&quot;24.00&quot;</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    },</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    { </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>      id: 5, </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>      <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>: <span class="stringliteral">&quot;Inception&quot;</span>, </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>      <a class="code hl_variable" href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a>: 2, </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>      date: <span class="stringliteral">&quot;2023-07-21&quot;</span>, </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      time: <span class="stringliteral">&quot;17:30&quot;</span>, </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>      <a class="code hl_variable" href="profile_2_09page_8svelte.html#a0838e3d3d339a6b9bd90ef9f99293a93">user</a>: <span class="stringliteral">&quot;pablo.diaz@example.com&quot;</span>, </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>      seats: <span class="stringliteral">&quot;E7, E8, E9, E10&quot;</span>, </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>      <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a>: <span class="stringliteral">&quot;cancelled&quot;</span>,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>      payment: <span class="stringliteral">&quot;refunded&quot;</span>,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>      price: <span class="stringliteral">&quot;48.00&quot;</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
+</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  ];</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <span class="comment">// Estado para filtros</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#a395786894de7186dab979ae8ef5ceabd">   69</a></span>  let <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a395786894de7186dab979ae8ef5ceabd">statusFilter</a> = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#ac682c2393bacd5fbe641b96b4e12daf3">   70</a></span>  let <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#ac682c2393bacd5fbe641b96b4e12daf3">dateFilter</a> = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#ab2c92353a02725abf92d47a9ec98a73e">   71</a></span>  let <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#ab2c92353a02725abf92d47a9ec98a73e">searchQuery</a> = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  <span class="comment">// Filtrar bookings</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#ac876d51c7d9eb131ba58036ae9ba5e71">   74</a></span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>: filteredBookings = <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a9b0a796d2047061fc059b872dc39571f">bookings</a>.filter(booking =&gt; {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    let matchesStatus = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#a946b7c621cf167b9f4d88fd91d8e5a07">   76</a></span>    let <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a946b7c621cf167b9f4d88fd91d8e5a07">matchesDate</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#a4bbe4d997ceabe3873b26224af791292">   77</a></span>    let <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a4bbe4d997ceabe3873b26224af791292">matchesSearch</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    </div>
+<div class="foldopen" id="foldopen00079" data-start="{" data-end="}">
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#ad072f17b6ca2c8b3d8a62e4647f75d79">   79</a></span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a395786894de7186dab979ae8ef5ceabd">statusFilter</a> &amp;&amp; booking.status !== <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a395786894de7186dab979ae8ef5ceabd">statusFilter</a>) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>      matchesStatus = false;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    }</div>
+</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <a class="code hl_variable" href="index_8php.html#ab7b0934f179386acaa4ad69fb6e3c8e6">if</a> (<a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#ac682c2393bacd5fbe641b96b4e12daf3">dateFilter</a> &amp;&amp; booking.date !== <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#ac682c2393bacd5fbe641b96b4e12daf3">dateFilter</a>) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>      matchesDate = false;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <a class="code hl_variable" href="index_8php.html#ab7b0934f179386acaa4ad69fb6e3c8e6">if</a> (<a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#ab2c92353a02725abf92d47a9ec98a73e">searchQuery</a>) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      <span class="keyword">const</span> query = <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#ab2c92353a02725abf92d47a9ec98a73e">searchQuery</a>.toLowerCase();</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>      <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a4bbe4d997ceabe3873b26224af791292">matchesSearch</a> = </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        booking.movie.toLowerCase().includes(query) ||</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        booking.user.toLowerCase().includes(query) ||</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        booking.seats.toLowerCase().includes(query);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">return</span> matchesStatus &amp;&amp; <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a946b7c621cf167b9f4d88fd91d8e5a07">matchesDate</a> &amp;&amp; <a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a4bbe4d997ceabe3873b26224af791292">matchesSearch</a>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  });</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>  <span class="comment">// Fechas únicas para el filtro</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#aa349fb98d00fa3f1a428df3ea28baee5">   99</a></span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>: uniqueDates = [...new Set(<a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a9b0a796d2047061fc059b872dc39571f">bookings</a>.map(b =&gt; b.date))].sort();</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  <span class="comment">// Función para obtener clase de color según el estado</span></div>
+<div class="foldopen" id="foldopen00102" data-start="{" data-end="}">
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#a38ddbd93bf7f14fadd6365bb37a430e9">  102</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="admin_2bookings_2_09page_8svelte.html#a38ddbd93bf7f14fadd6365bb37a430e9">getStatusClass</a>(<a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a>) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">switch</span> (<a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a>) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>      <span class="keywordflow">case</span> <span class="stringliteral">&#39;confirmed&#39;</span>:</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-green-100 text-green-800&#39;</span>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      <span class="keywordflow">case</span> <span class="stringliteral">&#39;pending&#39;</span>:</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-yellow-100 text-yellow-800&#39;</span>;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>      <span class="keywordflow">case</span> <span class="stringliteral">&#39;cancelled&#39;</span>:</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-red-100 text-red-800&#39;</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-gray-100 text-gray-800&#39;</span>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>  }</div>
+</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>  </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>  <span class="comment">// Función para obtener clase de color según el pago</span></div>
+<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="admin_2bookings_2_09page_8svelte.html#aaf8aa21016c343dbcb416e1a45243172">  116</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="admin_2bookings_2_09page_8svelte.html#aaf8aa21016c343dbcb416e1a45243172">getPaymentClass</a>(payment) {</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">switch</span> (payment) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>      <span class="keywordflow">case</span> <span class="stringliteral">&#39;paid&#39;</span>:</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-blue-100 text-blue-800&#39;</span>;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      <span class="keywordflow">case</span> <span class="stringliteral">&#39;pending&#39;</span>:</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-yellow-100 text-yellow-800&#39;</span>;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>      <span class="keywordflow">case</span> <span class="stringliteral">&#39;refunded&#39;</span>:</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-purple-100 text-purple-800&#39;</span>;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>      <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;bg-gray-100 text-gray-800&#39;</span>;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    }</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  }</div>
+</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>&lt;/script&gt;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>&lt;div&gt;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex justify-between items-center mb-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    &lt;h1 <span class="keyword">class</span>=<span class="stringliteral">&quot;text-2xl font-bold text-gray-900&quot;</span>&gt;{$t(<span class="stringliteral">&#39;bookings&#39;</span>)}&lt;/h1&gt;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    &lt;a href=<span class="stringliteral">&quot;/admin/bookings/add&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500&quot;</span>&gt;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>      &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;-ml-1 mr-2 h-5 w-5&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M12 4v16m8-8H4&quot;</span> /&gt;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>      &lt;/svg&gt;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>      {$t(<span class="stringliteral">&#39;addBooking&#39;</span>)}</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    &lt;/a&gt;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>  </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>  &lt;!-- Filtros y búsqueda --&gt;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white p-5 rounded-xl shadow mb-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;grid grid-cols-1 md:grid-cols-3 gap-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>      &lt;div&gt;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        &lt;label <span class="keywordflow">for</span>=<span class="stringliteral">&quot;search&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;block text-sm font-medium text-gray-700&quot;</span>&gt;{$t(<span class="stringliteral">&#39;search&#39;</span>)}&lt;/label&gt;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;mt-1 relative rounded-md shadow-sm&quot;</span>&gt;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>          &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none&quot;</span>&gt;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>            &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;h-5 w-5 text-gray-400&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>              &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z&quot;</span> /&gt;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            &lt;/svg&gt;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>          &lt;input </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            type=<span class="stringliteral">&quot;text&quot;</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>=<span class="stringliteral">&quot;search&quot;</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            <span class="keywordtype">id</span>=<span class="stringliteral">&quot;search&quot;</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>            bind:<a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>={<a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#ab2c92353a02725abf92d47a9ec98a73e">searchQuery</a>}</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            <span class="keyword">class</span>=<span class="stringliteral">&quot;focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md&quot;</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>            placeholder={$t(<span class="stringliteral">&#39;searchBookings&#39;</span>)}</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>          /&gt;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>      </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>      &lt;div&gt;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        &lt;label <span class="keywordflow">for</span>=<span class="stringliteral">&quot;date&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;block text-sm font-medium text-gray-700&quot;</span>&gt;{$t(<span class="stringliteral">&#39;date&#39;</span>)}&lt;/label&gt;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        &lt;select </div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>          <span class="keywordtype">id</span>=<span class="stringliteral">&quot;date&quot;</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>          <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>=<span class="stringliteral">&quot;date&quot;</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>          bind:<a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>={<a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#ac682c2393bacd5fbe641b96b4e12daf3">dateFilter</a>}</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>          <span class="keyword">class</span>=<span class="stringliteral">&quot;mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm rounded-md&quot;</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        &gt;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;&quot;</span>&gt;{$t(<span class="stringliteral">&#39;allDates&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>          {#each uniqueDates as date}</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>={date}&gt;{date}&lt;/option&gt;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>          {/each}</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        &lt;/select&gt;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>      </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>      &lt;div&gt;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        &lt;label <span class="keywordflow">for</span>=<span class="stringliteral">&quot;status&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;block text-sm font-medium text-gray-700&quot;</span>&gt;{$t(<span class="stringliteral">&#39;status&#39;</span>)}&lt;/label&gt;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        &lt;select </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>          <span class="keywordtype">id</span>=<span class="stringliteral">&quot;status&quot;</span> </div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>          <a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>=<span class="stringliteral">&quot;status&quot;</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>          bind:<a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>={<a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a395786894de7186dab979ae8ef5ceabd">statusFilter</a>}</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>          <span class="keyword">class</span>=<span class="stringliteral">&quot;mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm rounded-md&quot;</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        &gt;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;&quot;</span>&gt;{$t(<span class="stringliteral">&#39;allStatuses&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;confirmed&quot;</span>&gt;{$t(<span class="stringliteral">&#39;confirmed&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;pending&quot;</span>&gt;{$t(<span class="stringliteral">&#39;pending&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>          &lt;option <a class="code hl_variable" href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a>=<span class="stringliteral">&quot;cancelled&quot;</span>&gt;{$t(<span class="stringliteral">&#39;cancelled&#39;</span>)}&lt;/option&gt;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        &lt;/select&gt;</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>  </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>  &lt;!-- Tabla de reservas --&gt;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white shadow rounded-xl overflow-hidden&quot;</span>&gt;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;overflow-x-auto&quot;</span>&gt;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      &lt;table <span class="keyword">class</span>=<span class="stringliteral">&quot;min-w-full divide-y divide-gray-200&quot;</span>&gt;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        &lt;thead <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-gray-50&quot;</span>&gt;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>          &lt;tr&gt;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>            &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider&quot;</span>&gt;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>              {$t(<span class="stringliteral">&#39;bookingInfo&#39;</span>)}</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            &lt;/th&gt;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider&quot;</span>&gt;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>              {$t(<span class="stringliteral">&#39;movie&#39;</span>)}</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            &lt;/th&gt;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider&quot;</span>&gt;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>              {$t(<span class="stringliteral">&#39;user&#39;</span>)}</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            &lt;/th&gt;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>            &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider&quot;</span>&gt;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>              {$t(<span class="stringliteral">&#39;status&#39;</span>)}</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>            &lt;/th&gt;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider&quot;</span>&gt;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>              {$t(<span class="stringliteral">&#39;payment&#39;</span>)}</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>            &lt;/th&gt;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>            &lt;th scope=<span class="stringliteral">&quot;col&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;relative px-6 py-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>              &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;sr-only&quot;</span>&gt;{$t(<span class="stringliteral">&#39;actions&#39;</span>)}&lt;/span&gt;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>            &lt;/th&gt;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>          &lt;/tr&gt;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        &lt;/thead&gt;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        &lt;tbody <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white divide-y divide-gray-200&quot;</span>&gt;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>          {#each filteredBookings as booking}</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            &lt;tr <span class="keyword">class</span>=<span class="stringliteral">&quot;hover:bg-gray-50&quot;</span>&gt;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>              &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap&quot;</span>&gt;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm text-gray-900 font-medium&quot;</span>&gt;#{booking.id}&lt;/div&gt;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm text-gray-500&quot;</span>&gt;{booking.date} | {booking.time}&lt;/div&gt;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm text-gray-500&quot;</span>&gt;{$t(<span class="stringliteral">&#39;screen&#39;</span>)} {booking.screen}&lt;/div&gt;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>              &lt;/td&gt;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>              &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap&quot;</span>&gt;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm font-medium text-gray-900&quot;</span>&gt;{booking.movie}&lt;/div&gt;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm text-gray-500&quot;</span>&gt;{$t(<span class="stringliteral">&#39;seats&#39;</span>)}: {booking.seats}&lt;/div&gt;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>              &lt;/td&gt;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>              &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap&quot;</span>&gt;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm text-gray-900&quot;</span>&gt;{booking.user}&lt;/div&gt;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>              &lt;/td&gt;</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>              &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap&quot;</span>&gt;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                &lt;span <span class="keyword">class</span>={`px-2 <span class="keyword">inline</span>-flex <a class="code hl_variable" href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a>-xs leading-5 font-semibold rounded-full <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{<a class="code hl_function" href="admin_2bookings_2_09page_8svelte.html#a38ddbd93bf7f14fadd6365bb37a430e9">getStatusClass</a>(booking.status)}`}&gt;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>                  {$t(booking.status)}</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                &lt;/span&gt;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>              &lt;/td&gt;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>              &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap&quot;</span>&gt;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex items-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>                  &lt;span <span class="keyword">class</span>={`px-2 <span class="keyword">inline</span>-flex <a class="code hl_variable" href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a>-xs leading-5 font-semibold rounded-full <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{<a class="code hl_function" href="admin_2bookings_2_09page_8svelte.html#aaf8aa21016c343dbcb416e1a45243172">getPaymentClass</a>(booking.payment)}`}&gt;</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                    {$t(booking.payment)}</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                  &lt;/span&gt;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>                  &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;ml-2 text-sm font-medium text-gray-900&quot;</span>&gt;<a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{booking.price}&lt;/span&gt;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                &lt;/div&gt;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>              &lt;/td&gt;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>              &lt;td <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-4 whitespace-nowrap text-right text-sm font-medium&quot;</span>&gt;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>                &lt;a href={`/admin/<a class="code hl_variable" href="admin_2bookings_2_09page_8svelte.html#a9b0a796d2047061fc059b872dc39571f">bookings</a>/<a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{booking.id}`} <span class="keyword">class</span>=<span class="stringliteral">&quot;text-amber-600 hover:text-amber-900 mr-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>                  {$t(<span class="stringliteral">&#39;view&#39;</span>)}</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>                &lt;/a&gt;</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>                &lt;button <span class="keyword">class</span>=<span class="stringliteral">&quot;text-red-600 hover:text-red-900&quot;</span>&gt;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>                  {$t(<span class="stringliteral">&#39;delete&#39;</span>)}</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>                &lt;/button&gt;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>              &lt;/td&gt;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>            &lt;/tr&gt;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>          {/each}</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        &lt;/tbody&gt;</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>      &lt;/table&gt;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    </div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    {#<span class="keywordflow">if</span> filteredBookings.length === 0}</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;px-6 py-8 text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        &lt;p <span class="keyword">class</span>=<span class="stringliteral">&quot;text-gray-500&quot;</span>&gt;{$t(<span class="stringliteral">&#39;noBookingsFound&#39;</span>)}&lt;/p&gt;</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    {/<span class="keywordflow">if</span>}</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    &lt;!-- Paginación (simplificada para este ejemplo) --&gt;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    {#<span class="keywordflow">if</span> filteredBookings.length &gt; 0}</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;bg-white px-4 py-3 border-t border-gray-200 sm:px-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;flex items-center justify-between&quot;</span>&gt;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>          &lt;div&gt;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            &lt;p <span class="keyword">class</span>=<span class="stringliteral">&quot;text-sm text-gray-700&quot;</span>&gt;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>              {$t(<span class="stringliteral">&#39;showing&#39;</span>)} &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;font-medium&quot;</span>&gt;1&lt;/span&gt; {$t(<span class="stringliteral">&#39;to&#39;</span>)} &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;font-medium&quot;</span>&gt;{filteredBookings.length}&lt;/span&gt; {$t(<span class="stringliteral">&#39;of&#39;</span>)} &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;font-medium&quot;</span>&gt;{filteredBookings.length}&lt;/span&gt; {$t(<span class="stringliteral">&#39;results&#39;</span>)}</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>            &lt;/p&gt;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>          &lt;div&gt;</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>            &lt;nav <span class="keyword">class</span>=<span class="stringliteral">&quot;relative z-0 inline-flex rounded-md shadow-sm -space-x-px&quot;</span> aria-label=<span class="stringliteral">&quot;Pagination&quot;</span>&gt;</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>              &lt;button <span class="keyword">class</span>=<span class="stringliteral">&quot;relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50&quot;</span>&gt;</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>                &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;sr-only&quot;</span>&gt;{$t(<span class="stringliteral">&#39;previous&#39;</span>)}&lt;/span&gt;</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>                &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;h-5 w-5&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>                  &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M15 19l-7-7 7-7&quot;</span> /&gt;</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                &lt;/svg&gt;</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>              &lt;/button&gt;</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>              &lt;button aria-current=<span class="stringliteral">&quot;page&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;z-10 bg-amber-50 border-amber-500 text-amber-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium&quot;</span>&gt;</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>                1</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>              &lt;/button&gt;</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>              &lt;button <span class="keyword">class</span>=<span class="stringliteral">&quot;relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50&quot;</span>&gt;</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>                &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;sr-only&quot;</span>&gt;{$t(<span class="stringliteral">&#39;next&#39;</span>)}&lt;/span&gt;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                &lt;svg <span class="keyword">class</span>=<span class="stringliteral">&quot;h-5 w-5&quot;</span> fill=<span class="stringliteral">&quot;none&quot;</span> stroke=<span class="stringliteral">&quot;currentColor&quot;</span> viewBox=<span class="stringliteral">&quot;0 0 24 24&quot;</span> xmlns=<span class="stringliteral">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>                  &lt;path stroke-linecap=<span class="stringliteral">&quot;round&quot;</span> stroke-linejoin=<span class="stringliteral">&quot;round&quot;</span> stroke-width=<span class="stringliteral">&quot;2&quot;</span> d=<span class="stringliteral">&quot;M9 5l7 7-7 7&quot;</span> /&gt;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>                &lt;/svg&gt;</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>              &lt;/button&gt;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            &lt;/nav&gt;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    {/<span class="keywordflow">if</span>}</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>&lt;/div&gt; </div>
+<div class="ttc" id="aDashboardCard_8svelte_html_aec1cc0f8b4de3ef546ada9f26d5619c4"><div class="ttname"><a href="DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4">value</a></div><div class="ttdeci">export let value</div><div class="ttdef"><b>Definition</b> <a href="DashboardCard_8svelte_source.html#l00003">DashboardCard.svelte:3</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a6e1be1b95a8ae40dbf962380bbbdbfe3"><div class="ttname"><a href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a></div><div class="ttdeci">$ $</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00011">HeroBanner.svelte:11</a></div></div>
+<div class="ttc" id="aMovieCard_8svelte_html_a8952b6e4e9fe569e87d7df8ee0dde779"><div class="ttname"><a href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let movie</div><div class="ttdef"><b>Definition</b> <a href="MovieCard_8svelte_source.html#l00004">MovieCard.svelte:4</a></div></div>
+<div class="ttc" id="aNavbar_8svelte_html_a73362c7ff79f83b28bd02f99823b9460"><div class="ttname"><a href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a></div><div class="ttdeci">const text</div><div class="ttdef"><b>Definition</b> <a href="Navbar_8svelte_source.html#l00033">Navbar.svelte:34</a></div></div>
+<div class="ttc" id="aadmin_2bookings_2_09page_8svelte_html_a38ddbd93bf7f14fadd6365bb37a430e9"><div class="ttname"><a href="admin_2bookings_2_09page_8svelte.html#a38ddbd93bf7f14fadd6365bb37a430e9">getStatusClass</a></div><div class="ttdeci">function getStatusClass(status)</div><div class="ttdef"><b>Definition</b> <a href="admin_2bookings_2_09page_8svelte_source.html#l00102">+page.svelte:102</a></div></div>
+<div class="ttc" id="aadmin_2bookings_2_09page_8svelte_html_a395786894de7186dab979ae8ef5ceabd"><div class="ttname"><a href="admin_2bookings_2_09page_8svelte.html#a395786894de7186dab979ae8ef5ceabd">statusFilter</a></div><div class="ttdeci">let statusFilter</div><div class="ttdef"><b>Definition</b> <a href="admin_2bookings_2_09page_8svelte_source.html#l00069">+page.svelte:69</a></div></div>
+<div class="ttc" id="aadmin_2bookings_2_09page_8svelte_html_a4bbe4d997ceabe3873b26224af791292"><div class="ttname"><a href="admin_2bookings_2_09page_8svelte.html#a4bbe4d997ceabe3873b26224af791292">matchesSearch</a></div><div class="ttdeci">let matchesSearch</div><div class="ttdef"><b>Definition</b> <a href="admin_2bookings_2_09page_8svelte_source.html#l00077">+page.svelte:77</a></div></div>
+<div class="ttc" id="aadmin_2bookings_2_09page_8svelte_html_a946b7c621cf167b9f4d88fd91d8e5a07"><div class="ttname"><a href="admin_2bookings_2_09page_8svelte.html#a946b7c621cf167b9f4d88fd91d8e5a07">matchesDate</a></div><div class="ttdeci">let matchesDate</div><div class="ttdef"><b>Definition</b> <a href="admin_2bookings_2_09page_8svelte_source.html#l00076">+page.svelte:76</a></div></div>
+<div class="ttc" id="aadmin_2bookings_2_09page_8svelte_html_a9b0a796d2047061fc059b872dc39571f"><div class="ttname"><a href="admin_2bookings_2_09page_8svelte.html#a9b0a796d2047061fc059b872dc39571f">bookings</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; const bookings</div><div class="ttdef"><b>Definition</b> <a href="admin_2bookings_2_09page_8svelte_source.html#l00005">+page.svelte:5</a></div></div>
+<div class="ttc" id="aadmin_2bookings_2_09page_8svelte_html_aaf8aa21016c343dbcb416e1a45243172"><div class="ttname"><a href="admin_2bookings_2_09page_8svelte.html#aaf8aa21016c343dbcb416e1a45243172">getPaymentClass</a></div><div class="ttdeci">function getPaymentClass(payment)</div><div class="ttdef"><b>Definition</b> <a href="admin_2bookings_2_09page_8svelte_source.html#l00116">+page.svelte:116</a></div></div>
+<div class="ttc" id="aadmin_2bookings_2_09page_8svelte_html_ab2c92353a02725abf92d47a9ec98a73e"><div class="ttname"><a href="admin_2bookings_2_09page_8svelte.html#ab2c92353a02725abf92d47a9ec98a73e">searchQuery</a></div><div class="ttdeci">let searchQuery</div><div class="ttdef"><b>Definition</b> <a href="admin_2bookings_2_09page_8svelte_source.html#l00071">+page.svelte:71</a></div></div>
+<div class="ttc" id="aadmin_2bookings_2_09page_8svelte_html_ac682c2393bacd5fbe641b96b4e12daf3"><div class="ttname"><a href="admin_2bookings_2_09page_8svelte.html#ac682c2393bacd5fbe641b96b4e12daf3">dateFilter</a></div><div class="ttdeci">let dateFilter</div><div class="ttdef"><b>Definition</b> <a href="admin_2bookings_2_09page_8svelte_source.html#l00070">+page.svelte:70</a></div></div>
+<div class="ttc" id="aadmin_2cinemas_2edit_2_09page_8svelte_html_a616dd6eab229ac0a939ce8b1bbea731f"><div class="ttname"><a href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a></div><div class="ttdeci">let status</div><div class="ttdef"><b>Definition</b> <a href="admin_2cinemas_2edit_2_09page_8svelte_source.html#l00013">+page.svelte:13</a></div></div>
+<div class="ttc" id="aadmin_2cinemas_2edit_2_09page_8svelte_html_af144eb43e1438def2343a92d3c992ed1"><div class="ttname"><a href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; let name</div><div class="ttdef"><b>Definition</b> <a href="admin_2cinemas_2edit_2_09page_8svelte_source.html#l00005">+page.svelte:5</a></div></div>
+<div class="ttc" id="aadmin_2reports_2_09page_8svelte_html_a7a6bfdf1cd481e7be0f74bca96e2c40f"><div class="ttname"><a href="admin_2reports_2_09page_8svelte.html#a7a6bfdf1cd481e7be0f74bca96e2c40f">screen</a></div><div class="ttdeci">$ screen</div><div class="ttdef"><b>Definition</b> <a href="admin_2reports_2_09page_8svelte_source.html#l00086">+page.svelte:86</a></div></div>
+<div class="ttc" id="ai18n_2index_8ts_html_af73f66381d681447e082857e259e4ca1"><div class="ttname"><a href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a></div><div class="ttdeci">export const t</div><div class="ttdef"><b>Definition</b> <a href="i18n_2index_8ts_source.html#l00103">index.ts:103</a></div></div>
+<div class="ttc" id="aindex_8php_html_ab7b0934f179386acaa4ad69fb6e3c8e6"><div class="ttname"><a href="index_8php.html#ab7b0934f179386acaa4ad69fb6e3c8e6">if</a></div><div class="ttdeci">if(file_exists( $maintenance=__DIR__.'/../storage/framework/maintenance.php'))</div><div class="ttdef"><b>Definition</b> <a href="index_8php_source.html#l00019">index.php:19</a></div></div>
+<div class="ttc" id="aprofile_2_09page_8svelte_html_a0838e3d3d339a6b9bd90ef9f99293a93"><div class="ttname"><a href="profile_2_09page_8svelte.html#a0838e3d3d339a6b9bd90ef9f99293a93">user</a></div><div class="ttdeci">let user</div><div class="ttdef"><b>Definition</b> <a href="profile_2_09page_8svelte_source.html#l00011">+page.svelte:11</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_711e061037f1f3e03ef0d7826512e504.html">routes</a></li><li class="navelem"><a class="el" href="dir_b41b5bfe653785ffeb64fb4b825f6860.html">admin</a></li><li class="navelem"><a class="el" href="dir_b24a32bda96aa20aa4460faf8ffac443.html">bookings</a></li><li class="navelem"><a class="el" href="admin_2bookings_2_09page_8svelte.html">+page.svelte</a></li>
+    <li class="footer">Generado el Sábado, 10 de mayo de 2025 00:23:32 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

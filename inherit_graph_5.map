@@ -1,0 +1,9 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,5,131,31"/>
+<area shape="rect" id="Node000001" href="$classApp_1_1Models_1_1AdminUser.html" title=" " alt="" coords="179,5,353,31"/>
+<area shape="poly" id="edge1_Node000000_Node000001" title=" " alt="" coords="145,15,179,15,179,21,145,21"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Models_1_1User.html" title=" " alt="" coords="200,55,332,80"/>
+<area shape="poly" id="edge2_Node000000_Node000002" title=" " alt="" coords="133,31,215,52,214,57,132,37"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="21,55,115,80"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="129,65,200,65,200,70,129,70"/>
+</map>

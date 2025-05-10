@@ -1,0 +1,13 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,112,72,137"/>
+<area shape="rect" id="Node000001" href="$classDatabase_1_1Seeders_1_1AdminSeeder.html" title=" " alt="" coords="124,5,355,31"/>
+<area shape="poly" id="edge50_Node000000_Node000001" title=" " alt="" coords="55,99,82,68,119,40,145,28,148,33,121,44,86,72,59,103"/>
+<area shape="rect" id="Node000002" href="$classDatabase_1_1Seeders_1_1CinemaSeeder.html" title=" " alt="" coords="120,55,359,80"/>
+<area shape="poly" id="edge51_Node000000_Node000002" title=" " alt="" coords="80,104,119,90,168,78,170,83,121,95,82,109"/>
+<area shape="rect" id="Node000003" href="$classDatabase_1_1Seeders_1_1DatabaseSeeder.html" title="Seeder principal que llama a los demás seeders." alt="" coords="136,105,343,145"/>
+<area shape="poly" id="edge52_Node000000_Node000003" title=" " alt="" coords="86,122,136,122,136,127,86,127"/>
+<area shape="rect" id="Node000004" href="$classDatabase_1_1Seeders_1_1GenreSeeder.html" title=" " alt="" coords="125,169,353,195"/>
+<area shape="poly" id="edge53_Node000000_Node000004" title=" " alt="" coords="82,140,121,154,170,167,168,172,119,159,80,145"/>
+<area shape="rect" id="Node000005" href="$classDatabase_1_1Seeders_1_1MovieSeeder.html" title="Seeder para poblar la tabla de películas con datos iniciales." alt="" coords="125,219,354,244"/>
+<area shape="poly" id="edge54_Node000000_Node000005" title=" " alt="" coords="59,147,86,177,121,204,151,216,149,221,119,208,83,181,55,150"/>
+</map>
