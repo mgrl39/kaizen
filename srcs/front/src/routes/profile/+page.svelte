@@ -16,7 +16,8 @@
     email: '',
     current_password: '',
     new_password: '',
-    new_password_confirmation: ''
+    new_password_confirmation: '',
+    password: ''
   };
 
   // Datos de usuario (simulados)
@@ -100,7 +101,7 @@
   ];
   
   // Función para formatear fechas
-  function formatDate(dateStr) {
+  function formatDate(dateStr: string): string {
     const date = new Date(dateStr);
     return new Intl.DateTimeFormat('es-ES', { 
       day: '2-digit', 
@@ -110,7 +111,7 @@
   }
   
   // Función para formatear precios
-  function formatPrice(price) {
+  function formatPrice(price: number): string {
     return new Intl.NumberFormat('es-ES', {
       style: 'currency',
       currency: 'EUR'
@@ -320,14 +321,17 @@
           <h4 class="text-lg font-bold mt-6 mb-3">Preferencias</h4>
           
           <div>
-            <label class="block text-sm font-medium text-gray-300 mb-2">Géneros favoritos</label>
+            <label for="genres" class="block text-sm font-medium text-gray-300 mb-2">Géneros favoritos</label>
             <div class="flex flex-wrap gap-2">
               {#each userData.preferences.genres as genre}
                 <span class="bg-purple-900/40 border border-purple-500/30 text-purple-200 text-xs py-1 px-2 rounded-md">
                   {genre}
                 </span>
               {/each}
-              <button class="bg-white/10 text-white text-xs py-1 px-2 rounded-md hover:bg-white/20">
+              <button 
+                class="bg-white/10 text-white text-xs py-1 px-2 rounded-md hover:bg-white/20"
+                aria-label="Añadir género favorito"
+              >
                 <i class="bi bi-plus"></i>
               </button>
             </div>

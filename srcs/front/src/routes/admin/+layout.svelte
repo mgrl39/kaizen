@@ -8,6 +8,7 @@
   let sidebarOpen = false;
   let isBrowser = false;
   let showExitConfirmation = false;
+  let cancelButtonRef: HTMLButtonElement;
   
   // Estructura del menú de navegación simplificada (sin submenu)
   const menuItems = [
@@ -31,6 +32,13 @@
   // Función para mostrar confirmación antes de salir
   function promptExitAdminPanel() {
     showExitConfirmation = true;
+    
+    // Enfocar el botón de cancelar después de que el modal sea visible
+    setTimeout(() => {
+      if (cancelButtonRef) {
+        cancelButtonRef.focus();
+      }
+    }, 50);
   }
   
   // Función para salir del panel de administración
@@ -131,19 +139,14 @@
   <!-- Modal de confirmación para salir -->
   {#if showExitConfirmation}
     <div 
-      class="modal-backdrop" 
-      on:click={cancelExit} 
-      on:keydown={(e) => e.key === 'Escape' && cancelExit()}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
+      class="modal-backdrop"
+      role="presentation"
     >
       <div 
         class="modal-content" 
-        on:click|stopPropagation 
-        on:keydown|stopPropagation
-        tabindex="0"
-        role="document"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
       >
         <div class="modal-header">
           <h3 id="modal-title">¿Salir del panel de administración?</h3>
@@ -159,10 +162,23 @@
           <p>¿Estás seguro de que deseas salir del panel de administración y volver al sitio principal?</p>
         </div>
         <div class="modal-footer">
-          <button class="cancel-button" on:click={cancelExit}>Cancelar</button>
+          <button 
+            class="cancel-button" 
+            on:click={cancelExit} 
+            bind:this={cancelButtonRef}
+          >
+            Cancelar
+          </button>
           <button class="confirm-button" on:click={exitAdminPanel}>Salir</button>
         </div>
       </div>
+      
+      <!-- Capa invisible para cerrar el modal al hacer clic fuera -->
+      <button 
+        class="backdrop-button"
+        on:click={cancelExit}
+        aria-label="Cerrar diálogo"
+      ></button>
     </div>
   {/if}
 </div>
@@ -208,6 +224,7 @@
     margin: 0;
     background: linear-gradient(to right, #fff, #a78bfa);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
   
@@ -482,5 +499,18 @@
   
   .confirm-button:hover {
     background-color: #ff5252;
+  }
+  
+  /* Botón invisible que cubre toda la pantalla excepto el modal */
+  .backdrop-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: -1; /* Colocarlo detrás del contenido del modal */
   }
 </style>

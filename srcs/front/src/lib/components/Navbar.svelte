@@ -543,6 +543,7 @@
     font-size: 1.4rem;
     background: linear-gradient(to right, #fff, #a78bfa);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     transition: all 0.3s ease;
   }
