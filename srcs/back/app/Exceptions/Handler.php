@@ -41,7 +41,7 @@ class Handler extends ExceptionHandler
                     'path' => $path,
                     'available_endpoints' => [
                         'api_info' => url('/api'),
-                        'api_base' => url('/api/' . config('api.versions.current', 'v1')),
+                        'api_v1' => url('/api/v1'),
                         'health_check' => url('/api/ping')
                     ]
                 ],
@@ -154,7 +154,7 @@ class Handler extends ExceptionHandler
             [
                 'path' => $request->path(),
                 'available_endpoints' => [
-                    'api_base' => url('/api'),
+                    'api_info' => url('/api'),
                     'api_v1' => url('/api/v1'),
                     'health_check' => url('/api/ping')
                 ]

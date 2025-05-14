@@ -30,12 +30,29 @@ use App\Services\ResponseService;
 
 // Base API route - provides API information instead of 404
 Route::get('/', function () {
+    $versions = config('api.versions.supported', ['v1']);
+    $current = config('api.versions.current', 'v1');
+    
+    $versionInfo = [];
+    foreach ($versions as $version) {
+        $status = 'supported';
+        if ($version === $current) {
+            $status = 'current';
+        } elseif (in_array($version, config('api.versions.deprecated', []))) {
+            $status = 'deprecated';
+        }
+        
+        $versionInfo[$version] = [
+            'status' => $status,
+            'url' => url("/api/{$version}")
+        ];
+    }
+    
     return response()->json([
         'name' => config('app.name') . ' API',
-        'version' => config('api.versions.current', 'v1'),
+        'versions' => $versionInfo,
         'status' => 'running',
-        'documentation' => url('/api/documentation'),
-        'base_url' => url('/api/' . config('api.versions.current', 'v1')),
+        'base_url' => url('/api/' . $current),
         'timestamp' => now()->toIso8601String(),
         'message' => 'Welcome to the API. Please use the correct version prefix in your requests.'
     ]);
@@ -80,8 +97,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         return response()->json([
             'name' => config('app.name') . ' API',
             'version' => 'v1',
-            'status' => 'active',
-            'documentation' => url('/api/documentation'),
+            'status' => config('api.versions.current') === 'v1' ? 'current' : 'supported',
             'endpoints' => $endpoints,
             'timestamp' => now()->toIso8601String()
         ]);
@@ -232,7 +248,7 @@ Route::fallback(function (Request $request) {
         [
             'available_endpoints' => [
                 'api_info' => url('/api'),
-                'api_base' => url('/api/' . config('api.versions.current', 'v1')),
+                'api_v1' => url('/api/v1'),
                 'health_check' => url('/api/ping')
             ]
         ],
