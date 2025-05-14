@@ -4,108 +4,238 @@
  * @file
  * API Routes
  *
- * Here is where you can register API routes for your application. These
- * routes are loaded by the RouteServiceProvider and all of them will
- * be assigned to the "api" middleware group. Make something great!
+ * Here is where you can register API routes for your application.
+ * Routes are loaded by the RouteServiceProvider and assigned to the "api" middleware group.
  */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\MovieController;
-use App\Http\Controllers\API\CinemaController;
-use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\GenreController;
-// use App\Http\Controllers\API\ActorController;
-use App\Http\Controllers\API\FunctionController;
-use App\Http\Controllers\MovieController as MovieControllerAlias;
 use Illuminate\Http\Request;
-use App\Http\Controllers\API\ApiInfoController;
-use App\Http\Controllers\API\ProfileController;
+use App\Http\Controllers\API\{
+    ApiInfoController,
+    AuthController,
+    CinemaController,
+    FunctionController,
+    GenreController,
+    MovieController,
+    ProfileController,
+    UserController
+};
+use App\Services\ResponseService;
 
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| API Base Information
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
 */
 
-// Rutas API v1
-Route::prefix('v1')->group(function () {
-    // Rutas para películas
-    Route::resource('movies', MovieController::class);
-  
-    // Rutas para géneros (solo lectura)
-    Route::get('genres', [GenreController::class, 'index']);
-    Route::get('genres/{genre}', [GenreController::class, 'show']);
-    Route::get('genres/{genre}/movies', [GenreController::class, 'movies']);
-
-    // Rutas para cines
-    Route::get('cinemas/search', [CinemaController::class, 'search']);
-    Route::get('cinemas/location/{location}', [CinemaController::class, 'byLocation']);
-    Route::get('cinemas/{cinema}/rooms', [CinemaController::class, 'rooms']);
-    Route::get('cinemas/{cinema}/movies', [CinemaController::class, 'movies']);
-    Route::resource('cinemas', CinemaController::class);
-
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
-
-    // Rutas para usuarios (públicas - sin middleware 'auth:api')
-    Route::get('users', [App\Http\Controllers\API\UserController::class, 'index']);
-    Route::get('users/{user}', [App\Http\Controllers\API\UserController::class, 'show']);
-    Route::delete('users/{user}', [App\Http\Controllers\API\UserController::class, 'destroy']);
-
-    // Rutas protegidas
-    Route::middleware('auth:api')->group(function () {
-        Route::post('logout', [AuthController::class, 'logout']);
-        Route::get('profile', [ProfileController::class, 'me']);
-        Route::get('/profile', [ProfileController::class, 'show']);
-        Route::put('/profile', [ProfileController::class, 'update']);
-        Route::put('/profile/password', [ProfileController::class, 'changePassword']);
-    });
-});
-
-// Esta ruta debe estar DESPUÉS de todas las demás rutas API
-Route::fallback(function () {
-    $path = request()->path();
-    
-    // Si la ruta empieza con api/v1 pero no corresponde a un endpoint válido
-    if (strpos($path, 'api/v1') === 0) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Invalid API endpoint',
-            'status' => 404
-        ], 404);
-    }
-    
-    // Si la ruta empieza con api/ pero no con api/v1/
-    if (strpos($path, 'api') === 0 && strpos($path, 'api/v1') !== 0) {
-        return response()->json([
-            'success' => false,
-            'message' => 'API version not specified or invalid. Please use /api/v1/',
-            'status' => 404
-        ], 404);
-    }
-    
-    // Para otras rutas no API
+// Base API route - provides API information instead of 404
+Route::get('/', function () {
     return response()->json([
-        'success' => false,
-        'message' => 'Resource not found. This is an API-only server.',
-        'status' => 404
-    ], 404);
-});
+        'name' => config('app.name') . ' API',
+        'version' => config('api.versions.current', 'v1'),
+        'status' => 'running',
+        'documentation' => url('/api/documentation'),
+        'base_url' => url('/api/' . config('api.versions.current', 'v1')),
+        'timestamp' => now()->toIso8601String(),
+        'message' => 'Welcome to the API. Please use the correct version prefix in your requests.'
+    ]);
+})->name('api.info');
 
-Route::get('v1/endpoints', [ApiInfoController::class, 'listEndpoints']);
+/*
+|--------------------------------------------------------------------------
+| API Version 1 Routes
+|--------------------------------------------------------------------------
+*/
+Route::prefix('v1')->name('api.v1.')->group(function () {
+    
+    // API v1 Base Information
+    Route::get('/', function () {
+        $endpoints = [
+            'authentication' => [
+                'register' => ['POST', url('/api/v1/register')],
+                'login' => ['POST', url('/api/v1/login')],
+                'logout' => ['POST', url('/api/v1/logout')],
+            ],
+            'movies' => [
+                'list' => ['GET', url('/api/v1/movies')],
+                'detail' => ['GET', url('/api/v1/movies/{movie}')]
+            ],
+            'cinemas' => [
+                'list' => ['GET', url('/api/v1/cinemas')],
+                'search' => ['GET', url('/api/v1/cinemas/search')],
+                'by_location' => ['GET', url('/api/v1/cinemas/location/{location}')]
+            ],
+            'genres' => [
+                'list' => ['GET', url('/api/v1/genres')],
+                'detail' => ['GET', url('/api/v1/genres/{genre}')],
+                'movies' => ['GET', url('/api/v1/genres/{genre}/movies')]
+            ],
+            'profile' => [
+                'view' => ['GET', url('/api/v1/profile')],
+                'update' => ['PUT', url('/api/v1/profile')],
+                'change_password' => ['PUT', url('/api/v1/profile/password')]
+            ]
+        ];
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+        return response()->json([
+            'name' => config('app.name') . ' API',
+            'version' => 'v1',
+            'status' => 'active',
+            'documentation' => url('/api/documentation'),
+            'endpoints' => $endpoints,
+            'timestamp' => now()->toIso8601String()
+        ]);
+    })->name('info');
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Public Routes - No Authentication Required
+    |--------------------------------------------------------------------------
+    */
+    
+    // System Info
+    Route::get('endpoints', [ApiInfoController::class, 'listEndpoints'])->name('endpoints');
+    
+    // Authentication
+    Route::post('register', [AuthController::class, 'register'])->name('auth.register');
+    Route::post('login', [AuthController::class, 'login'])->name('auth.login');
+    
+    // Movies
+    Route::group(['prefix' => 'movies', 'as' => 'movies.'], function () {
+        Route::get('/', [MovieController::class, 'index'])->name('index');
+        Route::get('/{movie}', [MovieController::class, 'show'])->name('show');
+        // Admin-only routes are protected below
+    });
+    
+    // Genres
+    Route::group(['prefix' => 'genres', 'as' => 'genres.'], function () {
+        Route::get('/', [GenreController::class, 'index'])->name('index');
+        Route::get('/{genre}', [GenreController::class, 'show'])->name('show');
+        Route::get('/{genre}/movies', [GenreController::class, 'movies'])->name('movies');
+    });
+    
+    // Cinemas
+    Route::group(['prefix' => 'cinemas', 'as' => 'cinemas.'], function () {
+        Route::get('/', [CinemaController::class, 'index'])->name('index');
+        Route::get('/search', [CinemaController::class, 'search'])->name('search');
+        Route::get('/location/{location}', [CinemaController::class, 'byLocation'])->name('by-location');
+        Route::get('/{cinema}', [CinemaController::class, 'show'])->name('show');
+        Route::get('/{cinema}/rooms', [CinemaController::class, 'rooms'])->name('rooms');
+        Route::get('/{cinema}/movies', [CinemaController::class, 'movies'])->name('movies');
+        // Admin-only routes are protected below
+    });
+    
+    // Users (Public APIs) - Consider if these should be public
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/{user}', [UserController::class, 'show'])->name('show');
+        // Delete is moved to protected area below
+    });
+    
+    /*
+    |--------------------------------------------------------------------------
+    | Protected Routes - Authentication Required
+    |--------------------------------------------------------------------------
+    */
+    Route::middleware('api.auth')->group(function () {
+        // Authentication
+        Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+        
+        // User Profile
+        Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+            Route::get('/', [ProfileController::class, 'show'])->name('show');
+            Route::put('/', [ProfileController::class, 'update'])->name('update');
+            Route::put('/password', [ProfileController::class, 'changePassword'])->name('change-password');
+        });
+        
+        // User Management (Protected)
+        Route::delete('users/{user}', [UserController::class, 'destroy'])
+            ->middleware('api.write')
+            ->name('users.destroy');
+            
+        /*
+        |--------------------------------------------------------------------------
+        | Admin Routes - Admin Role Required
+        |--------------------------------------------------------------------------
+        */
+        Route::middleware(['role:admin'])->group(function () {
+            // Movies Management
+            Route::group(['prefix' => 'movies', 'as' => 'movies.', 'middleware' => 'api.write'], function () {
+                Route::post('/', [MovieController::class, 'store'])->name('store');
+                Route::put('/{movie}', [MovieController::class, 'update'])->name('update');
+                Route::delete('/{movie}', [MovieController::class, 'destroy'])->name('destroy');
+            });
+            
+            // Cinemas Management
+            Route::group(['prefix' => 'cinemas', 'as' => 'cinemas.', 'middleware' => 'api.write'], function () {
+                Route::post('/', [CinemaController::class, 'store'])->name('store');
+                Route::put('/{cinema}', [CinemaController::class, 'update'])->name('update');
+                Route::delete('/{cinema}', [CinemaController::class, 'destroy'])->name('destroy');
+            });
+        });
     });
 });
 
-// Rutas públicas básicas
+/*
+|--------------------------------------------------------------------------
+| API General Routes
+|--------------------------------------------------------------------------
+*/
+
+// Health Check
 Route::get('/ping', function () {
-    return ['status' => 'OK', 'message' => 'API running'];
-});
+    return [
+        'status' => 'OK',
+        'message' => 'API running',
+        'timestamp' => now()->toIso8601String()
+    ];
+})->name('ping');
+
+// API Fallback - for invalid routes
+Route::fallback(function (Request $request) {
+    $path = $request->path();
+    
+    // Check if we're dealing with an API request to a non-existent endpoint
+    if (strpos($path, 'api/v') === 0) {
+        // Extract version from path
+        $parts = explode('/', $path);
+        $version = $parts[1] ?? '';
+        
+        // Check if version exists but endpoint doesn't
+        if (in_array($version, config('api.versions.supported', ['v1']))) {
+            return ResponseService::error(
+                'Endpoint not found',
+                [
+                    'requested_path' => $path,
+                    'available_endpoints' => url("/api/{$version}")
+                ],
+                404
+            );
+        }
+        
+        // Version doesn't exist
+        return ResponseService::error(
+            'API version not supported', 
+            [
+                'requested_version' => $version,
+                'available_versions' => config('api.versions.supported', ['v1']),
+                'current_version' => config('api.versions.current', 'v1'),
+                'base_url' => url('/api/' . config('api.versions.current', 'v1'))
+            ],
+            404
+        );
+    }
+    
+    // For other non-API routes
+    return ResponseService::error(
+        'Resource not found. This is an API-only server.',
+        [
+            'available_endpoints' => [
+                'api_info' => url('/api'),
+                'api_base' => url('/api/' . config('api.versions.current', 'v1')),
+                'health_check' => url('/api/ping')
+            ]
+        ],
+        404
+    );
+})->name('api.fallback');

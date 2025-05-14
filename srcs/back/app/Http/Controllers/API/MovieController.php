@@ -17,8 +17,26 @@ class MovieController extends Controller
     /**
      * Obtener listado de películas
      *
-     * @param Request $request
-     * @return Illuminate\Http\JsonResponse json
+     * @group Películas
+     * @queryParam name string Filtro opcional por nombre de la película. Example: Star Wars
+     * @response 200 {
+     *   "success": true,
+     *   "data": [
+     *     {
+     *       "id": 1,
+     *       "title": "Star Wars: Episode IV",
+     *       "synopsis": "La película que inició todo...",
+     *       "duration": 121,
+     *       "rating": "PG",
+     *       "release_date": "1977-05-25",
+     *       "photo_url": "https://example.com/star-wars.jpg",
+     *       "slug": "star-wars-episode-iv",
+     *       "created_at": "2023-01-01T00:00:00.000000Z",
+     *       "updated_at": "2023-01-01T00:00:00.000000Z"
+     *     }
+     *   ],
+     *   "message": "Películas obtenidas correctamente"
+     * }
      */
     public function index(Request $request)
     {
