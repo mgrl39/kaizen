@@ -50,11 +50,15 @@ Route::get('/', function () {
     
     return response()->json([
         'name' => config('app.name') . ' API',
-        'versions' => $versionInfo,
         'status' => 'running',
-        'base_url' => url('/api/' . $current),
+        'api_root' => url('/api'),
+        'versions' => $versionInfo,
+        'current_version' => [
+            'version' => $current,
+            'url' => url("/api/{$current}")
+        ],
         'timestamp' => now()->toIso8601String(),
-        'message' => 'Welcome to the API. Please use the correct version prefix in your requests.'
+        'message' => 'Welcome to the API. Please use the API version prefix in your requests.'
     ]);
 })->name('api.info');
 
@@ -194,6 +198,27 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
+| V2 API Routes (Template for future implementation)
+|--------------------------------------------------------------------------
+*/
+Route::prefix('v2')->name('api.v2.')->group(function () {
+    // Base information for v2
+    Route::get('/', function () {
+        return response()->json([
+            'name' => config('app.name') . ' API',
+            'version' => 'v2',
+            'status' => config('api.versions.current') === 'v2' ? 'current' : 'supported',
+            'message' => 'API v2 - Under development',
+            'timestamp' => now()->toIso8601String()
+        ]);
+    })->name('info');
+
+    // In the future, define v2 routes here
+    // You can start by extending v1 functionality with improvements
+});
+
+/*
+|--------------------------------------------------------------------------
 | API General Routes
 |--------------------------------------------------------------------------
 */
@@ -236,7 +261,7 @@ Route::fallback(function (Request $request) {
                 'requested_version' => $version,
                 'available_versions' => config('api.versions.supported', ['v1']),
                 'current_version' => config('api.versions.current', 'v1'),
-                'base_url' => url('/api/' . config('api.versions.current', 'v1'))
+                'api_root' => url('/api')
             ],
             404
         );

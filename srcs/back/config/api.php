@@ -31,21 +31,36 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Versiones API
+    | API Versions
     |--------------------------------------------------------------------------
     |
-    | Configuración de versiones disponibles de la API
+    | Configuration for available API versions
     |
     */
     'versions' => [
-        'current' => 'v1',
-        'deprecated' => [],      // Versiones obsoletas pero aún disponibles
-        'supported' => ['v1'],   // Versiones soportadas
+        'current' => 'v1',               // Current active version
+        'supported' => ['v1', 'v2'],     // All supported versions
+        'deprecated' => [],              // Deprecated versions (still available but will be removed)
+        'development' => ['v2'],         // Versions under development (may not be fully functional)
+        
+        // Version-specific configurations
+        'v1' => [
+            'status' => 'stable',        // Version status: stable, beta, etc.
+            'release_date' => '2023-06-15',
+            'sunset_date' => null,       // Date when this version will be deprecated
+            'default_format' => 'json',
+        ],
+        'v2' => [
+            'status' => 'development',
+            'release_date' => null,      // Not yet released
+            'sunset_date' => null,
+            'default_format' => 'json',
+        ],
     ],
 
     /*
     |--------------------------------------------------------------------------
-    | Formatos de Respuesta
+    | Response Formats
     |--------------------------------------------------------------------------
     |
     | Configuraciones para el formato de respuestas API
