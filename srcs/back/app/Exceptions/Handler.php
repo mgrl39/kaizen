@@ -10,6 +10,7 @@ use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Support\Arr;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -29,6 +30,25 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
+        // Global handling for not found routes
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            $path = $request->path();
+            
+            // Force JSON response for any 404 error
+            return ResponseService::error(
+                'Resource not found',
+                [
+                    'path' => $path,
+                    'available_endpoints' => [
+                        'api_info' => url('/api'),
+                        'api_base' => url('/api/' . config('api.versions.current', 'v1')),
+                        'health_check' => url('/api/ping')
+                    ]
+                ],
+                404
+            );
+        });
+        
         $this->reportable(function (Throwable $e) {
             //
         });
@@ -39,76 +59,67 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        // Si la solicitud espera JSON o es una ruta API
+        // If request expects JSON or is an API route
         $wantsJson = $request->expectsJson() || 
                     strpos($request->getRequestUri(), '/api/') === 0;
                     
         if ($wantsJson) {
-            // ApiException personalizada - ya tiene lógica de renderizado
+            // Custom ApiException - already has rendering logic
             if ($exception instanceof ApiException) {
                 return $exception->render();
             }
             
-            // Excepción de autenticación
+            // Authentication exception
             if ($exception instanceof AuthenticationException) {
                 return ResponseService::error(
-                    'No autenticado. Por favor inicie sesión.',
+                    'Unauthenticated. Please log in.',
                     null,
                     401
                 );
             }
             
-            // Excepción de validación
+            // Validation exception
             if ($exception instanceof ValidationException) {
                 return ResponseService::error(
-                    'Error de validación. Por favor revise los datos enviados.',
+                    'Validation error. Please check your data.',
                     $exception->errors(),
                     422
                 );
             }
             
-            // Ruta no encontrada
-            if ($exception instanceof NotFoundHttpException) {
-                return ResponseService::error(
-                    'Recurso no encontrado.',
-                    null,
-                    404
-                );
-            }
-            
-            // Método no permitido
+            // Method not allowed
             if ($exception instanceof MethodNotAllowedHttpException) {
                 return ResponseService::error(
-                    'Método HTTP no permitido para esta ruta.',
+                    'HTTP method not allowed for this route.',
                     null,
                     405
                 );
             }
             
-            // Excepciones HTTP estándar
+            // Standard HTTP exceptions
             if ($this->isHttpException($exception)) {
                 $statusCode = $exception->getStatusCode();
                 
                 // Custom messages based on status code
                 $message = match($statusCode) {
-                    404 => 'Recurso no encontrado',
-                    403 => 'Acceso prohibido',
-                    401 => 'Acceso no autorizado',
-                    429 => 'Demasiadas solicitudes',
-                    500 => 'Error del servidor',
-                    503 => 'Servicio no disponible',
-                    default => 'Ha ocurrido un error'
+                    404 => 'Resource not found',
+                    403 => 'Forbidden access',
+                    401 => 'Unauthorized access',
+                    429 => 'Too many requests',
+                    500 => 'Server error',
+                    503 => 'Service unavailable',
+                    default => 'An error occurred'
                 };
                 
                 return ResponseService::error($message, null, $statusCode);
             }
             
-            // Para excepciones no HTTP, devolver como error 500
+            // For non-HTTP exceptions, return as 500 error
             if (!config('app.debug')) {
-                return ResponseService::error('Error interno del servidor', null, 500);
+                return ResponseService::error('Internal server error', null, 500);
             }
             
-            // En modo debug, mostrar detalles para desarrolladores
+            // In debug mode, show details for developers
             return ResponseService::error(
                 $exception->getMessage(),
                 [
@@ -123,6 +134,32 @@ class Handler extends ExceptionHandler
             );
         }
         
+        // For normal web requests, convert to JSON in this API case
+        if ($exception instanceof NotFoundHttpException) {
+            return $this->renderJsonResponse($request, $exception);
+        }
+        
         return parent::render($request, $exception);
+    }
+    
+    /**
+     * Render a JSON response for any request
+     */
+    protected function renderJsonResponse($request, Throwable $exception): Response
+    {
+        $statusCode = $this->isHttpException($exception) ? $exception->getStatusCode() : 500;
+        
+        return ResponseService::error(
+            'Resource not found. This server provides API only.',
+            [
+                'path' => $request->path(),
+                'available_endpoints' => [
+                    'api_base' => url('/api'),
+                    'api_v1' => url('/api/v1'),
+                    'health_check' => url('/api/ping')
+                ]
+            ],
+            $statusCode
+        );
     }
 }

@@ -7,14 +7,14 @@ use Illuminate\Http\JsonResponse;
 class ResponseService
 {
     /**
-     * Respuesta exitosa estándar
+     * Standard success response
      *
-     * @param mixed $data Los datos a devolver
-     * @param string $message Mensaje informativo
-     * @param int $statusCode Código HTTP (default: 200)
+     * @param mixed $data The data to return
+     * @param string $message Informative message
+     * @param int $statusCode HTTP code (default: 200)
      * @return JsonResponse
      */
-    public static function success($data = null, string $message = 'Operación completada con éxito', int $statusCode = 200): JsonResponse
+    public static function success($data = null, string $message = 'Operation completed successfully', int $statusCode = 200): JsonResponse
     {
         return response()->json([
             'success' => true,
@@ -24,14 +24,14 @@ class ResponseService
     }
 
     /**
-     * Respuesta de error estándar
+     * Standard error response
      *
-     * @param string $message Mensaje de error
-     * @param mixed $errors Errores detallados (opcional)
-     * @param int $statusCode Código HTTP (default: 400)
+     * @param string $message Error message
+     * @param mixed $errors Detailed errors (optional)
+     * @param int $statusCode HTTP code (default: 400)
      * @return JsonResponse
      */
-    public static function error(string $message = 'Ha ocurrido un error', $errors = null, int $statusCode = 400): JsonResponse
+    public static function error(string $message = 'An error has occurred', $errors = null, int $statusCode = 400): JsonResponse
     {
         $response = [
             'success' => false,
@@ -46,13 +46,13 @@ class ResponseService
     }
 
     /**
-     * Respuesta con datos paginados
+     * Response with paginated data
      *
-     * @param mixed $data Datos paginados
-     * @param string $message Mensaje informativo
+     * @param mixed $data Paginated data
+     * @param string $message Informative message
      * @return JsonResponse
      */
-    public static function paginated($data, string $message = 'Datos recuperados con éxito'): JsonResponse
+    public static function paginated($data, string $message = 'Data retrieved successfully'): JsonResponse
     {
         return response()->json([
             'success' => true,

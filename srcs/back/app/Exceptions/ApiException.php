@@ -27,7 +27,7 @@ class ApiException extends Exception
      * @param Exception|null $previous
      */
     public function __construct(
-        string $message = 'Ha ocurrido un error en la API',
+        string $message = 'An error occurred in the API',
         int $statusCode = 400,
         $errors = null,
         Exception $previous = null
@@ -38,7 +38,7 @@ class ApiException extends Exception
     }
 
     /**
-     * Renderizar la excepción como respuesta HTTP
+     * Render the exception as HTTP response
      *
      * @return JsonResponse
      */
@@ -48,7 +48,7 @@ class ApiException extends Exception
     }
 
     /**
-     * Obtener el código de estado HTTP
+     * Get the HTTP status code
      *
      * @return int
      */
@@ -58,7 +58,7 @@ class ApiException extends Exception
     }
 
     /**
-     * Obtener los errores detallados
+     * Get the detailed errors
      *
      * @return mixed
      */
