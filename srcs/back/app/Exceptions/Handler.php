@@ -11,6 +11,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Support\Arr;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Log;
 
 class Handler extends ExceptionHandler
 {
@@ -46,6 +48,28 @@ class Handler extends ExceptionHandler
                     ]
                 ],
                 404
+            );
+        });
+        
+        // Handle database query exceptions to hide SQL/DB details
+        $this->renderable(function (QueryException $e, $request) {
+            // Log the detailed error
+            Log::error('Database error: ' . $e->getMessage());
+            
+            // If this is a "table does not exist" error
+            if (strpos($e->getMessage(), 'relation') !== false && 
+                strpos($e->getMessage(), 'does not exist') !== false) {
+                return ResponseService::error(
+                    'This feature is currently unavailable',
+                    null,
+                    503
+                );
+            }
+            
+            return ResponseService::error(
+                'A database error occurred. Our team has been notified.',
+                null,
+                500
             );
         });
         
@@ -95,6 +119,19 @@ class Handler extends ExceptionHandler
                     405
                 );
             }
+
+            // Database query exception (catch it here for better control)
+            if ($exception instanceof QueryException) {
+                // Log the detailed error
+                Log::error('Database error: ' . $exception->getMessage());
+                
+                // Sanitized error message for user
+                return ResponseService::error(
+                    'A database error occurred. Our team has been notified.',
+                    null,
+                    500
+                );
+            }
             
             // Standard HTTP exceptions
             if ($this->isHttpException($exception)) {
@@ -119,19 +156,28 @@ class Handler extends ExceptionHandler
                 return ResponseService::error('Internal server error', null, 500);
             }
             
-            // In debug mode, show details for developers
-            return ResponseService::error(
-                $exception->getMessage(),
-                [
-                    'exception' => get_class($exception),
-                    'file' => $exception->getFile(),
-                    'line' => $exception->getLine(),
-                    'trace' => collect($exception->getTrace())->map(function ($trace) {
-                        return Arr::except($trace, ['args']);
-                    })->all(),
-                ],
-                500
-            );
+            // Only include these details in development mode
+            if (config('app.debug')) {
+                return ResponseService::error(
+                    $exception->getMessage(),
+                    [
+                        'exception' => get_class($exception),
+                        'file' => $exception->getFile(),
+                        'line' => $exception->getLine(),
+                        'trace' => collect($exception->getTrace())->map(function ($trace) {
+                            return Arr::except($trace, ['args']);
+                        })->all(),
+                    ],
+                    500
+                );
+            } else {
+                // In production - hide internal details
+                return ResponseService::error(
+                    'An unexpected error occurred. Our team has been notified.',
+                    null,
+                    500
+                );
+            }
         }
         
         // For normal web requests, convert to JSON in this API case
