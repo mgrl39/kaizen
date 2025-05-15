@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/lib/components/MovieCard.svelte</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('MovieCard_8svelte_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">MovieCard.svelte</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="MovieCard_8svelte.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;script lang=<span class="stringliteral">&quot;ts&quot;</span>&gt;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>  <span class="keyword">import</span> type { <a class="code hl_variable" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a> } from <span class="stringliteral">&#39;$lib/types&#39;</span>;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>  </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">    4</a></span>  export let <a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>: <a class="code hl_variable" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a>;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>  </div>
+<div class="foldopen" id="foldopen00006" data-start="{" data-end="}">
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="MovieCard_8svelte.html#ac52114ff3cfd9c999f9a1a792e0df338">    6</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="MovieCard_8svelte.html#ac52114ff3cfd9c999f9a1a792e0df338">truncateText</a>(<a class="code hl_variable" href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>, limit: number = 100): <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <a class="code hl_variable" href="index_8php.html#ab7b0934f179386acaa4ad69fb6e3c8e6">if</a> (!<a class="code hl_variable" href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a>) <a class="code hl_variable" href="config_2api_8php.html#ac1157c036d3a44e3e0660b84c9be1488">return</a> <span class="stringliteral">&#39;Sin descripción disponible&#39;</span>;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a>.length &gt; limit ? <a class="code hl_variable" href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a>.substring(0, limit) + <span class="stringliteral">&#39;...&#39;</span> : <a class="code hl_variable" href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>  }</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>&lt;/script&gt;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>&lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;movie-card card h-100&quot;</span>&gt;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card-image-wrapper&quot;</span>&gt;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    &lt;img src={<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.photo_url} <span class="keyword">class</span>=<span class="stringliteral">&quot;card-img-top&quot;</span> alt={<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.title}&gt;</div>
+</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card-overlay&quot;</span>&gt;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>      &lt;a href={`/<a class="code hl_variable" href="i18n_2languages_2en_2index_8ts.html#a2b926dbd938052b575ad0128745bf8da">movies</a>/<a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.id}`} <span class="keyword">class</span>=<span class="stringliteral">&quot;btn btn-primary btn-sm&quot;</span>&gt;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        &lt;i <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-ticket me-1&quot;</span>&gt;&lt;/i&gt;Ver detalles</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>      &lt;/a&gt;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card-body&quot;</span>&gt;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;d-flex justify-content-between align-items-start mb-2&quot;</span>&gt;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>      &lt;h5 <span class="keyword">class</span>=<span class="stringliteral">&quot;card-title mb-0&quot;</span>&gt;{<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.title}&lt;/h5&gt;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>      &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;rating-badge&quot;</span>&gt;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        &lt;i <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-star-fill me-1&quot;</span>&gt;&lt;/i&gt;{<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.rating}</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>      &lt;/span&gt;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    &lt;p <span class="keyword">class</span>=<span class="stringliteral">&quot;card-text text-muted&quot;</span>&gt;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>      {<a class="code hl_function" href="MovieCard_8svelte.html#ac52114ff3cfd9c999f9a1a792e0df338">truncateText</a>(<a class="code hl_variable" href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a>.synopsis || <span class="stringliteral">&#39;&#39;</span>, 100)}</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    &lt;/p&gt;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>&lt;/div&gt;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>&lt;style&gt;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  .movie-card {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    transition: transform 0.3s ease;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>  }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  .card-<a class="code hl_variable" href="namespacepodman-compose.html#a01cba4f1b41cdf424ad1b477f1ffb16e">image</a>-wrapper {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    position: relative;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    overflow: hidden;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    border-radius: 16px 16px 0 0;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  .card-<a class="code hl_variable" href="namespacepodman-compose.html#a01cba4f1b41cdf424ad1b477f1ffb16e">image</a>-wrapper img {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    height: 300px;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordtype">object</span>-fit: cover;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    transition: transform 0.3s ease;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>  }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>  .card-overlay {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    position: absolute;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    top: 0;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    left: 0;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    right: 0;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    bottom: 0;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    background: rgba(0,0,0,0.5);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    display: flex;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    align-items: center;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    justify-content: center;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    opacity: 0;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    transition: opacity 0.3s ease;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>  }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  .movie-card:hover .card-overlay {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    opacity: 1;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  .movie-card:hover img {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    transform: scale(1.05);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  .rating-badge {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    background: linear-<a class="code hl_variable" href="_09page_8svelte.html#aa5ac93ad2c125dd3ebc76968bce14123">gradient</a>(135deg, #6d28d9, #8b5cf6);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <a class="code hl_variable" href="DashboardCard_8svelte.html#a77ccafcb5c7f20f7ddda5ac0cf3b8e70">color</a>: white;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    padding: 0.25rem 0.75rem;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    border-radius: 20px;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    font-size: 0.875rem;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>  }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>&lt;/style&gt;</div>
+<div class="ttc" id="aDashboardCard_8svelte_html_a77ccafcb5c7f20f7ddda5ac0cf3b8e70"><div class="ttname"><a href="DashboardCard_8svelte.html#a77ccafcb5c7f20f7ddda5ac0cf3b8e70">color</a></div><div class="ttdeci">export let color</div><div class="ttdef"><b>Definition</b> <a href="DashboardCard_8svelte_source.html#l00005">DashboardCard.svelte:5</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a6e1be1b95a8ae40dbf962380bbbdbfe3"><div class="ttname"><a href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a></div><div class="ttdeci">$ $</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00011">HeroBanner.svelte:11</a></div></div>
+<div class="ttc" id="aMovieCard_8svelte_html_a8952b6e4e9fe569e87d7df8ee0dde779"><div class="ttname"><a href="MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779">movie</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let movie</div><div class="ttdef"><b>Definition</b> <a href="MovieCard_8svelte_source.html#l00004">MovieCard.svelte:4</a></div></div>
+<div class="ttc" id="aMovieCard_8svelte_html_ac52114ff3cfd9c999f9a1a792e0df338"><div class="ttname"><a href="MovieCard_8svelte.html#ac52114ff3cfd9c999f9a1a792e0df338">truncateText</a></div><div class="ttdeci">function truncateText(text:string, limit:number=100)</div><div class="ttdef"><b>Definition</b> <a href="MovieCard_8svelte_source.html#l00006">MovieCard.svelte:6</a></div></div>
+<div class="ttc" id="aNavbar_8svelte_html_a73362c7ff79f83b28bd02f99823b9460"><div class="ttname"><a href="Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460">text</a></div><div class="ttdeci">const text</div><div class="ttdef"><b>Definition</b> <a href="Navbar_8svelte_source.html#l00033">Navbar.svelte:34</a></div></div>
+<div class="ttc" id="a_09page_8svelte_html_aa5ac93ad2c125dd3ebc76968bce14123"><div class="ttname"><a href="_09page_8svelte.html#aa5ac93ad2c125dd3ebc76968bce14123">gradient</a></div><div class="ttdeci">$ gradient</div><div class="ttdef"><b>Definition</b> <a href="_09page_8svelte_source.html#l00018">+page.svelte:18</a></div></div>
+<div class="ttc" id="aconfig_2api_8php_html_ac1157c036d3a44e3e0660b84c9be1488"><div class="ttname"><a href="config_2api_8php.html#ac1157c036d3a44e3e0660b84c9be1488">return</a></div><div class="ttdeci">return['rate_limiting'=&gt;['public'=&gt;['attempts'=&gt; 60, 'period'=&gt; 60,], 'authenticated'=&gt;['attempts'=&gt; 120, 'period'=&gt; 60,], 'write_operations'=&gt;['attempts'=&gt; 30, 'period'=&gt; 60,],], 'versions'=&gt;['current'=&gt; 'v1', 'supported'=&gt;['v1', 'v2'], 'deprecated'=&gt;[], 'development'=&gt;['v2'], 'v1'=&gt;['status'=&gt; 'stable', 'release_date'=&gt; '2023-06-15', 'sunset_date'=&gt; null, 'default_format'=&gt; 'json',], 'v2'=&gt;['status'=&gt; 'development', 'release_date'=&gt; null, 'sunset_date'=&gt; null, 'default_format'=&gt; 'json',],], 'response'=&gt;['include_timestamp'=&gt; true, 'default_page_size'=&gt; 15, 'max_page_size'=&gt; 100,],]</div><div class="ttdef"><b>Definition</b> <a href="config_2api_8php_source.html#l00003">api.php:74</a></div></div>
+<div class="ttc" id="ai18n_2languages_2en_2index_8ts_html_a2b926dbd938052b575ad0128745bf8da"><div class="ttname"><a href="i18n_2languages_2en_2index_8ts.html#a2b926dbd938052b575ad0128745bf8da">movies</a></div><div class="ttdeci">const movies</div><div class="ttdef"><b>Definition</b> <a href="i18n_2languages_2en_2index_8ts_source.html#l00006">index.ts:6</a></div></div>
+<div class="ttc" id="aindex_8php_html_ab7b0934f179386acaa4ad69fb6e3c8e6"><div class="ttname"><a href="index_8php.html#ab7b0934f179386acaa4ad69fb6e3c8e6">if</a></div><div class="ttdeci">if(file_exists( $maintenance=__DIR__.'/../storage/framework/maintenance.php'))</div><div class="ttdef"><b>Definition</b> <a href="index_8php_source.html#l00019">index.php:19</a></div></div>
+<div class="ttc" id="anamespacepodman-compose_html_a01cba4f1b41cdf424ad1b477f1ffb16e"><div class="ttname"><a href="namespacepodman-compose.html#a01cba4f1b41cdf424ad1b477f1ffb16e">podman-compose.image</a></div><div class="ttdeci">latest image</div><div class="ttdef"><b>Definition</b> <a href="focalboard_2podman-compose_8yml_source.html#l00005">podman-compose.yml:5</a></div></div>
+<div class="ttc" id="atypes_8ts_html_a698186c0c4844869610dd0b58d07f02e"><div class="ttname"><a href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a></div><div class="ttdeci">export interface Movie</div><div class="ttdoc">Interfaces para los modelos de datos de Kaizen Cinema.</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00006">types.ts:6</a></div></div>
+<div class="ttc" id="atypes_8ts_html_aa3d0348d37e494b4a9a39c7210f12ee2"><div class="ttname"><a href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a></div><div class="ttdeci">errors string[]</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00070">types.ts:70</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_2bcf18b5ffe1a51704bd41581b0afa64.html">lib</a></li><li class="navelem"><a class="el" href="dir_3685e434457d87bd883fe6a00222bc8b.html">components</a></li><li class="navelem"><a class="el" href="MovieCard_8svelte.html">MovieCard.svelte</a></li>
+    <li class="footer">Generado el Jueves, 15 de mayo de 2025 15:56:07 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+var Navbar_8svelte =
+[
+    [ "cancelAdminAccess", "Navbar_8svelte.html#aa8748b0d0e6f67df0f9d35fa13b4d370", null ],
+    [ "confirmAdminAccess", "Navbar_8svelte.html#a57775a1ca224de92a08ad1382c7713ca", null ],
+    [ "fetchProfile", "Navbar_8svelte.html#a08e0ecfb3751db7913e2a06d7b29bfd4", null ],
+    [ "handleAdminClick", "Navbar_8svelte.html#a59ff2ae941f74a2e2797556e63c1e44d", null ],
+    [ "handleClickOutside", "Navbar_8svelte.html#a832cc6cafdd00382e533dcd7e8a7dfbc", null ],
+    [ "handleLogout", "Navbar_8svelte.html#ac32e511cabb6ca2f6e807231a1a887ad", null ],
+    [ "isActive", "Navbar_8svelte.html#a50a845cfbd3086cc4ee05c85dc23bcaf", null ],
+    [ "setupDefaultLanguage", "Navbar_8svelte.html#a6f440dc7eb9eba54ce2500cba13d15da", null ],
+    [ "toggleLanguageSelector", "Navbar_8svelte.html#aaa04bf4bb87434893b800390bd2e7566", null ],
+    [ "toggleMobileMenu", "Navbar_8svelte.html#a7d6147d118fc864231b6b37451c7b288", null ],
+    [ "toggleUserMenu", "Navbar_8svelte.html#afd7c501ee8ba6256c91a0631ddce7331", null ],
+    [ "__pad0__", "Navbar_8svelte.html#ac876d51c7d9eb131ba58036ae9ba5e71", null ],
+    [ "authState", "Navbar_8svelte.html#ab79f1bb8143f49288ee8f0895bb65138", null ],
+    [ "icon", "Navbar_8svelte.html#a9dd9f0f69c1cc6c2a415ae9eb44a7f8d", null ],
+    [ "isAdmin", "Navbar_8svelte.html#acdc8d65c8388dfd967ac81aab59c7413", null ],
+    [ "languageSelectorOpen", "Navbar_8svelte.html#a1f8a7cd854936cb079cec800d3b2c4e4", null ],
+    [ "loading", "Navbar_8svelte.html#ab07d0e968d5c51f467aa259e97dfefcd", null ],
+    [ "mobileMenuOpen", "Navbar_8svelte.html#acc74c2c31dbf5d3b5252afb748a6f4bc", null ],
+    [ "navItems", "Navbar_8svelte.html#a229f547436cc1f6d2cd4f47982edaf0a", null ],
+    [ "scrolled", "Navbar_8svelte.html#a04b205c364ee7ba96bb7a9b1fc9af449", null ],
+    [ "showAdminConfirmDialog", "Navbar_8svelte.html#a429095c3b72f8a7941a69011bd0dbd90", null ],
+    [ "text", "Navbar_8svelte.html#a73362c7ff79f83b28bd02f99823b9460", null ],
+    [ "userMenu", "Navbar_8svelte.html#a1b9c87ef4922086a29d931927dcb4610", null ],
+    [ "userMenuOpen", "Navbar_8svelte.html#ad8e6f567c32ef45984b6ef1751a3e09d", null ],
+    [ "userName", "Navbar_8svelte.html#a6ccffeed1773822308e77a68c0c38260", null ]
+];

@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['savesettings_0',['saveSettings',['../admin_2settings_2_09page_8svelte.html#a284903225ec6bb062ca4adfe34c84432',1,'+page.svelte']]],
+  ['schedule_1',['schedule',['../classApp_1_1Console_1_1Kernel.html#a99912aa32dab8508ff247aef40ba7bcb',1,'App::Console::Kernel']]],
+  ['screenings_2',['screenings',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#a6503d357d014440209d737f5f4d9c2b6',1,'App::Http::Controllers::API::MovieController']]],
+  ['search_3',['search',['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a77112287cfbaee5564fbff21baf56af2',1,'App\Http\Controllers\API\CinemaController\search()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#aa75a9e4a182c2f99c3f6d122814068bd',1,'App\Http\Controllers\API\MovieController\search()']]],
+  ['seats_4',['seats',['../classApp_1_1Models_1_1Booking.html#a237178251c97b6ec3a64e8bf97b7c2e4',1,'App\Models\Booking\seats()'],['../classApp_1_1Models_1_1Functions.html#a06f9a09d383fdd6d521bc9d438384124',1,'App\Models\Functions\seats()'],['../classApp_1_1Models_1_1Room.html#ab7ed1f1a5106bed4bdae7471b875015d',1,'App\Models\Room\seats()']]],
+  ['selectlanguage_5',['selectLanguage',['../LanguageSelector_8svelte.html#a401f41de15ecbeb73aa06c53ede2ba74',1,'LanguageSelector.svelte']]],
+  ['seterrormessage_6',['setErrorMessage',['../login_2_09page_8svelte.html#aced84ee1d9988a3d59f7a24cb2c32dc9',1,'+page.svelte']]],
+  ['setloading_7',['setLoading',['../login_2_09page_8svelte.html#a39644628c1600cf16d2400a8667ff425',1,'+page.svelte']]],
+  ['setshowerror_8',['setShowError',['../login_2_09page_8svelte.html#af51e86e7a286c62e6aee92cb814049ce',1,'+page.svelte']]],
+  ['setupdefaultlanguage_9',['setupDefaultLanguage',['../Navbar_8svelte.html#a6f440dc7eb9eba54ce2500cba13d15da',1,'Navbar.svelte']]],
+  ['setupnavbar_10',['setupNavbar',['../navbar_8ts.html#adb985b3c28c9751a3b7b79c3839d7a55',1,'navbar.ts']]],
+  ['sharemovie_11',['shareMovie',['../movies_2_0fslug_0e_2_09page_8svelte.html#addbb9e071fe8c43409d6489a8c7e1cd5',1,'+page.svelte']]],
+  ['shoulddiscoverevents_12',['shouldDiscoverEvents',['../classApp_1_1Providers_1_1EventServiceProvider.html#a04d437e639d779b81268a5e36af0d483',1,'App::Providers::EventServiceProvider']]],
+  ['show_13',['show',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#ab8b7874e5c8dec9058d6aaded6f42ac1',1,'App\Http\Controllers\API\MovieController\show()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1ProfileController.html#a66f19edb86c676996e8a53717556f279',1,'App\Http\Controllers\API\ProfileController\show()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1UserController.html#a981e3d066182207cc853690ef6e8c99a',1,'App\Http\Controllers\API\UserController\show()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1GenreController.html#a4f7a0467eef2bfdfe86cc30957c8a534',1,'App\Http\Controllers\API\GenreController\show()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a32dc16806faf95d5843387b60fa91fe6',1,'App\Http\Controllers\API\CinemaController\show()']]],
+  ['showv2_14',['showV2',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#a9436a3d5e9e014109185bffcedfac534',1,'App::Http::Controllers::API::MovieController']]],
+  ['status_15',['status',['../classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#a854c60a2d4c7c4c0f63f49607ae14f65',1,'App::Http::Controllers::API::ServerStatusController']]],
+  ['store_16',['store',['../classApp_1_1Http_1_1Controllers_1_1API_1_1UserController.html#a4eeac57dd2cd9eaa66ef3b8ecc73b21b',1,'App\Http\Controllers\API\UserController\store()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#aee282932157885d9249ac52d4121ca6f',1,'App\Http\Controllers\API\MovieController\store()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a0c5cacf525c01247b3fb17e99f3aff6a',1,'App\Http\Controllers\API\CinemaController\store()']]],
+  ['submitform_17',['submitForm',['../login_2_09page_8svelte.html#af2f1a2c7bfd4a398fb5d73274b3f1b07',1,'+page.svelte']]],
+  ['success_18',['success',['../classApp_1_1Services_1_1ResponseService.html#a63fe4b4098403390af5cc5d79b115974',1,'App::Services::ResponseService']]],
+  ['switchlang_19',['switchLang',['../classApp_1_1Http_1_1Controllers_1_1LanguageController.html#a82ac046c1db7e29577412b31e341f6ef',1,'App::Http::Controllers::LanguageController']]]
+];

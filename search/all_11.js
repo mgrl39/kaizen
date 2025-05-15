@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['madrid_0',['Madrid',['../admin_2cinemas_2edit_2_09page_8svelte.html#a92706d740eda48e7804900fc65d1ea53',1,'+page.svelte']]],
+  ['mail_2ephp_1',['mail.php',['../mail_8php.html',1,'']]],
+  ['manage_2',['Manage',['../classApp_1_1Models_1_1Manage.html',1,'App::Models']]],
+  ['manage_2ephp_3',['Manage.php',['../Manage_8php.html',1,'']]],
+  ['matchesdate_4',['matchesDate',['../admin_2bookings_2_09page_8svelte.html#a946b7c621cf167b9f4d88fd91d8e5a07',1,'+page.svelte']]],
+  ['matchessearch_5',['matchesSearch',['../admin_2bookings_2_09page_8svelte.html#a4bbe4d997ceabe3873b26224af791292',1,'+page.svelte']]],
+  ['menuitems_6',['menuItems',['../admin_2_09layout_8svelte.html#aed17842e9bc523429167e81c8d20680b',1,'+layout.svelte']]],
+  ['message_7',['message',['../ErrorPage_8svelte.html#acf7afe818f18bbb97f502ada48c1e733',1,'ErrorPage.svelte']]],
+  ['migration_8',['Migration',['../classMigration.html',1,'']]],
+  ['mobilemenuopen_9',['mobileMenuOpen',['../Navbar_8svelte.html#acc74c2c31dbf5d3b5252afb748a6f4bc',1,'Navbar.svelte']]],
+  ['movie_10',['movie',['../classApp_1_1Models_1_1Functions.html#a8f5f7c9b2189a46de39b95cfffe142d9',1,'App\Models\Functions\movie()'],['../types_8ts.html#a698186c0c4844869610dd0b58d07f02e',1,'Movie:&#160;types.ts'],['../movies_2_0fslug_0e_2_09page_8svelte.html#aa7948d126a299b11352125e6a5b686c1',1,'movie:&#160;+page.svelte'],['../admin_2reports_2_09page_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779',1,'movie:&#160;+page.svelte'],['../MovieCard_8svelte.html#a8952b6e4e9fe569e87d7df8ee0dde779',1,'movie:&#160;MovieCard.svelte'],['../classApp_1_1Models_1_1Movie.html',1,'App\Models\Movie']]],
+  ['movie_2ephp_11',['Movie.php',['../Movie_8php.html',1,'']]],
+  ['movieactor_12',['MovieActor',['../classApp_1_1Models_1_1MovieActor.html',1,'App::Models']]],
+  ['movieactor_2ephp_13',['MovieActor.php',['../MovieActor_8php.html',1,'']]],
+  ['moviecard_2esvelte_14',['MovieCard.svelte',['../MovieCard_8svelte.html',1,'']]],
+  ['moviecontroller_15',['moviecontroller',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html',1,'App\Http\Controllers\API\MovieController'],['../classApp_1_1Http_1_1Controllers_1_1MovieController.html',1,'App\Http\Controllers\MovieController']]],
+  ['moviecontroller_2ephp_16',['moviecontroller.php',['../API_2MovieController_8php.html',1,'(Espacio de nombres global)'],['../MovieController_8php.html',1,'(Espacio de nombres global)']]],
+  ['moviefactory_17',['MovieFactory',['../classDatabase_1_1Factories_1_1MovieFactory.html',1,'Database::Factories']]],
+  ['moviefactory_2ephp_18',['MovieFactory.php',['../MovieFactory_8php.html',1,'']]],
+  ['moviegenre_19',['MovieGenre',['../classApp_1_1Models_1_1MovieGenre.html',1,'App::Models']]],
+  ['moviegenre_2ephp_20',['MovieGenre.php',['../MovieGenre_8php.html',1,'']]],
+  ['movies_21',['movies',['../classApp_1_1Models_1_1Genre.html#a888d984aa55634a5f0cbf652c6692778',1,'App\Models\Genre\movies()'],['../movies_2_09page_8svelte.html#a2b571977c365a4649fe911b7f0fbbd16',1,'movies:&#160;+page.svelte'],['../classApp_1_1Models_1_1Actor.html#a5d9128b6fa3d0839cec7138a39c821f0',1,'App\Models\Actor\movies()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1GenreController.html#a591f4c9005962cad58f993ac457288db',1,'App\Http\Controllers\API\GenreController\movies()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a318775720992266edc30e9288a8e3c2f',1,'App\Http\Controllers\API\CinemaController\movies()'],['../i18n_2languages_2en_2index_8ts.html#a2b926dbd938052b575ad0128745bf8da',1,'movies:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#a2b926dbd938052b575ad0128745bf8da',1,'movies:&#160;index.ts'],['../admin_2movies_2_09page_8svelte.html#a091832447eb0429534e3f9170c5e4a93',1,'movies:&#160;+page.svelte']]],
+  ['moviesdata_22',['moviesData',['../admin_2reports_2_09page_8svelte.html#a8ed5e8a6ba01c5e001a8ddcd2a943eb5',1,'+page.svelte']]],
+  ['movieseeder_23',['MovieSeeder',['../classDatabase_1_1Seeders_1_1MovieSeeder.html',1,'Database::Seeders']]],
+  ['movieseeder_2ephp_24',['MovieSeeder.php',['../MovieSeeder_8php.html',1,'']]]
+];

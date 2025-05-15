@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['validateform_0',['validateForm',['../register_2_09page_8svelte.html#a331c4d836fd6417f618d2f9cd4d55af3',1,'+page.svelte']]],
+  ['validatesignature_1',['ValidateSignature',['../classApp_1_1Http_1_1Middleware_1_1ValidateSignature.html',1,'App::Http::Middleware']]],
+  ['validatesignature_2ephp_2',['ValidateSignature.php',['../ValidateSignature_8php.html',1,'']]],
+  ['value_3',['value',['../DashboardCard_8svelte.html#aec1cc0f8b4de3ef546ada9f26d5619c4',1,'DashboardCard.svelte']]],
+  ['variant_4',['variant',['../ErrorPage_8svelte.html#aa1936e46341690b5a6c94ab8c6ebd348',1,'ErrorPage.svelte']]],
+  ['variantclasses_5',['variantClasses',['../ErrorPage_8svelte.html#af9d3b27d132f29247277b89b8ffeb83c',1,'ErrorPage.svelte']]],
+  ['vercel_2ejson_6',['vercel.json',['../vercel_8json.html',1,'']]],
+  ['verifycsrftoken_7',['VerifyCsrfToken',['../classApp_1_1Http_1_1Middleware_1_1VerifyCsrfToken.html',1,'App::Http::Middleware']]],
+  ['verifycsrftoken_2ephp_8',['VerifyCsrfToken.php',['../VerifyCsrfToken_8php.html',1,'']]],
+  ['verifydatabasestructure_9',['VerifyDatabaseStructure',['../classApp_1_1Console_1_1Commands_1_1VerifyDatabaseStructure.html',1,'App::Console::Commands']]],
+  ['verifydatabasestructure_2ephp_10',['VerifyDatabaseStructure.php',['../VerifyDatabaseStructure_8php.html',1,'']]],
+  ['version_11',['version',['../namespacepodman-compose.html#ae9d0c0ee44400ef5742f5af241192c96',1,'podman-compose']]],
+  ['view_2ephp_12',['view.php',['../view_8php.html',1,'']]],
+  ['viewmovies_13',['viewmovies',['../i18n_2languages_2en_2index_8ts.html#a158e7432627d4e3cd2fa7402b26acfb0',1,'viewMovies:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#a158e7432627d4e3cd2fa7402b26acfb0',1,'viewMovies:&#160;index.ts']]],
+  ['virtual_5fhost_14',['VIRTUAL_HOST',['../namespacepodman-compose.html#a0dfe54be13c42c268b7715104026a498',1,'podman-compose']]],
+  ['virtual_5fport_15',['VIRTUAL_PORT',['../namespacepodman-compose.html#aa365ad861dd6135fd1f56291783eb874',1,'podman-compose']]],
+  ['virtual_5froot_16',['VIRTUAL_ROOT',['../namespacepodman-compose.html#ad28ee2594d30ae740b2d7a597c08660d',1,'podman-compose']]],
+  ['vite_2econfig_2ejs_17',['vite.config.js',['../vite_8config_8js.html',1,'']]],
+  ['vite_2econfig_2ets_18',['vite.config.ts',['../vite_8config_8ts.html',1,'']]],
+  ['volumes_19',['volumes',['../namespacepodman-compose.html#a6c32dddd842ce0f07d3c5c058871a761',1,'podman-compose']]]
+];

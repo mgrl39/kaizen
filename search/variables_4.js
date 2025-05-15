@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['cancelbuttonref_0',['cancelButtonRef',['../admin_2_09layout_8svelte.html#ae1cf0febd769d40e7766ebca929b98b5',1,'+layout.svelte']]],
+  ['categories_1',['categories',['../CategoriesSection_8svelte.html#a60bebffc31d5d9ae236f178cbf2b767e',1,'CategoriesSection.svelte']]],
+  ['category_2',['category',['../types_8ts.html#a6c9ff2f14c4842d3466f49e7fa444b21',1,'Category:&#160;types.ts'],['../CategoryCard_8svelte.html#a30223c04436e0b815b24a23326b625c1',1,'category:&#160;CategoryCard.svelte']]],
+  ['category_5faction_3',['category_action',['../i18n_2languages_2en_2index_8ts.html#a15987673efeb440d646f8070319db297',1,'category_action:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#a15987673efeb440d646f8070319db297',1,'category_action:&#160;index.ts']]],
+  ['category_5fcomedy_4',['category_comedy',['../i18n_2languages_2en_2index_8ts.html#ab7dfe565e83a740334a346c4111db152',1,'category_comedy:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#ab7dfe565e83a740334a346c4111db152',1,'category_comedy:&#160;index.ts']]],
+  ['category_5fdrama_5',['category_drama',['../i18n_2languages_2en_2index_8ts.html#a514ce50c6a1920593b96dd0b17af064c',1,'category_drama:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#a514ce50c6a1920593b96dd0b17af064c',1,'category_drama:&#160;index.ts']]],
+  ['cinema_6',['cinema',['../admin_2cinemas_2_09page_8svelte.html#ae3b38d816892d715eac6efb89b944225',1,'cinema:&#160;+page.svelte'],['../cinemas_2_09page_8svelte.html#a83d6dfb3f6cfc0b39f193b0e277bdb07',1,'cinema:&#160;+page.svelte'],['../types_8ts.html#a6289a7d5763c986b11fb7f0c84ecd197',1,'Cinema:&#160;types.ts']]],
+  ['color_7',['color',['../DashboardCard_8svelte.html#a77ccafcb5c7f20f7ddda5ac0cf3b8e70',1,'color:&#160;DashboardCard.svelte'],['../_09page_8svelte.html#a2d59ce9868fec8bd570ffbbb29357851',1,'color:&#160;+page.svelte']]],
+  ['confirmpassword_8',['confirmpassword',['../i18n_2languages_2en_2index_8ts.html#aeba205e295771f96be5286e990890e3c',1,'confirmPassword:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#aeba205e295771f96be5286e990890e3c',1,'confirmPassword:&#160;index.ts']]],
+  ['connectionerror_9',['connectionerror',['../i18n_2languages_2en_2index_8ts.html#a1f67701b227376c30722534e4b36eeba',1,'connectionError:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#a1f67701b227376c30722534e4b36eeba',1,'connectionError:&#160;index.ts']]],
+  ['container_5fname_10',['container_name',['../namespacepodman-compose.html#ac25f2494ca9c995174f7840aaac6f4b1',1,'podman-compose']]],
+  ['createaccount_11',['createaccount',['../i18n_2languages_2en_2index_8ts.html#ab8fda9aa945abb03a2f77e6348a48a84',1,'createAccount:&#160;index.ts'],['../i18n_2languages_2es_2index_8ts.html#ab8fda9aa945abb03a2f77e6348a48a84',1,'createAccount:&#160;index.ts']]],
+  ['css_12',['css',['../app_8d_8ts.html#a451f7e15c506e5410a821a6c55d6217e',1,'app.d.ts']]],
+  ['currentdate_13',['currentDate',['../admin_2reports_2_09page_8svelte.html#a2c9b2063d4590c3ae09f2faa90db51d0',1,'+page.svelte']]],
+  ['currentlanguage_14',['currentLanguage',['../i18n_2index_8ts.html#ad8aa0b21dc9f9db8472098835c217ffa',1,'index.ts']]],
+  ['currentpage_15',['currentPage',['../admin_2users_2_09page_8svelte.html#a540a2974ce0071e9a33d878dccdf7617',1,'+page.svelte']]]
+];

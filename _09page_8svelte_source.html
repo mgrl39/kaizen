@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/routes/+page.svelte</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('_09page_8svelte_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">+page.svelte</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="_09page_8svelte.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;script lang=<span class="stringliteral">&quot;ts&quot;</span>&gt;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>  <span class="keyword">import</span> { onMount } from <span class="stringliteral">&#39;svelte&#39;</span>;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>  <span class="keyword">import</span> type { <a class="code hl_variable" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a>, <a class="code hl_variable" href="types_8ts.html#a6c9ff2f14c4842d3466f49e7fa444b21">Category</a> } from <span class="stringliteral">&#39;$lib/types&#39;</span>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>  <span class="keyword">import</span> { <a class="code hl_variable" href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a> } from <span class="stringliteral">&#39;$lib/i18n&#39;</span>;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>  </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>  <span class="comment">// Importar componentes</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>  <span class="keyword">import</span> HeroBanner from <span class="stringliteral">&#39;$lib/components/HeroBanner.svelte&#39;</span>;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>  <span class="keyword">import</span> FeaturedMovies from <span class="stringliteral">&#39;$lib/components/features/FeaturedMovies.svelte&#39;</span>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>  <span class="keyword">import</span> CategoriesSection from <span class="stringliteral">&#39;$lib/components/features/CategoriesSection.svelte&#39;</span>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>  </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>  <span class="comment">// Estado para las películas destacadas</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="_09page_8svelte.html#ad2c4d5a05c01121f4df843ec83794221">   12</a></span>  let <a class="code hl_variable" href="_09page_8svelte.html#ad2c4d5a05c01121f4df843ec83794221">featuredMovies</a>: <a class="code hl_variable" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a>[] = [];</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">   13</a></span>  let <a class="code hl_variable" href="_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a>: <span class="keywordtype">boolean</span> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="_09page_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">   14</a></span>  let <a class="code hl_variable" href="_09page_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a>: <span class="keywordtype">string</span> | <span class="keyword">null</span> = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>  </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>  <span class="comment">// Categorías para la sección de categorías</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="_09page_8svelte.html#ac876d51c7d9eb131ba58036ae9ba5e71">   17</a></span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>: <a class="code hl_variable" href="CategoriesSection_8svelte.html#a60bebffc31d5d9ae236f178cbf2b767e">categories</a> = [</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="_09page_8svelte.html#a2d59ce9868fec8bd570ffbbb29357851">   18</a></span>    {<a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>: $t(<span class="stringliteral">&#39;category_action&#39;</span>), <a class="code hl_variable" href="_09page_8svelte.html#a5541b78991144309ddf57bfb742498aa">icon</a>: <span class="stringliteral">&#39;lightning&#39;</span>, <a class="code hl_variable" href="_09page_8svelte.html#a2d59ce9868fec8bd570ffbbb29357851">color</a>: <span class="stringliteral">&#39;text-red-500&#39;</span>, <a class="code hl_variable" href="_09page_8svelte.html#aa5ac93ad2c125dd3ebc76968bce14123">gradient</a>: <span class="stringliteral">&#39;bg-gradient-to-r from-red-600 to-red-400&#39;</span>},</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    {<a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>: $t(<span class="stringliteral">&#39;category_comedy&#39;</span>), <a class="code hl_variable" href="_09page_8svelte.html#a5541b78991144309ddf57bfb742498aa">icon</a>: <span class="stringliteral">&#39;emoji-laughing&#39;</span>, <a class="code hl_variable" href="_09page_8svelte.html#a2d59ce9868fec8bd570ffbbb29357851">color</a>: <span class="stringliteral">&#39;text-yellow-500&#39;</span>, <a class="code hl_variable" href="_09page_8svelte.html#aa5ac93ad2c125dd3ebc76968bce14123">gradient</a>: <span class="stringliteral">&#39;bg-gradient-to-r from-yellow-600 to-yellow-400&#39;</span>},</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    {<a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a>: $t(<span class="stringliteral">&#39;category_drama&#39;</span>), <a class="code hl_variable" href="_09page_8svelte.html#a5541b78991144309ddf57bfb742498aa">icon</a>: <span class="stringliteral">&#39;mask&#39;</span>, <a class="code hl_variable" href="_09page_8svelte.html#a2d59ce9868fec8bd570ffbbb29357851">color</a>: <span class="stringliteral">&#39;text-blue-500&#39;</span>, <a class="code hl_variable" href="_09page_8svelte.html#aa5ac93ad2c125dd3ebc76968bce14123">gradient</a>: <span class="stringliteral">&#39;bg-gradient-to-r from-blue-600 to-blue-400&#39;</span>}</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>  ];</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>  </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>  <span class="comment">// Función para obtener películas aleatorias de un array</span></div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="_09page_8svelte.html#ad14e4ee5ae8174a3b5e62d93e201fbf0">   24</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="_09page_8svelte.html#ad14e4ee5ae8174a3b5e62d93e201fbf0">getRandomMovies</a>(<a class="code hl_variable" href="i18n_2languages_2en_2index_8ts.html#a2b926dbd938052b575ad0128745bf8da">movies</a>: <a class="code hl_variable" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a>[], count: number): <a class="code hl_variable" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a>[] {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">const</span> shuffled = [...movies].sort(() =&gt; 0.5 - Math.random());</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">return</span> shuffled.slice(0, count);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>  }</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  onMount(async () =&gt; {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>      <span class="comment">// Obtener películas desde la API real</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>      <span class="keyword">const</span> response = await fetch(<span class="stringliteral">&#39;http://localhost:8000/api/v1/movies&#39;</span>);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>      </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      <span class="keywordflow">if</span> (!response.ok) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">throw</span> <span class="keyword">new</span> Error(`API respondió con estado: <a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{response.<a class="code hl_variable" href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a>}`);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>      </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>      <span class="keyword">const</span> <a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#adaf8059f4a4ca00c89054b0d7d0895d4">data</a> = await response.json();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>      </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>      <span class="comment">// Procesar la respuesta según su estructura</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>      let allMovies: <a class="code hl_variable" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a>[] = [];</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>      </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>      <span class="keywordflow">if</span> (Array.isArray(<a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#adaf8059f4a4ca00c89054b0d7d0895d4">data</a>)) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        allMovies = <a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#adaf8059f4a4ca00c89054b0d7d0895d4">data</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>      } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#adaf8059f4a4ca00c89054b0d7d0895d4">data</a> &amp;&amp; <a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#adaf8059f4a4ca00c89054b0d7d0895d4">data</a>.data &amp;&amp; Array.isArray(<a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#adaf8059f4a4ca00c89054b0d7d0895d4">data</a>.data)) {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        <span class="comment">// Si la respuesta está dentro de un objeto con propiedad &#39;data&#39;</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        allMovies = <a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#adaf8059f4a4ca00c89054b0d7d0895d4">data</a>.data;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">throw</span> <span class="keyword">new</span> Error(<span class="stringliteral">&#39;Formato de respuesta API inesperado&#39;</span>);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>      }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>      <span class="comment">// Seleccionar 3 películas aleatorias</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>      <a class="code hl_variable" href="_09page_8svelte.html#ad2c4d5a05c01121f4df843ec83794221">featuredMovies</a> = <a class="code hl_function" href="_09page_8svelte.html#ad14e4ee5ae8174a3b5e62d93e201fbf0">getRandomMovies</a>(allMovies, 3);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>      </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>      <a class="code hl_variable" href="_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    } <span class="keywordflow">catch</span> (err) {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>      console.error(<span class="stringliteral">&#39;Error cargando películas:&#39;</span>, err);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>      <a class="code hl_variable" href="_09page_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a> = `<a class="code hl_variable" href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a>{$t(<span class="stringliteral">&#39;featuredMoviesError&#39;</span>)} ` + (err instanceof Error ? err.message : String(err));</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      <a class="code hl_variable" href="_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>  });</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>&lt;/script&gt;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>&lt;!-- Hero Banner con imagen específica para la página principal --&gt;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>&lt;HeroBanner </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  <a class="code hl_variable" href="DashboardCard_8svelte.html#a6a3a43bb0a9015eef5b6bf245b05ecd3">title</a>=<span class="stringliteral">&quot;Kaizen Cinema&quot;</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">subtitle</a>=<span class="stringliteral">&quot;Tu destino para las mejores experiencias cinematográficas&quot;</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  <a class="code hl_variable" href="HeroBanner_8svelte.html#a816c724fa4a59090b26541ff2079f33e">imageUrl</a>=<span class="stringliteral">&quot;https://source.unsplash.com/random/1920x1080/?cinema,movies,theater&quot;</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>  overlayOpacity=<span class="stringliteral">&quot;60&quot;</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>/&gt;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>&lt;!-- Contenido específico de la página --&gt;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>&lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;container mx-auto px-4 py-8&quot;</span>&gt;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  &lt;FeaturedMovies {<a class="code hl_variable" href="_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a>} {<a class="code hl_variable" href="_09page_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a>} {<a class="code hl_variable" href="_09page_8svelte.html#ad2c4d5a05c01121f4df843ec83794221">featuredMovies</a>} /&gt;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  &lt;CategoriesSection {<a class="code hl_variable" href="CategoriesSection_8svelte.html#a60bebffc31d5d9ae236f178cbf2b767e">categories</a>} /&gt;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>&lt;/div&gt;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>&lt;!-- Efectos de fondo --&gt;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>&lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;fixed -z-10 top-1/3 left-1/4 w-96 h-96 rounded-full bg-purple-900/20 blur-3xl&quot;</span>&gt;&lt;/div&gt;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>&lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;fixed -z-10 bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-purple-800/10 blur-3xl&quot;</span>&gt;&lt;/div&gt; </div>
+<div class="ttc" id="aCategoriesSection_8svelte_html_a60bebffc31d5d9ae236f178cbf2b767e"><div class="ttname"><a href="CategoriesSection_8svelte.html#a60bebffc31d5d9ae236f178cbf2b767e">categories</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let categories</div><div class="ttdef"><b>Definition</b> <a href="CategoriesSection_8svelte_source.html#l00005">CategoriesSection.svelte:5</a></div></div>
+<div class="ttc" id="aDashboardCard_8svelte_html_a6a3a43bb0a9015eef5b6bf245b05ecd3"><div class="ttname"><a href="DashboardCard_8svelte.html#a6a3a43bb0a9015eef5b6bf245b05ecd3">title</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let title</div><div class="ttdef"><b>Definition</b> <a href="DashboardCard_8svelte_source.html#l00002">DashboardCard.svelte:2</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a3d088ef9acc016f7c39859a0cfb0bdee"><div class="ttname"><a href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">subtitle</a></div><div class="ttdeci">export let subtitle</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00006">HeroBanner.svelte:6</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a6e1be1b95a8ae40dbf962380bbbdbfe3"><div class="ttname"><a href="HeroBanner_8svelte.html#a6e1be1b95a8ae40dbf962380bbbdbfe3">$</a></div><div class="ttdeci">$ $</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00011">HeroBanner.svelte:11</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a816c724fa4a59090b26541ff2079f33e"><div class="ttname"><a href="HeroBanner_8svelte.html#a816c724fa4a59090b26541ff2079f33e">imageUrl</a></div><div class="ttdeci">export let imageUrl</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00007">HeroBanner.svelte:8</a></div></div>
+<div class="ttc" id="a_09page_8svelte_html_a2d59ce9868fec8bd570ffbbb29357851"><div class="ttname"><a href="_09page_8svelte.html#a2d59ce9868fec8bd570ffbbb29357851">color</a></div><div class="ttdeci">$ color</div><div class="ttdef"><b>Definition</b> <a href="_09page_8svelte_source.html#l00018">+page.svelte:18</a></div></div>
+<div class="ttc" id="a_09page_8svelte_html_a5541b78991144309ddf57bfb742498aa"><div class="ttname"><a href="_09page_8svelte.html#a5541b78991144309ddf57bfb742498aa">icon</a></div><div class="ttdeci">$ icon</div><div class="ttdef"><b>Definition</b> <a href="_09page_8svelte_source.html#l00018">+page.svelte:18</a></div></div>
+<div class="ttc" id="a_09page_8svelte_html_a6b2ad778bcb33c37f7dc2004902b697d"><div class="ttname"><a href="_09page_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a></div><div class="ttdeci">let error</div><div class="ttdef"><b>Definition</b> <a href="_09page_8svelte_source.html#l00014">+page.svelte:14</a></div></div>
+<div class="ttc" id="a_09page_8svelte_html_aa5ac93ad2c125dd3ebc76968bce14123"><div class="ttname"><a href="_09page_8svelte.html#aa5ac93ad2c125dd3ebc76968bce14123">gradient</a></div><div class="ttdeci">$ gradient</div><div class="ttdef"><b>Definition</b> <a href="_09page_8svelte_source.html#l00018">+page.svelte:18</a></div></div>
+<div class="ttc" id="a_09page_8svelte_html_acf4b3d953d019cf73c34b4e21d9baec0"><div class="ttname"><a href="_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a></div><div class="ttdeci">let loading</div><div class="ttdef"><b>Definition</b> <a href="_09page_8svelte_source.html#l00013">+page.svelte:13</a></div></div>
+<div class="ttc" id="a_09page_8svelte_html_ad14e4ee5ae8174a3b5e62d93e201fbf0"><div class="ttname"><a href="_09page_8svelte.html#ad14e4ee5ae8174a3b5e62d93e201fbf0">getRandomMovies</a></div><div class="ttdeci">function getRandomMovies(movies:Movie[], count:number)</div><div class="ttdef"><b>Definition</b> <a href="_09page_8svelte_source.html#l00024">+page.svelte:24</a></div></div>
+<div class="ttc" id="a_09page_8svelte_html_ad2c4d5a05c01121f4df843ec83794221"><div class="ttname"><a href="_09page_8svelte.html#ad2c4d5a05c01121f4df843ec83794221">featuredMovies</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; let featuredMovies</div><div class="ttdef"><b>Definition</b> <a href="_09page_8svelte_source.html#l00012">+page.svelte:12</a></div></div>
+<div class="ttc" id="aadmin_2cinemas_2edit_2_09page_8svelte_html_a616dd6eab229ac0a939ce8b1bbea731f"><div class="ttname"><a href="admin_2cinemas_2edit_2_09page_8svelte.html#a616dd6eab229ac0a939ce8b1bbea731f">status</a></div><div class="ttdeci">let status</div><div class="ttdef"><b>Definition</b> <a href="admin_2cinemas_2edit_2_09page_8svelte_source.html#l00013">+page.svelte:13</a></div></div>
+<div class="ttc" id="aadmin_2cinemas_2edit_2_09page_8svelte_html_af144eb43e1438def2343a92d3c992ed1"><div class="ttname"><a href="admin_2cinemas_2edit_2_09page_8svelte.html#af144eb43e1438def2343a92d3c992ed1">name</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; let name</div><div class="ttdef"><b>Definition</b> <a href="admin_2cinemas_2edit_2_09page_8svelte_source.html#l00005">+page.svelte:5</a></div></div>
+<div class="ttc" id="ai18n_2index_8ts_html_af73f66381d681447e082857e259e4ca1"><div class="ttname"><a href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a></div><div class="ttdeci">export const t</div><div class="ttdef"><b>Definition</b> <a href="i18n_2index_8ts_source.html#l00103">index.ts:103</a></div></div>
+<div class="ttc" id="ai18n_2languages_2en_2index_8ts_html_a2b926dbd938052b575ad0128745bf8da"><div class="ttname"><a href="i18n_2languages_2en_2index_8ts.html#a2b926dbd938052b575ad0128745bf8da">movies</a></div><div class="ttdeci">const movies</div><div class="ttdef"><b>Definition</b> <a href="i18n_2languages_2en_2index_8ts_source.html#l00006">index.ts:6</a></div></div>
+<div class="ttc" id="amovies_2_0fslug_0e_2_09page_8svelte_html_adaf8059f4a4ca00c89054b0d7d0895d4"><div class="ttname"><a href="movies_2_0fslug_0e_2_09page_8svelte.html#adaf8059f4a4ca00c89054b0d7d0895d4">data</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let data</div><div class="ttdef"><b>Definition</b> <a href="movies_2_0fslug_0e_2_09page_8svelte_source.html#l00005">+page.svelte:5</a></div></div>
+<div class="ttc" id="atypes_8ts_html_a698186c0c4844869610dd0b58d07f02e"><div class="ttname"><a href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a></div><div class="ttdeci">export interface Movie</div><div class="ttdoc">Interfaces para los modelos de datos de Kaizen Cinema.</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00006">types.ts:6</a></div></div>
+<div class="ttc" id="atypes_8ts_html_a6c9ff2f14c4842d3466f49e7fa444b21"><div class="ttname"><a href="types_8ts.html#a6c9ff2f14c4842d3466f49e7fa444b21">Category</a></div><div class="ttdeci">export interface Category</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00040">types.ts:40</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_711e061037f1f3e03ef0d7826512e504.html">routes</a></li><li class="navelem"><a class="el" href="_09page_8svelte.html">+page.svelte</a></li>
+    <li class="footer">Generado el Jueves, 15 de mayo de 2025 15:56:07 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>
