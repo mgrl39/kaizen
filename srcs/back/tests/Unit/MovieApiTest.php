@@ -29,7 +29,7 @@ class MovieApiTest extends TestCase
         $response = $this->getJson("/api/v1/movies/{$movie->id}");
 
         $response->assertStatus(200)
-                 ->assertJson(['id' => $movie->id]);
+            ->assertJson(['id' => $movie->id]);
     }
 
     /** @test */
@@ -55,7 +55,7 @@ class MovieApiTest extends TestCase
     public function it_can_update_a_movie()
     {
         $this->markTestSkipped('PUT method not available in current API implementation');
-        
+
         $movie = Movie::factory()->create();
 
         $updateData = ['title' => 'Updated Title'];
@@ -63,7 +63,7 @@ class MovieApiTest extends TestCase
         $response = $this->putJson("/api/v1/movies/{$movie->id}", $updateData);
 
         $response->assertStatus(200)
-                 ->assertJsonFragment(['title' => 'Updated Title']);
+            ->assertJsonFragment(['title' => 'Updated Title']);
 
         $this->assertDatabaseHas('movies', $updateData);
     }
@@ -72,11 +72,8 @@ class MovieApiTest extends TestCase
     public function it_can_delete_a_movie()
     {
         $this->markTestSkipped('DELETE method not available in current API implementation');
-        
         $movie = Movie::factory()->create();
-
         $response = $this->deleteJson("/api/v1/movies/{$movie->id}");
-
         $response->assertStatus(204);
         $this->assertDatabaseMissing('movies', ['id' => $movie->id]);
     }

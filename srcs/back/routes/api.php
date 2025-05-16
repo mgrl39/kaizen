@@ -14,7 +14,6 @@ use App\Http\Controllers\API\{
     ApiInfoController,
     AuthController,
     CinemaController,
-    FunctionController,
     GenreController,
     MovieController,
     ProfileController,
@@ -32,7 +31,7 @@ use App\Services\ResponseService;
 Route::get('/', function () {
     $versions = config('api.versions.supported', ['v1']);
     $current = config('api.versions.current', 'v1');
-    
+
     $versionInfo = [];
     foreach ($versions as $version) {
         $status = 'supported';
@@ -41,13 +40,13 @@ Route::get('/', function () {
         } elseif (in_array($version, config('api.versions.deprecated', []))) {
             $status = 'deprecated';
         }
-        
+
         $versionInfo[$version] = [
             'status' => $status,
             'url' => url("/api/{$version}")
         ];
     }
-    
+
     return response()->json([
         'name' => config('app.name') . ' API',
         'status' => 'running',
@@ -68,7 +67,7 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('v1')->name('api.v1.')->group(function () {
-    
+
     // API v1 Base Information
     Route::get('/', function () {
         $endpoints = [
@@ -106,34 +105,34 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             'timestamp' => now()->toIso8601String()
         ]);
     })->name('info');
-    
+
     /*
     |--------------------------------------------------------------------------
     | Public Routes - No Authentication Required
     |--------------------------------------------------------------------------
     */
-    
+
     // System Info
     Route::get('endpoints', [ApiInfoController::class, 'listEndpoints'])->name('endpoints');
-    
+
     // Authentication
     Route::post('register', [AuthController::class, 'register'])->name('auth.register');
     Route::post('login', [AuthController::class, 'login'])->name('auth.login');
-    
+
     // Movies
     Route::group(['prefix' => 'movies', 'as' => 'movies.'], function () {
         Route::get('/', [MovieController::class, 'index'])->name('index');
         Route::get('/{movie}', [MovieController::class, 'show'])->name('show');
         // Admin-only routes are protected below
     });
-    
+
     // Genres
     Route::group(['prefix' => 'genres', 'as' => 'genres.'], function () {
         Route::get('/', [GenreController::class, 'index'])->name('index');
         Route::get('/{genre}', [GenreController::class, 'show'])->name('show');
         Route::get('/{genre}/movies', [GenreController::class, 'movies'])->name('movies');
     });
-    
+
     // Cinemas
     Route::group(['prefix' => 'cinemas', 'as' => 'cinemas.'], function () {
         Route::get('/', [CinemaController::class, 'index'])->name('index');
@@ -144,14 +143,14 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('/{cinema}/movies', [CinemaController::class, 'movies'])->name('movies');
         // Admin-only routes are protected below
     });
-    
+
     // Users (Public APIs) - Consider if these should be public
     Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/{user}', [UserController::class, 'show'])->name('show');
         // Delete is moved to protected area below
     });
-    
+
     /*
     |--------------------------------------------------------------------------
     | Protected Routes - Authentication Required
@@ -160,19 +159,19 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::middleware('api.auth')->group(function () {
         // Authentication
         Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
-        
+
         // User Profile
         Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
             Route::get('/', [ProfileController::class, 'show'])->name('show');
             Route::put('/', [ProfileController::class, 'update'])->name('update');
             Route::put('/password', [ProfileController::class, 'changePassword'])->name('change-password');
         });
-        
+
         // User Management (Protected)
         Route::delete('users/{user}', [UserController::class, 'destroy'])
             ->middleware('api.write')
             ->name('users.destroy');
-            
+
         /*
         |--------------------------------------------------------------------------
         | Admin Routes - Admin Role Required
@@ -185,7 +184,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
                 Route::put('/{movie}', [MovieController::class, 'update'])->name('update');
                 Route::delete('/{movie}', [MovieController::class, 'destroy'])->name('destroy');
             });
-            
+
             // Cinemas Management
             Route::group(['prefix' => 'cinemas', 'as' => 'cinemas.', 'middleware' => 'api.write'], function () {
                 Route::post('/', [CinemaController::class, 'store'])->name('store');
@@ -235,13 +234,13 @@ Route::get('/ping', function () {
 // API Fallback - for invalid routes
 Route::fallback(function (Request $request) {
     $path = $request->path();
-    
+
     // Check if we're dealing with an API request to a non-existent endpoint
     if (strpos($path, 'api/v') === 0) {
         // Extract version from path
         $parts = explode('/', $path);
         $version = $parts[1] ?? '';
-        
+
         // Check if version exists but endpoint doesn't
         if (in_array($version, config('api.versions.supported', ['v1']))) {
             return ResponseService::error(
@@ -253,10 +252,10 @@ Route::fallback(function (Request $request) {
                 404
             );
         }
-        
+
         // Version doesn't exist
         return ResponseService::error(
-            'API version not supported', 
+            'API version not supported',
             [
                 'requested_version' => $version,
                 'available_versions' => config('api.versions.supported', ['v1']),
@@ -266,7 +265,7 @@ Route::fallback(function (Request $request) {
             404
         );
     }
-    
+
     // For other non-API routes
     return ResponseService::error(
         'Resource not found. This is an API-only server.',

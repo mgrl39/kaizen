@@ -29,9 +29,9 @@ class MovieSeeder extends Seeder
             [
                 'title' => 'El Padrino',
                 'synopsis' => 'La historia de la familia Corleone bajo el patriarcado de Don Vito Corleone.',
-                'duration' => 175, // Duración en minutos
-                'rating' => 'R', // Clasificación por edades
-                'release_date' => '1972-03-24', // Fecha de estreno
+                'duration' => 175,
+                'rating' => 'R',
+                'release_date' => '1972-03-24',
                 'photo_url' => 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg', // URL de la imagen
             ],
             [

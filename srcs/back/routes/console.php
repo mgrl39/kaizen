@@ -23,6 +23,4 @@ Artisan::command(
 )->purpose('Display an inspiring quote');
 
 Artisan::command('app:process-data', function () {
-    // Lógica específica de la aplicación que necesita
-    // acceso a servicios de Laravel
 })->purpose('Procesa datos de la aplicación');

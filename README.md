@@ -88,13 +88,3 @@ php artisan db:seed    # Seeders
 npm run dev            # Dev server
 npm run build          # Build producción
 ```
-
----
-
-## 👥 Colaboradores
-
-<p align="center">
-  <a href="https://github.com/mgrl39/kaizen/graphs/contributors">
-    <img src="https://contrib.rocks/image?repo=mgrl39/kaizen" />
-  </a>
-</p>
