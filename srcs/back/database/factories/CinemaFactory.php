@@ -28,47 +28,14 @@ class CinemaFactory extends Factory
         $cinemaNames = ['Cinesa', 'Yelmo Cines'];
 
         return [
-            'name' => $this->faker->randomElement($cinemaNames) . 
+            'name' => $this->faker->randomElement($cinemaNames) .
                 ' ' . $this->faker->word(),
             'location' => $this->faker->streetAddress() .
-                 ', ' . $this->faker->randomElement($cities),
+                ', ' . $this->faker->randomElement($cities),
             'created_at' => $this->faker->dateTimeBetween('-2 years', 'now'),
             'updated_at' => function (array $attributes) {
                 return $this->faker->dateTimeBetween($attributes['created_at'], 'now');
             },
         ];
-    }
-
-    /**
-     * Indica que el cine es de una cadena específica (por ejemplo, Cinesa).
-     *
-     * @return static
-     */
-    public function cinesa()
-    {
-        return $this->state(function (array $attributes)
-        {
-            return [
-                'name' => 'Cinesa ' . $this->faker->city(),
-            ];
-            }
-        );
-    }
-
-    /**
-     * Indica que el cine está en Madrid.
-     *
-     * @return static
-     */
-    public function inMadrid()
-    {
-        return $this->state(function (array $attributes)
-            {
-                return
-                [
-                    'location' => $this->faker->streetAddress() . ', Madrid',
-                ];
-            }
-        );
     }
 }

@@ -1,84 +1,100 @@
-<div align="center" style="text-align: center; width: 100%">
-<img src="srcs/front/static/images/kaizen_logo_transparent.png" height="90px"/>
-<h1>Kaizen Cinema<br/><sub>Sistema de gestión para cines</sub></h1>
+<table border="0" width="100%" align="center" style="border: none;">
+  <tr>
+    <td width="120" align="center" valign="middle">
+      <img src="srcs/front/static/images/kaizen_logo_transparent.png" alt="Kaizen Cinema Logo" height="90px"/>
+    </td>
+    <td align="left" valign="middle" style="padding-left: 20px;">
+      <h1 style="margin-bottom: 0; font-size: 2.7em; font-weight: bold; color: #222;">Kaizen Cinema</h1>
+      <div style="font-size: 1.15em; color: #555; margin-top: -10px;">
+        <strong>Sistema de gestión para cines</strong>
+      </div>
+    </td>
+  </tr>
+</table>
 
-▶️ <a href="#inicio-rapido">Inicio Rápido</a> | <a href="#vision-general">Visión General</a> | <a href="#funcionalidades">Funcionalidades</a> | <a href="#desarrollo">Desarrollo</a>
+<p align="left" style="margin-top: 0;">
+  <a href="#inicio-rapido"><img alt="Inicio Rápido" src="https://img.shields.io/badge/-Inicio%20Rápido-3F51B5?style=for-the-badge&logo=rocket"/></a>
+  <a href="#vision-general"><img alt="Visión General" src="https://img.shields.io/badge/-Visión%20General-009688?style=for-the-badge&logo=eye"/></a>
+  <a href="#funcionalidades"><img alt="Funcionalidades" src="https://img.shields.io/badge/-Funcionalidades-607D8B?style=for-the-badge&logo=checklist"/></a>
+  <a href="#desarrollo"><img alt="Desarrollo" src="https://img.shields.io/badge/-Desarrollo-FF9800?style=for-the-badge&logo=tools"/></a>
+</p>
 
-<a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.1%2B-8892BF?style=flat-square&logo=php"/></a>
-<a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-10.x-FF2D20?style=flat-square&logo=laravel"/></a>
-<a href="https://svelte.dev"><img src="https://img.shields.io/badge/Svelte-4.x-FF3E00?style=flat-square&logo=svelte"/></a>
-<a href="https://postgresql.org"><img src="https://img.shields.io/badge/PostgreSQL-15-336791?style=flat-square&logo=postgresql"/></a>
-<a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square"/></a>
-<a href="#status"><img src="https://img.shields.io/badge/Estado-Desarrollo-blue?style=flat-square"/></a>
+<p align="left">
+  <a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.1%2B-8892BF?style=flat-square&logo=php"/></a>
+  <a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-10.x-FF2D20?style=flat-square&logo=laravel"/></a>
+  <a href="https://svelte.dev"><img src="https://img.shields.io/badge/Svelte-4.x-FF3E00?style=flat-square&logo=svelte"/></a>
+  <a href="https://postgresql.org"><img src="https://img.shields.io/badge/PostgreSQL-15-336791?style=flat-square&logo=postgresql"/></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square"/></a>
+  <a href="#status"><img src="https://img.shields.io/badge/Estado-Desarrollo-blue?style=flat-square"/></a>
+</p>
 
-</div>
-<hr/>
+---
 
-**Kaizen Cinema es un sistema para la gestión de cines, con aplicación web integrada.**
+**Kaizen Cinema** es un sistema integral de gestión para cines, con una aplicación web moderna y responsive.
 
-Esta aplicación basada en Laravel con frontend en Svelte proporciona herramientas para la gestión de películas, programación de sesiones y reserva de asientos.
+Desarrollado en Laravel (backend) y Svelte (frontend), te permite administrar películas, funciones y reservas con una interfaz intuitiva y profesional.
 
-<hr/>
+---
 
-## Visión General
+### ¿Por qué Kaizen Cinema?
 
-Kaizen Cinema ofrece una solución para la gestión de cines:
+- 🎬 **Gestión de películas**: Catálogo, fichas técnicas y clasificaciones.
+- 🏢 **Cines y salas**: Configuración flexible, capacidades y tipos de pantalla.
+- 🕓 **Sesiones**: Programación dinámica, precios y disponibilidad.
+- 🎟️ **Reservas**: Venta de entradas y selección de asientos en tiempo real.
+- 👥 **Usuarios**: Registro, perfiles personalizados e historial.
 
-- Gestión de películas
-- Configuración de cines y salas de proyección
-- Programación de sesiones
-- Gestión de reservas
-- Autenticación de usuarios
+---
 
-El sistema incluye una interfaz web para administradores y usuarios finales.
-
-## Inicio Rápido
+## 🚀 Inicio Rápido
 
 ```bash
-git clone https://github.com/mgrl39/kaizen.git && cd kaizen # Clonar repositorio
-cd srcs/back && composer install # Instalar dependencias de backend
-cd srcs/front && npm install # Instalar dependencias de frontend
-cd srcs/back && php artisan serve # Iniciar el servidor API
-cd srcs/front && npm run dev # Iniciar el servidor de desarrollo frontend
+git clone https://github.com/mgrl39/kaizen.git && cd kaizen
+cd srcs/back && composer install      # Backend dependencies
+cd ../front && npm install           # Frontend dependencies
+cd ../back && php artisan serve      # API backend
+cd ../front && npm run dev           # Frontend dev server
 ```
 
-## Funcionalidades
+---
 
-El sistema proporciona las siguientes funcionalidades principales:
+## 🔎 Funcionalidades Principales
 
-- **Gestión de películas**: Catálogo, información, clasificaciones
-- **Cines y salas**: Configuración, capacidad, tipo de pantalla
-- **Sesiones**: Programación, precios, disponibilidad
-- **Reservas**: Venta de entradas, selección de asientos
-- **Usuarios**: Registro, perfiles, historial
+- **Gestión de películas**: Catálogo, información, clasificaciones.
+- **Cines y salas**: Configuración, capacidad, tipo de pantalla.
+- **Sesiones**: Programación, precios, disponibilidad.
+- **Reservas**: Venta de entradas, selección de asientos.
+- **Usuarios**: Registro, perfiles, historial.
 
-## Desarrollo
+---
 
-### Requisitos
+## 🛠️ Desarrollo
+
+**Requisitos:**
 
 - PHP 8.1+
 - Composer
-- Node.js y npm
+- Node.js & npm
 
-### Comandos Útiles
+**Comandos útiles:**
 
 ```bash
-# Backend (desde srcs/back)
-php artisan serve # Ejecutar el servidor API
-php artisan migrate # Ejecutar migraciones
-php artisan db:seed # Ejecutar seeders
+# Backend (srcs/back)
+php artisan serve      # Servidor API
+php artisan migrate    # Migraciones
+php artisan db:seed    # Seeders
 
-# Frontend (desde srcs/front)
-npm run dev # Ejecutar servidor de desarrollo
-npm run build # Construir para producción
+# Frontend (srcs/front)
+npm run dev            # Dev server
+npm run build          # Build producción
 ```
 
-## Colaboradores
+---
 
-<div align="center">
+## 👥 Colaboradores
 
-<a href="https://github.com/mgrl39/kaizen/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=mgrl39/kaizen" />
-</a>
-
-</div>
+<p align="center">
+  <a href="https://github.com/mgrl39/kaizen/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=mgrl39/kaizen" />
+  </a>
+</p>
