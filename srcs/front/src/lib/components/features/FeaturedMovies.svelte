@@ -4,43 +4,72 @@
   import { theme } from '$lib/theme';
   import MovieCard from '../MovieCard.svelte';
   
-  export let loading: boolean;
-  export let error: string | null;
-  export let featuredMovies: Movie[] = [];
-  export let title = $t('featuredMovies');
+  export let movies = [];
+  export let title = $t('featuredMovies', 'Películas destacadas');
+  export let loading = false;
+  export let error = null;
   export let viewAllUrl = "/movies";
+  export let showViewAll = true;
   
-  // Mostrar solo hasta 4 películas en la vista principal
-  $: displayMovies = featuredMovies.slice(0, 4);
+  // Número de películas a mostrar en diferentes tamaños de pantalla
+  export let itemsToShow = {
+    xs: 1,  // Extra small devices
+    sm: 2,  // Small devices
+    md: 3,  // Medium devices
+    lg: 4   // Large devices and up
+  };
 </script>
 
 <section class="py-5" data-bs-theme={$theme}>
   <div class="container">
+    <!-- Encabezado de sección -->
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h2 class="mb-0">{title}</h2>
-      <a href={viewAllUrl} class="btn btn-outline-primary">
-        {$t('viewAll')}
-        <i class="bi bi-arrow-right ms-1"></i>
-      </a>
+      
+      {#if showViewAll && movies.length > 0}
+        <a href={viewAllUrl} class="btn btn-outline-primary btn-sm">
+          {$t('viewAll', 'Ver todas')}
+          <i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      {/if}
     </div>
     
-    <div class="row g-4">
-      {#each displayMovies as movie}
-        <div class="col-6 col-md-4 col-lg-3">
-          <MovieCard {movie} />
+    <!-- Estado de carga -->
+    {#if loading}
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">{$t('loading', 'Cargando...')}</span>
         </div>
-      {:else}
-        <div class="col-12 text-center py-5">
-          <div class="py-4">
-            <i class="bi bi-film display-1 text-muted"></i>
-            <p class="mt-3">{$t('noMoviesFound')}</p>
-            <a href="/movies" class="btn btn-primary mt-2">
-              {$t('browseAllMovies')}
-            </a>
+        <p class="mt-3">{$t('loadingMovies', 'Cargando películas...')}</p>
+      </div>
+    
+    <!-- Estado de error -->
+    {:else if error}
+      <div class="alert alert-danger">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {error}
+      </div>
+    
+    <!-- Películas -->
+    {:else if movies.length > 0}
+      <div class="row g-4">
+        {#each movies as movie}
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <MovieCard {movie} />
           </div>
-        </div>
-      {/each}
-    </div>
+        {/each}
+      </div>
+    
+    <!-- Estado vacío -->
+    {:else}
+      <div class="text-center py-5">
+        <i class="bi bi-film display-1 text-muted"></i>
+        <p class="mt-3">{$t('noMoviesFound', 'No se encontraron películas')}</p>
+        <a href="/movies" class="btn btn-primary mt-2">
+          {$t('browseAllMovies', 'Explorar todas las películas')}
+        </a>
+      </div>
+    {/if}
   </div>
 </section>
 <section class="mb-12">
@@ -61,7 +90,7 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
       </svg>{error}
     </div>
-  {:else if featuredMovies.length == 0}
+  {:else if movies.length == 0}
     <div class="bg-blue-900/20 border border-blue-800 text-blue-100 px-4 py-3 rounded-md">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -69,7 +98,7 @@
     </div>
   {:else}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each featuredMovies as movie}
+      {#each movies as movie}
         <div>
           <MovieCard {movie} />
         </div>

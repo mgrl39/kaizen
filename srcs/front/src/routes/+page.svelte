@@ -114,19 +114,4 @@
 <div class="container py-5">
   <FeaturedMovies movies={featuredMovies} loading={loading} />
   <CategoriesSection categories={categories} />
-</div>
-
-<style>
-  /* Estilos para los gradientes personalizados */
-  :global(.bg-gradient-danger) {
-    background: linear-gradient(to right, var(--bs-danger), rgba(var(--bs-danger-rgb), 0.7));
-  }
-  
-  :global(.bg-gradient-warning) {
-    background: linear-gradient(to right, var(--bs-warning), rgba(var(--bs-warning-rgb), 0.7));
-  }
-  
-  :global(.bg-gradient-info) {
-    background: linear-gradient(to right, var(--bs-info), rgba(var(--bs-info-rgb), 0.7));
-  }
-</style> 
+</div> 
