@@ -11,6 +11,7 @@
 	body {
 		@apply bg-dark text-light;
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		padding-top: 56px;
 	}
 }
 
@@ -31,4 +32,109 @@
 		content: '';
 		@apply absolute left-0 -bottom-2 w-3/5 h-[3px] bg-gradient-to-r from-primary to-transparent rounded-md;
 	}
+}
+
+/* Tema oscuro personalizado */
+:root {
+	--primary-color: #6d28d9;
+	--primary-hover: #5b21b6;
+	--dark-bg: #121212;
+	--card-bg: #212529;
+	--card-border: rgba(255, 255, 255, 0.1);
+	--bs-primary: #6d28d9;
+	--bs-primary-rgb: 109, 40, 217;
+	--bs-primary-hover: #5b21b6;
+}
+
+/* Sobrescribir colores de Bootstrap */
+.btn-primary {
+	background-color: var(--bs-primary);
+	border-color: var(--bs-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+	background-color: var(--bs-primary-hover);
+	border-color: var(--bs-primary-hover);
+}
+
+.text-primary {
+	color: var(--primary-color) !important;
+}
+
+/* Estilos para fondos oscuros */
+.bg-dark-custom {
+	background-color: var(--dark-bg);
+}
+
+.card-dark {
+	background-color: var(--card-bg);
+	border: 1px solid var(--card-border);
+	color: #fff;
+}
+
+/* Animaciones y efectos */
+.fade-in {
+	animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+/* Estilos para textos con gradiente */
+.text-gradient {
+	background: linear-gradient(90deg, #6d28d9, #9333ea);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+/* Personalización para el tema oscuro */
+[data-bs-theme='dark'] {
+	--bs-body-bg: #121212;
+	--bs-body-color: #f8f9fa;
+	--bs-card-bg: #212529;
+	--bs-card-border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Personalización para el tema claro */
+[data-bs-theme='light'] {
+	--bs-body-bg: #f8f9fa;
+	--bs-body-color: #212529;
+}
+
+/* Estilos para los títulos de sección */
+.section-title {
+	font-weight: 600;
+	margin-bottom: 2rem;
+	position: relative;
+	display: inline-block;
+}
+
+.section-title::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -8px;
+	width: 60%;
+	height: 3px;
+	background: linear-gradient(to right, var(--bs-primary), transparent);
+	border-radius: 2px;
+}
+
+/* Ajustes para botones primarios */
+.btn-primary {
+	background-color: var(--bs-primary);
+	border-color: var(--bs-primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+	background-color: var(--bs-primary-hover);
+	border-color: var(--bs-primary-hover);
 }

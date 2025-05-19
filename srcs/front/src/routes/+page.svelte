@@ -9,19 +9,19 @@
   import CategoriesSection from '$lib/components/features/CategoriesSection.svelte';
   
   // Estado para las películas destacadas
-  let featuredMovies: Movie[] = [];
-  let loading: boolean = true;
-  let error: string | null = null;
+  let featuredMovies = [];
+  let loading = true;
+  let error = null;
   
   // Categorías para la sección de categorías
   $: categories = [
-    {name: $t('category_action'), icon: 'lightning', color: 'text-red-500', gradient: 'bg-gradient-to-r from-red-600 to-red-400'},
-    {name: $t('category_comedy'), icon: 'emoji-laughing', color: 'text-yellow-500', gradient: 'bg-gradient-to-r from-yellow-600 to-yellow-400'},
-    {name: $t('category_drama'), icon: 'mask', color: 'text-blue-500', gradient: 'bg-gradient-to-r from-blue-600 to-blue-400'}
+    {name: $t('category_action'), icon: 'lightning', color: 'text-danger', gradient: 'bg-danger bg-gradient'},
+    {name: $t('category_comedy'), icon: 'emoji-laughing', color: 'text-warning', gradient: 'bg-warning bg-gradient'},
+    {name: $t('category_drama'), icon: 'mask', color: 'text-info', gradient: 'bg-info bg-gradient'}
   ];
   
   // Función para obtener películas aleatorias de un array
-  function getRandomMovies(movies: Movie[], count: number): Movie[] {
+  function getRandomMovies(movies, count) {
     const shuffled = [...movies].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
   }
@@ -38,7 +38,7 @@
       const data = await response.json();
       
       // Procesar la respuesta según su estructura
-      let allMovies: Movie[] = [];
+      let allMovies = [];
       
       if (Array.isArray(data)) {
         allMovies = data;
@@ -70,11 +70,22 @@
 />
 
 <!-- Contenido específico de la página -->
-<div class="container mx-auto px-4 py-8">
+<div class="container py-5">
   <FeaturedMovies {loading} {error} {featuredMovies} />
   <CategoriesSection {categories} />
 </div>
 
-<!-- Efectos de fondo -->
-<div class="fixed -z-10 top-1/3 left-1/4 w-96 h-96 rounded-full bg-purple-900/20 blur-3xl"></div>
-<div class="fixed -z-10 bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-purple-800/10 blur-3xl"></div> 
+<style>
+  /* Estilos para los gradientes personalizados */
+  :global(.bg-gradient-danger) {
+    background: linear-gradient(to right, var(--bs-danger), rgba(var(--bs-danger-rgb), 0.7));
+  }
+  
+  :global(.bg-gradient-warning) {
+    background: linear-gradient(to right, var(--bs-warning), rgba(var(--bs-warning-rgb), 0.7));
+  }
+  
+  :global(.bg-gradient-info) {
+    background: linear-gradient(to right, var(--bs-info), rgba(var(--bs-info-rgb), 0.7));
+  }
+</style> 
