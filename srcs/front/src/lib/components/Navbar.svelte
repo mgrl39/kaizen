@@ -1,13 +1,11 @@
-<script lang="ts">
+<script>
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { API_URL } from '$lib/config';
   import { t, currentLanguage, languages } from '$lib/i18n';
-  import LanguageSelector from '$lib/components/LanguageSelector.svelte';
   import { writable, get } from 'svelte/store';
   import { theme, toggleTheme, initTheme } from '$lib/theme';
-  import type { NavItem } from '$lib/types';
   
   // Stores para estado de usuario
   const authState = writable({
@@ -25,52 +23,24 @@
   let languageSelectorOpen = false;
   
   $: ({ isAuthenticated, isAdmin, userName, loading } = $authState);
-  $: currentTheme = $theme; // Para acceder al tema actual
+  $: currentTheme = $theme;
   
-  // Definir estructura de navegación - importado de navbar.ts
-  const navItems: NavItem[] = [
-    { 
-      url: '/cinemas', 
-      icon: 'building', 
-      text: 'Cines'
-    },
-    { 
-      url: '/movies', 
-      icon: 'film', 
-      text: 'Películas'
-    }
+  // Definir estructura de navegación
+  const navItems = [
+    { url: '/cinemas', icon: 'building', text: 'Cines' },
+    { url: '/movies', icon: 'film', text: 'Películas' }
   ];
   
-  // Definir elementos del menú de usuario - importado de navbar.ts
-  const userMenu: NavItem[] = [
-    { 
-      url: '/profile', 
-      icon: 'person', 
-      text: 'Mi Perfil'
-    },
-    { 
-      url: '/bookings', 
-      icon: 'ticket', 
-      text: 'Mis Reservas'
-    },
-    { 
-      divider: true, 
-      url: '', 
-      icon: '', 
-      text: '' 
-    },
-    { 
-      url: '#logout', 
-      icon: 'box-arrow-right', 
-      text: 'Cerrar Sesión', 
-      action: 'logout' 
-    }
+  // Definir elementos del menú de usuario
+  const userMenu = [
+    { url: '/profile', icon: 'person', text: 'Mi Perfil' },
+    { url: '/bookings', icon: 'ticket', text: 'Mis Reservas' },
+    { divider: true, url: '', icon: '', text: '' },
+    { url: '#logout', icon: 'box-arrow-right', text: 'Cerrar Sesión', action: 'logout' }
   ];
   
-  // Verificar y establecer idioma predeterminado - importado de navbar.ts
   function setupDefaultLanguage() {
     if (!languages.includes(get(currentLanguage))) {
-      // Si el idioma no es válido, usar español como predeterminado
       currentLanguage.set('es');
     }
   }
@@ -81,59 +51,51 @@
   
   function toggleUserMenu() {
     userMenuOpen = !userMenuOpen;
-    // Cerrar el selector de idioma si está abierto
-    if (userMenuOpen) {
-      languageSelectorOpen = false;
-    }
+    if (userMenuOpen) languageSelectorOpen = false;
   }
   
   function toggleLanguageSelector() {
     languageSelectorOpen = !languageSelectorOpen;
-    // Cerrar el menú de usuario si está abierto
-    if (languageSelectorOpen) {
-      userMenuOpen = false;
-    }
+    if (languageSelectorOpen) userMenuOpen = false;
   }
   
-  // Función para manejar el cambio de tema
   function handleThemeToggle() {
     toggleTheme();
   }
   
-  // Función para cerrar el menú de usuario cuando se hace clic fuera
-  function handleClickOutside(event: MouseEvent) {
+  function handleClickOutside(event) {
     const userMenu = document.getElementById('user-menu-dropdown');
     const userButton = document.getElementById('user-menu-button');
     const langSelector = document.getElementById('language-selector-dropdown');
     const langButton = document.getElementById('language-selector-button');
     
-    // Cerrar menú de usuario si el clic fue fuera
-    if (userMenu && userButton && !userMenu.contains(event.target as Node) && !userButton.contains(event.target as Node)) {
+    if (userMenu && userButton && !userMenu.contains(event.target) && !userButton.contains(event.target)) {
       userMenuOpen = false;
     }
     
-    // Cerrar selector de idioma si el clic fue fuera
-    if (langSelector && langButton && !langSelector.contains(event.target as Node) && !langButton.contains(event.target as Node)) {
+    if (langSelector && langButton && !langSelector.contains(event.target) && !langButton.contains(event.target)) {
       languageSelectorOpen = false;
     }
   }
   
   onMount(() => {
+    // Inicializar Bootstrap dropdown manualmente
+    import('bootstrap/js/dist/dropdown').then(module => {
+      // Bootstrap dropdowns ya están inicializados con atributos data-bs
+    });
+    
     // Inicializar el tema
     initTheme();
     
     // Configurar idioma predeterminado
     setupDefaultLanguage();
     
-    // Cargar estado guardado inmediatamente para reducir parpadeo
+    // Cargar estado guardado
     const cachedState = localStorage.getItem('authState');
     if (cachedState) {
       try {
         const parsed = JSON.parse(cachedState);
-        authState.set({ 
-          ...parsed, 
-          loading: true
-        });
+        authState.set({ ...parsed, loading: true });
       } catch (e) {
         // Ignorar errores de parsing
       }
@@ -141,12 +103,13 @@
     
     fetchProfile();
     
+    // Manejar scroll para efectos visuales
     const handleScroll = () => {
       scrolled = window.scrollY > 20;
     };
     window.addEventListener('scroll', handleScroll);
     
-    // Añadir event listener para cerrar el menú al hacer clic fuera
+    // Cerrar menús al hacer clic fuera
     document.addEventListener('click', handleClickOutside);
     
     return () => {
@@ -155,22 +118,16 @@
     };
   });
   
-  // Función para manejar el clic en el enlace de administrador
-  function handleAdminClick(event: MouseEvent) {
-    // Prevenir la navegación predeterminada
+  function handleAdminClick(event) {
     event.preventDefault();
-    
-    // Mostrar el diálogo de confirmación
     showAdminConfirmDialog = true;
   }
   
-  // Función para confirmar y navegar al panel de administrador
   function confirmAdminAccess() {
     showAdminConfirmDialog = false;
     goto('/admin');
   }
   
-  // Función para cancelar el acceso al panel de administrador
   function cancelAdminAccess() {
     showAdminConfirmDialog = false;
   }
@@ -206,10 +163,7 @@
           loading: false
         };
         
-        // Actualizar store
         authState.set(newState);
-        
-        // Guardar en localStorage para carga rápida en futuras visitas
         localStorage.setItem('authState', JSON.stringify(newState));
       } else {
         authState.set({
@@ -233,12 +187,11 @@
     }
   }
   
-  async function handleLogout(event: MouseEvent | null) {
+  async function handleLogout(event) {
     if (event) event.preventDefault();
     
     const token = localStorage.getItem('token');
     if (token) {
-      // Actualizar UI inmediatamente para mejorar percepción de velocidad
       authState.set({
         isAuthenticated: false,
         isAdmin: false,
@@ -249,7 +202,6 @@
       localStorage.removeItem('token');
       localStorage.removeItem('authState');
       
-      // Hacer petición de logout en segundo plano
       try {
         await fetch(`${API_URL}/logout`, {
           method: 'POST',
@@ -266,46 +218,50 @@
     }
   }
 
-  function isActive(path: string): boolean {
+  function isActive(path) {
     if (path === '/') return $page.url.pathname === '/';
     return $page.url.pathname.startsWith(path);
   }
   
-  function handleNavItemClick(item: NavItem, event: MouseEvent) {
+  function handleNavItemClick(item, event) {
     if (item.action === 'logout') {
       handleLogout(event);
     }
   }
 </script>
 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top {scrolled ? 'shadow bg-opacity-95' : ''} {$theme === 'dark' ? 'bg-dark' : 'bg-primary'}">
+<!-- Navbar con Bootstrap estándar -->
+<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''}" data-bs-theme={$theme}>
   <div class="container">
     <!-- Logo -->
     <a href="/" class="navbar-brand">
       Kaizen
+      <span class="badge bg-primary ms-1">Cinema</span>
     </a>
     
-    <!-- Botón de menú móvil -->
+    <!-- Botón de hamburguesa para móviles -->
     <button 
       class="navbar-toggler" 
       type="button" 
-      on:click={toggleMobileMenu}
-      aria-label={$t('toggleMenu')}
-      aria-expanded={mobileMenuOpen}
-      aria-controls="navbarContent"
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarContent" 
+      aria-controls="navbarContent" 
+      aria-expanded="false" 
+      aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
     
-    <!-- Contenido del navbar -->
-    <div class="collapse navbar-collapse {mobileMenuOpen ? 'show' : ''}" id="navbarContent">
-      <!-- Elementos de navegación -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <!-- Contenido colapsable -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <!-- Elementos de navegación principal -->
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
         {#each navItems as item}
           <li class="nav-item">
             <a 
               href={item.url} 
-              class="nav-link {isActive(item.url) ? 'active' : ''}"
+              class="nav-link {isActive(item.url) ? 'active fw-bold' : ''}"
+              aria-current={isActive(item.url) ? 'page' : undefined}
             >
               <i class="bi bi-{item.icon} me-1"></i>
               <span>{item.text}</span>
@@ -318,7 +274,8 @@
             <a 
               href="/admin" 
               on:click={handleAdminClick}
-              class="nav-link {isActive('/admin') ? 'active' : ''}"
+              class="nav-link {isActive('/admin') ? 'active fw-bold' : ''}"
+              aria-current={isActive('/admin') ? 'page' : undefined}
             >
               <i class="bi bi-speedometer2 me-1"></i>
               <span>{$t('adminPanel')}</span>
@@ -327,28 +284,25 @@
         {/if}
       </ul>
       
-      <!-- Acciones de usuario -->
-      <div class="d-flex align-items-center">
+      <!-- Elementos de la derecha -->
+      <div class="d-flex align-items-center gap-2">
         <!-- Selector de tema -->
         <button 
-          class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'} me-2" 
+          class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
           on:click={handleThemeToggle}
           aria-label="Toggle theme"
         >
-          {#if $theme === 'dark'}
-            <i class="bi bi-sun"></i>
-          {:else}
-            <i class="bi bi-moon"></i>
-          {/if}
+          <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'}"></i>
         </button>
         
-        <!-- Selector de idioma -->
-        <div class="dropdown me-2">
+        <!-- Selector de idioma con dropdown -->
+        <div class="dropdown">
           <button 
             id="language-selector-button"
             class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
-            on:click|stopPropagation={toggleLanguageSelector}
-            aria-expanded={languageSelectorOpen}
+            type="button"
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"
           >
             <i class="bi bi-globe me-1"></i>
             <span class="d-none d-lg-inline">{$currentLanguage.toUpperCase()}</span>
@@ -356,7 +310,8 @@
           
           <ul 
             id="language-selector-dropdown"
-            class="dropdown-menu dropdown-menu-end {languageSelectorOpen ? 'show' : ''}"
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="language-selector-button"
           >
             <li>
               <button 
@@ -378,8 +333,8 @@
         </div>
         
         {#if loading}
-          <!-- Placeholder durante carga -->
-          <div class="spinner-border spinner-border-sm text-light" role="status">
+          <!-- Spinner durante carga -->
+          <div class="spinner-border spinner-border-sm text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         {:else if isAuthenticated}
@@ -388,18 +343,21 @@
             <button 
               id="user-menu-button"
               class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
-              on:click|stopPropagation={toggleUserMenu}
-              aria-expanded={userMenuOpen}
+              type="button"
+              data-bs-toggle="dropdown" 
+              aria-expanded="false"
             >
-              <i class="bi bi-person-circle me-1"></i>
-              <span class="d-none d-lg-inline">{userName}</span>
-              <i class="bi bi-chevron-down ms-1 small"></i>
+              <span class="d-none d-lg-inline me-1">{userName}</span>
+              <i class="bi bi-person-circle"></i>
             </button>
             
             <ul 
               id="user-menu-dropdown"
-              class="dropdown-menu dropdown-menu-end {userMenuOpen ? 'show' : ''}"
+              class="dropdown-menu dropdown-menu-end"
+              aria-labelledby="user-menu-button"
             >
+              <li><h6 class="dropdown-header">{userName}</h6></li>
+              
               {#each userMenu as item}
                 {#if item.divider}
                   <li><hr class="dropdown-divider"></li>
@@ -420,11 +378,11 @@
           </div>
         {:else}
           <!-- Botones de login/registro -->
-          <a href="/login" class="btn btn-sm btn-primary me-2">
+          <a href="/login" class="btn btn-sm btn-primary">
             <i class="bi bi-box-arrow-in-right me-1 d-lg-none"></i>
             <span>{$t('login')}</span>
           </a>
-          <a href="/register" class="btn btn-sm btn-outline-light d-none d-sm-inline-block">
+          <a href="/register" class="btn btn-sm btn-outline-secondary d-none d-sm-inline-block">
             <span>{$t('register')}</span>
           </a>
         {/if}
@@ -435,43 +393,35 @@
 
 <!-- Modal de confirmación para acceso al panel de administrador -->
 {#if showAdminConfirmDialog}
-  <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+  <div class="modal fade show" id="adminConfirmModal" tabindex="-1" aria-modal="true" style="display: block;">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="admin-dialog-title">Acceso a Panel de Administrador</h5>
-          <button type="button" class="btn-close" on:click={cancelAdminAccess}></button>
+          <h5 class="modal-title">
+            <i class="bi bi-shield-lock me-2"></i>
+            Acceso a Panel de Administrador
+          </h5>
+          <button type="button" class="btn-close" on:click={cancelAdminAccess} aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <p>Está a punto de acceder al panel de administración. ¿Desea continuar?</p>
+          <div class="alert alert-warning">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            Está a punto de acceder al panel de administración. Esta área está restringida a personal autorizado.
+          </div>
+          <p>¿Desea continuar?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" on:click={cancelAdminAccess}>Cancelar</button>
-          <button type="button" class="btn btn-primary" on:click={confirmAdminAccess}>Continuar</button>
+          <button type="button" class="btn btn-secondary" on:click={cancelAdminAccess}>
+            <i class="bi bi-x-circle me-1"></i>
+            Cancelar
+          </button>
+          <button type="button" class="btn btn-primary" on:click={confirmAdminAccess}>
+            <i class="bi bi-check-circle me-1"></i>
+            Continuar
+          </button>
         </div>
       </div>
     </div>
     <div class="modal-backdrop fade show"></div>
   </div>
-{/if}
-
-<style>
-  /* Estilos adicionales para mejorar la apariencia */
-  .navbar {
-    transition: all 0.3s ease;
-  }
-  
-  .navbar-brand {
-    font-weight: 700;
-    font-size: 1.4rem;
-  }
-  
-  /* Ajustes para el modo oscuro/claro */
-  :global([data-bs-theme="dark"]) .navbar-brand {
-    color: #fff;
-  }
-  
-  :global([data-bs-theme="light"]) .navbar-brand {
-    color: #000;
-  }
-</style> 
+{/if} 

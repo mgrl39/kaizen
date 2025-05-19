@@ -1,77 +1,52 @@
-<script lang="ts">
-	import type { Category } from '$lib/types';
+<script>
 	import { t } from '$lib/i18n';
+	import { theme } from '$lib/theme';
 
-	export let category: Category;
+	export let category = {};
 	
-	// Función para obtener la clase de gradiente basada en el tipo
-	const getGradientClass = (gradient: string) => {
-		switch(gradient) {
-			case 'danger':
-				return 'bg-gradient-to-r from-[#ff4e50] to-[#f9d423]';
-			case 'warning':
-				return 'bg-gradient-to-r from-[#f6d365] to-[#fda085]';
-			case 'info':
-				return 'bg-gradient-to-r from-[#0093e9] to-[#80d0c7]';
-			default:
-				return 'bg-gradient-to-r from-blue-500 to-teal-400';
-		}
-	};
+	// Valores predeterminados para evitar errores
+	$: {
+		category.name = category.name || "Categoría";
+		category.icon = category.icon || "tag";
+		category.id = category.id || 1;
+		category.count = category.count || 0;
+	}
+	
+	// Texto simple para el contador
+	$: countText = category.count === 1 ? "1 película" : `${category.count} películas`;
 </script>
 
-<div class="rounded-lg shadow-md p-4 h-full transition-transform duration-300 ease-in-out hover:transform hover:scale-105">
-	<div class="text-center">
-		<div class="w-[60px] h-[60px] mx-auto mb-3 flex items-center justify-center rounded-full bg-white bg-opacity-10">
-			<!-- Nota: Deberías reemplazar esto con un enfoque de íconos compatible con Tailwind -->
-			<i class={`bi bi-${category.icon} text-[1.75rem]`}></i>
+<div class="card h-100 border-0 shadow-sm" data-bs-theme={$theme}>
+	{#if category.image}
+		<div class="position-relative">
+			<img 
+				src={category.image} 
+				alt={category.name} 
+				class="card-img-top"
+				style="height: 140px; object-fit: cover;"
+			>
+			<div class="position-absolute top-0 end-0 p-2">
+				<span class="badge bg-dark bg-opacity-75">
+					{countText}
+				</span>
+			</div>
 		</div>
-		<h5 class="text-lg font-medium mb-3">{category.name}</h5>
-		<a
-			href={`/genre/${category.name.toLowerCase()}`}
-			class={`inline-block px-6 py-2 rounded-full text-white text-sm transition-all duration-300 ease-in-out ${getGradientClass(category.gradient)}`}
-		>
-			{$t('showFilms')}
+	{:else}
+		<div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 140px;">
+			<i class="bi bi-{category.icon} display-4 text-primary"></i>
+		</div>
+	{/if}
+	
+	<div class="card-body">
+		<div class="d-flex align-items-center">
+			<i class="bi bi-{category.icon} me-2 text-primary"></i>
+			<h5 class="card-title mb-0">{category.name}</h5>
+		</div>
+	</div>
+	
+	<div class="card-footer bg-transparent border-top-0">
+		<a href="/categories/{category.id}" class="btn btn-sm btn-outline-primary w-100">
+			{$t('explore', 'Explorar')}
 		</a>
 	</div>
 </div>
-
-<style>
-	.category-card {
-		transition: transform 0.3s ease;
-	}
-
-	.category-icon-wrapper {
-		width: 60px;
-		height: 60px;
-		margin: 0 auto;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 50%;
-		background: rgba(255, 255, 255, 0.1);
-	}
-
-	.category-icon {
-		font-size: 1.75rem;
-	}
-
-	.category-btn {
-		border: none;
-		padding: 0.5rem 1.5rem;
-		border-radius: 20px;
-		color: white;
-		transition: all 0.3s ease;
-	}
-
-	.gradient-danger {
-		background: linear-gradient(135deg, #ff4e50, #f9d423);
-	}
-
-	.gradient-warning {
-		background: linear-gradient(135deg, #f6d365, #fda085);
-	}
-
-	.gradient-info {
-		background: linear-gradient(135deg, #0093e9, #80d0c7);
-	}
-</style>

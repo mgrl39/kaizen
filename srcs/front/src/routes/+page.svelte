@@ -1,6 +1,5 @@
-<script lang="ts">
+<script>
   import { onMount } from 'svelte';
-  import type { Movie, Category } from '$lib/types';
   import { t } from '$lib/i18n';
   
   // Importar componentes
@@ -15,15 +14,33 @@
   
   // Categorías para la sección de categorías
   $: categories = [
-    {name: $t('category_action'), icon: 'lightning', color: 'text-danger', gradient: 'bg-danger bg-gradient'},
-    {name: $t('category_comedy'), icon: 'emoji-laughing', color: 'text-warning', gradient: 'bg-warning bg-gradient'},
-    {name: $t('category_drama'), icon: 'mask', color: 'text-info', gradient: 'bg-info bg-gradient'}
+    {
+      id: 1,
+      name: $t('category_action', 'Acción'), 
+      icon: 'lightning', 
+      count: 24,
+      image: "https://source.unsplash.com/random/500x300/?action,movie"
+    },
+    {
+      id: 2,
+      name: $t('category_comedy', 'Comedia'), 
+      icon: 'emoji-laughing', 
+      count: 18,
+      image: "https://source.unsplash.com/random/500x300/?comedy,movie"
+    },
+    {
+      id: 3,
+      name: $t('category_drama', 'Drama'), 
+      icon: 'mask', 
+      count: 32,
+      image: "https://source.unsplash.com/random/500x300/?drama,movie"
+    }
   ];
   
   // Función para obtener películas aleatorias de un array
   function getRandomMovies(movies, count) {
     const shuffled = [...movies].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, count);
+    return shuffled.slice(0, Math.min(count, movies.length));
   }
   
   onMount(async () => {
@@ -49,14 +66,37 @@
         throw new Error('Formato de respuesta API inesperado');
       }
       
-      // Seleccionar 3 películas aleatorias
-      featuredMovies = getRandomMovies(allMovies, 3);
+      // Seleccionar películas aleatorias
+      featuredMovies = getRandomMovies(allMovies, 4);
       
       loading = false;
     } catch (err) {
       console.error('Error cargando películas:', err);
-      error = `${$t('featuredMoviesError')} ` + (err instanceof Error ? err.message : String(err));
+      error = `${$t('featuredMoviesError', 'Error al cargar películas destacadas:')} ` + 
+              (err instanceof Error ? err.message : String(err));
       loading = false;
+      
+      // Películas de respaldo en caso de error
+      featuredMovies = [
+        {
+          id: 1,
+          title: "Película de ejemplo 1",
+          poster: "https://source.unsplash.com/random/300x450/?movie,poster,1",
+          rating: 4.5,
+          year: 2023,
+          genres: ["Acción", "Aventura"],
+          duration: 120
+        },
+        {
+          id: 2,
+          title: "Película de ejemplo 2",
+          poster: "https://source.unsplash.com/random/300x450/?movie,poster,2",
+          rating: 4.2,
+          year: 2023,
+          genres: ["Comedia", "Romance"],
+          duration: 105
+        }
+      ];
     }
   });
 </script>
@@ -66,13 +106,14 @@
   title="Kaizen Cinema"
   subtitle="Tu destino para las mejores experiencias cinematográficas"
   imageUrl="https://source.unsplash.com/random/1920x1080/?cinema,movies,theater"
-  overlayOpacity="60"
+  buttonText="Ver películas"
+  buttonUrl="/movies"
 />
 
 <!-- Contenido específico de la página -->
 <div class="container py-5">
-  <FeaturedMovies {loading} {error} {featuredMovies} />
-  <CategoriesSection {categories} />
+  <FeaturedMovies movies={featuredMovies} loading={loading} />
+  <CategoriesSection categories={categories} />
 </div>
 
 <style>

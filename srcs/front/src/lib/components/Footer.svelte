@@ -1,29 +1,36 @@
 <script lang="ts">
-  const links = [
-    { href: "/", text: "Inicio" },
-    { href: "/cinemas", text: "Cines" },
-    { href: "/movies", text: "Películas" }
-  ];
+  import { t } from '$lib/i18n';
+  import { theme } from '$lib/theme';
+  
+  const currentYear = new Date().getFullYear();
 </script>
 
-<footer class="py-6 bg-gray-900 border-t border-gray-800">
-  <div class="container mx-auto px-4">
-    <div class="flex flex-col md:flex-row items-center justify-between">
-      <div class="flex items-center mb-4 md:mb-0">
-        <a href="/" class="text-white flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h18M3 16h18" />
-          </svg>
-          <span class="font-medium">Kaizen</span>
-        </a>
-        <span class="ml-3 text-gray-400 text-sm">MIT License</span>
+<footer class="footer mt-auto py-3 bg-body-tertiary" data-bs-theme={$theme}>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Kaizen Cinema</h5>
+        <p class="text-body-secondary">{$t('footerTagline')}</p>
       </div>
-
-      <nav class="flex items-center space-x-6">
-        {#each links as link}
-          <a href={link.href} class="text-gray-400 hover:text-white transition-colors duration-200">{link.text}</a>
-        {/each}
-      </nav>
+      <div class="col-md-3">
+        <h5>{$t('links')}</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item"><a href="/about" class="nav-link p-0 text-body-secondary">{$t('about')}</a></li>
+          <li class="nav-item"><a href="/contact" class="nav-link p-0 text-body-secondary">{$t('contact')}</a></li>
+          <li class="nav-item"><a href="/terms" class="nav-link p-0 text-body-secondary">{$t('terms')}</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h5>{$t('social')}</h5>
+        <ul class="list-unstyled d-flex">
+          <li class="ms-3"><a class="text-body-secondary" href="#"><i class="bi bi-twitter"></i></a></li>
+          <li class="ms-3"><a class="text-body-secondary" href="#"><i class="bi bi-instagram"></i></a></li>
+          <li class="ms-3"><a class="text-body-secondary" href="#"><i class="bi bi-facebook"></i></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between pt-4 mt-4 border-top">
+      <p>© {currentYear} Kaizen Cinema. {$t('allRightsReserved')}</p>
     </div>
   </div>
 </footer>

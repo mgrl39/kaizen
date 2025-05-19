@@ -3,31 +3,44 @@
   
   export let movie: Movie;
   
+  import { theme } from '$lib/theme';
+  import { t } from '$lib/i18n';
+  
   function truncateText(text: string, limit: number = 100): string {
     if (!text) return 'Sin descripción disponible';
     return text.length > limit ? text.substring(0, limit) + '...' : text;
   }
+
+  function formatDuration(minutes) {
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    return `${hours}h ${mins}m`;
+  }
 </script>
 
-<div class="movie-card card h-100">
-  <div class="card-image-wrapper">
-    <img src={movie.photo_url} class="card-img-top" alt={movie.title}>
-    <div class="card-overlay">
-      <a href={`/movies/${movie.id}`} class="btn btn-primary btn-sm">
-        <i class="bi bi-ticket me-1"></i>Ver detalles
-      </a>
-    </div>
-  </div>
+<div class="card h-100" data-bs-theme={$theme}>
+  <img src={movie.photo_url} class="card-img-top" alt={movie.title}>
   <div class="card-body">
-    <div class="d-flex justify-content-between align-items-start mb-2">
-      <h5 class="card-title mb-0">{movie.title}</h5>
-      <span class="rating-badge">
-        <i class="bi bi-star-fill me-1"></i>{movie.rating}
+    <h5 class="card-title">{movie.title}</h5>
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <span class="badge bg-primary">{movie.year}</span>
+      <span class="badge bg-warning text-dark">
+        <i class="bi bi-star-fill me-1"></i>
+        {movie.rating.toFixed(1)}
       </span>
     </div>
-    <p class="card-text text-muted">
-      {truncateText(movie.synopsis || '', 100)}
+    <p class="card-text">
+      <small class="text-body-secondary">
+        {movie.genres.join(', ')} • {formatDuration(movie.duration)}
+      </small>
     </p>
+  </div>
+  <div class="card-footer bg-transparent border-top-0">
+    <div class="d-grid">
+      <a href={`/movies/${movie.id}`} class="btn btn-outline-primary">
+        {$t('viewDetails')}
+      </a>
+    </div>
   </div>
 </div>
 

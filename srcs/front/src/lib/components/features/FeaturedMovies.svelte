@@ -1,13 +1,48 @@
 <script lang="ts">
   import type { Movie } from '$lib/types';
   import { t } from '$lib/i18n';
+  import { theme } from '$lib/theme';
   import MovieCard from '../MovieCard.svelte';
   
   export let loading: boolean;
   export let error: string | null;
   export let featuredMovies: Movie[] = [];
+  export let title = $t('featuredMovies');
+  export let viewAllUrl = "/movies";
+  
+  // Mostrar solo hasta 4 películas en la vista principal
+  $: displayMovies = featuredMovies.slice(0, 4);
 </script>
 
+<section class="py-5" data-bs-theme={$theme}>
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="mb-0">{title}</h2>
+      <a href={viewAllUrl} class="btn btn-outline-primary">
+        {$t('viewAll')}
+        <i class="bi bi-arrow-right ms-1"></i>
+      </a>
+    </div>
+    
+    <div class="row g-4">
+      {#each displayMovies as movie}
+        <div class="col-6 col-md-4 col-lg-3">
+          <MovieCard {movie} />
+        </div>
+      {:else}
+        <div class="col-12 text-center py-5">
+          <div class="py-4">
+            <i class="bi bi-film display-1 text-muted"></i>
+            <p class="mt-3">{$t('noMoviesFound')}</p>
+            <a href="/movies" class="btn btn-primary mt-2">
+              {$t('browseAllMovies')}
+            </a>
+          </div>
+        </div>
+      {/each}
+    </div>
+  </div>
+</section>
 <section class="mb-12">
   <h2 class="section-title text-2xl font-semibold mb-6 relative inline-block">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

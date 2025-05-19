@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { currentLanguage, languages } from '$lib/i18n';
   import { browser } from '$app/environment';
+  import { theme } from '$lib/theme';
   
   // Props para controlar el estado desde el componente padre
   export let isOpen = false;
@@ -10,7 +11,7 @@
   let selectorRef: HTMLElement; // Referencia al elemento contenedor con tipo explícito
   
   function selectLanguage(lang: string) {
-    $currentLanguage = lang;
+    currentLanguage.set(lang);
     isOpen = false;
   }
   
@@ -54,34 +55,32 @@
 </script>
 
 <!-- Contenedor con referencia para detectar clics fuera -->
-<div class="relative" bind:this={selectorRef} id="language-selector-dropdown">
+<div class="dropdown" id="language-dropdown">
   <button 
-    id="language-selector-button"
-    class="flex items-center text-white hover:bg-white/10 rounded-md transition-colors px-2 py-1.5"
-    on:click|stopPropagation={toggleMenu}
-    aria-label="Seleccionar idioma"
-    aria-haspopup="true"
+    class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+    type="button" 
+    on:click={toggleMenu}
     aria-expanded={isOpen}
   >
-    <span class="text-lg">{getLanguageFlag($currentLanguage)}</span>
-    <span class="font-medium ml-1 text-sm">{$currentLanguage.toUpperCase()}</span>
-    <i class="bi bi-chevron-down text-xs ml-1 transition-transform duration-200 {isOpen ? 'rotate-180' : ''}"></i>
+    <span class="me-1">{getLanguageFlag($currentLanguage)}</span>
+    <span class="d-none d-md-inline">{getLanguageName($currentLanguage)}</span>
+    <i class="bi bi-chevron-down ms-1"></i>
   </button>
   
   {#if isOpen}
-    <div 
-      class="absolute left-0 md:left-auto md:right-0 top-full mt-1 w-36 bg-card border border-white/10 rounded-md shadow-lg overflow-hidden z-50"
-    >
+    <ul class="dropdown-menu dropdown-menu-end show">
       {#each languages as lang}
-        <button 
-          class="flex items-center w-full px-3 py-2 text-white hover:bg-purple-900/20 text-left {$currentLanguage === lang ? 'bg-purple-900/30 font-medium' : ''}"
-          on:click={() => selectLanguage(lang)}
-        >
-          <span class="text-lg mr-2">{getLanguageFlag(lang)}</span>
-          <span class="text-sm">{getLanguageName(lang)}</span>
-        </button>
+        <li>
+          <button 
+            class="dropdown-item {$currentLanguage === lang ? 'active' : ''}" 
+            on:click={() => selectLanguage(lang)}
+          >
+            <span class="me-2">{getLanguageFlag(lang)}</span>
+            {getLanguageName(lang)}
+          </button>
+        </li>
       {/each}
-    </div>
+    </ul>
   {/if}
 </div>
 

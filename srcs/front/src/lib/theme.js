@@ -2,6 +2,8 @@ import { writable } from 'svelte/store';
 
 // Verificar el tema guardado o la preferencia del sistema
 function getInitialTheme() {
+	if (typeof window === 'undefined') return 'light';
+
 	// Verificar si hay un tema guardado en localStorage
 	const savedTheme = localStorage.getItem('theme');
 	if (savedTheme) {
@@ -18,30 +20,21 @@ function getInitialTheme() {
 }
 
 // Crear un store para el tema
-export const theme = writable('light'); // Valor inicial por defecto
+export const theme = writable(getInitialTheme());
 
 // Función para inicializar el tema
 export function initTheme() {
 	if (typeof window !== 'undefined') {
-		const initialTheme = getInitialTheme();
-		theme.set(initialTheme);
-		applyTheme(initialTheme);
+		theme.subscribe((value) => {
+			document.documentElement.setAttribute('data-bs-theme', value);
+			localStorage.setItem('theme', value);
+		});
 	}
 }
 
 // Función para cambiar el tema
 export function toggleTheme() {
 	theme.update((currentTheme) => {
-		const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-		applyTheme(newTheme);
-		return newTheme;
+		return currentTheme === 'light' ? 'dark' : 'light';
 	});
-}
-
-// Función para aplicar el tema
-function applyTheme(themeName) {
-	if (typeof window !== 'undefined') {
-		document.documentElement.setAttribute('data-bs-theme', themeName);
-		localStorage.setItem('theme', themeName);
-	}
 }
