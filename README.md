@@ -1,84 +1,204 @@
-<div align="center" style="text-align: center; width: 100%">
-<img src="srcs/front/static/images/kaizen_logo_transparent.png" height="90px"/>
-<h1>Kaizen Cinema<br/><sub>Sistema de gestión para cines</sub></h1>
+# Kaizen Cinema
 
-▶️ <a href="#inicio-rapido">Inicio Rápido</a> | <a href="#vision-general">Visión General</a> | <a href="#funcionalidades">Funcionalidades</a> | <a href="#desarrollo">Desarrollo</a>
+<div align="center">
+<table>
+<tr>
+<td width="70%">
+<h1>Kaizen Cinema</h1>
+<h3>Sistema de gestión integral para cines</h3>
+<p>Una plataforma moderna para la administración completa de cines, gestión de películas y experiencia de usuario mejorada</p>
 
-<a href="https://php.net"><img src="https://img.shields.io/badge/PHP-8.1%2B-8892BF?style=flat-square&logo=php"/></a>
-<a href="https://laravel.com"><img src="https://img.shields.io/badge/Laravel-10.x-FF2D20?style=flat-square&logo=laravel"/></a>
-<a href="https://svelte.dev"><img src="https://img.shields.io/badge/Svelte-4.x-FF3E00?style=flat-square&logo=svelte"/></a>
-<a href="https://postgresql.org"><img src="https://img.shields.io/badge/PostgreSQL-15-336791?style=flat-square&logo=postgresql"/></a>
-<a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square"/></a>
-<a href="#status"><img src="https://img.shields.io/badge/Estado-Desarrollo-blue?style=flat-square"/></a>
+[![PHP](https://img.shields.io/badge/PHP-8.1%2B-8892BF?style=for-the-badge&logo=php)](https://php.net)
+[![Laravel](https://img.shields.io/badge/Laravel-10.x-FF2D20?style=for-the-badge&logo=laravel)](https://laravel.com)
+[![Svelte](https://img.shields.io/badge/Svelte-4.x-FF3E00?style=for-the-badge&logo=svelte)](https://svelte.dev)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-336791?style=for-the-badge&logo=postgresql)](https://postgresql.org)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Estado](https://img.shields.io/badge/Estado-Desarrollo-blue?style=for-the-badge)](https://github.com/mgrl39/kaizen)
 
+</td>
+<td width="30%">
+<img src="srcs/front/static/images/kaizen_logo_transparent.png" width="60%"/>
+</td>
+</tr>
+</table>
 </div>
-<hr/>
 
-**Kaizen Cinema es un sistema para la gestión de cines, con aplicación web integrada.**
+## 📋 Índice
 
-Esta aplicación basada en Laravel con frontend en Svelte proporciona herramientas para la gestión de películas, programación de sesiones y reserva de asientos.
+- [🚀 Inicio Rápido](#-inicio-rápido)
+- [✨ Características](#-características)
+- [🏗️ Arquitectura](#-arquitectura)
+- [🧰 Tecnologías](#-tecnologías)
+- [📊 Módulos del Sistema](#-módulos-del-sistema)
+- [🔧 Desarrollo](#-desarrollo)
+- [🤝 Patrocinadores](#-patrocinadores)
 
-<hr/>
+## 🚀 Inicio Rápido
 
-## Visión General
-
-Kaizen Cinema ofrece una solución para la gestión de cines:
-
-- Gestión de películas
-- Configuración de cines y salas de proyección
-- Programación de sesiones
-- Gestión de reservas
-- Autenticación de usuarios
-
-El sistema incluye una interfaz web para administradores y usuarios finales.
-
-## Inicio Rápido
+### Instalación con Podman
 
 ```bash
-git clone https://github.com/mgrl39/kaizen.git && cd kaizen # Clonar repositorio
-cd srcs/back && composer install # Instalar dependencias de backend
-cd srcs/front && npm install # Instalar dependencias de frontend
-cd srcs/back && php artisan serve # Iniciar el servidor API
-cd srcs/front && npm run dev # Iniciar el servidor de desarrollo frontend
+# Clonar el repositorio
+git clone https://github.com/mgrl39/kaizen.git
+cd kaizen
+
+# Iniciar con Podman
+podman-compose up -d
 ```
 
-## Funcionalidades
+### Instalación Manual
 
-El sistema proporciona las siguientes funcionalidades principales:
+```bash
+# Clonar el repositorio
+git clone https://github.com/mgrl39/kaizen.git
+cd kaizen
 
-- **Gestión de películas**: Catálogo, información, clasificaciones
-- **Cines y salas**: Configuración, capacidad, tipo de pantalla
-- **Sesiones**: Programación, precios, disponibilidad
-- **Reservas**: Venta de entradas, selección de asientos
-- **Usuarios**: Registro, perfiles, historial
+# Backend
+cd srcs/back
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
 
-## Desarrollo
+# Frontend
+cd srcs/front
+npm install
+npm run dev
+```
+
+## ✨ Características
+
+<table>
+<tr>
+<td width="33%">
+<h3>🎬 Gestión de Películas</h3>
+<ul>
+<li>Catálogo completo de películas</li>
+<li>Información detallada y metadata</li>
+<li>Clasificación por géneros</li>
+<li>Galería de imágenes</li>
+<li>Integración con APIs externas</li>
+</ul>
+</td>
+<td width="33%">
+<h3>🏢 Administración de Cines</h3>
+<ul>
+<li>Gestión de múltiples complejos</li>
+<li>Configuración de salas</li>
+<li>Tipos de pantallas (IMAX, 3D, etc.)</li>
+<li>Mapas de asientos personalizables</li>
+<li>Estadísticas de ocupación</li>
+</ul>
+</td>
+<td width="33%">
+<h3>🎟️ Sistema de Reservas</h3>
+<ul>
+<li>Selección visual de asientos</li>
+<li>Procesamiento de pagos</li>
+<li>Generación de tickets digitales</li>
+<li>Historial de compras</li>
+<li>Notificaciones automáticas</li>
+</ul>
+</td>
+</tr>
+</table>
+
+## 🏗️ Arquitectura
+
+Kaizen Cinema implementa una arquitectura moderna de microservicios:
+
+- **Backend API RESTful**: Desarrollado con Laravel 10, proporciona endpoints seguros y documentados
+- **Frontend SPA**: Interfaz de usuario reactiva construida con Svelte 4
+- **Base de datos**: PostgreSQL optimizado para consultas complejas y alta concurrencia
+- **Autenticación**: Sistema JWT con roles y permisos granulares
+- **Contenedores**: Implementación con Podman para entornos aislados y seguros
+
+## 🧰 Tecnologías
+
+<div align="center">
+
+| Backend         | Frontend    | DevOps         | Herramientas |
+| --------------- | ----------- | -------------- | ------------ |
+| PHP 8.1+        | Svelte 4    | Podman         | Git          |
+| Laravel 10      | SvelteKit   | GitHub Actions | VS Code      |
+| PostgreSQL      | TailwindCSS | CI/CD          | Postman      |
+| JWT Auth        | TypeScript  | Nginx          | PHPUnit      |
+| Laravel Sanctum | Vite        | Focalboard     | Swagger      |
+
+</div>
+
+## 📊 Módulos del Sistema
+
+- **Panel de Administración**: Gestión completa del sistema para operadores de cine
+- **Catálogo de Películas**: Visualización y filtrado avanzado del catálogo
+- **Programación de Sesiones**: Calendario visual para programar proyecciones
+- **Sistema de Reservas**: Proceso intuitivo de selección y compra de entradas
+- **Gestión de Usuarios**: Perfiles, preferencias y historial de compras
+- **Reportes y Estadísticas**: Análisis de ventas, ocupación y rendimiento
+- **API Pública**: Documentada con Swagger para integraciones externas
+- **Gestión de Tareas**: Integración con Focalboard para seguimiento de proyectos
+
+## 🔧 Desarrollo
 
 ### Requisitos
 
 - PHP 8.1+
-- Composer
-- Node.js y npm
+- Composer 2.0+
+- Node.js 16+
+- PostgreSQL 15+
+- Podman
 
 ### Comandos Útiles
 
 ```bash
 # Backend (desde srcs/back)
-php artisan serve # Ejecutar el servidor API
-php artisan migrate # Ejecutar migraciones
-php artisan db:seed # Ejecutar seeders
+php artisan serve                # Iniciar servidor de desarrollo
+php artisan test                 # Ejecutar tests
+php artisan migrate:fresh --seed # Reiniciar base de datos con datos de prueba
+php artisan scribe:generate      # Generar documentación de API
 
 # Frontend (desde srcs/front)
-npm run dev # Ejecutar servidor de desarrollo
-npm run build # Construir para producción
+npm run dev      # Servidor de desarrollo
+npm run build    # Compilar para producción
+npm run test     # Ejecutar tests
+npm run lint     # Verificar estilo de código
+
+# Podman
+./srcs/conf/postgres/pg-podman.sh start    # Iniciar contenedor PostgreSQL
+./srcs/conf/postgres/pg-podman.sh dump     # Generar dump de la base de datos
 ```
 
-## Colaboradores
+### Estructura del Proyecto
+
+```
+kaizen/
+├── srcs/
+│   ├── back/           # Backend Laravel
+│   │   ├── app/        # Lógica principal
+│   │   ├── database/   # Migraciones y seeders
+│   │   └── routes/     # Definición de endpoints API
+│   │
+│   └── front/          # Frontend Svelte
+│       ├── src/        # Código fuente
+│       ├── static/     # Archivos estáticos
+│       └── tests/      # Tests de frontend
+│
+├── docker/             # Configuración de Podman
+└── .github/            # Workflows de GitHub Actions
+```
+
+## 🤝 Patrocinadores
 
 <div align="center">
-
-<a href="https://github.com/mgrl39/kaizen/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=mgrl39/kaizen" />
+<a href="https://github.com/sponsors/mgrl39">
+  <img src="https://img.shields.io/badge/Patrocinar-mgrl39-ea4aaa?style=for-the-badge&logo=github-sponsors" alt="Patrocinar en GitHub" />
 </a>
+</div>
 
+---
+
+<div align="center">
+<p>Desarrollado con ❤️ por mgrl39</p>
+<p><small>Inspirado en Gadget - Sistema de webscraping y análisis de datos de cines</small></p>
 </div>
