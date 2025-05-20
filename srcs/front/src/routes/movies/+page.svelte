@@ -3,6 +3,7 @@
   import type { Movie } from '$lib/types';
   import { t } from '$lib/i18n';
   import HeroBanner from '$lib/components/HeroBanner.svelte';
+  import { API_URL } from '$lib/config';
 
   // Géneros para filtrar
   const genres = [
@@ -26,7 +27,7 @@
   onMount(async () => {
     try {
       // Obtener películas desde la API
-      const response = await fetch('http://localhost:8000/api/v1/movies');
+      const response = await fetch(`${API_URL}/movies`);
       
       if (!response.ok) {
         throw new Error(`API respondió con estado: ${response.status}`);
@@ -66,7 +67,7 @@
       }
       
       // Filtrar por género
-      if (selectedGenre && !movie.genres.includes(selectedGenre)) {
+      if (selectedGenre && !movie.genres?.includes(selectedGenre)) {
         return false;
       }
       
@@ -101,7 +102,7 @@
   }
 </script>
 
-<!-- Hero Banner con imagen específica para la página de películas -->
+<!-- Hero Banner con imagen de fondo para la cartelera -->
 <HeroBanner 
   title="Cartelera"
   subtitle="Descubre todas las películas disponibles en nuestro cine"
@@ -109,52 +110,170 @@
   overlayOpacity="60"
 />
 
-<!-- Contenido específico de la página -->
-<div class="container mx-auto px-4 py-8">
-  <h2 class="text-2xl font-bold mb-6">Películas en cartelera</h2>
+<!-- Contenido principal con estilo Bootstrap -->
+<div class="container py-5">
+  <!-- Sección de filtros -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card bg-dark text-white border-secondary">
+        <div class="card-header bg-dark d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Filtros</h5>
+          <button class="btn btn-sm btn-outline-light" on:click={resetFilters}>
+            <i class="bi bi-arrow-counterclockwise me-1"></i>Resetear
+          </button>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="searchQuery" class="form-label">Buscar</label>
+              <div class="input-group">
+                <span class="input-group-text bg-dark border-secondary text-light">
+                  <i class="bi bi-search"></i>
+                </span>
+                <input 
+                  type="text" 
+                  id="searchQuery" 
+                  bind:value={searchQuery} 
+                  placeholder="Buscar películas..." 
+                  class="form-control bg-dark border-secondary text-light"
+                />
+              </div>
+            </div>
+            
+            <div class="col-md-4">
+              <label for="genreSelect" class="form-label">Género</label>
+              <select 
+                id="genreSelect" 
+                bind:value={selectedGenre} 
+                class="form-select bg-dark border-secondary text-light"
+              >
+                <option value="">Todos los géneros</option>
+                {#each genres as genre}
+                  <option value={genre}>{genre}</option>
+                {/each}
+              </select>
+            </div>
+            
+            <div class="col-md-4">
+              <label for="sortSelect" class="form-label">Ordenar por</label>
+              <select 
+                id="sortSelect" 
+                bind:value={sortBy} 
+                class="form-select bg-dark border-secondary text-light"
+              >
+                <option value="rating">Valoración</option>
+                <option value="title">Título</option>
+                <option value="release_date">Fecha de estreno</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Resultados -->
+  <h2 class="mb-4 text-white">
+    <i class="bi bi-film me-2"></i>Películas en cartelera
+    {#if filteredMovies.length > 0}
+      <span class="badge bg-secondary ms-2">{filteredMovies.length}</span>
+    {/if}
+  </h2>
   
   {#if loading}
-    <div class="flex justify-center items-center h-64">
-      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+    <div class="d-flex justify-content-center py-5">
+      <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
     </div>
   {:else if error}
-    <div class="bg-red-900/20 border border-red-500/30 text-red-200 p-4 rounded-md">
-      <p>{error}</p>
+    <div class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      {error}
     </div>
-  {:else if movies.length === 0}
-    <div class="bg-blue-900/20 border border-blue-500/30 text-blue-200 p-4 rounded-md">
-      <p>No hay películas disponibles en este momento.</p>
+  {:else if filteredMovies.length === 0}
+    <div class="alert alert-info" role="alert">
+      <i class="bi bi-info-circle-fill me-2"></i>
+      No se encontraron películas con los filtros actuales.
     </div>
   {:else}
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-      {#each movies as movie}
-        <div class="bg-card border border-white/10 rounded-lg overflow-hidden transition-transform hover:scale-105">
-          <a href={`/movies/${movie.id}`} class="block">
-            <div class="h-64 overflow-hidden">
-              <img 
-                src={movie.poster_url || 'https://via.placeholder.com/300x450?text=No+Image'} 
-                alt={movie.title} 
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <div class="p-4">
-              <h3 class="text-lg font-bold mb-1 line-clamp-1">{movie.title}</h3>
-              <div class="flex items-center text-sm text-gray-400 mb-2">
-                <span>{movie.release_year}</span>
-                <span class="mx-2">•</span>
-                <span>{movie.duration} min</span>
-              </div>
-              <div class="flex flex-wrap gap-2">
-                {#each movie.categories || [] as category}
-                  <span class="bg-white/10 text-xs py-1 px-2 rounded-md">
-                    {category}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      {#each filteredMovies as movie}
+        <div class="col">
+          <div class="card h-100 bg-dark text-white border-secondary hover-card">
+            <a href={`/movies/${movie.id}`} class="text-decoration-none text-white">
+              <div class="position-relative">
+                <img 
+                  src={movie.poster_url || 'https://via.placeholder.com/300x450?text=No+Image'} 
+                  class="card-img-top movie-poster" 
+                  alt={movie.title}
+                />
+                {#if movie.rating}
+                  <span class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark">
+                    <i class="bi bi-star-fill me-1"></i>{movie.rating}
                   </span>
-                {/each}
+                {/if}
               </div>
-            </div>
-          </a>
+              <div class="card-body">
+                <h5 class="card-title text-truncate">{movie.title}</h5>
+                <div class="d-flex align-items-center mb-2 text-muted">
+                  <small>
+                    {movie.release_year || 'N/A'}
+                    {#if movie.duration}
+                      <span class="mx-1">•</span>
+                      <i class="bi bi-clock me-1"></i>{movie.duration} min
+                    {/if}
+                  </small>
+                </div>
+                <div class="d-flex flex-wrap gap-1">
+                  {#each movie.categories || [] as category, i}
+                    {#if i < 3}
+                      <span class="badge bg-secondary">{category}</span>
+                    {/if}
+                  {/each}
+                  {#if (movie.categories || []).length > 3}
+                    <span class="badge bg-secondary">+{movie.categories.length - 3}</span>
+                  {/if}
+                </div>
+              </div>
+              <div class="card-footer bg-dark border-secondary">
+                <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted">
+                    {#if movie.release_date}
+                      <i class="bi bi-calendar3 me-1"></i>
+                      {new Date(movie.release_date).toLocaleDateString()}
+                    {/if}
+                  </small>
+                  <button class="btn btn-sm btn-outline-light">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       {/each}
     </div>
   {/if}
 </div>
+
+<style>
+  .movie-poster {
+    height: 300px;
+    object-fit: cover;
+  }
+  
+  .hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Asegúrate de que los enlaces no tengan el subrayado predeterminado */
+  a {
+    text-decoration: none;
+  }
+</style>
