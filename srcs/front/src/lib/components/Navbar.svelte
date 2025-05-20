@@ -12,7 +12,7 @@
     isAuthenticated: false,
     isAdmin: false,
     userName: 'Usuario',
-    loading: true
+    loading: false // Cambiado a false por defecto
   });
   
   // Estado local para UI
@@ -98,13 +98,11 @@
     if (cachedState) {
       try {
         const parsed = JSON.parse(cachedState);
-        authState.set({ ...parsed, loading: true });
+        authState.set({ ...parsed, loading: false }); // No mostrar loading
       } catch (e) {
         // Ignorar errores de parsing
       }
     }
-    
-    fetchProfile();
     
     // Manejar scroll para efectos visuales
     const handleScroll = () => {
@@ -118,7 +116,28 @@
     // Verificar si hay un token en localStorage
     const token = localStorage.getItem('token');
     if (token) {
-      loadUserProfile();
+      // Intentar cargar el perfil con timeout
+      const profilePromise = fetchProfile();
+      
+      // Establecer un timeout de 3 segundos
+      const timeoutPromise = new Promise((resolve) => {
+        setTimeout(() => resolve({ timeout: true }), 3000);
+      });
+      
+      // Usar Promise.race para tomar el que termine primero
+      Promise.race([profilePromise, timeoutPromise])
+        .then(result => {
+          if (result && result.timeout) {
+            console.warn('Tiempo de espera agotado al cargar el perfil');
+            // Mostrar como no autenticado si hay timeout
+            authState.set({
+              isAuthenticated: false,
+              isAdmin: false,
+              userName: 'Usuario',
+              loading: false
+            });
+          }
+        });
     }
     
     return () => {
@@ -151,7 +170,7 @@
         loading: false
       });
       localStorage.removeItem('authState');
-      return;
+      return { success: false };
     }
     
     try {
@@ -168,12 +187,13 @@
         const newState = {
           isAuthenticated: true,
           isAdmin: data.user.role === 'admin',
-          userName: data.user.name || data.user.username,
+          userName: data.user.name || data.user.username || 'Usuario',
           loading: false
         };
         
         authState.set(newState);
         localStorage.setItem('authState', JSON.stringify(newState));
+        return { success: true };
       } else {
         authState.set({
           isAuthenticated: false,
@@ -183,8 +203,10 @@
         });
         localStorage.removeItem('token');
         localStorage.removeItem('authState');
+        return { success: false };
       }
     } catch (err) {
+      console.error("Error al cargar perfil:", err);
       authState.set({
         isAuthenticated: false,
         isAdmin: false,
@@ -193,6 +215,7 @@
       });
       localStorage.removeItem('token');
       localStorage.removeItem('authState');
+      return { success: false };
     }
   }
   
@@ -201,6 +224,7 @@
     
     const token = localStorage.getItem('token');
     if (token) {
+      // Actualizar el estado inmediatamente para mejor UX
       authState.set({
         isAuthenticated: false,
         isAdmin: false,
@@ -211,17 +235,14 @@
       localStorage.removeItem('token');
       localStorage.removeItem('authState');
       
-      try {
-        await fetch(`${API_URL}/logout`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json'
-          }
-        });
-      } catch (e) {
-        console.error("Error en logout:", e);
-      }
+      // Intentar hacer logout en el servidor, pero no esperar por ello
+      fetch(`${API_URL}/logout`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json'
+        }
+      }).catch(e => console.error("Error en logout:", e));
       
       goto('/login');
     }
@@ -235,19 +256,6 @@
   function handleNavItemClick(item, event) {
     if (item.action === 'logout') {
       handleLogout(event);
-    }
-  }
-
-  // Si tienes una función para cargar el usuario, asegúrate de inicializar user correctamente
-  async function loadUserProfile() {
-    try {
-      // Tu código para cargar el perfil de usuario
-      const response = await fetch('/api/user/profile');
-      if (response.ok) {
-        user = await response.json();
-      }
-    } catch (error) {
-      console.error('Error cargando perfil:', error);
     }
   }
 </script>
@@ -327,7 +335,7 @@
             aria-expanded="false"
           >
             <i class="bi bi-globe me-1"></i>
-            <span class="d-none d-lg-inline">{user?.name?.toUpperCase() || ''}</span>
+            <span class="d-none d-lg-inline">{$currentLanguage ? $currentLanguage.toUpperCase() : 'ES'}</span>
           </button>
           
           <ul 
@@ -355,7 +363,7 @@
         </div>
         
         {#if loading}
-          <!-- Spinner durante carga -->
+          <!-- Spinner durante carga (ahora casi nunca se mostrará) -->
           <div class="spinner-border spinner-border-sm text-primary" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
