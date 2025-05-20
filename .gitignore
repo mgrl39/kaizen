@@ -88,3 +88,4 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 srcs/back/resources/views/scribe/
+srcs/back/public/images/

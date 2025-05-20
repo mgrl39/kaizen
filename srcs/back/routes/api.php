@@ -18,7 +18,8 @@ use App\Http\Controllers\API\{
     GenreController,
     MovieController,
     ProfileController,
-    UserController
+    UserController,
+    ImageController
 };
 use App\Services\ResponseService;
 
@@ -194,6 +195,11 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             });
         });
     });
+
+    // Ruta para servir imágenes
+    Route::get('images/{path}', [ImageController::class, 'show'])
+        ->where('path', '.*')
+        ->name('api.images.show');
 });
 
 /*

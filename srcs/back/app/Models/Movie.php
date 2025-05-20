@@ -201,4 +201,27 @@ class Movie extends Model
         
         $this->actors()->sync($actorIds);
     }
+
+    /**
+     * Obtener la URL completa de la imagen
+     *
+     * @return string
+     */
+    public function getPhotoUrlAttribute($value)
+    {
+        if (!$value) {
+            return null;
+        }
+        
+        // Si la URL ya es completa (comienza con http:// o https://)
+        if (filter_var($value, FILTER_VALIDATE_URL)) {
+            return $value;
+        }
+        
+        // Si comienza con una barra, quitar la barra inicial
+        $path = ltrim($value, '/');
+        
+        // Generar URL completa para la API de imágenes
+        return url("/api/v1/images/{$path}");
+    }
 }

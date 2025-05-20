@@ -15,10 +15,12 @@ use Illuminate\Http\Request;
 class MovieController extends Controller
 {
     /**
-     * Obtener listado de películas
+     * Obtener listado de películas paginado
      *
      * @group Películas
      * @queryParam name string Filtro opcional por nombre de la película. Example: Star Wars
+     * @queryParam page integer Número de página. Example: 1
+     * @queryParam per_page integer Elementos por página. Example: 10
      * @response 200 {
      *   "success": true,
      *   "data": [
@@ -35,6 +37,14 @@ class MovieController extends Controller
      *       "updated_at": "2023-01-01T00:00:00.000000Z"
      *     }
      *   ],
+     *   "pagination": {
+     *     "total": 100,
+     *     "per_page": 10,
+     *     "current_page": 1,
+     *     "last_page": 10,
+     *     "from": 1,
+     *     "to": 10
+     *   },
      *   "message": "Películas obtenidas correctamente"
      * }
      */
@@ -55,11 +65,28 @@ class MovieController extends Controller
             });
         }
 
-        $movies = $query->get();
+        // Determinar elementos por página (con valor por defecto)
+        $perPage = $request->input('per_page', 10);
+        
+        // Limitar a un máximo razonable para evitar problemas de rendimiento
+        $perPage = min($perPage, 50);
+        
+        // Realizar la paginación
+        $movies = $query->paginate($perPage);
         
         return response()->json([
             'success' => true,
-            'data' => $movies,
+            'data' => $movies->items(),
+            'pagination' => [
+                'total' => $movies->total(),
+                'per_page' => $movies->perPage(),
+                'current_page' => $movies->currentPage(),
+                'last_page' => $movies->lastPage(),
+                'from' => $movies->firstItem(),
+                'to' => $movies->lastItem(),
+                'next_page_url' => $movies->nextPageUrl(),
+                'prev_page_url' => $movies->previousPageUrl()
+            ],
             'message' => 'Películas obtenidas correctamente'
         ]);
     }
@@ -227,12 +254,26 @@ class MovieController extends Controller
     /**
      * Obtener películas destacadas
      */
-    public function featured()
+    public function featured(Request $request)
     {
-        $movies = Movie::inRandomOrder()->limit(5)->get();
+        $perPage = $request->input('per_page', 5);
+        $perPage = min($perPage, 20);
+        
+        $movies = Movie::inRandomOrder()->paginate($perPage);
+        
         return response()->json([
             'success' => true,
-            'data' => $movies,
+            'data' => $movies->items(),
+            'pagination' => [
+                'total' => $movies->total(),
+                'per_page' => $movies->perPage(),
+                'current_page' => $movies->currentPage(),
+                'last_page' => $movies->lastPage(),
+                'from' => $movies->firstItem(),
+                'to' => $movies->lastItem(),
+                'next_page_url' => $movies->nextPageUrl(),
+                'prev_page_url' => $movies->previousPageUrl()
+            ],
             'message' => 'Películas destacadas obtenidas correctamente'
         ]);
     }
@@ -240,12 +281,26 @@ class MovieController extends Controller
     /**
      * Obtener películas más recientes
      */
-    public function latest()
+    public function latest(Request $request)
     {
-        $movies = Movie::orderBy('release_date', 'desc')->limit(10)->get();
+        $perPage = $request->input('per_page', 10);
+        $perPage = min($perPage, 20);
+        
+        $movies = Movie::orderBy('release_date', 'desc')->paginate($perPage);
+        
         return response()->json([
             'success' => true,
-            'data' => $movies,
+            'data' => $movies->items(),
+            'pagination' => [
+                'total' => $movies->total(),
+                'per_page' => $movies->perPage(),
+                'current_page' => $movies->currentPage(),
+                'last_page' => $movies->lastPage(),
+                'from' => $movies->firstItem(),
+                'to' => $movies->lastItem(),
+                'next_page_url' => $movies->nextPageUrl(),
+                'prev_page_url' => $movies->previousPageUrl()
+            ],
             'message' => 'Últimas películas obtenidas correctamente'
         ]);
     }
@@ -253,15 +308,29 @@ class MovieController extends Controller
     /**
      * Obtener películas por género
      */
-    public function byGenre($genreId)
+    public function byGenre($genreId, Request $request)
     {
         $genre = Genre::findOrFail($genreId);
-        $movies = $genre->movies;
+        
+        $perPage = $request->input('per_page', 10);
+        $perPage = min($perPage, 20);
+        
+        $movies = $genre->movies()->paginate($perPage);
         
         return response()->json([
             'success' => true,
             'genre' => $genre->name,
-            'data' => $movies,
+            'data' => $movies->items(),
+            'pagination' => [
+                'total' => $movies->total(),
+                'per_page' => $movies->perPage(),
+                'current_page' => $movies->currentPage(),
+                'last_page' => $movies->lastPage(),
+                'from' => $movies->firstItem(),
+                'to' => $movies->lastItem(),
+                'next_page_url' => $movies->nextPageUrl(),
+                'prev_page_url' => $movies->previousPageUrl()
+            ],
             'message' => "Películas de género {$genre->name} obtenidas correctamente"
         ]);
     }
@@ -296,11 +365,26 @@ class MovieController extends Controller
             $query->whereDate('release_date', '=', $request->release_date);
         }
 
-        $movies = $query->get();
+        // Determinar elementos por página
+        $perPage = $request->input('per_page', 10);
+        $perPage = min($perPage, 50);
+        
+        // Realizar la paginación
+        $movies = $query->paginate($perPage);
 
         return response()->json([
             'success' => true,
-            'data' => $movies,
+            'data' => $movies->items(),
+            'pagination' => [
+                'total' => $movies->total(),
+                'per_page' => $movies->perPage(),
+                'current_page' => $movies->currentPage(),
+                'last_page' => $movies->lastPage(),
+                'from' => $movies->firstItem(),
+                'to' => $movies->lastItem(),
+                'next_page_url' => $movies->nextPageUrl(),
+                'prev_page_url' => $movies->previousPageUrl()
+            ],
             'message' => 'Búsqueda realizada correctamente'
         ]);
     }

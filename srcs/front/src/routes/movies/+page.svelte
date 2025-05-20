@@ -24,10 +24,33 @@
     overlayOpacity: "50"
   };
   
+  // Función para obtener la URL correcta de la imagen
+  function getImageUrl(photoUrl) {
+    if (!photoUrl) return 'https://via.placeholder.com/300x450?text=No+Image';
+    
+    // Si ya es una URL completa
+    if (photoUrl.startsWith('http')) {
+      return photoUrl;
+    }
+    
+    // Si es solo el nombre del archivo
+    if (!photoUrl.includes('/')) {
+      return `${API_URL}/images/${photoUrl}`;
+    }
+    
+    // Si ya tiene una ruta parcial
+    return `${API_URL}/images/${photoUrl}`;
+  }
+  
+  // Función para manejar errores de carga de imagen
+  function handleImageError(event) {
+    event.target.src = 'https://via.placeholder.com/300x450?text=No+Image';
+  }
+  
   onMount(async () => {
     try {
-      // Obtener películas desde la API
-      const response = await fetch(`${API_URL}/movies`);
+      // Puedes especificar la página y elementos por página
+      const response = await fetch(`${API_URL}/movies?page=1&per_page=12`);
       
       if (!response.ok) {
         throw new Error(`API respondió con estado: ${response.status}`);
@@ -35,12 +58,19 @@
       
       const data = await response.json();
       
-      // Procesar la respuesta según su estructura
-      if (Array.isArray(data)) {
-        movies = data;
-      } else if (data && data.data && Array.isArray(data.data)) {
-        // Si la respuesta está dentro de un objeto con propiedad 'data'
+      // Ahora los datos están en data.data
+      if (data && data.success && Array.isArray(data.data)) {
         movies = data.data;
+        
+        // Guardar información de paginación
+        pagination = data.pagination;
+        
+        // Mostrar información para depuración
+        console.log('Películas cargadas:', movies);
+        console.log('Primera película:', movies[0]);
+        if (movies[0]) {
+          console.log('URL de imagen generada:', getImageUrl(movies[0].photo_url));
+        }
       } else {
         throw new Error('Formato de respuesta API inesperado');
       }
@@ -99,6 +129,42 @@
     searchQuery = '';
     selectedGenre = '';
     sortBy = 'rating';
+  }
+
+  // Añadir variables para la paginación
+  let pagination = {
+    current_page: 1,
+    total: 0,
+    per_page: 12,
+    last_page: 0
+  };
+
+  // Función para cambiar de página
+  async function goToPage(page) {
+    if (page < 1 || page > pagination.last_page) return;
+    
+    loading = true;
+    try {
+      const response = await fetch(`${API_URL}/movies?page=${page}&per_page=${pagination.per_page}`);
+      
+      if (!response.ok) {
+        throw new Error(`API respondió con estado: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data && data.success && Array.isArray(data.data)) {
+        movies = data.data;
+        pagination = data.pagination;
+      } else {
+        throw new Error('Formato de respuesta API inesperado');
+      }
+    } catch (err) {
+      console.error('Error cambiando de página:', err);
+      error = `Error: ` + (err instanceof Error ? err.message : String(err));
+    } finally {
+      loading = false;
+    }
   }
 </script>
 
@@ -201,12 +267,13 @@
       {#each filteredMovies as movie}
         <div class="col">
           <div class="card h-100 bg-dark text-white border-secondary hover-card">
-            <a href={`/movies/${movie.id}`} class="text-decoration-none text-white">
+            <a href={`/movies/${movie.slug || movie.id}`} class="text-decoration-none text-white">
               <div class="position-relative">
                 <img 
-                  src={movie.poster_url || 'https://via.placeholder.com/300x450?text=No+Image'} 
+                  src={getImageUrl(movie.photo_url)} 
                   class="card-img-top movie-poster" 
                   alt={movie.title}
+                  on:error={handleImageError}
                 />
                 {#if movie.rating}
                   <span class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark">
@@ -218,7 +285,7 @@
                 <h5 class="card-title text-truncate">{movie.title}</h5>
                 <div class="d-flex align-items-center mb-2 text-muted">
                   <small>
-                    {movie.release_year || 'N/A'}
+                    {movie.release_year || (movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A')}
                     {#if movie.duration}
                       <span class="mx-1">•</span>
                       <i class="bi bi-clock me-1"></i>{movie.duration} min
@@ -226,13 +293,20 @@
                   </small>
                 </div>
                 <div class="d-flex flex-wrap gap-1">
-                  {#each movie.categories || [] as category, i}
-                    {#if i < 3}
-                      <span class="badge bg-secondary">{category}</span>
+                  {#if movie.genres && movie.genres.length > 0}
+                    {#each movie.genres.slice(0, 3) as genre, i}
+                      <span class="badge bg-secondary">{genre}</span>
+                    {/each}
+                    {#if movie.genres.length > 3}
+                      <span class="badge bg-secondary">+{movie.genres.length - 3}</span>
                     {/if}
-                  {/each}
-                  {#if (movie.categories || []).length > 3}
-                    <span class="badge bg-secondary">+{movie.categories.length - 3}</span>
+                  {:else if movie.categories && movie.categories.length > 0}
+                    {#each movie.categories.slice(0, 3) as category, i}
+                      <span class="badge bg-secondary">{category}</span>
+                    {/each}
+                    {#if movie.categories.length > 3}
+                      <span class="badge bg-secondary">+{movie.categories.length - 3}</span>
+                    {/if}
                   {/if}
                 </div>
               </div>
@@ -254,6 +328,41 @@
         </div>
       {/each}
     </div>
+  {/if}
+
+  <!-- Controles de paginación -->
+  {#if pagination.last_page > 1}
+    <nav aria-label="Navegación de páginas" class="mt-4">
+      <ul class="pagination justify-content-center">
+        <li class="page-item {pagination.current_page === 1 ? 'disabled' : ''}">
+          <button 
+            class="page-link" 
+            on:click={() => goToPage(pagination.current_page - 1)}
+            aria-label="Anterior"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </button>
+        </li>
+        
+        {#each Array(pagination.last_page) as _, i}
+          <li class="page-item {pagination.current_page === i + 1 ? 'active' : ''}">
+            <button class="page-link" on:click={() => goToPage(i + 1)}>
+              {i + 1}
+            </button>
+          </li>
+        {/each}
+        
+        <li class="page-item {pagination.current_page === pagination.last_page ? 'disabled' : ''}">
+          <button 
+            class="page-link" 
+            on:click={() => goToPage(pagination.current_page + 1)}
+            aria-label="Siguiente"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </button>
+        </li>
+      </ul>
+    </nav>
   {/if}
 </div>
 
