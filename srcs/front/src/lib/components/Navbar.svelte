@@ -24,6 +24,7 @@
   // Variables locales para tema e idioma
   let currentTheme = 'light';
   let currentLang = 'es';
+  let isMobile = false;
   
   $: ({ isAuthenticated, isAdmin, userName, loading } = $authState);
   
@@ -31,6 +32,15 @@
   const navItems = [
     { url: '/cinemas', icon: 'building', text: 'Cines' },
     { url: '/movies', icon: 'film', text: 'Películas' }
+  ];
+  
+  // Agregar elementos para la barra de navegación móvil
+  const mobileNavItems = [
+    { url: '/', icon: 'house', text: 'Inicio' },
+    { url: '/cinemas', icon: 'building', text: 'Cines' },
+    { url: '/movies', icon: 'film', text: 'Películas' },
+    { url: '/search', icon: 'search', text: 'Buscar' },
+    { url: isAuthenticated ? '/profile' : '/login', icon: isAuthenticated ? 'person-circle' : 'box-arrow-in-right', text: isAuthenticated ? 'Perfil' : 'Login' }
   ];
   
   // Definir elementos del menú de usuario
@@ -157,8 +167,17 @@
         });
     }
     
+    // Detectar si es dispositivo móvil
+    const checkMobile = () => {
+      isMobile = window.innerWidth < 768;
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', checkMobile);
       document.removeEventListener('click', handleClickOutside);
     };
   });
@@ -277,8 +296,8 @@
   }
 </script>
 
-<!-- Navbar con Bootstrap estándar -->
-<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''}" data-bs-theme={currentTheme}>
+<!-- Navbar con Bootstrap estándar para desktop -->
+<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''} {isMobile ? 'd-none d-md-block' : ''}" data-bs-theme={currentTheme}>
   <div class="container">
     <!-- Logo -->
     <a href="/" class="navbar-brand">
@@ -437,6 +456,101 @@
     </div>
   </div>
 </nav>
+
+<!-- Navbar estilo Instagram para móviles -->
+{#if isMobile}
+  <div class="mobile-header fixed-top d-md-none" data-bs-theme={currentTheme}>
+    <div class="container d-flex justify-content-between align-items-center py-2">
+      <a href="/" class="navbar-brand m-0">
+        Kaizen
+        <span class="badge bg-primary ms-1">Cinema</span>
+      </a>
+      <div class="d-flex gap-2">
+        <!-- Selector de tema -->
+        <button 
+          class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+          on:click={handleThemeToggle}
+          aria-label="Toggle theme"
+        >
+          <i class="bi bi-{currentTheme === 'dark' ? 'sun' : 'moon'}"></i>
+        </button>
+        
+        <!-- Selector de idioma -->
+        <div class="dropdown">
+          <button 
+            id="language-selector-button"
+            class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+            type="button"
+            data-bs-toggle="dropdown" 
+            aria-expanded="false"
+          >
+            <i class="bi bi-globe"></i>
+          </button>
+          
+          <ul 
+            id="language-selector-dropdown"
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="language-selector-button"
+          >
+            <li>
+              <button 
+                class="dropdown-item {currentLang === 'es' ? 'active' : ''}"
+                on:click={() => changeLanguage('es')}
+              >
+                <span class="me-2">🇪🇸</span>Español
+              </button>
+            </li>
+            <li>
+              <button 
+                class="dropdown-item {currentLang === 'en' ? 'active' : ''}"
+                on:click={() => changeLanguage('en')}
+              >
+                <span class="me-2">🇬🇧</span>English
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Barra de navegación inferior estilo Instagram -->
+  <nav class="mobile-nav fixed-bottom d-md-none" data-bs-theme={currentTheme}>
+    <div class="container">
+      <div class="row g-0">
+        {#each mobileNavItems as item}
+          <div class="col text-center">
+            <a 
+              href={item.url} 
+              class="nav-link py-3 {isActive(item.url) ? 'active' : ''}"
+              aria-current={isActive(item.url) ? 'page' : undefined}
+            >
+              <i class="bi bi-{item.icon} d-block fs-5"></i>
+              <small class="d-block mt-1">{item.text}</small>
+            </a>
+          </div>
+        {/each}
+        
+        {#if isAdmin}
+          <div class="col text-center">
+            <a 
+              href="/admin" 
+              on:click={handleAdminClick}
+              class="nav-link py-3 {isActive('/admin') ? 'active' : ''}"
+              aria-current={isActive('/admin') ? 'page' : undefined}
+            >
+              <i class="bi bi-speedometer2 d-block fs-5"></i>
+              <small class="d-block mt-1">Admin</small>
+            </a>
+          </div>
+        {/if}
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Espaciador para evitar que el contenido quede debajo de la barra inferior -->
+  <div class="mobile-nav-spacer d-md-none"></div>
+{/if}
 
 <!-- Modal de confirmación para acceso al panel de administrador -->
 {#if showAdminConfirmDialog}
