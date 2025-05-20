@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Cinema;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CinemaSeeder extends Seeder
@@ -30,63 +29,37 @@ class CinemaSeeder extends Seeder
             return;
         }
         
-        // Adaptar los datos según el esquema actual
-        $cinemas = [
-            [
-                'name' => 'Cinesa La Maquinista',
-                'location' => 'Barcelona',
-            ],
-            [
-                'name' => 'Yelmo Cines Ideal',
-                'location' => 'Madrid',
-            ],
-            [
-                'name' => 'Cines Callao',
-                'location' => 'Madrid',
-            ],
-            [
-                'name' => 'Cinesa Diagonal',
-                'location' => 'Barcelona',
-            ],
-            [
-                'name' => 'Cines Aragonia',
-                'location' => 'Zaragoza',
-            ],
-            [
-                'name' => 'OCine Aqua',
-                'location' => 'Valencia',
-            ],
+        // Crear un único cine
+        $cinema = [
+            'name' => 'Kaizen Cinema',
+            'location' => 'Madrid',
         ];
 
         // Verificar y añadir campos adicionales si existen en la tabla
-        foreach ($cinemas as &$cinema) {
-            if (in_array('address', $columns)) {
-                $cinema['address'] = $cinema['name'] . ' Address';
-            }
-            if (in_array('phone', $columns)) {
-                $cinema['phone'] = '+34 ' . rand(900000000, 999999999);
-            }
-            if (in_array('image_url', $columns)) {
-                $cinema['image_url'] = 'https://source.unsplash.com/random/500x300/?cinema,' . rand(1, 10);
-            }
-            if (in_array('rooms_count', $columns)) {
-                $cinema['rooms_count'] = rand(5, 15);
-            }
-            if (in_array('has_3d', $columns)) {
-                $cinema['has_3d'] = (bool)rand(0, 1);
-            }
-            if (in_array('has_imax', $columns)) {
-                $cinema['has_imax'] = (bool)rand(0, 1);
-            }
-            if (in_array('has_vip', $columns)) {
-                $cinema['has_vip'] = (bool)rand(0, 1);
-            }
+        if (in_array('address', $columns)) {
+            $cinema['address'] = 'Calle Gran Vía, 42, 28013';
+        }
+        if (in_array('phone', $columns)) {
+            $cinema['phone'] = '+34 912 345 678';
+        }
+        if (in_array('image_url', $columns)) {
+            $cinema['image_url'] = 'https://source.unsplash.com/random/500x300/?cinema,theater';
+        }
+        if (in_array('rooms_count', $columns)) {
+            $cinema['rooms_count'] = 8;
+        }
+        if (in_array('has_3d', $columns)) {
+            $cinema['has_3d'] = true;
+        }
+        if (in_array('has_imax', $columns)) {
+            $cinema['has_imax'] = true;
+        }
+        if (in_array('has_vip', $columns)) {
+            $cinema['has_vip'] = true;
         }
 
-        foreach ($cinemas as $cinema) {
-            Cinema::create($cinema);
-        }
+        Cinema::create($cinema);
         
-        $this->command->info('Se han creado ' . count($cinemas) . ' cines correctamente.');
+        $this->command->info('Se ha creado el cine "Kaizen Cinema" correctamente.');
     }
 } 
