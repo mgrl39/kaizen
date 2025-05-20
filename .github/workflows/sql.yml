@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - "srcs/conf/postgres/schema.sql"
+    branches:
+      - solving-navbar
   workflow_dispatch:
 
 jobs:
