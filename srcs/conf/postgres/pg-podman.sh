@@ -29,6 +29,7 @@ show_usage() {
   echo "  status     - Muestra el estado del contenedor"
   echo "  logs       - Muestra los logs del contenedor"
   echo "  shell      - Abre una shell psql en el contenedor"
+  echo "  dump       - Genera un dump del esquema de la base de datos"
   echo "  reset      - ¡PELIGRO! Elimina todos los datos y reinicia"
   exit 1
 }
@@ -95,6 +96,39 @@ case "$1" in
   shell)
     echo -e "${GREEN}Conectando a PostgreSQL...${NC}"
     podman exec -it $CONTAINER_NAME psql -U kaizen -d kaizendb
+    ;;
+    
+  dump)
+    echo -e "${GREEN}Generando dump del esquema SQL...${NC}"
+    # Verificar si el contenedor está en ejecución
+    if ! podman container exists $CONTAINER_NAME || [ "$(podman inspect -f '{{.State.Running}}' $CONTAINER_NAME)" != "true" ]; then
+      echo -e "${RED}Error: El contenedor PostgreSQL no está en ejecución.${NC}"
+      echo -e "Inicie el contenedor primero con: $0 start"
+      exit 1
+    fi
+    
+    # Crear directorio para dumps si no existe
+    DUMP_DIR="./dumps"
+    mkdir -p $DUMP_DIR
+    
+    # Generar nombre de archivo con fecha y hora
+    TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+    DUMP_FILE="$DUMP_DIR/schema_$TIMESTAMP.sql"
+    
+    # Ejecutar pg_dump y guardar el resultado
+    echo -e "${YELLOW}Ejecutando pg_dump...${NC}"
+    podman exec $CONTAINER_NAME pg_dump -U kaizen -d kaizendb --schema-only > $DUMP_FILE
+    
+    # Verificar si el dump se generó correctamente
+    if [ $? -eq 0 ] && [ -f "$DUMP_FILE" ]; then
+      echo -e "${GREEN}Dump del esquema generado correctamente en:${NC} $DUMP_FILE"
+      # Crear un enlace simbólico al último dump
+      ln -sf "$DUMP_FILE" "$DUMP_DIR/schema_latest.sql"
+      echo -e "${GREEN}También disponible como:${NC} $DUMP_DIR/schema_latest.sql"
+    else
+      echo -e "${RED}Error al generar el dump del esquema.${NC}"
+      exit 1
+    fi
     ;;
     
   reset)
