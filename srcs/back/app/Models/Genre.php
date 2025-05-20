@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Genre extends Model
 {
@@ -15,11 +16,29 @@ class Genre extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'name'
+        'name',
+        'slug'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($genre) {
+            if (empty($genre->slug)) {
+                $genre->slug = Str::slug($genre->name);
+            }
+        });
+
+        static::updating(function ($genre) {
+            if ($genre->isDirty('name')) {
+                $genre->slug = Str::slug($genre->name);
+            }
+        });
+    }
+
     /**
-     * Obtener las películas asociadas a este género.
+     * Obtener las películas asociadas con este género.
      */
     public function movies()
     {

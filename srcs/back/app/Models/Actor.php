@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Actor extends Model
 {
@@ -17,11 +18,29 @@ class Actor extends Model
     protected $fillable = [
         'name',
         'biography',
-        'photo_url'
+        'photo_url',
+        'slug'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($actor) {
+            if (empty($actor->slug)) {
+                $actor->slug = Str::slug($actor->name);
+            }
+        });
+
+        static::updating(function ($actor) {
+            if ($actor->isDirty('name')) {
+                $actor->slug = Str::slug($actor->name);
+            }
+        });
+    }
+
     /**
-     * Obtener las películas en las que ha participado este actor.
+     * Obtener las películas asociadas con este actor.
      */
     public function movies()
     {

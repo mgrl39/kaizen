@@ -2,8 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Movie;
 use Illuminate\Database\Seeder;
+use App\Models\Movie;
+use App\Models\Genre;
+use App\Models\Actor;
+use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 
 /**
  * @class MovieSeeder
@@ -22,37 +26,106 @@ class MovieSeeder extends Seeder
      * Primero crea 20 películas aleatorias usando la factory de Movie.
      * Luego crea películas específicas con datos predefinidos.
      */
-    public function run()
+    public function run(): void
     {
-        Movie::factory(20)->create();
-        $specificMovies = [
-            [
-                'title' => 'El Padrino',
-                'synopsis' => 'La historia de la familia Corleone bajo el patriarcado de Don Vito Corleone.',
-                'duration' => 175, // Duración en minutos
-                'rating' => 'R', // Clasificación por edades
-                'release_date' => '1972-03-24', // Fecha de estreno
-                'photo_url' => 'https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg', // URL de la imagen
-            ],
-            [
-                'title' => 'Pulp Fiction',
-                'synopsis' => 'Las vidas de dos mafiosos, un boxeador, la esposa de un gángster y un par de bandidos se entrelazan en cuatro historias de violencia y redención.',
-                'duration' => 154,
-                'rating' => 'R',
-                'release_date' => '1994-10-14',
-                'photo_url' => 'https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
-            ],
-            [
-                'title' => 'Interestelar',
-                'synopsis' => 'Un equipo de exploradores viaja a través de un agujero de gusano en el espacio en un intento de garantizar la supervivencia de la humanidad.',
-                'duration' => 169,
-                'rating' => 'PG-13',
-                'release_date' => '2014-11-07',
-                'photo_url' => 'https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg',
-            ],
-        ];
-        foreach ($specificMovies as $movie) {
-            Movie::create($movie);
+        // Verificar si las tablas existen
+        if (!Schema::hasTable('movies') || !Schema::hasTable('genres') || !Schema::hasTable('actors')) {
+            $this->command->error('Las tablas necesarias no existen. Ejecuta las migraciones primero.');
+            return;
         }
+        
+        // Ejemplo de datos webscrapeados
+        $movieData = [
+            "titulo" => "28 días después",
+            "url" => "https://www.cinesa.es/peliculas/28-dias-despues/HO00002240/",
+            "imagen_local" => "/home/dev/gadget/data/imagenes/imagen_sin_titulo.jpg",
+            "duracion" => "1h 55m",
+            "fecha_estreno" => "21 mayo 2025",
+            "generos" => [
+                "Terror",
+                "Drama",
+                "Thriller"
+            ],
+            "clasificacion" => "No recomendada para menores de 18 años",
+            "directores" => "Danny Boyle",
+            "actores" => [
+                "Brendan Gleeson",
+                "Cillian Murphy",
+                "Noah Huntley",
+                "Christopher Eccleston",
+                "David Schneider"
+            ],
+            "sinopsis" => "Cuatro semanas después de que un misterioso e incurable virus se extienda por todo el Reino Unido, un puñado de supervivientes intenta encontrar refugio.",
+            "poster_local" => "/home/dev/gadget/data/imagenes/28_días_después.jpg",
+            "sesiones" => [],
+            "fecha_scraping" => "2025-05-20T04:41:31.424168"
+        ];
+        
+        // Convertir duración a minutos
+        $durationText = $movieData['duracion'] ?? '';
+        $duration = 0;
+        
+        if (preg_match('/(\d+)h/', $durationText, $matches)) {
+            $duration += (int)$matches[1] * 60;
+        }
+        
+        if (preg_match('/(\d+)m/', $durationText, $matches)) {
+            $duration += (int)$matches[1];
+        }
+        
+        // Convertir fecha de estreno
+        $releaseDate = null;
+        if (!empty($movieData['fecha_estreno'])) {
+            $dateText = $movieData['fecha_estreno'];
+            $monthTranslations = [
+                'enero' => 'January',
+                'febrero' => 'February',
+                'marzo' => 'March',
+                'abril' => 'April',
+                'mayo' => 'May',
+                'junio' => 'June',
+                'julio' => 'July',
+                'agosto' => 'August',
+                'septiembre' => 'September',
+                'octubre' => 'October',
+                'noviembre' => 'November',
+                'diciembre' => 'December'
+            ];
+            
+            foreach ($monthTranslations as $es => $en) {
+                $dateText = str_ireplace($es, $en, $dateText);
+            }
+            
+            $releaseDate = Carbon::parse($dateText);
+        }
+        
+        // Crear la película con los campos disponibles en tu esquema
+        $movie = new Movie();
+        $movie->title = $movieData['titulo'];
+        $movie->synopsis = $movieData['sinopsis'];
+        $movie->duration = $duration;
+        $movie->rating = $movieData['clasificacion'];
+        $movie->release_date = $releaseDate;
+        $movie->photo_url = $movieData['poster_local'] ?? $movieData['imagen_local'];
+        $movie->slug = \Illuminate\Support\Str::slug($movieData['titulo']);
+        $movie->save();
+        
+        // Sincronizar géneros
+        $genreIds = [];
+        foreach ($movieData['generos'] as $name) {
+            $genre = Genre::firstOrCreate(['name' => $name]);
+            $genreIds[] = $genre->id;
+        }
+        $movie->genres()->sync($genreIds);
+        
+        // Sincronizar actores
+        $actorIds = [];
+        foreach ($movieData['actores'] as $name) {
+            $actor = Actor::firstOrCreate(['name' => $name]);
+            $actorIds[] = $actor->id;
+        }
+        $movie->actors()->sync($actorIds);
+        
+        $this->command->info('Película "' . $movie->title . '" importada correctamente.');
     }
 }
