@@ -66,7 +66,15 @@ const es: TranslationDictionary = {
 	emailOrUsername: 'Email o nombre de usuario',
 	emailPlaceholder: 'usuario@email.com',
 	loggingIn: 'Iniciando sesión...',
-	noAccount: '¿No tienes una cuenta?'
+	noAccount: '¿No tienes una cuenta?',
+
+	// Páginas de error
+	pageNotFound: 'La página que buscas no existe o ha sido movida.',
+	pageNotFoundTitle: 'Página no encontrada',
+	accessDeniedTitle: 'Acceso denegado',
+	serverErrorTitle: 'Error del servidor',
+	genericErrorTitle: 'Ha ocurrido un error',
+	backToHome: 'Volver al inicio'
 };
 
 export default es;

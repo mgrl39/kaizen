@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import { page } from '$app/stores';
+  import { theme } from '$lib/theme';
   import HeroBanner from '$lib/components/HeroBanner.svelte';
 
   // Obtener parámetros de búsqueda de la URL
@@ -35,183 +36,228 @@
   ];
 </script>
 
-<!-- Hero Banner con imagen específica para la página de cines -->
-<HeroBanner 
-  title="Nuestro Cine"
-  subtitle="Descubre el mejor lugar para disfrutar del séptimo arte"
-  imageUrl={cinema.image_url}
-  overlayOpacity="60"
-/>
+<div data-bs-theme={$theme}>
+  <!-- Hero Banner con imagen específica para la página de cines -->
+  <HeroBanner 
+    title="Nuestro Cine"
+    subtitle="Descubre el mejor lugar para disfrutar del séptimo arte"
+    imageUrl={cinema.image_url}
+    overlayOpacity="60"
+  />
 
-<div class="container mx-auto px-4 py-8">
-  <!-- Información principal y características -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
-    <!-- Columna izquierda: Información de contacto -->
-    <div class="bg-card border border-white/10 rounded-lg p-6">
-      <h3 class="text-xl font-bold mb-4 pb-2 border-b border-white/10">Información de contacto</h3>
-      
-      <div class="space-y-4 text-gray-300">
-        <div class="flex items-start">
-          <i class="bi bi-geo-alt text-purple-400 mr-3 mt-1"></i>
-          <div>
-            <p class="font-medium text-white">Dirección</p>
-            <p>{cinema.address}</p>
-            <a 
-              href={`https://maps.google.com/?q=${encodeURIComponent(cinema.address)}`} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              class="text-purple-400 hover:text-purple-300 text-sm inline-flex items-center mt-1"
-            >
-              <i class="bi bi-map mr-1"></i>Ver en mapa
-            </a>
+  <div class="container py-5">
+    <!-- Información principal y características -->
+    <div class="row g-4 mb-5">
+      <!-- Columna izquierda: Información de contacto -->
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow">
+          <div class="card-header bg-primary text-white">
+            <h3 class="h5 mb-0">Información de contacto</h3>
           </div>
-        </div>
-        
-        <div class="flex items-start">
-          <i class="bi bi-telephone text-purple-400 mr-3 mt-1"></i>
-          <div>
-            <p class="font-medium text-white">Teléfono</p>
-            <p>{cinema.phone}</p>
-          </div>
-        </div>
-        
-        <div class="flex items-start">
-          <i class="bi bi-envelope text-purple-400 mr-3 mt-1"></i>
-          <div>
-            <p class="font-medium text-white">Email</p>
-            <p>{cinema.email}</p>
-          </div>
-        </div>
-        
-        <div class="flex items-start">
-          <i class="bi bi-clock text-purple-400 mr-3 mt-1"></i>
-          <div>
-            <p class="font-medium text-white">Horario</p>
-            <p>{cinema.opening_hours}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Columna central: Descripción y características -->
-    <div class="bg-card border border-white/10 rounded-lg p-6">
-      <h3 class="text-xl font-bold mb-4 pb-2 border-b border-white/10">Sobre nosotros</h3>
-      
-      <p class="text-gray-300 mb-6">{cinema.description}</p>
-      
-      <h4 class="font-bold text-white mb-3">Características</h4>
-      <div class="flex flex-wrap gap-2 mb-4">
-        {#if cinema.has_3d}
-          <span class="bg-purple-900/40 border border-purple-500/30 text-purple-200 text-xs py-1 px-2 rounded-md">
-            <i class="bi bi-badge-3d mr-1"></i>3D
-          </span>
-        {/if}
-        
-        {#if cinema.has_imax}
-          <span class="bg-blue-900/40 border border-blue-500/30 text-blue-200 text-xs py-1 px-2 rounded-md">
-            <i class="bi bi-badge-hd mr-1"></i>IMAX
-          </span>
-        {/if}
-        
-        {#if cinema.has_vip}
-          <span class="bg-amber-900/40 border border-amber-500/30 text-amber-200 text-xs py-1 px-2 rounded-md">
-            <i class="bi bi-star mr-1"></i>Salas VIP
-          </span>
-        {/if}
-      </div>
-      
-      <h4 class="font-bold text-white mb-3">Servicios</h4>
-      <ul class="grid grid-cols-2 gap-2">
-        {#each cinema.features as feature}
-          <li class="flex items-center text-gray-300">
-            <i class="bi bi-check-circle text-green-400 mr-2"></i>
-            {feature}
-          </li>
-        {/each}
-      </ul>
-    </div>
-    
-    <!-- Columna derecha: Botones de acción -->
-    <div class="bg-card border border-white/10 rounded-lg p-6">
-      <h3 class="text-xl font-bold mb-4 pb-2 border-b border-white/10">Acciones rápidas</h3>
-      
-      <div class="space-y-4">
-        <a 
-          href="/movies" 
-          class="bg-purple-800 hover:bg-purple-700 text-white py-3 px-4 rounded-md flex items-center justify-center transition-colors w-full"
-        >
-          <i class="bi bi-film mr-2 text-lg"></i>
-          Ver cartelera
-        </a>
-        
-        <a 
-          href="/bookings/new" 
-          class="bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white py-3 px-4 rounded-md flex items-center justify-center transition-colors w-full"
-        >
-          <i class="bi bi-ticket-perforated mr-2 text-lg"></i>
-          Comprar entradas
-        </a>
-        
-        <a 
-          href="/contact" 
-          class="bg-transparent border border-white/20 text-white py-3 px-4 rounded-md flex items-center justify-center hover:bg-white/10 transition-colors w-full"
-        >
-          <i class="bi bi-chat-dots mr-2 text-lg"></i>
-          Contactar
-        </a>
-      </div>
-      
-      <div class="mt-6">
-        <h4 class="font-bold text-white mb-3">Síguenos</h4>
-        <div class="flex space-x-3">
-          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors" aria-label="Facebook">
-            <i class="bi bi-facebook text-lg"></i>
-          </a>
-          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors" aria-label="Instagram">
-            <i class="bi bi-instagram text-lg"></i>
-          </a>
-          <a href="#test" class="bg-white/10 hover:bg-white/20 p-2 rounded-full transition-colors" aria-label="Twitter">
-            <i class="bi bi-twitter text-lg"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Sección de salas -->
-  <div class="mb-10">
-    <h3 class="text-2xl font-bold mb-6">Nuestras salas</h3>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each rooms as room}
-        <div class="bg-card border border-white/10 rounded-lg overflow-hidden">
-          <div class="p-5">
-            <h4 class="text-lg font-bold mb-2">{room.name}</h4>
-            <p class="text-gray-300 mb-3">Capacidad: {room.capacity} personas</p>
-            
-            {#if room.features.length > 0}
-              <div class="flex flex-wrap gap-2">
-                {#each room.features as feature}
-                  <span class="bg-white/10 text-white text-xs py-1 px-2 rounded-md">
-                    {feature}
-                  </span>
-                {/each}
+          <div class="card-body">
+            <div class="mb-4">
+              <div class="d-flex">
+                <i class="bi bi-geo-alt text-primary me-3 mt-1"></i>
+                <div>
+                  <p class="fw-medium mb-1">Dirección</p>
+                  <p class="mb-1">{cinema.address}</p>
+                  <a 
+                    href={`https://maps.google.com/?q=${encodeURIComponent(cinema.address)}`} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    class="text-primary small d-inline-flex align-items-center"
+                  >
+                    <i class="bi bi-map me-1"></i>Ver en mapa
+                  </a>
+                </div>
               </div>
-            {/if}
+            </div>
+            
+            <div class="mb-4">
+              <div class="d-flex">
+                <i class="bi bi-telephone text-primary me-3 mt-1"></i>
+                <div>
+                  <p class="fw-medium mb-1">Teléfono</p>
+                  <p class="mb-0">{cinema.phone}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <div class="d-flex">
+                <i class="bi bi-envelope text-primary me-3 mt-1"></i>
+                <div>
+                  <p class="fw-medium mb-1">Email</p>
+                  <p class="mb-0">{cinema.email}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-0">
+              <div class="d-flex">
+                <i class="bi bi-clock text-primary me-3 mt-1"></i>
+                <div>
+                  <p class="fw-medium mb-1">Horario</p>
+                  <p class="mb-0">{cinema.opening_hours}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      {/each}
+      </div>
+      
+      <!-- Columna central: Descripción y características -->
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow">
+          <div class="card-header bg-primary text-white">
+            <h3 class="h5 mb-0">Sobre nosotros</h3>
+          </div>
+          <div class="card-body">
+            <p class="mb-4">{cinema.description}</p>
+            
+            <h4 class="h6 fw-bold mb-3">Características</h4>
+            <div class="d-flex flex-wrap gap-2 mb-4">
+              {#if cinema.has_3d}
+                <span class="badge bg-primary">
+                  <i class="bi bi-badge-3d me-1"></i>3D
+                </span>
+              {/if}
+              
+              {#if cinema.has_imax}
+                <span class="badge bg-info">
+                  <i class="bi bi-badge-hd me-1"></i>IMAX
+                </span>
+              {/if}
+              
+              {#if cinema.has_vip}
+                <span class="badge bg-warning">
+                  <i class="bi bi-star me-1"></i>Salas VIP
+                </span>
+              {/if}
+            </div>
+            
+            <h4 class="h6 fw-bold mb-3">Servicios</h4>
+            <div class="row g-2">
+              {#each cinema.features as feature}
+                <div class="col-6">
+                  <div class="d-flex align-items-center">
+                    <i class="bi bi-check-circle text-success me-2"></i>
+                    <span>{feature}</span>
+                  </div>
+                </div>
+              {/each}
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Columna derecha: Botones de acción -->
+      <div class="col-lg-4">
+        <div class="card h-100 border-0 shadow">
+          <div class="card-header bg-primary text-white">
+            <h3 class="h5 mb-0">Acciones rápidas</h3>
+          </div>
+          <div class="card-body">
+            <div class="d-grid gap-3 mb-4">
+              <a 
+                href="/movies" 
+                class="btn btn-primary"
+              >
+                <i class="bi bi-film me-2"></i>
+                Ver cartelera
+              </a>
+              
+              <a 
+                href="/bookings/new" 
+                class="btn btn-gradient"
+              >
+                <i class="bi bi-ticket-perforated me-2"></i>
+                Comprar entradas
+              </a>
+              
+              <a 
+                href="/contact" 
+                class="btn btn-outline-secondary"
+              >
+                <i class="bi bi-chat-dots me-2"></i>
+                Contactar
+              </a>
+            </div>
+            
+            <h4 class="h6 fw-bold mb-3">Síguenos</h4>
+            <div class="d-flex gap-2">
+              <a href="#test" class="btn btn-outline-primary btn-sm rounded-circle" aria-label="Facebook">
+                <i class="bi bi-facebook"></i>
+              </a>
+              <a href="#test" class="btn btn-outline-danger btn-sm rounded-circle" aria-label="Instagram">
+                <i class="bi bi-instagram"></i>
+              </a>
+              <a href="#test" class="btn btn-outline-info btn-sm rounded-circle" aria-label="Twitter">
+                <i class="bi bi-twitter"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-  
-  <!-- Botón para ver cartelera -->
-  <div class="text-center">
-    <a 
-      href="/movies" 
-      class="inline-flex items-center justify-center bg-purple-800 hover:bg-purple-700 text-white py-3 px-6 rounded-md transition-colors"
-    >
-      <i class="bi bi-film mr-2"></i>
-      Ver películas en cartelera
-    </a>
+    
+    <!-- Sección de salas -->
+    <div class="mb-5">
+      <h3 class="h3 fw-bold mb-4">Nuestras salas</h3>
+      
+      <div class="row g-4">
+        {#each rooms as room}
+          <div class="col-md-6 col-lg-4">
+            <div class="card border-0 shadow h-100">
+              <div class="card-body">
+                <h4 class="h5 fw-bold mb-2">{room.name}</h4>
+                <p class="mb-3">Capacidad: {room.capacity} personas</p>
+                
+                {#if room.features.length > 0}
+                  <div class="d-flex flex-wrap gap-2">
+                    {#each room.features as feature}
+                      <span class="badge bg-secondary">
+                        {feature}
+                      </span>
+                    {/each}
+                  </div>
+                {/if}
+              </div>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+    
+    <!-- Botón para ver cartelera -->
+    <div class="text-center">
+      <a 
+        href="/movies" 
+        class="btn btn-lg btn-primary"
+      >
+        <i class="bi bi-film me-2"></i>
+        Ver películas en cartelera
+      </a>
+    </div>
   </div>
 </div>
+
+<style>
+  /* Estilo para botón con gradiente */
+  .btn-gradient {
+    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    color: white;
+    border: none;
+  }
+  
+  .btn-gradient:hover {
+    background: linear-gradient(to right, var(--bs-primary-dark), var(--bs-indigo-dark));
+    color: white;
+  }
+  
+  /* Variables para colores más oscuros */
+  :root {
+    --bs-primary-dark: #5b21b6;
+    --bs-indigo-dark: #4338ca;
+  }
+</style>

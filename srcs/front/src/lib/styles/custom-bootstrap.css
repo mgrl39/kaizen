@@ -1,0 +1,65 @@
+/* Archivo de personalización de Bootstrap */
+
+/* Variables personalizadas para el tema claro */
+:root {
+	--bs-body-bg: #ffffff;
+	--bs-body-color: #212529;
+	--bs-light-rgb: 248, 249, 250;
+	--bs-dark-rgb: 33, 37, 41;
+	--bs-primary: #0d6efd;
+	--bs-primary-rgb: 13, 110, 253;
+	--bs-secondary: #6c757d;
+	--bs-secondary-rgb: 108, 117, 125;
+	--bs-border-color: #dee2e6;
+}
+
+/* Variables personalizadas para el tema oscuro */
+[data-bs-theme='dark'] {
+	--bs-body-bg: #121212;
+	--bs-body-color: #e0e0e0;
+	--bs-light-rgb: 33, 37, 41;
+	--bs-dark-rgb: 248, 249, 250;
+	--bs-border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mejoras para el tema claro */
+[data-bs-theme='light'] {
+	--bs-body-bg: #f8f9fa;
+	--bs-body-color: #212529;
+}
+
+/* Mejoras para tarjetas en tema claro */
+[data-bs-theme='light'] .card {
+	--bs-card-bg: #ffffff;
+	--bs-card-border-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Mejoras para formularios en tema claro */
+[data-bs-theme='light'] .form-control {
+	background-color: #ffffff;
+	border-color: #ced4da;
+}
+
+/* Mejoras para botones outline en tema claro */
+[data-bs-theme='light'] .btn-outline-secondary {
+	--bs-btn-color: #6c757d;
+	--bs-btn-border-color: #ced4da;
+}
+
+/* Ajustes para navbars en tema claro */
+[data-bs-theme='light'] .navbar {
+	--bs-navbar-color: rgba(0, 0, 0, 0.7);
+	background-color: #ffffff !important;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Ajustes para el fondo de secciones */
+[data-bs-theme='light'] .bg-body-tertiary {
+	background-color: #f0f2f5 !important;
+}
+
+/* Mejoras para el footer en tema claro */
+[data-bs-theme='light'] .footer {
+	background-color: #ffffff;
+	border-top: 1px solid #dee2e6;
+}

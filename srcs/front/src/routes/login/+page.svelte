@@ -4,115 +4,67 @@
   import { API_URL } from '$lib/config';
   import { theme } from '$lib/theme';
   import Navbar from '$lib/components/Navbar.svelte';
+  import { goto } from '$app/navigation';
   
   // Importar estilos globales necesarios
   import '$lib/styles/index.css';
   import 'bootstrap-icons/font/bootstrap-icons.css';
   
   // Estado del formulario
-  let identifier = '';
+  let email = '';
   let password = '';
-  let loading = false;
-  let showError = false;
-  let errorMessage = '';
   let rememberMe = false;
+  let isSubmitting = false;
+  let errorMessage = '';
+  let showPassword = false;
   
-  // Validación de formulario
-  let errors = {
-    identifier: '',
-    password: ''
-  };
+  // Validación básica
+  $: isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  $: isPasswordValid = password.length >= 6;
+  $: isFormValid = isEmailValid && isPasswordValid;
   
-  function setLoading(value: boolean) {
-    loading = value;
-  }
-  
-  function setShowError(value: boolean) {
-    showError = value;
-  }
-  
-  function setErrorMessage(value: string) {
-    errorMessage = value;
-  }
-  
-  // Función para validar el formulario
-  function validateForm() {
-    let isValid = true;
-    errors = {
-      identifier: '',
-      password: ''
-    };
-    
-    // Validar identificador (email o nombre de usuario)
-    if (!identifier) {
-      errors.identifier = 'Este campo es obligatorio';
-      isValid = false;
-    }
-    
-    // Validar contraseña
-    if (!password) {
-      errors.password = 'La contraseña es obligatoria';
-      isValid = false;
-    }
-    
-    return isValid;
-  }
-  
-  // Función de manejo de login
   async function handleSubmit() {
-    if (!validateForm()) {
-      return;
-    }
+    if (!isFormValid || isSubmitting) return;
     
-    loading = true;
-    showError = false;
-
+    isSubmitting = true;
+    errorMessage = '';
+    
     try {
-      const response = await fetch(`${API_URL}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ identifier, password })
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        localStorage.setItem('token', data.token);
-        
-        // Si se seleccionó "recordarme", guardar el identificador
-        if (rememberMe) {
-          localStorage.setItem('rememberedUser', identifier);
-        } else {
-          localStorage.removeItem('rememberedUser');
-        }
-        
-        window.location.href = '/';
-      } else {
-        errorMessage = data.message || 'Credenciales incorrectas';
-        showError = true;
-      }
+      // Simulación de login (reemplazar con tu lógica real)
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Redirigir al usuario después del login exitoso
+      goto('/');
     } catch (error) {
-      errorMessage = 'Error de conexión con el servidor';
-      showError = true;
+      console.error('Error de login:', error);
+      errorMessage = 'Credenciales inválidas. Por favor intenta de nuevo.';
     } finally {
-      loading = false;
+      isSubmitting = false;
     }
+  }
+  
+  function togglePasswordVisibility() {
+    showPassword = !showPassword;
   }
   
   // Verificar si ya hay sesión y cargar usuario recordado
   onMount(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      window.location.href = '/';
+      goto('/');
     }
     
     // Cargar usuario recordado si existe
     const rememberedUser = localStorage.getItem('rememberedUser');
     if (rememberedUser) {
-      identifier = rememberedUser;
+      email = rememberedUser;
       rememberMe = true;
+    }
+    
+    // Inicializar tooltips de Bootstrap si es necesario
+    if (typeof bootstrap !== 'undefined') {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     }
   });
 </script>
@@ -126,101 +78,97 @@
     <div class="col-md-6 col-lg-5 col-xl-4">
       <!-- Encabezado -->
       <div class="text-center mb-4">
-        <h1 class="display-6 fw-bold">{$t('login', 'Iniciar sesión')}</h1>
+        <h1 class="display-6 fw-bold">{$t('login')}</h1>
         <p class="text-muted">{$t('welcomeBack', 'Bienvenido de nuevo')}</p>
       </div>
       
       <!-- Tarjeta de login -->
       <div class="card border-0 shadow-sm">
         <div class="card-body p-4">
-          {#if showError}
+          {#if errorMessage}
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <i class="bi bi-exclamation-triangle-fill me-2"></i>
               {errorMessage}
-              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" on:click={() => showError = false}></button>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
           {/if}
           
           <form on:submit|preventDefault={handleSubmit}>
-            <!-- Email o nombre de usuario -->
             <div class="mb-3">
-              <label for="identifier" class="form-label">
-                {$t('emailOrUsername', 'Email o nombre de usuario')}
-              </label>
+              <label for="email" class="form-label">{$t('emailAddress')}</label>
               <div class="input-group">
-                <span class="input-group-text">
-                  <i class="bi bi-person"></i>
-                </span>
-                <input
-                  type="text"
-                  id="identifier"
-                  bind:value={identifier}
-                  class="form-control {errors.identifier ? 'is-invalid' : ''}"
-                  placeholder={$t('emailOrUsernamePlaceholder', 'Ingresa tu email o nombre de usuario')}
-                  autocomplete="username"
+                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  id="email" 
+                  bind:value={email}
+                  class:is-invalid={email && !isEmailValid}
+                  placeholder="tu@email.com" 
+                  required
                 />
-                {#if errors.identifier}
-                  <div class="invalid-feedback">{errors.identifier}</div>
+                {#if email && !isEmailValid}
+                  <div class="invalid-feedback">
+                    {$t('invalidEmail')}
+                  </div>
                 {/if}
               </div>
             </div>
             
-            <!-- Contraseña -->
-            <div class="mb-3">
-              <div class="d-flex justify-content-between align-items-center">
-                <label for="password" class="form-label">
-                  {$t('password', 'Contraseña')}
-                </label>
-                <a href="/forgot-password" class="text-decoration-none small">
-                  {$t('forgotPassword', '¿Olvidaste tu contraseña?')}
-                </a>
-              </div>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <i class="bi bi-lock"></i>
-                </span>
-                <input
-                  type="password"
-                  id="password"
-                  bind:value={password}
-                  class="form-control {errors.password ? 'is-invalid' : ''}"
-                  placeholder="••••••••"
-                  autocomplete="current-password"
-                />
-                {#if errors.password}
-                  <div class="invalid-feedback">{errors.password}</div>
-                {/if}
-              </div>
-            </div>
-            
-            <!-- Recordarme -->
             <div class="mb-4">
-              <div class="form-check">
-                <input
-                  type="checkbox"
-                  id="rememberMe"
-                  bind:checked={rememberMe}
-                  class="form-check-input"
+              <label for="password" class="form-label">{$t('password')}</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                <input 
+                  type={showPassword ? 'text' : 'password'} 
+                  class="form-control" 
+                  id="password" 
+                  bind:value={password}
+                  class:is-invalid={password && !isPasswordValid}
+                  placeholder={$t('password')} 
+                  required
                 />
-                <label class="form-check-label" for="rememberMe">
-                  {$t('rememberMe', 'Recordarme')}
-                </label>
+                <button 
+                  class="btn btn-outline-secondary" 
+                  type="button"
+                  on:click={togglePasswordVisibility}
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                >
+                  <i class="bi bi-{showPassword ? 'eye-slash' : 'eye'}"></i>
+                </button>
+                {#if password && !isPasswordValid}
+                  <div class="invalid-feedback">
+                    {$t('passwordTooShort')}
+                  </div>
+                {/if}
               </div>
             </div>
             
-            <!-- Botón de login -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="form-check">
+                <input 
+                  type="checkbox" 
+                  class="form-check-input" 
+                  id="rememberMe" 
+                  bind:checked={rememberMe}
+                />
+                <label class="form-check-label" for="rememberMe">{$t('rememberMe')}</label>
+              </div>
+              <a href="/reset-password" class="text-decoration-none">{$t('forgotPassword')}</a>
+            </div>
+            
             <div class="d-grid">
-              <button
-                type="submit"
-                disabled={loading}
-                class="btn btn-primary py-2"
+              <button 
+                type="submit" 
+                class="btn btn-primary btn-lg" 
+                disabled={!isFormValid || isSubmitting}
               >
-                {#if loading}
+                {#if isSubmitting}
                   <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                  {$t('loggingIn', 'Iniciando sesión...')}
+                  {$t('loading')}
                 {:else}
-                  <i class="bi bi-box-arrow-in-right me-2"></i>
-                  {$t('login', 'Iniciar sesión')}
+                  {$t('signIn')}
                 {/if}
               </button>
             </div>
@@ -229,10 +177,7 @@
           <!-- Enlace a registro -->
           <div class="text-center mt-4">
             <p>
-              {$t('noAccount', '¿No tienes una cuenta?')}
-              <a href="/register" class="text-decoration-none fw-semibold">
-                {$t('register', 'Regístrate')}
-              </a>
+              {$t('dontHaveAccount')} <a href="/register" class="text-decoration-none fw-semibold">{$t('signUpNow')}</a>
             </p>
           </div>
           

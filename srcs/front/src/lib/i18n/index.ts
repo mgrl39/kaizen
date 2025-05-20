@@ -1,4 +1,7 @@
-import { writable, derived } from 'svelte/store';
+import { derived, writable } from 'svelte/store';
+import { browser } from '$app/environment';
+
+// Importar idiomas
 import es from './languages/es';
 import en from './languages/en';
 
@@ -75,49 +78,111 @@ export type Translations = {
 	[lang: string]: TranslationDictionary;
 };
 
-// Lista de idiomas soportados
-export const languages = ['es', 'en'];
-
-// Store para el idioma actual
-export const currentLanguage = writable<string>(
-	// Intentar obtener el idioma del localStorage, o usar el idioma del navegador, o por defecto 'es'
-	typeof window !== 'undefined'
-		? localStorage.getItem('language') || navigator.language.split('-')[0] || 'es'
-		: 'es'
-);
-
-// Cuando cambie el idioma, guardarlo en localStorage
-currentLanguage.subscribe((lang) => {
-	if (typeof window !== 'undefined') {
-		localStorage.setItem('language', lang);
-	}
-});
-
-// Diccionarios de traducciones - importados desde módulos separados
-const translations: Translations = {
-	en,
-	es
+// Definir los idiomas disponibles
+export const languages = {
+	es: { name: 'Español', flag: '🇪🇸', translations: es },
+	en: { name: 'English', flag: '🇬🇧', translations: en }
 };
 
-// Función para acceder a las traducciones
-export const t = derived(currentLanguage, ($currentLanguage) => {
-	return (key: string): string => {
-		// Verificamos que el diccionario del idioma actual existe
-		if (!translations[$currentLanguage as keyof typeof translations]) {
-			console.warn(`No translations found for language: ${$currentLanguage}`);
-			return key;
-		}
+// Crear store para el idioma actual
+const createLanguageStore = () => {
+	// Detectar idioma inicial (navegador o localStorage)
+	const getInitialLanguage = () => {
+		if (!browser) return 'es'; // Valor por defecto en SSR
 
-		// Buscamos la traducción
-		const translation =
-			translations[$currentLanguage as keyof typeof translations][key as TranslationKey];
+		const savedLanguage = localStorage.getItem('language');
+		if (savedLanguage && languages[savedLanguage]) return savedLanguage;
 
-		// Si no hay traducción, retornamos la clave
-		if (!translation) {
-			console.warn(`No translation found for key: ${key} in language: ${$currentLanguage}`);
-			return key;
-		}
-
-		return translation;
+		// Detectar idioma del navegador
+		const browserLanguage = navigator.language.split('-')[0];
+		return languages[browserLanguage] ? browserLanguage : 'es';
 	};
-});
+
+	const { subscribe, set, update } = writable(getInitialLanguage());
+
+	return {
+		subscribe,
+		set: (language) => {
+			if (!languages[language]) return;
+
+			if (browser) {
+				localStorage.setItem('language', language);
+			}
+
+			set(language);
+		},
+		// Método para cambiar al siguiente idioma disponible
+		toggle: () => {
+			update((currentLang) => {
+				const langKeys = Object.keys(languages);
+				const currentIndex = langKeys.indexOf(currentLang);
+				const nextIndex = (currentIndex + 1) % langKeys.length;
+				const nextLang = langKeys[nextIndex];
+
+				if (browser) {
+					localStorage.setItem('language', nextLang);
+				}
+
+				return nextLang;
+			});
+		}
+	};
+};
+
+// Crear store para el idioma
+export const language = createLanguageStore();
+
+// Crear store derivado para las traducciones
+export const translations = derived(
+	language,
+	($language) => languages[$language]?.translations || {}
+);
+
+// IMPORTANTE: Crear un store para t que se pueda usar con $t en los componentes
+export const t = derived(translations, ($translations) => (key) => $translations[key] || key);
+
+// Función para obtener traducciones (para uso en JS)
+export function getTranslation(key) {
+	let translation;
+
+	const unsubscribe = translations.subscribe((trans) => {
+		translation = trans[key] || key;
+	});
+
+	unsubscribe();
+
+	return translation;
+}
+
+// Función para obtener traducciones con formato
+export function tf(key, values = {}) {
+	let translation;
+
+	const unsubscribe = translations.subscribe((trans) => {
+		translation = trans[key] || key;
+	});
+
+	unsubscribe();
+
+	// Reemplazar placeholders en la traducción
+	if (typeof translation === 'string' && Object.keys(values).length > 0) {
+		Object.entries(values).forEach(([key, value]) => {
+			translation = translation.replace(new RegExp(`{${key}}`, 'g'), value);
+		});
+	}
+
+	return translation;
+}
+
+// Función para inicializar i18n en la aplicación
+export function initI18n() {
+	if (browser) {
+		// Detectar cambios de idioma en la URL o localStorage
+		const urlParams = new URLSearchParams(window.location.search);
+		const urlLang = urlParams.get('lang');
+
+		if (urlLang && languages[urlLang]) {
+			language.set(urlLang);
+		}
+	}
+}

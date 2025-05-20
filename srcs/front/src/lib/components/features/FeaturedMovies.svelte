@@ -5,7 +5,7 @@
   import MovieCard from '../MovieCard.svelte';
   
   export let movies = [];
-  export let title = $t('featuredMovies', 'Películas destacadas');
+  export let title = $t('featuredMoviesTitle');
   export let loading = false;
   export let error = null;
   export let viewAllUrl = "/movies";
@@ -20,15 +20,18 @@
   };
 </script>
 
-<section class="py-5" data-bs-theme={$theme}>
+<section class="featured-movies py-5" data-bs-theme={$theme}>
   <div class="container">
     <!-- Encabezado de sección -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">{title}</h2>
+      <h2 class="section-title">
+        <i class="bi bi-star-fill me-2 text-warning"></i>
+        {title}
+      </h2>
       
       {#if showViewAll && movies.length > 0}
-        <a href={viewAllUrl} class="btn btn-outline-primary btn-sm">
-          {$t('viewAll', 'Ver todas')}
+        <a href={viewAllUrl} class="btn btn-outline-primary">
+          {$t('showFilms')}
           <i class="bi bi-arrow-right ms-1"></i>
         </a>
       {/if}
@@ -38,9 +41,9 @@
     {#if loading}
       <div class="text-center py-5">
         <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">{$t('loading', 'Cargando...')}</span>
+          <span class="visually-hidden">{$t('loading')}</span>
         </div>
-        <p class="mt-3">{$t('loadingMovies', 'Cargando películas...')}</p>
+        <p class="mt-3">{$t('loading')}</p>
       </div>
     
     <!-- Estado de error -->
@@ -63,15 +66,47 @@
     <!-- Estado vacío -->
     {:else}
       <div class="text-center py-5">
-        <i class="bi bi-film display-1 text-muted"></i>
-        <p class="mt-3">{$t('noMoviesFound', 'No se encontraron películas')}</p>
-        <a href="/movies" class="btn btn-primary mt-2">
-          {$t('browseAllMovies', 'Explorar todas las películas')}
-        </a>
+        <div class="empty-state">
+          <i class="bi bi-film display-1 text-muted mb-3"></i>
+          <p class="lead">{$t('noFeaturedMovies')}</p>
+          <a href="/movies" class="btn btn-primary mt-3">
+            {$t('showFilms')}
+          </a>
+        </div>
       </div>
     {/if}
   </div>
 </section>
+
+<style>
+  .featured-movies .section-title {
+    position: relative;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .featured-movies .section-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--bs-primary);
+    border-radius: 3px;
+  }
+  
+  .empty-state {
+    padding: 2rem;
+    border-radius: 0.5rem;
+    background-color: rgba(var(--bs-primary-rgb), 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+
 <section class="mb-12">
   <h2 class="section-title text-2xl font-semibold mb-6 relative inline-block">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">

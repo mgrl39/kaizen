@@ -22,8 +22,11 @@
   let userMenuOpen = false;
   let languageSelectorOpen = false;
   
+  // Definir user como una prop con un valor por defecto
+  export let user = { name: '', email: '', role: '' };
+  
   $: ({ isAuthenticated, isAdmin, userName, loading } = $authState);
-  $: currentTheme = $theme;
+  $: currentTheme = $theme || 'light';
   
   // Definir estructura de navegación
   const navItems = [
@@ -111,6 +114,12 @@
     
     // Cerrar menús al hacer clic fuera
     document.addEventListener('click', handleClickOutside);
+    
+    // Verificar si hay un token en localStorage
+    const token = localStorage.getItem('token');
+    if (token) {
+      loadUserProfile();
+    }
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -228,10 +237,23 @@
       handleLogout(event);
     }
   }
+
+  // Si tienes una función para cargar el usuario, asegúrate de inicializar user correctamente
+  async function loadUserProfile() {
+    try {
+      // Tu código para cargar el perfil de usuario
+      const response = await fetch('/api/user/profile');
+      if (response.ok) {
+        user = await response.json();
+      }
+    } catch (error) {
+      console.error('Error cargando perfil:', error);
+    }
+  }
 </script>
 
 <!-- Navbar con Bootstrap estándar -->
-<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''}" data-bs-theme={$theme}>
+<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''}" data-bs-theme={currentTheme}>
   <div class="container">
     <!-- Logo -->
     <a href="/" class="navbar-brand">
@@ -305,7 +327,7 @@
             aria-expanded="false"
           >
             <i class="bi bi-globe me-1"></i>
-            <span class="d-none d-lg-inline">{$currentLanguage.toUpperCase()}</span>
+            <span class="d-none d-lg-inline">{user?.name?.toUpperCase() || ''}</span>
           </button>
           
           <ul 

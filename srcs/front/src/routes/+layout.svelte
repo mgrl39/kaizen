@@ -11,6 +11,10 @@
   // Importar JavaScript de Bootstrap (opcional, solo si necesitas componentes interactivos)
   import { onMount } from 'svelte';
   import { initTheme, theme } from '$lib/theme';
+  import '$lib/styles/custom-bootstrap.css';
+  
+  // Crear un archivo CSS personalizado si no existe
+  let customCssCreated = false;
   
   onMount(() => {
     // Inicializar tema
@@ -18,6 +22,29 @@
     
     // Importar dinámicamente Bootstrap JS
     import('bootstrap/dist/js/bootstrap.bundle.min.js');
+    
+    // Inicializar tooltips de Bootstrap
+    if (typeof bootstrap !== 'undefined') {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    }
+    
+    // Aplicar el tema al elemento HTML
+    const updateThemeAttribute = () => {
+      document.documentElement.setAttribute('data-bs-theme', $theme);
+    };
+    
+    // Aplicar tema inicial
+    updateThemeAttribute();
+    
+    // Suscribirse a cambios en el tema
+    const unsubscribe = theme.subscribe(value => {
+      updateThemeAttribute();
+    });
+    
+    return () => {
+      unsubscribe();
+    };
   });
   
   // List of routes where navbar should be hidden
@@ -88,47 +115,76 @@
 {/if}
 
 <style>
-  /* Aplicamos estilos solo a body que NO sea admin-route */
-  :global(body:not(.admin-route)) {
-    background-color: #121212;
-    color: #f8f9fa;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-top: 0; /* Quitamos padding del body */
+  /* Variables CSS para temas */
+  :global(:root) {
+    --app-bg-light: #f8f9fa;
+    --app-bg-dark: #121212;
+    --app-text-light: #212529;
+    --app-text-dark: #f8f9fa;
+    --app-card-bg-light: #ffffff;
+    --app-card-bg-dark: #212529;
+    --app-border-light: rgba(0, 0, 0, 0.1);
+    --app-border-dark: rgba(255, 255, 255, 0.1);
+    --app-primary: #6d28d9;
+    --app-primary-hover: #5b21b6;
   }
   
-  /* Estilos personalizados para cards en tema oscuro */
-  :global(body:not(.admin-route) .card) {
-    background-color: #212529;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Estilos para tema claro */
+  :global([data-bs-theme="light"]) {
+    --app-bg: var(--app-bg-light);
+    --app-text: var(--app-text-light);
+    --app-card-bg: var(--app-card-bg-light);
+    --app-border: var(--app-border-light);
+  }
+  
+  /* Estilos para tema oscuro */
+  :global([data-bs-theme="dark"]) {
+    --app-bg: var(--app-bg-dark);
+    --app-text: var(--app-text-dark);
+    --app-card-bg: var(--app-card-bg-dark);
+    --app-border: var(--app-border-dark);
+  }
+  
+  /* Aplicamos estilos generales */
+  :global(body) {
+    background-color: var(--app-bg);
+    color: var(--app-text);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Estilos para cards */
+  :global(.card) {
+    background-color: var(--app-card-bg);
+    border: 1px solid var(--app-border);
   }
   
   /* Personalización de botones primarios */
-  :global(body:not(.admin-route) .btn-primary) {
-    background-color: #6d28d9;
-    border-color: #6d28d9;
+  :global(.btn-primary) {
+    background-color: var(--app-primary);
+    border-color: var(--app-primary);
   }
   
-  :global(body:not(.admin-route) .btn-primary:hover) {
-    background-color: #5b21b6;
-    border-color: #5b21b6;
+  :global(.btn-primary:hover) {
+    background-color: var(--app-primary-hover);
+    border-color: var(--app-primary-hover);
   }
   
   /* Estilos para títulos de sección */
-  :global(body:not(.admin-route) .section-title) {
+  :global(.section-title) {
     font-weight: 600;
     margin-bottom: 2rem;
     position: relative;
     display: inline-block;
   }
   
-  :global(body:not(.admin-route) .section-title::after) {
+  :global(.section-title::after) {
     content: '';
     position: absolute;
     left: 0;
     bottom: -8px;
     width: 60%;
     height: 3px;
-    background: linear-gradient(to right, #6d28d9, transparent);
+    background: linear-gradient(to right, var(--app-primary), transparent);
     border-radius: 2px;
   }
   

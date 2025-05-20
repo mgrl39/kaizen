@@ -66,7 +66,15 @@ const en: TranslationDictionary = {
 	emailOrUsername: 'Email or username',
 	emailPlaceholder: 'user@email.com',
 	loggingIn: 'Logging in...',
-	noAccount: "Don't have an account?"
+	noAccount: "Don't have an account?",
+
+	// Error pages
+	pageNotFound: "The page you are looking for doesn't exist or has been moved.",
+	pageNotFoundTitle: 'Page not found',
+	accessDeniedTitle: 'Access denied',
+	serverErrorTitle: 'Server error',
+	genericErrorTitle: 'An error occurred',
+	backToHome: 'Back to home'
 };
 
 export default en;

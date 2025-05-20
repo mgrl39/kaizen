@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { t } from '$lib/i18n';
+  import { theme } from '$lib/theme';
   
   // Importar componentes
   import HeroBanner from '$lib/components/HeroBanner.svelte';
@@ -16,21 +17,21 @@
   $: categories = [
     {
       id: 1,
-      name: $t('category_action', 'Acción'), 
+      name: $t('category_action'), 
       icon: 'lightning', 
       count: 24,
       image: "https://source.unsplash.com/random/500x300/?action,movie"
     },
     {
       id: 2,
-      name: $t('category_comedy', 'Comedia'), 
+      name: $t('category_comedy'), 
       icon: 'emoji-laughing', 
       count: 18,
       image: "https://source.unsplash.com/random/500x300/?comedy,movie"
     },
     {
       id: 3,
-      name: $t('category_drama', 'Drama'), 
+      name: $t('category_drama'), 
       icon: 'mask', 
       count: 32,
       image: "https://source.unsplash.com/random/500x300/?drama,movie"
@@ -102,16 +103,18 @@
 </script>
 
 <!-- Hero Banner con imagen específica para la página principal -->
-<HeroBanner 
-  title="Kaizen Cinema"
-  subtitle="Tu destino para las mejores experiencias cinematográficas"
-  imageUrl="https://source.unsplash.com/random/1920x1080/?cinema,movies,theater"
-  buttonText="Ver películas"
-  buttonUrl="/movies"
-/>
+<div data-bs-theme={$theme}>
+  <HeroBanner 
+    title="Kaizen Cinema"
+    subtitle="Tu destino para las mejores experiencias cinematográficas"
+    imageUrl="https://source.unsplash.com/random/1920x1080/?cinema,movies,theater"
+    buttonText="Ver películas"
+    buttonUrl="/movies"
+  />
 
-<!-- Contenido específico de la página -->
-<div class="container py-5">
-  <FeaturedMovies movies={featuredMovies} loading={loading} />
-  <CategoriesSection categories={categories} />
+  <!-- Contenido específico de la página -->
+  <div class="container py-5">
+    <FeaturedMovies movies={featuredMovies} loading={loading} />
+    <CategoriesSection categories={categories} />
+  </div>
 </div> 
