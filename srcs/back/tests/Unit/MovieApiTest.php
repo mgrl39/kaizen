@@ -2,82 +2,58 @@
 
 namespace Tests\Feature;
 
+use App\Models\Movie;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-use App\Models\Movie;
 
 class MovieApiTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function it_can_fetch_all_movies()
+    public function puede_obtener_todas_las_peliculas()
     {
+        // Crear 3 películas de prueba
         Movie::factory()->count(3)->create();
 
+        // Hacer la petición a la API
         $response = $this->getJson('/api/v1/movies');
 
+        // Verificar que la respuesta es correcta
         $response->assertStatus(200);
-        $response->assertJsonIsArray();
+        $response->assertJsonPath('success', true);
+        
+        // Verificar que hay datos en la respuesta
+        $this->assertNotEmpty($response->json('data'));
     }
 
     /** @test */
-    public function it_can_fetch_a_single_movie()
+    public function puede_obtener_una_pelicula_por_id()
     {
+        // Crear una película de prueba
         $movie = Movie::factory()->create();
 
+        // Hacer la petición a la API
         $response = $this->getJson("/api/v1/movies/{$movie->id}");
 
-        $response->assertStatus(200)
-                 ->assertJson(['id' => $movie->id]);
-    }
-
-    /** @test */
-    /*
-    public function it_can_create_a_movie()
-    {
-        $movieData = [
-            'title' => 'Inception',
-            'description' => 'A mind-bending thriller',
-            'year' => 2010
-        ];
-
-        $response = $this->postJson('/api/v1/movies', $movieData);
-
-        $response->assertStatus(201)
-                 ->assertJsonFragment(['title' => 'Inception']);
-
-        $this->assertDatabaseHas('movies', $movieData);
-    }
-    */
-
-    /** @test */
-    public function it_can_update_a_movie()
-    {
-        $this->markTestSkipped('PUT method not available in current API implementation');
+        // Verificar que la respuesta es correcta
+        $response->assertStatus(200);
+        $response->assertJsonPath('success', true);
         
-        $movie = Movie::factory()->create();
-
-        $updateData = ['title' => 'Updated Title'];
-
-        $response = $this->putJson("/api/v1/movies/{$movie->id}", $updateData);
-
-        $response->assertStatus(200)
-                 ->assertJsonFragment(['title' => 'Updated Title']);
-
-        $this->assertDatabaseHas('movies', $updateData);
+        // Verificar que el ID de la película en la respuesta coincide con el que pedimos
+        $this->assertEquals($movie->id, $response->json('data.id'));
+        
+        // Verificar que el título también coincide
+        $this->assertEquals($movie->title, $response->json('data.title'));
     }
 
     /** @test */
-    public function it_can_delete_a_movie()
+    public function devuelve_error_cuando_la_pelicula_no_existe()
     {
-        $this->markTestSkipped('DELETE method not available in current API implementation');
-        
-        $movie = Movie::factory()->create();
+        // Intentar obtener una película que no existe
+        $response = $this->getJson('/api/v1/movies/999');
 
-        $response = $this->deleteJson("/api/v1/movies/{$movie->id}");
-
-        $response->assertStatus(204);
-        $this->assertDatabaseMissing('movies', ['id' => $movie->id]);
+        // Verificar que la respuesta es un error
+        $response->assertStatus(404);
     }
 }
