@@ -1,37 +1,20 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
-name: Psalm Security Scan
+name: PHP Security Analysis
 
 on:
   push:
-    branches: ["main"]
+    branches: [main]
     paths:
       - "srcs/back/**"
   pull_request:
-    branches: ["main"]
+    branches: [main]
     paths:
       - "srcs/back/**"
-  schedule:
-    - cron: "41 13 * * *"
-
-permissions:
-  contents: read
+  workflow_dispatch: # Permite ejecutar manualmente
 
 jobs:
-  php-security:
-    name: PHP Security Analysis
+  psalm:
+    name: Psalm Static Analysis
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: srcs/back
-
-    permissions:
-      contents: read
-      security-events: write
-      actions: read
 
     steps:
       - name: Checkout code
@@ -41,18 +24,132 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.2"
-          extensions: mbstring, xml
+          extensions: mbstring, xml, ctype, iconv, intl
+          coverage: none
+          tools: composer:v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
-        run: composer install --no-progress
+        working-directory: srcs/back
+        run: composer install --prefer-dist --no-progress
 
-      - name: Psalm Security Scan
+      - name: Create Psalm config if not exists
+        working-directory: srcs/back
         run: |
-          composer require --dev vimeo/psalm
-          ./vendor/bin/psalm --output-format=sarif --report=results.sarif
+          if [ ! -f psalm.xml ]; then
+            echo "Creating Psalm configuration file..."
+            ./vendor/bin/psalm --init
+          fi
 
-      - name: Upload Security Analysis results to GitHub
-        uses: github/codeql-action/upload-sarif@v3
+      - name: Modify Psalm config for Laravel
+        working-directory: srcs/back
+        run: |
+          # Adjust Psalm config for Laravel
+          sed -i 's/<projectFiles>/<projectFiles><directory name="app"\/>/' psalm.xml
+          sed -i 's/<\/projectFiles>/<\/projectFiles>/' psalm.xml
+          sed -i 's/errorLevel="1"/errorLevel="3"/' psalm.xml
+
+          # Add Laravel plugin if not already included
+          if ! grep -q "LaravelPsalmPlugin" psalm.xml; then
+            sed -i '/<\/psalm>/i \    <plugins>\n        <pluginClass class="Psalm\\LaravelPlugin\\Plugin"\/>\n    <\/plugins>' psalm.xml
+          fi
+
+          echo "Psalm configuration:"
+          cat psalm.xml
+
+      - name: Install Laravel Psalm plugin
+        working-directory: srcs/back
+        run: composer require --dev psalm/plugin-laravel
+
+      - name: Run Psalm
+        working-directory: srcs/back
+        run: ./vendor/bin/psalm --output-format=github
+
+  phpmd:
+    name: PHP Mess Detector
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          sarif_file: srcs/back/results.sarif
-          category: psalm-backend
+          php-version: "8.2"
+          extensions: mbstring, xml, ctype, iconv, intl
+          coverage: none
+          tools: composer:v2, phpmd
+
+      - name: Run PHPMD
+        working-directory: srcs/back
+        run: phpmd app,routes text cleancode,codesize,controversial,design,naming,unusedcode
+
+  phpstan:
+    name: PHPStan Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, xml, ctype, iconv, intl
+          coverage: none
+          tools: composer:v2
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        working-directory: srcs/back
+        run: composer install --prefer-dist --no-progress
+
+      - name: Install PHPStan
+        working-directory: srcs/back
+        run: composer require --dev phpstan/phpstan nunomaduro/larastan
+
+      - name: Create PHPStan config if not exists
+        working-directory: srcs/back
+        run: |
+          if [ ! -f phpstan.neon ]; then
+            echo "Creating PHPStan configuration file..."
+            cat > phpstan.neon << 'EOL'
+          includes:
+              - ./vendor/nunomaduro/larastan/extension.neon
+
+          parameters:
+              level: 5
+              paths:
+                  - app
+              excludePaths:
+                  - vendor
+                  - storage
+              checkMissingIterableValueType: false
+          EOL
+          fi
+
+      - name: Run PHPStan
+        working-directory: srcs/back
+        run: ./vendor/bin/phpstan analyse --error-format=github
