@@ -68,7 +68,20 @@ export type TranslationKey =
 	| 'emailOrUsername'
 	| 'emailPlaceholder'
 	| 'loggingIn'
-	| 'noAccount';
+	| 'noAccount'
+
+	// Categories
+	| 'exploreCategories'
+	| 'viewAll'
+	| 'noCategories'
+
+	// Error pages (ya veo que están en los archivos pero faltan en el tipo)
+	| 'pageNotFound'
+	| 'pageNotFoundTitle'
+	| 'accessDeniedTitle'
+	| 'serverErrorTitle'
+	| 'genericErrorTitle'
+	| 'backToHome';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;
@@ -139,7 +152,12 @@ export const translations = derived(
 );
 
 // IMPORTANTE: Crear un store para t que se pueda usar con $t en los componentes
-export const t = derived(translations, ($translations) => (key) => $translations[key] || key);
+export const t = derived(
+	translations,
+	($translations) =>
+		(key, defaultValue = key) =>
+			$translations[key] || defaultValue
+);
 
 // Función para obtener traducciones (para uso en JS)
 export function getTranslation(key) {
@@ -155,7 +173,7 @@ export function getTranslation(key) {
 }
 
 // Función para obtener traducciones con formato
-export function tf(key, values = {}) {
+export function tf(key: TranslationKey, values: Record<string, string | number> = {}) {
 	let translation;
 
 	const unsubscribe = translations.subscribe((trans) => {
@@ -172,6 +190,19 @@ export function tf(key, values = {}) {
 	}
 
 	return translation;
+}
+
+// Función para obtener traducciones con formato y pluralización
+export function tp(
+	key: TranslationKey,
+	count: number,
+	values: Record<string, string | number> = {}
+) {
+	// Determinar si usar singular o plural basado en count
+	const actualKey = count === 1 ? key : `${key}_plural`;
+
+	// Usar tf con el count incluido en los valores
+	return tf(actualKey as TranslationKey, { count, ...values });
 }
 
 // Función para inicializar i18n en la aplicación

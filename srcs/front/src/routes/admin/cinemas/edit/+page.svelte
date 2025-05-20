@@ -180,8 +180,8 @@
         
         <!-- Características -->
         <div class="sm:col-span-6">
-          <label class="block text-sm font-medium text-gray-700">{$t('features')}</label>
-          <div class="mt-2 space-y-2">
+          <label for="features-section" class="block text-sm font-medium text-gray-700">{$t('features')}</label>
+          <div id="features-section" class="mt-2 space-y-2">
             <div class="flex flex-wrap gap-2">
               {#each availableFeatures as feature}
                 <label class="inline-flex items-center">

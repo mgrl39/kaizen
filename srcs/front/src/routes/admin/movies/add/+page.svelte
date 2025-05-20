@@ -138,8 +138,8 @@
         
         <!-- Géneros -->
         <div class="sm:col-span-6">
-          <label class="block text-sm font-medium text-gray-700">{$t('genres')}</label>
-          <div class="mt-2 space-y-2">
+          <label for="genres-section" class="block text-sm font-medium text-gray-700">{$t('genres')}</label>
+          <div id="genres-section" class="mt-2 space-y-2">
             <div class="flex flex-wrap gap-2">
               {#each availableGenres as genre}
                 <label class="inline-flex items-center">

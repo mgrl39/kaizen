@@ -74,7 +74,12 @@ const es: TranslationDictionary = {
 	accessDeniedTitle: 'Acceso denegado',
 	serverErrorTitle: 'Error del servidor',
 	genericErrorTitle: 'Ha ocurrido un error',
-	backToHome: 'Volver al inicio'
+	backToHome: 'Volver al inicio',
+
+	// Categorías
+	exploreCategories: 'Explorar categorías',
+	viewAll: 'Ver todas',
+	noCategories: 'No hay categorías disponibles'
 };
 
 export default es;

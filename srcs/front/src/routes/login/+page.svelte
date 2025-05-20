@@ -134,6 +134,7 @@
                   data-bs-toggle="tooltip"
                   data-bs-placement="top"
                   title={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                  aria-label="Mostrar contraseña"
                 >
                   <i class="bi bi-{showPassword ? 'eye-slash' : 'eye'}"></i>
                 </button>

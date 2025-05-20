@@ -369,6 +369,7 @@
             type="button"
             data-bs-toggle="dropdown" 
             aria-expanded="false"
+            aria-label="Seleccionar idioma"
           >
             <i class="bi bi-globe me-1"></i>
             <span class="d-none d-lg-inline">{currentLang.toUpperCase()}</span>
@@ -470,7 +471,7 @@
         <button 
           class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
           on:click={handleThemeToggle}
-          aria-label="Toggle theme"
+          aria-label="Cambiar tema"
         >
           <i class="bi bi-{currentTheme === 'dark' ? 'sun' : 'moon'}"></i>
         </button>
@@ -483,6 +484,7 @@
             type="button"
             data-bs-toggle="dropdown" 
             aria-expanded="false"
+            aria-label="Seleccionar idioma"
           >
             <i class="bi bi-globe"></i>
           </button>

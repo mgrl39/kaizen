@@ -45,20 +45,18 @@
 </div>
 
 <style>
-  .movie-card {
+  :global(.movie-card) {
     transition: transform 0.3s ease;
   }
-
-  .card-image-wrapper {
+  
+  :global(.card-image-wrapper) {
     position: relative;
     overflow: hidden;
-    border-radius: 16px 16px 0 0;
   }
-
-  .card-image-wrapper img {
+  
+  :global(.card-image-wrapper img) {
     height: 300px;
     object-fit: cover;
-    transition: transform 0.3s ease;
   }
 
   .card-overlay {

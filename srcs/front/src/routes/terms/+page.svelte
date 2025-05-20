@@ -117,10 +117,13 @@
               <i class="bi bi-check-circle me-2"></i>
               {$t('acceptAndContinue', 'Aceptar y continuar')}
             </a>
-            <a href="javascript:history.back()" class="btn btn-outline-secondary">
+            <button 
+              on:click={() => history.back()} 
+              class="btn btn-outline-secondary"
+            >
               <i class="bi bi-arrow-left me-2"></i>
               {$t('goBack', 'Volver atrás')}
-            </a>
+            </button>
           </div>
         </div>
       </div>
