@@ -73,7 +73,7 @@
 <Navbar />
 
 <!-- Main content with proper centering -->
-<div class="container py-5 my-5" data-bs-theme={$theme}>
+<div class="container py-5 my-5">
   <div class="row justify-content-center">
     <div class="col-md-6 col-lg-5 col-xl-4">
       <!-- Encabezado -->
@@ -196,21 +196,9 @@
 </div>
 
 <style>
-  /* Estilos específicos para esta página */
-  :global(body) {
-    background-color: #121212;
-    color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  :global(.bg-card) {
-    background-color: #212529;
-  }
-  
-  :global(.bg-dark) {
-    background-color: #121212;
+  /* Estilos específicos y adaptados al tema global */
+  :global([data-bs-theme="dark"]) .card {
+    background-color: var(--app-card-bg);
   }
   
   /* Animación para el icono de carga */

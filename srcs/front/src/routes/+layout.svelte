@@ -78,6 +78,11 @@
       document.body.classList.remove('admin-route');
     </script>
   {/if}
+  
+  <!-- Aseguramos que el body adopte el tema correcto -->
+  <script>
+    document.body.setAttribute('data-bs-theme', document.documentElement.getAttribute('data-bs-theme'));
+  </script>
 </svelte:head>
 
 {#if showNavbar}
@@ -89,9 +94,9 @@
   <slot />
 {:else if isAuthRoute || isErrorPage}
   <!-- Para rutas de autenticación y páginas de error, sin footer -->
-  <div class="app-wrapper">
-    <!-- Contenido principal con padding-top para la navbar -->
-    <main class="container py-4 mt-5">
+  <div class="app-wrapper auth-wrapper" data-bs-theme={$theme}>
+    <!-- Contenido principal -->
+    <main class="auth-main">
       <slot />
     </main>
   </div>
@@ -150,12 +155,25 @@
     background-color: var(--app-bg);
     color: var(--app-text);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Estilos específicos para las páginas de autenticación */
+  .auth-wrapper {
+    min-height: 100vh;
+    background-color: var(--app-bg);
+    transition: background-color 0.3s ease;
+  }
+  
+  .auth-main {
+    padding-top: 2rem;
   }
   
   /* Estilos para cards */
   :global(.card) {
     background-color: var(--app-card-bg);
     border: 1px solid var(--app-border);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
   }
   
   /* Personalización de botones primarios */

@@ -101,10 +101,9 @@
 
             if (!response.ok) {
                 if (data.errors) {
-                    // Formatear errores específicos de Laravel para mostrarlos
                     const formattedErrors: ErrorsType = {};
                     for (const key in data.errors) {
-                        formattedErrors[key] = data.errors[key][0]; // Tomar el primer mensaje de error
+                        formattedErrors[key] = data.errors[key][0];
                     }
                     return {
                         success: false,
@@ -118,7 +117,6 @@
                 };
             }
 
-            // Guardar solo el token, no información del usuario
             if (data.token) {
                 localStorage.setItem('token', data.token);
             }
@@ -192,7 +190,7 @@
 
 <Navbar />
 
-<div class="container py-5 my-3" data-bs-theme={$theme}>
+<div class="container py-5 my-3">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
             <!-- Encabezado -->
@@ -385,7 +383,7 @@
             </div>
             
             <!-- Información adicional -->
-            <div class="card border-0 bg-light mt-4">
+            <div class="card border-0 info-card mt-4">
                 <div class="card-body p-3 text-center">
                     <small class="text-muted">
                         <i class="bi bi-shield-check me-1"></i>
@@ -398,20 +396,8 @@
 </div>
 
 <style>
-  /* Estilos específicos para esta página */
-  :global(body) {
-    background-color: #121212;
-    color: #f8f9fa;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  :global(.bg-card) {
-    background-color: #212529;
-  }
-  
-  :global(.bg-dark) {
-    background-color: #121212;
+  /* Utilizamos las variables globales para consistencia */
+  :global([data-bs-theme="dark"]) .info-card {
+    background-color: var(--app-card-bg);
   }
 </style>
