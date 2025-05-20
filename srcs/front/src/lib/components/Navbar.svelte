@@ -3,16 +3,15 @@
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
   import { API_URL } from '$lib/config';
-  import { t, currentLanguage, languages } from '$lib/i18n';
-  import { writable, get } from 'svelte/store';
-  import { theme, toggleTheme, initTheme } from '$lib/theme';
+  import { t } from '$lib/i18n';
+  import { writable } from 'svelte/store';
   
   // Stores para estado de usuario
   const authState = writable({
     isAuthenticated: false,
     isAdmin: false,
     userName: 'Usuario',
-    loading: false // Cambiado a false por defecto
+    loading: false
   });
   
   // Estado local para UI
@@ -22,11 +21,11 @@
   let userMenuOpen = false;
   let languageSelectorOpen = false;
   
-  // Definir user como una prop con un valor por defecto
-  export let user = { name: '', email: '', role: '' };
+  // Variables locales para tema e idioma
+  let currentTheme = 'light';
+  let currentLang = 'es';
   
   $: ({ isAuthenticated, isAdmin, userName, loading } = $authState);
-  $: currentTheme = $theme || 'light';
   
   // Definir estructura de navegación
   const navItems = [
@@ -42,11 +41,8 @@
     { url: '#logout', icon: 'box-arrow-right', text: 'Cerrar Sesión', action: 'logout' }
   ];
   
-  function setupDefaultLanguage() {
-    if (!languages.includes(get(currentLanguage))) {
-      currentLanguage.set('es');
-    }
-  }
+  // Idiomas disponibles
+  const availableLanguages = ['es', 'en'];
   
   function toggleMobileMenu() {
     mobileMenuOpen = !mobileMenuOpen;
@@ -62,8 +58,22 @@
     if (languageSelectorOpen) userMenuOpen = false;
   }
   
+  // Función para cambiar el tema manualmente
   function handleThemeToggle() {
-    toggleTheme();
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    currentTheme = newTheme;
+    document.documentElement.setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  }
+  
+  // Función para cambiar el idioma manualmente
+  function changeLanguage(lang) {
+    if (availableLanguages.includes(lang)) {
+      currentLang = lang;
+      localStorage.setItem('language', lang);
+      // Recargar la página para aplicar el nuevo idioma
+      window.location.reload();
+    }
   }
   
   function handleClickOutside(event) {
@@ -82,23 +92,30 @@
   }
   
   onMount(() => {
-    // Inicializar Bootstrap dropdown manualmente
-    import('bootstrap/js/dist/dropdown').then(module => {
-      // Bootstrap dropdowns ya están inicializados con atributos data-bs
-    });
+    // Inicializar tema desde localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+      currentTheme = savedTheme;
+      document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    } else {
+      // Detectar preferencia del sistema
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      currentTheme = prefersDark ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-bs-theme', currentTheme);
+    }
     
-    // Inicializar el tema
-    initTheme();
-    
-    // Configurar idioma predeterminado
-    setupDefaultLanguage();
+    // Inicializar idioma desde localStorage
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage && availableLanguages.includes(savedLanguage)) {
+      currentLang = savedLanguage;
+    }
     
     // Cargar estado guardado
     const cachedState = localStorage.getItem('authState');
     if (cachedState) {
       try {
         const parsed = JSON.parse(cachedState);
-        authState.set({ ...parsed, loading: false }); // No mostrar loading
+        authState.set({ ...parsed, loading: false });
       } catch (e) {
         // Ignorar errores de parsing
       }
@@ -308,7 +325,7 @@
               aria-current={isActive('/admin') ? 'page' : undefined}
             >
               <i class="bi bi-speedometer2 me-1"></i>
-              <span>{$t('adminPanel')}</span>
+              <span>Panel Admin</span>
             </a>
           </li>
         {/if}
@@ -318,24 +335,24 @@
       <div class="d-flex align-items-center gap-2">
         <!-- Selector de tema -->
         <button 
-          class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+          class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
           on:click={handleThemeToggle}
           aria-label="Toggle theme"
         >
-          <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'}"></i>
+          <i class="bi bi-{currentTheme === 'dark' ? 'sun' : 'moon'}"></i>
         </button>
         
         <!-- Selector de idioma con dropdown -->
         <div class="dropdown">
           <button 
             id="language-selector-button"
-            class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+            class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
             type="button"
             data-bs-toggle="dropdown" 
             aria-expanded="false"
           >
             <i class="bi bi-globe me-1"></i>
-            <span class="d-none d-lg-inline">{$currentLanguage ? $currentLanguage.toUpperCase() : 'ES'}</span>
+            <span class="d-none d-lg-inline">{currentLang.toUpperCase()}</span>
           </button>
           
           <ul 
@@ -345,16 +362,16 @@
           >
             <li>
               <button 
-                class="dropdown-item {$currentLanguage === 'es' ? 'active' : ''}"
-                on:click={() => { currentLanguage.set('es'); }}
+                class="dropdown-item {currentLang === 'es' ? 'active' : ''}"
+                on:click={() => changeLanguage('es')}
               >
                 <span class="me-2">🇪🇸</span>Español
               </button>
             </li>
             <li>
               <button 
-                class="dropdown-item {$currentLanguage === 'en' ? 'active' : ''}"
-                on:click={() => { currentLanguage.set('en'); }}
+                class="dropdown-item {currentLang === 'en' ? 'active' : ''}"
+                on:click={() => changeLanguage('en')}
               >
                 <span class="me-2">🇬🇧</span>English
               </button>
@@ -372,7 +389,7 @@
           <div class="dropdown">
             <button 
               id="user-menu-button"
-              class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+              class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
               type="button"
               data-bs-toggle="dropdown" 
               aria-expanded="false"
@@ -410,10 +427,10 @@
           <!-- Botones de login/registro -->
           <a href="/login" class="btn btn-sm btn-primary">
             <i class="bi bi-box-arrow-in-right me-1 d-lg-none"></i>
-            <span>{$t('login')}</span>
+            <span>Login</span>
           </a>
           <a href="/register" class="btn btn-sm btn-outline-secondary d-none d-sm-inline-block">
-            <span>{$t('register')}</span>
+            <span>Registro</span>
           </a>
         {/if}
       </div>
