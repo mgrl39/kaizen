@@ -81,7 +81,8 @@ export type TranslationKey =
 	| 'accessDeniedTitle'
 	| 'serverErrorTitle'
 	| 'genericErrorTitle'
-	| 'backToHome';
+	| 'backToHome'
+	| 'test';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

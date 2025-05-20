@@ -79,7 +79,8 @@ const es: TranslationDictionary = {
 	// Categorías
 	exploreCategories: 'Explorar categorías',
 	viewAll: 'Ver todas',
-	noCategories: 'No hay categorías disponibles'
+	noCategories: 'No hay categorías disponibles',
+	test: 'test'
 };
 
 export default es;
