@@ -27,6 +27,13 @@
     { icon: 'youtube', url: '#', label: 'YouTube' }
   ];
 
+  // Función para manejar el click del chat
+  function handleChatClick() {
+    if (typeof window !== 'undefined' && window.Tawk_API) {
+      window.Tawk_API.maximize();
+    }
+  }
+
   onMount(() => {
     // Código de Tawk.to
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -139,7 +146,7 @@
 <button 
   class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4 shadow-lg"
   style="width: 60px; height: 60px; z-index: 1000;"
-  onclick="Tawk_API.maximize()"
+  on:click={handleChatClick}
 >
   <i class="bi bi-chat-dots fs-4"></i>
 </button>
