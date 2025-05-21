@@ -5,6 +5,7 @@
   import { API_URL } from '$lib/config';
   import { t } from '$lib/i18n';
   import { writable } from 'svelte/store';
+  import { theme } from '$lib/theme';
   
   // Stores para estado de usuario
   const authState = writable({
@@ -70,8 +71,8 @@
   
   // Función para cambiar el tema manualmente
   function handleThemeToggle() {
-    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    currentTheme = newTheme;
+    const newTheme = $theme === 'dark' ? 'light' : 'dark';
+    theme.set(newTheme);
     document.documentElement.setAttribute('data-bs-theme', newTheme);
     localStorage.setItem('theme', newTheme);
   }
@@ -105,13 +106,14 @@
     // Inicializar tema desde localStorage
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
-      currentTheme = savedTheme;
+      theme.set(savedTheme);
       document.documentElement.setAttribute('data-bs-theme', savedTheme);
     } else {
       // Detectar preferencia del sistema
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      currentTheme = prefersDark ? 'dark' : 'light';
-      document.documentElement.setAttribute('data-bs-theme', currentTheme);
+      const initialTheme = prefersDark ? 'dark' : 'light';
+      theme.set(initialTheme);
+      document.documentElement.setAttribute('data-bs-theme', initialTheme);
     }
     
     // Inicializar idioma desde localStorage
@@ -297,7 +299,7 @@
 </script>
 
 <!-- Navbar con Bootstrap estándar para desktop -->
-<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''} {isMobile ? 'd-none d-md-block' : ''}" data-bs-theme={currentTheme}>
+<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''} {isMobile ? 'd-none d-md-block' : ''}" data-bs-theme={$theme}>
   <div class="container">
     <!-- Logo -->
     <a href="/" class="navbar-brand">
@@ -366,18 +368,18 @@
       <div class="d-flex align-items-center gap-2">
         <!-- Selector de tema -->
         <button 
-          class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+          class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
           on:click={handleThemeToggle}
           aria-label="Toggle theme"
         >
-          <i class="bi bi-{currentTheme === 'dark' ? 'sun' : 'moon'}"></i>
+          <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'}"></i>
         </button>
         
         <!-- Selector de idioma con dropdown -->
         <div class="dropdown">
           <button 
             id="language-selector-button"
-            class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+            class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
             type="button"
             data-bs-toggle="dropdown" 
             aria-expanded="false"
@@ -421,7 +423,7 @@
           <div class="dropdown">
             <button 
               id="user-menu-button"
-              class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+              class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
               type="button"
               data-bs-toggle="dropdown" 
               aria-expanded="false"
@@ -472,7 +474,7 @@
 
 <!-- Navbar estilo Instagram para móviles -->
 {#if isMobile}
-  <div class="mobile-header fixed-top d-md-none" data-bs-theme={currentTheme}>
+  <div class="mobile-header fixed-top d-md-none" data-bs-theme={$theme}>
     <div class="container d-flex justify-content-between align-items-center py-2">
       <a href="/" class="navbar-brand m-0">
         Kaizen
@@ -491,7 +493,7 @@
         <!-- Notificaciones para móvil -->
         <div class="dropdown">
           <button 
-            class="btn btn-sm position-relative {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}"
+            class="btn btn-sm position-relative {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
@@ -552,17 +554,17 @@
         
         <!-- Selector de tema -->
         <button 
-          class="btn btn-sm {currentTheme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+          class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
           on:click={handleThemeToggle}
           aria-label="Cambiar tema"
         >
-          <i class="bi bi-{currentTheme === 'dark' ? 'sun' : 'moon'}"></i>
+          <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'}"></i>
         </button>
       </div>
     </div>
     
     <!-- Segunda fila con categorías rápidas -->
-    <div class="mobile-categories-bar d-md-none py-1 border-top" data-bs-theme={currentTheme}>
+    <div class="mobile-categories-bar d-md-none py-1 border-top" data-bs-theme={$theme}>
       <div class="container">
         <div class="scrolling-wrapper">
           <a href="/movies?category=accion" class="category-pill">Acción</a>
@@ -579,7 +581,7 @@
   </div>
   
   <!-- Barra de navegación inferior mejorada -->
-  <nav class="mobile-nav fixed-bottom d-md-none" data-bs-theme={currentTheme}>
+  <nav class="mobile-nav fixed-bottom d-md-none" data-bs-theme={$theme}>
     <div class="container">
       <div class="row g-0">
         {#each mobileNavItems as item, i}
