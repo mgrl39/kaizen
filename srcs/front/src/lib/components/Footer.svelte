@@ -1,6 +1,7 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
   import { theme } from '$lib/theme';
+  import { onMount } from 'svelte';
   
   const currentYear = new Date().getFullYear();
   
@@ -25,6 +26,19 @@
     { icon: 'instagram', url: '#', label: 'Instagram' },
     { icon: 'youtube', url: '#', label: 'YouTube' }
   ];
+
+  onMount(() => {
+    // Código de Tawk.to
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/682d391da55be4190a7c5bab/1iroae6sn';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  });
 </script>
 
 <footer class="footer py-5 mt-auto" data-bs-theme={$theme}>
@@ -121,6 +135,14 @@
     </div>
   </div>
 </footer>
+
+<button 
+  class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4 shadow-lg"
+  style="width: 60px; height: 60px; z-index: 1000;"
+  onclick="Tawk_API.maximize()"
+>
+  <i class="bi bi-chat-dots fs-4"></i>
+</button>
 
 <style>
   /* Solo un estilo mínimo para el hover de los enlaces */

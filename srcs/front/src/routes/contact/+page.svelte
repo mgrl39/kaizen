@@ -64,6 +64,17 @@
   onMount(() => {
     // Scroll to top on page load
     window.scrollTo(0, 0);
+    
+    // Código de Tawk.to
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/682d391da55be4190a7c5bab/1iroae6sn';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
   });
 </script>
 
