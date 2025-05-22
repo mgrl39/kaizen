@@ -1,11 +1,20 @@
 <script lang="ts">
-  import { t } from '$lib/i18n';
   import { onMount } from 'svelte';
   
+  // Define user type
+  interface User {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    created_at: string;
+    status: string;
+  }
+  
   // Estado para los usuarios
-  let users = [];
+  let users: User[] = [];
   let loading = true;
-  let error = null;
+  let error: string | null = null;
   
   // Estado para paginación
   let currentPage = 1;
@@ -16,18 +25,6 @@
   let searchQuery = '';
   let filterRole = 'all';
   
-  // Datos de demostración
-  let demoUsers = [
-    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'admin', created_at: '2023-06-15T10:30:00Z', status: 'active' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'user', created_at: '2023-07-20T08:45:00Z', status: 'active' },
-    { id: 3, name: 'Michael Johnson', email: 'michael@example.com', role: 'user', created_at: '2023-08-05T14:20:00Z', status: 'inactive' },
-    { id: 4, name: 'Sarah Williams', email: 'sarah@example.com', role: 'user', created_at: '2023-08-10T09:15:00Z', status: 'active' },
-    { id: 5, name: 'David Brown', email: 'david@example.com', role: 'manager', created_at: '2023-09-02T11:30:00Z', status: 'active' },
-    { id: 6, name: 'Lisa Davis', email: 'lisa@example.com', role: 'user', created_at: '2023-09-15T16:45:00Z', status: 'pending' },
-    { id: 7, name: 'Robert Miller', email: 'robert@example.com', role: 'manager', created_at: '2023-10-01T13:20:00Z', status: 'active' },
-    { id: 8, name: 'Jennifer Wilson', email: 'jennifer@example.com', role: 'user', created_at: '2023-10-12T10:10:00Z', status: 'inactive' },
-  ];
-  
   // Función para formatear fecha de API (si viene en formato ISO)
   function formatDate(dateString: string): string {
     if (!dateString) return '';
@@ -36,7 +33,7 @@
   }
   
   // Filtrar usuarios según la búsqueda y filtros seleccionados
-  $: filteredUsers = demoUsers.filter(user => {
+  $: filteredUsers = users.filter(user => {
     // Filtrar por búsqueda
     const matchesSearch = searchQuery === '' || 
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -49,9 +46,9 @@
   });
   
   // Calcular estadísticas
-  $: totalAdmins = demoUsers.filter(user => user.role === 'admin').length;
-  $: totalManagers = demoUsers.filter(user => user.role === 'manager').length;
-  $: activeUsers = demoUsers.filter(user => user.status === 'active').length;
+  $: totalAdmins = users.filter(user => user.role === 'admin').length;
+  $: totalManagers = users.filter(user => user.role === 'manager').length;
+  $: activeUsers = users.filter(user => user.status === 'active').length;
   
   // Obtener la función de clase para el rol
   function getRoleBadgeClass(role: string): string {
@@ -77,15 +74,25 @@
     error = null;
     
     try {
-      // Simulamos una solicitud API con datos de demostración
-      await new Promise(resolve => setTimeout(resolve, 800));
-      users = demoUsers;
-      currentPage = page;
-      totalPages = 1;
-      totalUsers = demoUsers.length;
-    } catch (err) {
+      const response = await fetch(`/api/v1/users?page=${page}`);
+      
+      if (!response.ok) {
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
+      }
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        users = result.data.data; // Accessing paginated data
+        currentPage = result.data.current_page;
+        totalPages = result.data.last_page;
+        totalUsers = result.data.total;
+      } else {
+        throw new Error(result.message || 'Error al cargar usuarios');
+      }
+    } catch (err: unknown) {
       console.error('Error al cargar usuarios:', err);
-      error = err.message;
+      error = err instanceof Error ? err.message : 'Error desconocido';
       users = [];
     } finally {
       loading = false;
@@ -93,9 +100,34 @@
   }
   
   // Eliminar usuario
-  function deleteUser(userId: number) {
-    if (confirm($t('confirmDeleteUser'))) {
-      demoUsers = demoUsers.filter(user => user.id !== userId);
+  async function deleteUser(userId: number) {
+    if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+      try {
+        const response = await fetch(`/api/v1/users/${userId}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          credentials: 'include' // Para enviar cookies de autenticación
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Error ${response.status}: ${response.statusText}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Actualizar lista de usuarios
+          loadUsers(currentPage);
+        } else {
+          throw new Error(result.message || 'Error al eliminar usuario');
+        }
+      } catch (err: unknown) {
+        console.error('Error al eliminar usuario:', err);
+        alert(err instanceof Error ? err.message : 'Error desconocido');
+      }
     }
   }
   
@@ -114,10 +146,10 @@
 
 <div class="container-fluid">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="h3">{$t('users')}</h1>
+    <h1 class="h3">Usuarios</h1>
     <a href="/admin/users/add" class="btn btn-primary">
       <i class="bi bi-person-plus me-2"></i>
-      {$t('addUser')}
+      Añadir Usuario
     </a>
   </div>
   
@@ -131,8 +163,8 @@
               <i class="bi bi-people text-primary fs-4"></i>
             </div>
             <div>
-              <h6 class="card-subtitle mb-1 text-muted">{$t('totalUsers')}</h6>
-              <h2 class="card-title mb-0">{demoUsers.length}</h2>
+              <h6 class="card-subtitle mb-1 text-muted">Total Usuarios</h6>
+              <h2 class="card-title mb-0">{totalUsers}</h2>
             </div>
           </div>
         </div>
@@ -147,7 +179,7 @@
               <i class="bi bi-person-check text-success fs-4"></i>
             </div>
             <div>
-              <h6 class="card-subtitle mb-1 text-muted">{$t('activeUsers')}</h6>
+              <h6 class="card-subtitle mb-1 text-muted">Usuarios Activos</h6>
               <h2 class="card-title mb-0">{activeUsers}</h2>
             </div>
           </div>
@@ -163,7 +195,7 @@
               <i class="bi bi-person-fill-lock text-danger fs-4"></i>
             </div>
             <div>
-              <h6 class="card-subtitle mb-1 text-muted">{$t('admins')}</h6>
+              <h6 class="card-subtitle mb-1 text-muted">Administradores</h6>
               <h2 class="card-title mb-0">{totalAdmins}</h2>
             </div>
           </div>
@@ -184,7 +216,7 @@
             <input 
               type="text" 
               class="form-control"
-              placeholder={$t('searchUsers')}
+              placeholder="Buscar usuarios"
               bind:value={searchQuery}
             />
             {#if searchQuery}
@@ -197,10 +229,10 @@
         
         <div class="col-md-4">
           <select class="form-select" bind:value={filterRole}>
-            <option value="all">{$t('allRoles')}</option>
-            <option value="admin">{$t('admin')}</option>
-            <option value="manager">{$t('manager')}</option>
-            <option value="user">{$t('user')}</option>
+            <option value="all">Todos los roles</option>
+            <option value="admin">Administrador</option>
+            <option value="manager">Gestor</option>
+            <option value="user">Usuario</option>
           </select>
         </div>
       </div>
@@ -213,36 +245,36 @@
       {#if loading}
         <div class="d-flex justify-content-center align-items-center py-5">
           <div class="spinner-border text-primary me-3" role="status">
-            <span class="visually-hidden">{$t('loading')}</span>
+            <span class="visually-hidden">Cargando</span>
           </div>
-          <span class="fs-5">{$t('loadingUsers')}</span>
+          <span class="fs-5">Cargando usuarios...</span>
         </div>
       {:else if error}
         <div class="alert alert-danger m-3">
-          <p>{$t('errorLoadingUsers')}: {error}</p>
+          <p>Error al cargar usuarios: {error}</p>
           <button 
             class="btn btn-sm btn-primary mt-2"
             on:click={() => loadUsers()}
           >
-            {$t('retry')}
+            Reintentar
           </button>
         </div>
       {:else if filteredUsers.length === 0}
         <div class="text-center py-5">
           <i class="bi bi-exclamation-circle text-secondary fs-1"></i>
-          <p class="mt-3">{$t('noUsersFound')}</p>
+          <p class="mt-3">No se encontraron usuarios</p>
         </div>
       {:else}
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
               <tr>
-                <th>{$t('name')}</th>
-                <th>{$t('email')}</th>
-                <th>{$t('role')}</th>
-                <th>{$t('status')}</th>
-                <th>{$t('registered')}</th>
-                <th class="text-end">{$t('actions')}</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Registrado</th>
+                <th class="text-end">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -283,7 +315,7 @@
         <!-- Paginación -->
         <div class="d-flex justify-content-between align-items-center p-3 border-top">
           <div class="text-muted small">
-            {$t('showing')} {filteredUsers.length} {$t('of')} {totalUsers} {$t('users')}
+            Mostrando {filteredUsers.length} de {totalUsers} usuarios
           </div>
           {#if totalPages > 1}
             <nav aria-label="Page navigation">
