@@ -34,6 +34,7 @@
 	},
 	"dependencies": {
 		"@sveltejs/kit": "^2.0.0",
+		"@vercel/analytics": "^1.5.0",
 		"bootstrap": "^5.3.2",
 		"bootstrap-icons": "^1.11.1",
 		"carbon-components-svelte": "^0.89.2",
