@@ -1,5 +1,6 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
+  import { theme } from '$lib/theme';
   
   // Variables para metadatos de la página
   const pageTitle = "Contacto | Kaizen Cinema";
@@ -9,9 +10,29 @@
   let formSubmitted = false;
   let formError = false;
   let loading = false;
+  let currentTheme = 'light';
   
-  // Opciones de contacto
-  const contactOptions = [
+  $: currentTheme = $theme;
+  
+  interface BaseContactOption {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
+    color: string;
+  }
+
+  interface EmailOption extends BaseContactOption {
+    email: string;
+  }
+
+  interface UrlOption extends BaseContactOption {
+    url: string;
+  }
+
+  type ContactOption = EmailOption | UrlOption;
+
+  const contactOptions: ContactOption[] = [
     { 
       id: 'info', 
       title: 'Información General', 
@@ -31,12 +52,13 @@
   ];
   
   // Función para manejar el envío del formulario
-  async function handleSubmit(event) {
+  async function handleSubmit(event: SubmitEvent) {
+    event.preventDefault();
     loading = true;
     formError = false;
     
     try {
-      const form = event.target;
+      const form = event.target as HTMLFormElement;
       const formData = new FormData(form);
       
       const response = await fetch(form.action, {
@@ -66,15 +88,16 @@
     window.scrollTo(0, 0);
     
     // Código de Tawk.to
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-      s1.async=true;
-      s1.src='https://embed.tawk.to/682d391da55be4190a7c5bab/1iroae6sn';
-      s1.charset='UTF-8';
-      s1.setAttribute('crossorigin','*');
-      s0.parentNode.insertBefore(s1,s0);
-    })();
+    const Tawk_API = (window as any).Tawk_API || {};
+    const Tawk_LoadStart = new Date();
+    
+    const s1 = document.createElement("script");
+    const s0 = document.getElementsByTagName("script")[0];
+    s1.async = true;
+    s1.src = 'https://embed.tawk.to/682d391da55be4190a7c5bab/1iroae6sn';
+    s1.charset = 'UTF-8';
+    s1.setAttribute('crossorigin', '*');
+    s0.parentNode?.insertBefore(s1, s0);
   });
 </script>
 
@@ -83,7 +106,7 @@
   <meta name="description" content={pageDescription} />
 </svelte:head>
 
-<div class="container mt-5 pt-5">
+<div class="container mt-5 pt-5" data-bs-theme={currentTheme}>
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10">
       <!-- Encabezado -->
@@ -109,7 +132,7 @@
                   </div>
                   <p>{option.description}</p>
                   
-                  {#if option.email}
+                  {#if 'email' in option}
                     <a href="mailto:{option.email}" class="btn btn-{option.color}">
                       <i class="bi bi-envelope me-1"></i>
                       Enviar email
@@ -167,7 +190,7 @@
               <form 
                 action="https://formspree.io/f/xqaqjozd"
                 method="POST"
-                on:submit|preventDefault={handleSubmit}
+                on:submit={handleSubmit}
               >
                 <div class="row">
                   <div class="col-md-6 mb-3">
@@ -307,7 +330,7 @@
                 width="600" 
                 height="450" 
                 style="border:0;" 
-                allowfullscreen="" 
+                allowfullscreen 
                 loading="lazy" 
                 referrerpolicy="no-referrer-when-downgrade"
                 title="Ubicación de Kaizen Cinema"
@@ -331,3 +354,29 @@
     </div>
   </div>
 </div>
+<style>
+  /* Estilos específicos para el tema oscuro */
+  :global([data-bs-theme="dark"]) .card {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-gray-700);
+  }
+  
+  :global([data-bs-theme="dark"]) .form-control,
+  :global([data-bs-theme="dark"]) .form-select {
+    background-color: var(--bs-gray-800);
+    border-color: var(--bs-gray-700);
+    color: var(--bs-light);
+  }
+  
+  :global([data-bs-theme="dark"]) .form-control:focus,
+  :global([data-bs-theme="dark"]) .form-select:focus {
+    background-color: var(--bs-gray-800);
+    border-color: var(--bs-primary);
+    color: var(--bs-light);
+  }
+  
+  :global([data-bs-theme="dark"]) .text-muted {
+    color: var(--bs-gray-400) !important;
+  }
+</style>
+
