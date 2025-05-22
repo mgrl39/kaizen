@@ -1,0 +1,117 @@
+{
+	"title": "Política de Privacidad | Kaizen Cinema",
+	"description": "Política de privacidad de Kaizen Cinema. Conoce cómo recopilamos, utilizamos y protegemos tus datos personales.",
+	"lastUpdated": "15 de agosto de 2023",
+	"sections": [
+		{
+			"title": "1. Información que recopilamos",
+			"content": "Podemos recopilar los siguientes tipos de información:",
+			"subsections": [
+				{
+					"title": "1.1 Información personal",
+					"content": "Cuando te registras en nuestra plataforma, reservas entradas o interactúas con nuestros servicios, podemos recopilar:",
+					"items": [
+						"Nombre y apellidos",
+						"Dirección de correo electrónico",
+						"Número de teléfono",
+						"Dirección de facturación",
+						"Información de pago (procesada de forma segura por nuestros proveedores de pago)",
+						"Preferencias de películas y cines"
+					]
+				},
+				{
+					"title": "1.2 Información de uso",
+					"content": "Recopilamos automáticamente cierta información sobre cómo utilizas nuestra plataforma:",
+					"items": [
+						"Dirección IP",
+						"Tipo de dispositivo y navegador",
+						"Páginas visitadas y tiempo de permanencia",
+						"Películas visualizadas o buscadas",
+						"Ubicación aproximada (si lo permites)",
+						"Referentes y clics en enlaces"
+					]
+				},
+				{
+					"title": "1.3 Cookies y tecnologías similares",
+					"content": "Utilizamos cookies y tecnologías similares para mejorar tu experiencia, recordar tus preferencias y analizar el tráfico. Puedes gestionar tus preferencias de cookies a través de la configuración de tu navegador."
+				}
+			]
+		},
+		{
+			"title": "2. Cómo utilizamos tu información",
+			"content": "Utilizamos la información recopilada para:",
+			"items": [
+				"Proporcionar, mantener y mejorar nuestros servicios",
+				"Procesar tus reservas y pagos",
+				"Enviarte confirmaciones, actualizaciones y alertas relacionadas con el servicio",
+				"Personalizar tu experiencia y ofrecerte contenido relevante",
+				"Analizar tendencias y comportamientos de uso para mejorar nuestra plataforma",
+				"Detectar, investigar y prevenir actividades fraudulentas o no autorizadas",
+				"Cumplir con obligaciones legales"
+			]
+		},
+		{
+			"title": "3. Compartición de información",
+			"content": "No vendemos tu información personal. Podemos compartir tu información en las siguientes circunstancias:",
+			"items": [
+				{
+					"title": "Proveedores de servicios",
+					"content": "Compartimos información con empresas que nos ayudan a operar, como procesadores de pago, servicios de análisis y atención al cliente."
+				},
+				{
+					"title": "Socios comerciales",
+					"content": "Podemos compartir información con cines asociados para facilitar tus reservas."
+				},
+				{
+					"title": "Cumplimiento legal",
+					"content": "Podemos divulgar información si creemos que es necesario para cumplir con la ley o proteger nuestros derechos."
+				},
+				{
+					"title": "Con tu consentimiento",
+					"content": "Compartiremos tu información personal para cualquier otro propósito con tu consentimiento explícito."
+				}
+			]
+		},
+		{
+			"title": "4. Seguridad de datos",
+			"content": "Implementamos medidas de seguridad técnicas y organizativas diseñadas para proteger tu información personal. Sin embargo, ningún sistema es completamente seguro, y no podemos garantizar la seguridad absoluta de tu información."
+		},
+		{
+			"title": "5. Tus derechos",
+			"content": "Dependiendo de tu ubicación, puedes tener derecho a:",
+			"items": [
+				"Acceder a tu información personal",
+				"Corregir datos inexactos",
+				"Eliminar tu información personal",
+				"Oponerte al procesamiento de tus datos",
+				"Restringir el procesamiento de tus datos",
+				"Portabilidad de datos",
+				"Retirar el consentimiento en cualquier momento"
+			],
+			"contact": "Para ejercer estos derechos, contáctanos a través de privacy@kaizencinema.com"
+		},
+		{
+			"title": "6. Retención de datos",
+			"content": "Conservamos tu información personal mientras mantengas una cuenta activa o según sea necesario para proporcionarte servicios. También podemos retener información para cumplir con obligaciones legales, resolver disputas y hacer cumplir nuestros acuerdos."
+		},
+		{
+			"title": "7. Menores",
+			"content": "Nuestros servicios no están dirigidos a personas menores de 16 años. No recopilamos a sabiendas información personal de menores de 16 años. Si eres padre o tutor y crees que tu hijo nos ha proporcionado información personal, contáctanos para que podamos tomar las medidas adecuadas."
+		},
+		{
+			"title": "8. Cambios en esta política",
+			"content": "Podemos actualizar esta Política de Privacidad periódicamente. Te notificaremos cualquier cambio material publicando la nueva política en esta página y, si los cambios son significativos, te enviaremos una notificación."
+		},
+		{
+			"title": "9. Contacto",
+			"content": "Si tienes preguntas o inquietudes sobre esta Política de Privacidad o nuestras prácticas de datos, contáctanos en:",
+			"contact": {
+				"company": "Kaizen Cinema",
+				"address": "Calle Innovación, 42",
+				"city": "28001 Madrid, España",
+				"email": "privacy@kaizencinema.com",
+				"phone": "+34 911 234 567"
+			}
+		}
+	]
+}

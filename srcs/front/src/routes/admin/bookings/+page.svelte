@@ -1,5 +1,6 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { onMount } from 'svelte';
   
   // Datos de ejemplo para las reservas
   const bookings = [
@@ -65,6 +66,14 @@
     }
   ];
   
+  // Estadísticas
+  const totalBookings = bookings.length;
+  const confirmedBookings = bookings.filter(b => b.status === 'confirmed').length;
+  const totalRevenue = bookings
+    .filter(b => b.payment === 'paid')
+    .reduce((sum, booking) => sum + parseFloat(booking.price), 0)
+    .toFixed(2);
+  
   // Estado para filtros
   let statusFilter = "";
   let dateFilter = "";
@@ -99,203 +108,296 @@
   $: uniqueDates = [...new Set(bookings.map(b => b.date))].sort();
   
   // Función para obtener clase de color según el estado
-  function getStatusClass(status) {
+  function getStatusBadgeClass(status) {
     switch (status) {
       case 'confirmed':
-        return 'bg-green-100 text-green-800';
+        return 'bg-success';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-warning';
       case 'cancelled':
-        return 'bg-red-100 text-red-800';
+        return 'bg-danger';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-secondary';
     }
   }
   
   // Función para obtener clase de color según el pago
-  function getPaymentClass(payment) {
+  function getPaymentBadgeClass(payment) {
     switch (payment) {
       case 'paid':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-primary';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-warning';
       case 'refunded':
-        return 'bg-purple-100 text-purple-800';
+        return 'bg-info';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-secondary';
     }
   }
+  
+  function resetFilters() {
+    statusFilter = "";
+    dateFilter = "";
+    searchQuery = "";
+  }
+  
+  // Seleccionar/deseleccionar reservas
+  let selectedBookings = new Set();
+  let selectAll = false;
+  
+  $: {
+    if (selectAll) {
+      selectedBookings = new Set(filteredBookings.map(booking => booking.id));
+    }
+  }
+  
+  function toggleSelectAll() {
+    selectAll = !selectAll;
+    if (!selectAll) {
+      selectedBookings = new Set();
+    }
+  }
+  
+  function toggleSelectBooking(id) {
+    if (selectedBookings.has(id)) {
+      selectedBookings.delete(id);
+      selectAll = false;
+    } else {
+      selectedBookings.add(id);
+      if (selectedBookings.size === filteredBookings.length) {
+        selectAll = true;
+      }
+    }
+    selectedBookings = selectedBookings; // Trigger reactivity
+  }
+  
+  onMount(() => {
+    // Initialize any Bootstrap components if needed
+  });
 </script>
 
-<div>
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">{$t('bookings')}</h1>
-    <a href="/admin/bookings/add" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
-      <svg class="-ml-1 mr-2 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-      </svg>
-      {$t('addBooking')}
-    </a>
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">{$t('bookings')}</h1>
+    <div>
+      {#if selectedBookings.size > 0}
+        <div class="btn-group me-2">
+          <button class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-printer me-1"></i> {$t('print')}
+          </button>
+          <button class="btn btn-sm btn-outline-danger">
+            <i class="bi bi-trash me-1"></i> {$t('delete')}
+          </button>
+        </div>
+      {/if}
+      <a href="/admin/bookings/add" class="btn btn-warning">
+        <i class="bi bi-plus-circle me-2"></i>
+        {$t('addBooking')}
+      </a>
+    </div>
+  </div>
+  
+  <!-- Dashboard Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-4">
+      <div class="card border-primary h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="bg-light p-3 rounded me-3">
+              <i class="bi bi-ticket-perforated-fill text-primary fs-4"></i>
+            </div>
+            <div>
+              <h6 class="card-subtitle mb-1 text-muted">{$t('totalBookings')}</h6>
+              <h2 class="card-title mb-0">{totalBookings}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-success h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="bg-light p-3 rounded me-3">
+              <i class="bi bi-check-circle text-success fs-4"></i>
+            </div>
+            <div>
+              <h6 class="card-subtitle mb-1 text-muted">{$t('confirmedBookings')}</h6>
+              <h2 class="card-title mb-0">{confirmedBookings}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-info h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="bg-light p-3 rounded me-3">
+              <i class="bi bi-cash-coin text-info fs-4"></i>
+            </div>
+            <div>
+              <h6 class="card-subtitle mb-1 text-muted">{$t('revenue')}</h6>
+              <h2 class="card-title mb-0">€{totalRevenue}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   
   <!-- Filtros y búsqueda -->
-  <div class="bg-white p-5 rounded-xl shadow mb-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div>
-        <label for="search" class="block text-sm font-medium text-gray-700">{$t('search')}</label>
-        <div class="mt-1 relative rounded-md shadow-sm">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3">
+        <div class="col-md-5">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-search"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control" 
+              placeholder={$t('searchBookings')}
+              bind:value={searchQuery}
+            />
           </div>
-          <input 
-            type="text" 
-            name="search" 
-            id="search" 
-            bind:value={searchQuery}
-            class="focus:ring-amber-500 focus:border-amber-500 block w-full pl-10 sm:text-sm border-gray-300 rounded-md" 
-            placeholder={$t('searchBookings')}
-          />
         </div>
-      </div>
-      
-      <div>
-        <label for="date" class="block text-sm font-medium text-gray-700">{$t('date')}</label>
-        <select 
-          id="date" 
-          name="date" 
-          bind:value={dateFilter}
-          class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm rounded-md"
-        >
-          <option value="">{$t('allDates')}</option>
-          {#each uniqueDates as date}
-            <option value={date}>{date}</option>
-          {/each}
-        </select>
-      </div>
-      
-      <div>
-        <label for="status" class="block text-sm font-medium text-gray-700">{$t('status')}</label>
-        <select 
-          id="status" 
-          name="status" 
-          bind:value={statusFilter}
-          class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm rounded-md"
-        >
-          <option value="">{$t('allStatuses')}</option>
-          <option value="confirmed">{$t('confirmed')}</option>
-          <option value="pending">{$t('pending')}</option>
-          <option value="cancelled">{$t('cancelled')}</option>
-        </select>
+        
+        <div class="col-md-3">
+          <select 
+            class="form-select"
+            bind:value={dateFilter}
+          >
+            <option value="">{$t('allDates')}</option>
+            {#each uniqueDates as date}
+              <option value={date}>{date}</option>
+            {/each}
+          </select>
+        </div>
+        
+        <div class="col-md-3">
+          <select 
+            class="form-select"
+            bind:value={statusFilter}
+          >
+            <option value="">{$t('allStatuses')}</option>
+            <option value="confirmed">{$t('confirmed')}</option>
+            <option value="pending">{$t('pending')}</option>
+            <option value="cancelled">{$t('cancelled')}</option>
+          </select>
+        </div>
+        
+        <div class="col-md-1 d-flex align-items-center">
+          <button class="btn btn-outline-secondary w-100" on:click={resetFilters}>
+            <i class="bi bi-x-circle"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
   
   <!-- Tabla de reservas -->
-  <div class="bg-white shadow rounded-xl overflow-hidden">
-    <div class="overflow-x-auto">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              {$t('bookingInfo')}
-            </th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              {$t('movie')}
-            </th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              {$t('user')}
-            </th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              {$t('status')}
-            </th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              {$t('payment')}
-            </th>
-            <th scope="col" class="relative px-6 py-3">
-              <span class="sr-only">{$t('actions')}</span>
-            </th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          {#each filteredBookings as booking}
-            <tr class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900 font-medium">#{booking.id}</div>
-                <div class="text-sm text-gray-500">{booking.date} | {booking.time}</div>
-                <div class="text-sm text-gray-500">{$t('screen')} {booking.screen}</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm font-medium text-gray-900">{booking.movie}</div>
-                <div class="text-sm text-gray-500">{$t('seats')}: {booking.seats}</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">{booking.user}</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusClass(booking.status)}`}>
-                  {$t(booking.status)}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <span class={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getPaymentClass(booking.payment)}`}>
-                    {$t(booking.payment)}
-                  </span>
-                  <span class="ml-2 text-sm font-medium text-gray-900">${booking.price}</span>
+  <div class="card">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0">
+          <thead class="table-light">
+            <tr>
+              <th scope="col" width="40">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="selectAll" bind:checked={selectAll} on:click={toggleSelectAll}>
                 </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <a href={`/admin/bookings/${booking.id}`} class="text-amber-600 hover:text-amber-900 mr-3">
-                  {$t('view')}
-                </a>
-                <button class="text-red-600 hover:text-red-900">
-                  {$t('delete')}
-                </button>
-              </td>
+              </th>
+              <th scope="col">{$t('id')}</th>
+              <th scope="col">{$t('movie')}</th>
+              <th scope="col">{$t('dateTime')}</th>
+              <th scope="col">{$t('user')}</th>
+              <th scope="col">{$t('seats')}</th>
+              <th scope="col">{$t('status')}</th>
+              <th scope="col">{$t('payment')}</th>
+              <th scope="col" class="text-end">{$t('actions')}</th>
             </tr>
-          {/each}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {#each filteredBookings as booking}
+              <tr class={selectedBookings.has(booking.id) ? 'table-active' : ''}>
+                <td>
+                  <div class="form-check">
+                    <input 
+                      class="form-check-input" 
+                      type="checkbox" 
+                      checked={selectedBookings.has(booking.id)}
+                      on:click={() => toggleSelectBooking(booking.id)}
+                    >
+                  </div>
+                </td>
+                <td><strong>#{booking.id}</strong></td>
+                <td>{booking.movie}</td>
+                <td>
+                  <div>{booking.date}</div>
+                  <small class="text-muted">{booking.time} - {$t('screen')} {booking.screen}</small>
+                </td>
+                <td>{booking.user}</td>
+                <td>{booking.seats}</td>
+                <td>
+                  <span class={`badge ${getStatusBadgeClass(booking.status)}`}>
+                    {$t(booking.status)}
+                  </span>
+                </td>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <span class={`badge ${getPaymentBadgeClass(booking.payment)} me-2`}>
+                      {$t(booking.payment)}
+                    </span>
+                    <strong>€{booking.price}</strong>
+                  </div>
+                </td>
+                <td class="text-end">
+                  <div class="btn-group">
+                    <a href={`/admin/bookings/${booking.id}`} class="btn btn-sm btn-outline-secondary">
+                      <i class="bi bi-eye"></i>
+                    </a>
+                    <a href={`/admin/bookings/${booking.id}/edit`} class="btn btn-sm btn-outline-primary">
+                      <i class="bi bi-pencil"></i>
+                    </a>
+                    <button class="btn btn-sm btn-outline-danger">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            {/each}
+            
+            {#if filteredBookings.length === 0}
+              <tr>
+                <td colspan="9" class="text-center py-4">
+                  <i class="bi bi-search fs-4 mb-2 d-block text-muted"></i>
+                  <p class="text-muted">{$t('noBookingsFound')}</p>
+                </td>
+              </tr>
+            {/if}
+          </tbody>
+        </table>
+      </div>
     </div>
-    
-    {#if filteredBookings.length === 0}
-      <div class="px-6 py-8 text-center">
-        <p class="text-gray-500">{$t('noBookingsFound')}</p>
+    <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+      <div>
+        {#if filteredBookings.length > 0}
+          <small class="text-muted">
+            {$t('showing')} {filteredBookings.length} {$t('of')} {bookings.length} {$t('bookings')}
+          </small>
+        {/if}
       </div>
-    {/if}
-    
-    <!-- Paginación (simplificada para este ejemplo) -->
-    {#if filteredBookings.length > 0}
-      <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm text-gray-700">
-              {$t('showing')} <span class="font-medium">1</span> {$t('to')} <span class="font-medium">{filteredBookings.length}</span> {$t('of')} <span class="font-medium">{filteredBookings.length}</span> {$t('results')}
-            </p>
-          </div>
-          <div>
-            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-              <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                <span class="sr-only">{$t('previous')}</span>
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button aria-current="page" class="z-10 bg-amber-50 border-amber-500 text-amber-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
-                1
-              </button>
-              <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                <span class="sr-only">{$t('next')}</span>
-                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </nav>
-          </div>
-        </div>
-      </div>
-    {/if}
+      <nav aria-label="Booking pagination">
+        <ul class="pagination pagination-sm mb-0">
+          <li class="page-item disabled"><a class="page-link" href="#">&laquo;</a></li>
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
+        </ul>
+      </nav>
+    </div>
   </div>
 </div> 

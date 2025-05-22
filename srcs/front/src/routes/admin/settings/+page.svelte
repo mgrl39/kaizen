@@ -1,5 +1,6 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { onMount } from 'svelte';
   
   // Configuraciones de ejemplo (en un entorno real se cargarían desde una API)
   let settings = {
@@ -27,200 +28,323 @@
     discountTuesday: true
   };
   
+  // Estado para el formulario
+  let formStatus = {
+    saving: false,
+    modified: false,
+    success: false
+  };
+  
+  // Monitorear cambios en la configuración
+  let originalSettings = JSON.stringify(settings);
+  
+  $: {
+    formStatus.modified = JSON.stringify(settings) !== originalSettings;
+    if (formStatus.success && formStatus.modified) {
+      formStatus.success = false;
+    }
+  }
+  
   // Función para guardar configuración
   function saveSettings() {
+    formStatus.saving = true;
+    
     // En un entorno real, aquí harías una llamada a la API
-    console.log('Guardando configuración:', settings);
-    alert('Configuración guardada correctamente');
+    setTimeout(() => {
+      console.log('Guardando configuración:', settings);
+      formStatus.saving = false;
+      formStatus.success = true;
+      formStatus.modified = false;
+      originalSettings = JSON.stringify(settings);
+    }, 800);
+  }
+  
+  // Reiniciar configuración
+  function resetSettings() {
+    settings = JSON.parse(originalSettings);
   }
 </script>
 
-<div>
-  <div class="mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">{$t('settings')}</h1>
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">{$t('settings')}</h1>
+    <div class="d-flex align-items-center">
+      {#if formStatus.modified}
+        <span class="badge bg-warning me-2">
+          <i class="bi bi-asterisk me-1"></i>
+          {$t('unsavedChanges')}
+        </span>
+      {/if}
+      {#if formStatus.success}
+        <span class="badge bg-success me-2">
+          <i class="bi bi-check-circle me-1"></i>
+          {$t('settingsSaved')}
+        </span>
+      {/if}
+    </div>
   </div>
   
-  <form on:submit|preventDefault={saveSettings} class="space-y-6">
-    <!-- Configuración general -->
-    <div class="bg-white shadow rounded-lg overflow-hidden">
-      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-        <h3 class="text-lg font-medium text-gray-900">{$t('generalSettings')}</h3>
-      </div>
-      <div class="p-6 space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label for="site-name" class="block text-sm font-medium text-gray-700">{$t('siteName')}</label>
-            <input 
-              type="text" 
-              id="site-name" 
-              bind:value={settings.siteName}
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
+  <form on:submit|preventDefault={saveSettings} class="mb-4">
+    <div class="row g-4">
+      <!-- Configuración general -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header bg-white">
+            <h2 class="h5 mb-0">
+              <i class="bi bi-gear me-2 text-primary"></i>
+              {$t('generalSettings')}
+            </h2>
           </div>
-          
-          <div>
-            <label for="site-description" class="block text-sm font-medium text-gray-700">{$t('siteDescription')}</label>
-            <input 
-              type="text" 
-              id="site-description" 
-              bind:value={settings.siteDescription}
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
-          
-          <div>
-            <label for="contact-email" class="block text-sm font-medium text-gray-700">{$t('contactEmail')}</label>
-            <input 
-              type="email" 
-              id="contact-email" 
-              bind:value={settings.contactEmail}
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
-          
-          <div>
-            <label for="contact-phone" class="block text-sm font-medium text-gray-700">{$t('contactPhone')}</label>
-            <input 
-              type="tel" 
-              id="contact-phone" 
-              bind:value={settings.contactPhone}
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="site-name" class="form-label">{$t('siteName')}</label>
+                <input 
+                  type="text" 
+                  id="site-name" 
+                  bind:value={settings.siteName}
+                  class="form-control"
+                />
+              </div>
+              
+              <div class="col-md-6">
+                <label for="site-description" class="form-label">{$t('siteDescription')}</label>
+                <input 
+                  type="text" 
+                  id="site-description" 
+                  bind:value={settings.siteDescription}
+                  class="form-control"
+                />
+              </div>
+              
+              <div class="col-md-6">
+                <label for="contact-email" class="form-label">{$t('contactEmail')}</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-envelope"></i>
+                  </span>
+                  <input 
+                    type="email" 
+                    id="contact-email" 
+                    bind:value={settings.contactEmail}
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="contact-phone" class="form-label">{$t('contactPhone')}</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <i class="bi bi-telephone"></i>
+                  </span>
+                  <input 
+                    type="tel" 
+                    id="contact-phone" 
+                    bind:value={settings.contactPhone}
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Configuración de precios -->
-    <div class="bg-white shadow rounded-lg overflow-hidden">
-      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-        <h3 class="text-lg font-medium text-gray-900">{$t('pricingSettings')}</h3>
-      </div>
-      <div class="p-6 space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label for="standard-price" class="block text-sm font-medium text-gray-700">{$t('standardTicketPrice')}</label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-500 sm:text-sm">$</span>
-              </div>
-              <input 
-                type="number" 
-                id="standard-price" 
-                bind:value={settings.standardTicketPrice}
-                class="mt-1 block w-full pl-7 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                min="0"
-                step="0.01"
-              />
-            </div>
+      
+      <!-- Configuración de precios -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header bg-white">
+            <h2 class="h5 mb-0">
+              <i class="bi bi-currency-dollar me-2 text-success"></i>
+              {$t('pricingSettings')}
+            </h2>
           </div>
-          
-          <div>
-            <label for="children-price" class="block text-sm font-medium text-gray-700">{$t('childrenTicketPrice')}</label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-500 sm:text-sm">$</span>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="standard-price" class="form-label">{$t('standardTicketPrice')}</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input 
+                    type="number" 
+                    id="standard-price" 
+                    bind:value={settings.standardTicketPrice}
+                    class="form-control"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
               </div>
-              <input 
-                type="number" 
-                id="children-price" 
-                bind:value={settings.childrenTicketPrice}
-                class="mt-1 block w-full pl-7 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                min="0"
-                step="0.01"
-              />
-            </div>
-          </div>
-          
-          <div>
-            <label for="senior-price" class="block text-sm font-medium text-gray-700">{$t('seniorTicketPrice')}</label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-500 sm:text-sm">$</span>
+              
+              <div class="col-md-6">
+                <label for="children-price" class="form-label">{$t('childrenTicketPrice')}</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input 
+                    type="number" 
+                    id="children-price" 
+                    bind:value={settings.childrenTicketPrice}
+                    class="form-control"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
               </div>
-              <input 
-                type="number" 
-                id="senior-price" 
-                bind:value={settings.seniorTicketPrice}
-                class="mt-1 block w-full pl-7 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                min="0"
-                step="0.01"
-              />
+              
+              <div class="col-md-6">
+                <label for="senior-price" class="form-label">{$t('seniorTicketPrice')}</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input 
+                    type="number" 
+                    id="senior-price" 
+                    bind:value={settings.seniorTicketPrice}
+                    class="form-control"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label class="form-label d-block">{$t('discounts')}</label>
+                <div class="form-check form-switch">
+                  <input 
+                    type="checkbox" 
+                    id="discount-tuesday" 
+                    bind:checked={settings.discountTuesday}
+                    class="form-check-input"
+                  />
+                  <label for="discount-tuesday" class="form-check-label">
+                    {$t('discountTuesday')}
+                  </label>
+                </div>
+              </div>
             </div>
-          </div>
-          
-          <div class="flex items-center pt-4">
-            <input 
-              type="checkbox" 
-              id="discount-tuesday" 
-              bind:checked={settings.discountTuesday}
-              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-            />
-            <label for="discount-tuesday" class="ml-2 block text-sm text-gray-700">
-              {$t('discountTuesday')}
-            </label>
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- Configuración de reservas -->
-    <div class="bg-white shadow rounded-lg overflow-hidden">
-      <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
-        <h3 class="text-lg font-medium text-gray-900">{$t('bookingSettings')}</h3>
-      </div>
-      <div class="p-6 space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="flex items-center">
-            <input 
-              type="checkbox" 
-              id="allow-online-booking" 
-              bind:checked={settings.allowOnlineBooking}
-              class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-            />
-            <label for="allow-online-booking" class="ml-2 block text-sm text-gray-700">
-              {$t('allowOnlineBooking')}
-            </label>
+      
+      <!-- Configuración de reservas -->
+      <div class="col-md-6">
+        <div class="card h-100">
+          <div class="card-header bg-white">
+            <h2 class="h5 mb-0">
+              <i class="bi bi-ticket-perforated me-2 text-info"></i>
+              {$t('bookingSettings')}
+            </h2>
           </div>
-          
-          <div>
-            <label for="advance-booking-days" class="block text-sm font-medium text-gray-700">{$t('advanceBookingDays')}</label>
-            <input 
-              type="number" 
-              id="advance-booking-days" 
-              bind:value={settings.advanceBookingDays}
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              min="1"
-              max="30"
-            />
-          </div>
-          
-          <div>
-            <label for="max-tickets" class="block text-sm font-medium text-gray-700">{$t('maxTicketsPerBooking')}</label>
-            <input 
-              type="number" 
-              id="max-tickets" 
-              bind:value={settings.maxTicketsPerBooking}
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              min="1"
-              max="20"
-            />
-          </div>
-          
-          <div>
-            <label for="booking-fee" class="block text-sm font-medium text-gray-700">{$t('bookingFee')}</label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <span class="text-gray-500 sm:text-sm">$</span>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label d-block">{$t('bookingOptions')}</label>
+                <div class="form-check form-switch">
+                  <input 
+                    type="checkbox" 
+                    id="allow-online-booking" 
+                    bind:checked={settings.allowOnlineBooking}
+                    class="form-check-input"
+                  />
+                  <label for="allow-online-booking" class="form-check-label">
+                    {$t('allowOnlineBooking')}
+                  </label>
+                </div>
               </div>
-              <input 
-                type="number" 
-                id="booking-fee" 
-                bind:value={settings.bookingFee}
-                class="mt-1 block w-full pl-7 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                min="0"
-                step="0.01"
-              />
+              
+              <div class="col-md-6">
+                <label for="advance-booking-days" class="form-label">{$t('advanceBookingDays')}</label>
+                <input 
+                  type="number" 
+                  id="advance-booking-days" 
+                  bind:value={settings.advanceBookingDays}
+                  class="form-control"
+                  min="1"
+                  max="30"
+                />
+              </div>
+              
+              <div class="col-md-6">
+                <label for="max-tickets" class="form-label">{$t('maxTicketsPerBooking')}</label>
+                <input 
+                  type="number" 
+                  id="max-tickets" 
+                  bind:value={settings.maxTicketsPerBooking}
+                  class="form-control"
+                  min="1"
+                  max="20"
+                />
+              </div>
+              
+              <div class="col-md-6">
+                <label for="booking-fee" class="form-label">{$t('bookingFee')}</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input 
+                    type="number" 
+                    id="booking-fee" 
+                    bind:value={settings.bookingFee}
+                    class="form-control"
+                    min="0"
+                    step="0.01"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Configuración de notificaciones -->
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header bg-white">
+            <h2 class="h5 mb-0">
+              <i class="bi bi-bell me-2 text-danger"></i>
+              {$t('notificationSettings')}
+            </h2>
+          </div>
+          <div class="card-body">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="form-check form-switch">
+                  <input 
+                    type="checkbox" 
+                    id="send-email-confirmations" 
+                    bind:checked={settings.sendEmailConfirmations}
+                    class="form-check-input"
+                  />
+                  <label for="send-email-confirmations" class="form-check-label">
+                    {$t('sendEmailConfirmations')}
+                  </label>
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <div class="form-check form-switch">
+                  <input 
+                    type="checkbox" 
+                    id="send-sms-reminders" 
+                    bind:checked={settings.sendSmsReminders}
+                    class="form-check-input"
+                  />
+                  <label for="send-sms-reminders" class="form-check-label">
+                    {$t('sendSmsReminders')}
+                  </label>
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <label for="reminder-hours-before" class="form-label">{$t('reminderHoursBefore')}</label>
+                <input 
+                  type="number" 
+                  id="reminder-hours-before" 
+                  bind:value={settings.reminderHoursBefore}
+                  class="form-control"
+                  min="1"
+                  max="72"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -228,18 +352,28 @@
     </div>
     
     <!-- Botones de acción -->
-    <div class="flex justify-end mt-6">
+    <div class="d-flex justify-content-end gap-2 mt-4">
       <button
         type="button"
-        class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        class="btn btn-outline-secondary"
+        on:click={resetSettings}
+        disabled={!formStatus.modified}
       >
+        <i class="bi bi-arrow-counterclockwise me-1"></i>
         {$t('cancel')}
       </button>
       <button
         type="submit"
-        class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        class="btn btn-primary"
+        disabled={!formStatus.modified || formStatus.saving}
       >
-        {$t('saveSettings')}
+        {#if formStatus.saving}
+          <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+          {$t('saving')}
+        {:else}
+          <i class="bi bi-save me-1"></i>
+          {$t('saveSettings')}
+        {/if}
       </button>
     </div>
   </form>

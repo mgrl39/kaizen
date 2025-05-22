@@ -1,5 +1,6 @@
 <script lang="ts">
   import { t } from '$lib/i18n';
+  import { onMount } from 'svelte';
   
   // Un solo cine en el sistema
   const cinema = {
@@ -13,74 +14,102 @@
     email: 'info@cineplexcentral.com',
     address: 'Calle Principal 123, 28001 Madrid'
   };
+  
+  // Capacidad total y otras estadísticas
+  let totalCapacity = 0;
+  let avgScreenSize = 0;
+  
+  // Generar datos para las salas de cine
+  const screens = Array(cinema.screens).fill(0).map((_, i) => {
+    const capacity = Math.floor(Math.random() * 50) + 100;
+    const type = i < 2 ? 'IMAX' : i < 4 ? '3D' : 'Standard';
+    totalCapacity += capacity;
+    
+    return {
+      id: i + 1,
+      name: `Sala ${i + 1}`,
+      type,
+      capacity,
+      status: Math.random() > 0.1 ? 'active' : 'maintenance'
+    };
+  });
+  
+  // Calcular estadísticas
+  avgScreenSize = Math.round(totalCapacity / cinema.screens);
+  
+  onMount(() => {
+    // Initialize any Bootstrap components if needed
+  });
 </script>
 
-<div>
-  <div class="flex justify-between items-center mb-6">
-    <h1 class="text-2xl font-bold text-gray-900">{$t('cinema')}</h1>
-    <a href="/admin/cinemas/edit" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
-      <svg class="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-      </svg>
+<div class="container-fluid">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3">{$t('cinema')}</h1>
+    <a href="/admin/cinemas/edit" class="btn btn-success">
+      <i class="bi bi-pencil-square me-2"></i>
       {$t('editCinema')}
     </a>
   </div>
   
-  <!-- Información del cine -->
-  <div class="bg-white rounded-xl shadow overflow-hidden">
-    <div class="p-6">
-      <div class="mb-6">
-        <h2 class="text-xl font-bold text-gray-900 mb-3">{cinema.name}</h2>
-        <p class="text-gray-600">{cinema.description}</p>
-      </div>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div class="space-y-4">
-          <div>
-            <h3 class="text-sm font-medium text-gray-500 uppercase">{$t('location')}</h3>
-            <p class="text-gray-900 mt-1">{cinema.location}</p>
-          </div>
-          
-          <div>
-            <h3 class="text-sm font-medium text-gray-500 uppercase">{$t('address')}</h3>
-            <p class="text-gray-900 mt-1">{cinema.address}</p>
-          </div>
-          
-          <div>
-            <h3 class="text-sm font-medium text-gray-500 uppercase">{$t('contact')}</h3>
-            <p class="text-gray-900 mt-1">{cinema.phone}</p>
-            <p class="text-gray-900">{cinema.email}</p>
+  <!-- Dashboard Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-md-3">
+      <div class="card h-100 border-primary">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="bg-light p-3 rounded me-3">
+              <i class="bi bi-film text-primary fs-4"></i>
+            </div>
+            <div>
+              <h6 class="card-subtitle mb-1 text-muted">{$t('screens')}</h6>
+              <h2 class="card-title mb-0">{cinema.screens}</h2>
+            </div>
           </div>
         </div>
-        
-        <div class="space-y-4">
-          <div>
-            <h3 class="text-sm font-medium text-gray-500 uppercase">{$t('screens')}</h3>
-            <p class="text-3xl font-bold text-gray-900 mt-1">{cinema.screens}</p>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card h-100 border-success">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="bg-light p-3 rounded me-3">
+              <i class="bi bi-people text-success fs-4"></i>
+            </div>
+            <div>
+              <h6 class="card-subtitle mb-1 text-muted">{$t('totalCapacity')}</h6>
+              <h2 class="card-title mb-0">{totalCapacity}</h2>
+            </div>
           </div>
-          
-          <div>
-            <h3 class="text-sm font-medium text-gray-500 uppercase">{$t('status')}</h3>
-            <span class="mt-1 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-              {$t(cinema.status)}
-            </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card h-100 border-info">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="bg-light p-3 rounded me-3">
+              <i class="bi bi-layout-text-window text-info fs-4"></i>
+            </div>
+            <div>
+              <h6 class="card-subtitle mb-1 text-muted">{$t('avgScreenSize')}</h6>
+              <h2 class="card-title mb-0">{avgScreenSize}</h2>
+            </div>
           </div>
-          
-          <div>
-            <h3 class="text-sm font-medium text-gray-500 uppercase">{$t('features')}</h3>
-            <div class="mt-2 flex flex-wrap gap-2">
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
-                IMAX
-              </span>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
-                3D
-              </span>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
-                Dolby Atmos
-              </span>
-              <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
-                VIP
-              </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card h-100 border-warning">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="bg-light p-3 rounded me-3">
+              <i class="bi bi-building text-warning fs-4"></i>
+            </div>
+            <div>
+              <h6 class="card-subtitle mb-1 text-muted">{$t('status')}</h6>
+              <h2 class="card-title mb-0">
+                <span class="badge bg-success">{$t(cinema.status)}</span>
+              </h2>
             </div>
           </div>
         </div>
@@ -88,34 +117,106 @@
     </div>
   </div>
   
-  <!-- Salas del cine -->
-  <div class="mt-8">
-    <h2 class="text-xl font-bold text-gray-900 mb-4">{$t('screens')}</h2>
-    
-    <div class="bg-white rounded-xl shadow">
-      <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
-        <h3 class="text-lg font-medium text-gray-900">{$t('screensList')}</h3>
-      </div>
-      <ul class="divide-y divide-gray-200">
-        {#each Array(cinema.screens) as _, i}
-          <li class="px-4 py-4 sm:px-6">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-gray-900">Sala {i+1}</p>
-                <p class="text-sm text-gray-500">
-                  {i < 2 ? 'IMAX' : i < 4 ? '3D' : 'Standard'} | 
-                  {Math.floor(Math.random() * 50) + 100} asientos
-                </p>
-              </div>
-              <div>
-                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                  {$t('active')}
-                </span>
-              </div>
+  <!-- Información del cine -->
+  <div class="card mb-4">
+    <div class="card-header bg-white">
+      <h2 class="h5 mb-0">{cinema.name}</h2>
+    </div>
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-8">
+          <p class="lead">{cinema.description}</p>
+        </div>
+        <div class="col-md-4">
+          <div class="text-end">
+            <h5 class="text-muted">{$t('features')}</h5>
+            <div class="mt-2">
+              <span class="badge bg-primary me-1">IMAX</span>
+              <span class="badge bg-primary me-1">3D</span>
+              <span class="badge bg-primary me-1">Dolby Atmos</span>
+              <span class="badge bg-primary">VIP</span>
             </div>
-          </li>
-        {/each}
-      </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-6">
+          <div class="mb-3">
+            <h5 class="text-muted">{$t('location')}</h5>
+            <p class="mb-0">{cinema.location}</p>
+          </div>
+          
+          <div class="mb-3">
+            <h5 class="text-muted">{$t('address')}</h5>
+            <p class="mb-0">{cinema.address}</p>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="mb-3">
+            <h5 class="text-muted">{$t('contact')}</h5>
+            <p class="mb-0">{cinema.phone}</p>
+            <p class="mb-0">{cinema.email}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Salas del cine -->
+  <div class="card">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center">
+      <h2 class="h5 mb-0">{$t('screens')}</h2>
+      <button class="btn btn-sm btn-outline-primary">
+        <i class="bi bi-plus me-1"></i>
+        {$t('addScreen')}
+      </button>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead class="table-light">
+            <tr>
+              <th>{$t('screen')}</th>
+              <th>{$t('type')}</th>
+              <th>{$t('capacity')}</th>
+              <th>{$t('status')}</th>
+              <th class="text-end">{$t('actions')}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each screens as screen}
+              <tr>
+                <td>
+                  <span class="fw-bold">{screen.name}</span>
+                </td>
+                <td>{screen.type}</td>
+                <td>{screen.capacity} {$t('seats')}</td>
+                <td>
+                  <span class="badge {screen.status === 'active' ? 'bg-success' : 'bg-warning'}">
+                    {$t(screen.status)}
+                  </span>
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-secondary me-1">
+                    <i class="bi bi-eye"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-primary me-1">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer bg-white text-end">
+      <small class="text-muted">{$t('totalScreens')}: {cinema.screens}</small>
     </div>
   </div>
 </div> 
