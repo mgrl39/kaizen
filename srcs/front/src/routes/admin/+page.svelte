@@ -9,28 +9,28 @@
       value: '0', 
       path: '/admin/movies',
       icon: 'film',
-      color: 'indigo'
+      color: 'primary'
     },
     { 
       name: 'totalScreens', 
       value: '0', 
       path: '/admin/cinemas',
       icon: 'building',
-      color: 'emerald'
+      color: 'success'
     },
     { 
       name: 'totalUsers', 
       value: '0', 
       path: '/admin/users',
       icon: 'people',
-      color: 'violet'
+      color: 'info'
     },
     { 
       name: 'totalBookings', 
       value: '0', 
       path: '/admin/bookings',
       icon: 'calendar',
-      color: 'amber'
+      color: 'warning'
     }
   ];
   
@@ -57,77 +57,66 @@
           );
         }
       }
-      
-      // Aquí se pueden agregar llamadas para los otros contadores (películas, cines, reservas)
-      
     } catch (error) {
       console.error('Error al cargar datos del dashboard:', error);
     }
   });
 </script>
 
-<div>
-  <h1 class="text-2xl font-bold text-gray-900 mb-6">{$t('dashboard')}</h1>
+<div class="container-fluid">
+  <h1 class="h3 mb-4">{$t('dashboard')}</h1>
   
   <!-- Tarjetas de estadísticas -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+  <div class="row g-4 mb-4">
     {#each stats as stat}
-      <a href={stat.path} class="bg-white overflow-hidden rounded-xl shadow hover:shadow-md transition-shadow">
-        <div class="p-5">
-          <div class="flex items-center">
-            <div class="flex-shrink-0 bg-{stat.color}-500 rounded-md p-3">
-              <i class="bi bi-{stat.icon} h-6 w-6 text-white"></i>
-            </div>
-            <div class="ml-5 w-0 flex-1">
-              <dl>
-                <dt class="text-sm font-medium text-gray-500 truncate">{$t(stat.name)}</dt>
-                <dd class="text-2xl font-semibold text-gray-900">{stat.value}</dd>
-              </dl>
+      <div class="col-md-6 col-lg-3">
+        <div class="card border-{stat.color} h-100">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="bg-light p-3 rounded me-3">
+                <i class="bi bi-{stat.icon} text-{stat.color} fs-4"></i>
+              </div>
+              <div>
+                <h6 class="card-subtitle mb-1 text-muted">{$t(stat.name)}</h6>
+                <h2 class="card-title mb-0">{stat.value}</h2>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="bg-gray-50 px-5 py-3 border-t border-gray-200">
-          <div class="text-sm">
-            <span class="font-medium text-{stat.color}-600 hover:text-{stat.color}-500">
-              {$t('viewDetails')} →
-            </span>
+          <div class="card-footer bg-transparent border-top">
+            <a href={stat.path} class="text-{stat.color} text-decoration-none">
+              {$t('viewDetails')} <i class="bi bi-arrow-right"></i>
+            </a>
           </div>
         </div>
-      </a>
+      </div>
     {/each}
   </div>
   
-  <!-- Contenido principal en dos columnas -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+  <div class="row g-4">
     <!-- Actividad reciente -->
-    <div class="lg:col-span-2">
-      <div class="bg-white rounded-xl shadow mb-5">
-        <div class="px-5 py-4 border-b border-gray-200">
-          <h2 class="text-lg font-medium text-gray-900">{$t('recentActivity')}</h2>
+    <div class="col-lg-8">
+      <div class="card h-100">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{$t('recentActivity')}</h5>
         </div>
-        <div class="divide-y divide-gray-200">
-          {#each recentActivities as activity}
-            <div class="p-5 hover:bg-gray-50 transition-colors">
-              <div class="flex justify-between">
-                <div>
-                  <p class="text-sm text-gray-900">{activity.description}</p>
-                  <p class="text-xs text-gray-500 mt-1">{activity.date}</p>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            {#each recentActivities as activity}
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                  <div>
+                    <p class="mb-1">{activity.description}</p>
+                    <small class="text-muted">{activity.date}</small>
+                  </div>
                 </div>
-                <button 
-                  class="text-gray-400 hover:text-gray-600"
-                  on:click={() => refreshStats()}
-                  aria-label="Actualizar estadísticas"
-                >
-                  <i class="bi bi-arrow-clockwise"></i>
-                </button>
-              </div>
-            </div>
-          {/each}
+              </li>
+            {/each}
+          </ul>
         </div>
         {#if recentActivities.length > 0}
-          <div class="bg-gray-50 px-5 py-3 border-t border-gray-200 text-right">
-            <a href="/admin/activity" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">
-              {$t('viewAllActivity')} →
+          <div class="card-footer bg-transparent text-end">
+            <a href="/admin/activity" class="text-decoration-none">
+              {$t('viewAllActivity')} <i class="bi bi-arrow-right"></i>
             </a>
           </div>
         {/if}
@@ -135,51 +124,46 @@
     </div>
     
     <!-- Acciones rápidas -->
-    <div class="lg:col-span-1">
-      <div class="bg-white rounded-xl shadow mb-5">
-        <div class="px-5 py-4 border-b border-gray-200">
-          <h2 class="text-lg font-medium text-gray-900">{$t('quickActions')}</h2>
+    <div class="col-lg-4">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{$t('quickActions')}</h5>
         </div>
-        <div class="p-5 space-y-3">
-          <a href="/admin/movies/add" class="flex items-center justify-center w-full py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            {$t('addMovie')}
-          </a>
-          <a href="/admin/cinemas/add" class="flex items-center justify-center w-full py-2.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            {$t('addCinema')}
-          </a>
-          <a href="/admin/users/add" class="flex items-center justify-center w-full py-2.5 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-            {$t('addUser')}
-          </a>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            <a href="/admin/movies/add" class="btn btn-primary">
+              <i class="bi bi-plus-circle me-2"></i> {$t('addMovie')}
+            </a>
+            <a href="/admin/cinemas/add" class="btn btn-success">
+              <i class="bi bi-plus-circle me-2"></i> {$t('addCinema')}
+            </a>
+            <a href="/admin/users/add" class="btn btn-info">
+              <i class="bi bi-plus-circle me-2"></i> {$t('addUser')}
+            </a>
+          </div>
         </div>
       </div>
       
       <!-- Próximos estrenos -->
-      <div class="bg-white rounded-xl shadow">
-        <div class="px-5 py-4 border-b border-gray-200">
-          <h2 class="text-lg font-medium text-gray-900">{$t('upcomingPremieres')}</h2>
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">{$t('upcomingPremieres')}</h5>
         </div>
-        <div class="p-5 space-y-4">
-          <div class="flex justify-between items-center">
-            <span class="text-sm font-medium text-gray-900">Dune: Part Two</span>
-            <span class="text-xs text-gray-500">15/09/2023</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-sm font-medium text-gray-900">The Batman 2</span>
-            <span class="text-xs text-gray-500">22/10/2023</span>
-          </div>
-          <div class="flex justify-between items-center">
-            <span class="text-sm font-medium text-gray-900">Avatar 3</span>
-            <span class="text-xs text-gray-500">18/12/2023</span>
-          </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>Dune: Part Two</span>
+              <span class="badge bg-primary rounded-pill">15/09/2023</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>The Batman 2</span>
+              <span class="badge bg-primary rounded-pill">22/10/2023</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span>Avatar 3</span>
+              <span class="badge bg-primary rounded-pill">18/12/2023</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

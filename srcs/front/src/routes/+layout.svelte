@@ -48,14 +48,10 @@
   });
   
   // List of routes where navbar should be hidden
-  const routesWithoutNavbar = [];
+  const routesWithoutNavbar = ['/login', '/register'];
   
   // List of routes where footer should be hidden
   const routesWithoutFooter = ['/login', '/register'];
-  
-  // Check if current route should have navbar/footer
-  $: showNavbar = !routesWithoutNavbar.includes($page.url.pathname);
-  $: showFooter = !routesWithoutFooter.includes($page.url.pathname) && !$page.error;
   
   // Verificar si estamos en rutas de admin
   $: isAdminRoute = $page.url.pathname.startsWith('/admin');
@@ -65,6 +61,10 @@
   
   // Verificar si estamos en una página de error
   $: isErrorPage = !!$page.error;
+  
+  // Check if current route should have navbar/footer
+  $: showNavbar = !routesWithoutNavbar.includes($page.url.pathname) && !isAdminRoute;
+  $: showFooter = !routesWithoutFooter.includes($page.url.pathname) && !$page.error && !isAdminRoute;
 </script>
 
 <!-- Añadimos la etiqueta para gestionar clases del body -->
@@ -151,7 +151,7 @@
   }
   
   /* Aplicamos estilos generales */
-  :global(body) {
+  :global(body:not(.admin-route)) {
     background-color: var(--app-bg);
     color: var(--app-text);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -206,15 +206,10 @@
     border-radius: 2px;
   }
   
-  /* Ocultar la navbar fija en rutas admin */
-  :global(body.admin-route nav.fixed-top) {
-    display: none !important;
-  }
-  
   /* Eliminar espacios en admin */
   :global(body.admin-route) {
-    margin: 0;
-    padding: 0;
+    margin: 0 !important;
+    padding: 0 !important;
     overflow: hidden;
   }
   
