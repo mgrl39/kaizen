@@ -199,12 +199,6 @@
     background-color: var(--app-card-bg);
   }
   
-  /* Animación para el icono de carga */
-  .spin-animation {
-    display: inline-block;
-    animation: spin 1s linear infinite;
-  }
-  
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }

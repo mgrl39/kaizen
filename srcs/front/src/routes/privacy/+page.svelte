@@ -8,7 +8,7 @@
   let currentTheme = 'light';
   $: currentTheme = $theme;
 
-  let content: string = '';
+  let content: string | Promise<String> = '';
   let loading = true;
 
   onMount(async () => {
@@ -16,7 +16,7 @@
     try {
       const res = await fetch('/docs/privacy.md');
       const raw = await res.text();
-      content = marked(raw);
+      content = await marked(raw);
     } catch (err) {
       content = '<p class="text-danger">Error al cargar la política de privacidad.</p>';
     } finally {

@@ -23,15 +23,6 @@
 		initTheme();
 		injectAnalytics({ mode: dev ? 'development' : 'production' });
 
-		// Importar dinámicamente Bootstrap JS
-		import('bootstrap/dist/js/bootstrap.bundle.min.js');
-
-		// Inicializar tooltips de Bootstrap
-		if (typeof bootstrap !== 'undefined') {
-			const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-			[...tooltipTriggerList].map((tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl));
-		}
-
 		// Aplicar el tema al elemento HTML
 		const updateThemeAttribute = () => {
 			document.documentElement.setAttribute('data-bs-theme', $theme);
@@ -103,12 +94,9 @@
 {/if}
 
 {#if isAdminRoute}
-	<!-- Para rutas admin, SOLO se pasa el contenido sin nada más -->
 	<slot />
 {:else if isAuthRoute || isErrorPage}
-	<!-- Para rutas de autenticación y páginas de error, sin footer -->
 	<div class="app-wrapper auth-wrapper" data-bs-theme={$theme}>
-		<!-- Contenido principal -->
 		<main class="auth-main">
 			<slot />
 		</main>
