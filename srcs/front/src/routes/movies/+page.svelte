@@ -422,19 +422,20 @@
   
   /* Estilos para el tema morado */
   .bg-gradient {
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    background: linear-gradient(135deg, #6366f1, #a855f7);
   }
 
   .text-gradient {
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    background: linear-gradient(135deg, #6366f1, #a855f7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .badge.bg-gradient {
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    background: linear-gradient(135deg, #6366f1, #a855f7);
     color: white;
+    font-weight: 500;
   }
 
   /* Asegúrate de que los enlaces no tengan el subrayado predeterminado */
@@ -444,31 +445,73 @@
   
   /* Cuando está en modo oscuro, ajustar colores para mantener contraste */
   :global([data-bs-theme="dark"]) .movie-card {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-dark-border-subtle);
+    background-color: rgba(17, 24, 39, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
   
   :global([data-bs-theme="dark"]) .movie-card a {
-    color: var(--bs-body-color);
+    color: rgba(255, 255, 255, 0.9);
   }
 
   :global([data-bs-theme="dark"]) .card {
-    background-color: var(--bs-dark);
+    background-color: rgba(17, 24, 39, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  :global([data-bs-theme="dark"]) .card-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1);
   }
 
   :global([data-bs-theme="dark"]) .input-group-text {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-primary);
+    background-color: rgba(17, 24, 39, 0.6);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: rgba(255, 255, 255, 0.8);
   }
 
   :global([data-bs-theme="dark"]) .form-control,
   :global([data-bs-theme="dark"]) .form-select {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-primary);
-    color: var(--bs-body-color);
+    background-color: rgba(17, 24, 39, 0.6);
+    border-color: rgba(99, 102, 241, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  :global([data-bs-theme="dark"]) .form-control:focus,
+  :global([data-bs-theme="dark"]) .form-select:focus {
+    background-color: rgba(17, 24, 39, 0.8);
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
   }
 
   :global([data-bs-theme="dark"]) .form-control::placeholder {
-    color: var(--bs-secondary);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  :global([data-bs-theme="dark"]) .btn-light {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: transparent;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  :global([data-bs-theme="dark"]) .btn-light:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+
+  :global([data-bs-theme="dark"]) .badge.bg-secondary {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  :global([data-bs-theme="dark"]) .text-muted {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  :global([data-bs-theme="dark"]) .card-footer {
+    border-top-color: rgba(255, 255, 255, 0.1);
+    background-color: transparent;
   }
 </style>

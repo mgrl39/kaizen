@@ -305,7 +305,7 @@
       <!-- Logo -->
       <a href="/" class="navbar-brand me-4">
         <span class="brand-text">Kaizen</span>
-        <span class="badge bg-gradient ms-1">Cinema</span>
+        <span class="cinema-text">Cinema</span>
       </a>
       
       <!-- Elementos de navegación principal -->
@@ -440,7 +440,7 @@
             <i class="bi bi-box-arrow-in-right me-1 d-lg-none"></i>
             <span>Login</span>
           </a>
-          <a href="/register" class="btn btn-outline-primary d-none d-sm-inline-block">
+          <a href="/register" class="btn btn-outline-gradient d-none d-sm-inline-block">
             <span>Registro</span>
           </a>
         </div>
@@ -456,7 +456,7 @@
     <div class="container-fluid px-3 d-flex justify-content-between align-items-center">
       <a href="/" class="navbar-brand py-2 m-0">
         <span class="brand-text">Kaizen</span>
-        <span class="badge bg-gradient ms-1">Cinema</span>
+        <span class="cinema-text">Cinema</span>
       </a>
       
       <div class="d-flex align-items-center gap-2">
@@ -519,35 +519,71 @@
     background-color: var(--bs-body-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--bs-border-color);
   }
 
   .navbar-brand {
     font-weight: 700;
     letter-spacing: -0.5px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
   }
 
   .brand-text {
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    font-weight: 800;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
+  .cinema-text {
+    font-weight: 300;
+    font-size: 0.95em;
+    letter-spacing: 0.5px;
+    color: var(--bs-body-color);
+    opacity: 0.9;
+    position: relative;
+    padding-left: 0.5em;
+  }
+
+  .cinema-text::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 0.8em;
+    width: 1px;
+    background: currentColor;
+    transform: translateY(-50%);
+    opacity: 0.3;
+  }
+
   .bg-gradient {
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    background: linear-gradient(135deg, #6366f1, #a855f7);
     border: none;
     color: white;
   }
 
+  .badge.bg-gradient {
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    border: none;
+    color: white;
+    font-weight: 500;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+  }
+
   .btn-gradient {
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    background: linear-gradient(135deg, #6366f1, #a855f7);
     border: none;
     color: white;
     padding: 0.375rem 1rem;
   }
 
   .btn-gradient:hover {
-    background: linear-gradient(to right, var(--bs-primary-dark), var(--bs-indigo));
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
     color: white;
     transform: translateY(-1px);
   }
@@ -561,6 +597,11 @@
     justify-content: center;
     border-radius: 50%;
     font-size: 1.1rem;
+    transition: all 0.2s ease;
+  }
+
+  .btn-icon:hover {
+    transform: translateY(-1px);
   }
 
   .nav-link {
@@ -576,7 +617,7 @@
     left: 1rem;
     right: 1rem;
     height: 2px;
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    background: linear-gradient(135deg, #6366f1, #a855f7);
     border-radius: 2px;
   }
 
@@ -605,7 +646,7 @@
     -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid var(--bs-border-color);
     padding: 0;
-    height: 56px;
+    height: 48px;
   }
 
   .mobile-nav-content {
@@ -621,21 +662,22 @@
     justify-content: center;
     color: var(--bs-body-color);
     text-decoration: none;
-    gap: 4px;
+    gap: 2px;
     position: relative;
     transition: all 0.2s ease;
   }
 
   .mobile-nav-item i {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
   }
 
   .mobile-nav-item span {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
+    font-weight: 500;
   }
 
   .mobile-nav-item.active {
-    color: var(--bs-primary);
+    color: #6366f1;
   }
 
   .mobile-nav-item.active::after {
@@ -645,7 +687,7 @@
     left: 25%;
     right: 25%;
     height: 2px;
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    background: linear-gradient(135deg, #6366f1, #a855f7);
     border-radius: 2px;
   }
 
@@ -654,42 +696,88 @@
   }
 
   .mobile-spacer {
-    height: 56px;
+    height: 48px;
   }
 
   /* Estilos para el tema oscuro */
   :global([data-bs-theme="dark"]) .navbar,
   :global([data-bs-theme="dark"]) .mobile-header,
   :global([data-bs-theme="dark"]) .mobile-nav {
-    background-color: rgba(33, 37, 41, 0.8);
+    background-color: rgba(17, 24, 39, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   :global([data-bs-theme="dark"]) .dropdown-menu {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-dark-border-subtle);
+    background-color: rgba(17, 24, 39, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
   :global([data-bs-theme="dark"]) .dropdown-item {
-    color: var(--bs-body-color);
+    color: rgba(255, 255, 255, 0.8);
   }
 
   :global([data-bs-theme="dark"]) .dropdown-item:hover {
-    background-color: var(--bs-dark-bg-subtle);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  :global([data-bs-theme="dark"]) .btn-outline-dark {
+    --bs-btn-color: rgba(255, 255, 255, 0.8);
+    --bs-btn-border-color: rgba(255, 255, 255, 0.2);
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-border-color: rgba(255, 255, 255, 0.3);
+    --bs-btn-hover-bg: rgba(255, 255, 255, 0.1);
   }
 
   /* Variables para colores más oscuros */
   :root {
-    --bs-primary-dark: #5b21b6;
-    --bs-indigo-dark: #4338ca;
+    --bs-primary-dark: #4f46e5;
+    --bs-indigo-dark: #9333ea;
   }
 
-  .dropdown-item {
-    padding: 0.4rem 1rem;
-    font-size: 0.875rem;
+  .btn-outline-gradient {
+    background: transparent;
+    border: 1px solid #6366f1;
+    color: #6366f1;
+    padding: 0.375rem 1rem;
+    position: relative;
+    transition: all 0.2s ease;
+    z-index: 1;
   }
 
-  .dropdown-item.active {
-    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+  .btn-outline-gradient::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    border-radius: inherit;
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.2s ease;
+  }
+
+  .btn-outline-gradient:hover {
+    color: white;
+    border-color: transparent;
+  }
+
+  .btn-outline-gradient:hover::before {
+    opacity: 1;
+  }
+
+  /* Ajuste para tema oscuro */
+  :global([data-bs-theme="dark"]) .btn-outline-gradient {
+    border-color: rgba(99, 102, 241, 0.5);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  :global([data-bs-theme="dark"]) .btn-outline-gradient:hover {
+    border-color: transparent;
     color: white;
   }
 </style>
