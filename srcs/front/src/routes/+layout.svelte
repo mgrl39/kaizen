@@ -14,10 +14,6 @@
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import '$lib/styles/custom-bootstrap.css';
-
-	// Crear un archivo CSS personalizado si no existe
-	let customCssCreated = false;
-
 	onMount(() => {
 		// Inicializar tema
 		initTheme();
@@ -105,7 +101,7 @@
 	<!-- Layout principal con clases Bootstrap -->
 	<div class="app-wrapper d-flex flex-column min-vh-100">
 		<!-- Contenido principal con padding-top para la navbar -->
-		<main class="{useFullWidth ? 'container-fluid' : 'container'} py-3 mt-5 flex-grow-1">
+		<main class="{useFullWidth ? 'container-fluid' : 'container'} py-3 mt-3">
 			<slot />
 		</main>
 
