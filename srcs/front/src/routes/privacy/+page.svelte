@@ -1,109 +1,70 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { theme } from '$lib/theme';
-  import privacyData from './privacy.json';
-  
+  import Navbar from '$lib/components/Navbar.svelte';
+  import Footer from '$lib/components/Footer.svelte';
+  import { marked } from 'marked';
+
   let currentTheme = 'light';
   $: currentTheme = $theme;
-  
-  onMount(() => {
+
+  let content: string = '';
+  let loading = true;
+
+  onMount(async () => {
     window.scrollTo(0, 0);
+    try {
+      const res = await fetch('/docs/privacy.md');
+      const raw = await res.text();
+      content = marked(raw);
+    } catch (err) {
+      content = '<p class="text-danger">Error al cargar la política de privacidad.</p>';
+    } finally {
+      loading = false;
+    }
   });
 </script>
 
 <svelte:head>
-  <title>{privacyData.title}</title>
-  <meta name="description" content={privacyData.description} />
+  <title>Política de Privacidad | Kaizen Cinema</title>
+  <meta name="description" content="Política de privacidad de Kaizen Cinema. Conoce cómo recopilamos, utilizamos y protegemos tus datos personales." />
 </svelte:head>
 
-<div class="container mt-5 pt-5" data-bs-theme={currentTheme}>
+<Navbar />
+
+<div class="container py-5" data-bs-theme={currentTheme}>
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10">
-      <div class="card shadow-sm">
-        <div class="card-body p-4 p-md-5">
-          <h1 class="display-6 mb-4">Política de Privacidad</h1>
-          
-          <div class="alert alert-info">
-            <p class="mb-0"><strong>Última actualización:</strong> {privacyData.lastUpdated}</p>
-          </div>
-          
-          <p class="lead">
-            En Kaizen Cinema, valoramos y respetamos tu privacidad. Esta Política de Privacidad describe cómo recopilamos, utilizamos y compartimos tu información personal cuando utilizas nuestros servicios.
-          </p>
-          
-          <hr class="my-4" />
-          
-          {#each privacyData.sections as section}
-            <section class="mb-5">
-              <h2 class="h4">{section.title}</h2>
-              <p>{section.content}</p>
-              
-              {#if section.subsections}
-                {#each section.subsections as subsection}
-                  <h3 class="h5 mt-4">{subsection.title}</h3>
-                  <p>{subsection.content}</p>
-                  
-                  {#if subsection.items}
-                    <ul>
-                      {#each subsection.items as item}
-                        <li>{item}</li>
-                      {/each}
-                    </ul>
-                  {/if}
-                {/each}
-              {/if}
-              
-              {#if section.items}
-                <ul>
-                  {#each section.items as item}
-                    {#if typeof item === 'string'}
-                      <li>{item}</li>
-                    {:else}
-                      <li>
-                        <strong>{item.title}:</strong> {item.content}
-                      </li>
-                    {/if}
-                  {/each}
-                </ul>
-              {/if}
-              
-              {#if section.contact}
-                {#if typeof section.contact === 'string'}
-                  <p>{section.contact}</p>
-                {:else}
-                  <address>
-                    <strong>{section.contact.company}</strong><br>
-                    {section.contact.address}<br>
-                    {section.contact.city}<br>
-                    <a href="mailto:{section.contact.email}">{section.contact.email}</a><br>
-                    <a href="tel:{section.contact.phone}">{section.contact.phone}</a>
-                  </address>
-                {/if}
-              {/if}
-            </section>
-          {/each}
-          
-          <div class="d-flex justify-content-between mt-5 pt-4 border-top">
-            <a href="/terms" class="btn btn-outline-primary">
-              <i class="bi bi-file-text me-1"></i>
-              Términos de Servicio
-            </a>
-            <a href="/about" class="btn btn-outline-secondary">
-              <i class="bi bi-info-circle me-1"></i>
-              Acerca de Nosotros
-            </a>
-          </div>
+      <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold">Política de Privacidad</h1>
+        <p class="text-muted">Última actualización: 15 de agosto de 2023</p>
+      </div>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-body p-4 p-lg-5">
+          {#if loading}
+            <p class="text-muted">Cargando contenido...</p>
+          {:else}
+            {@html content}
+          {/if}
         </div>
+      </div>
+
+      <div class="d-flex justify-content-between mt-5 pt-4 border-top">
+        <a href="/terms" class="btn btn-outline-primary">
+          <i class="bi bi-file-text me-1"></i> Términos de Servicio
+        </a>
+        <a href="/about" class="btn btn-outline-secondary">
+          <i class="bi bi-info-circle me-1"></i> Acerca de Nosotros
+        </a>
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  /* Estilos específicos para el tema oscuro */
   :global([data-bs-theme="dark"]) .card {
     background-color: var(--bs-dark);
     border-color: var(--bs-gray-700);
   }
-  
 </style>
