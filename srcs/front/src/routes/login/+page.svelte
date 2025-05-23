@@ -156,9 +156,7 @@
                 />
                 <label class="form-check-label" for="rememberMe">{$t('rememberMe')}</label>
               </div>
-              <a href="/reset-password" class="text-decoration-none">{$t('forgotPassword')}</a>
             </div>
-            
             <div class="d-grid">
               <button 
                 type="submit" 

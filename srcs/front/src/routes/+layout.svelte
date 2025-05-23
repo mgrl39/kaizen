@@ -55,6 +55,9 @@
 
 	// List of routes where footer should be hidden
 	const routesWithoutFooter = ['/login', '/register'];
+	
+	// Lista de rutas que deberían usar container-fluid en lugar de container
+	const routesWithFullWidth = ['/about', '/privacy', '/terms'];
 
 	// Verificar si estamos en rutas de admin
 	$: isAdminRoute = $page.url.pathname.startsWith('/admin');
@@ -64,6 +67,9 @@
 
 	// Verificar si estamos en una página de error
 	$: isErrorPage = !!$page.error;
+	
+	// Verificar si la ruta actual debería usar ancho completo
+	$: useFullWidth = routesWithFullWidth.includes($page.url.pathname);
 
 	// Check if current route should have navbar/footer
 	$: showNavbar = !routesWithoutNavbar.includes($page.url.pathname) && !isAdminRoute;
@@ -111,7 +117,7 @@
 	<!-- Layout principal con clases Bootstrap -->
 	<div class="app-wrapper d-flex flex-column min-vh-100">
 		<!-- Contenido principal con padding-top para la navbar -->
-		<main class="container py-3 mt-5 flex-grow-1">
+		<main class="{useFullWidth ? 'container-fluid' : 'container'} py-3 mt-5 flex-grow-1">
 			<slot />
 		</main>
 
@@ -165,17 +171,6 @@
 		transition:
 			background-color 0.3s ease,
 			color 0.3s ease;
-	}
-
-	/* Estilos específicos para las páginas de autenticación */
-	.auth-wrapper {
-		min-height: 100vh;
-		background-color: var(--app-bg);
-		transition: background-color 0.3s ease;
-	}
-
-	.auth-main {
-		padding-top: 2rem;
 	}
 
 	/* Estilos para cards */

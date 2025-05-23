@@ -106,7 +106,4 @@
     border-color: var(--bs-gray-700);
   }
   
-  :global([data-bs-theme="dark"]) .text-muted {
-    color: var(--bs-gray-400) !important;
-  }
 </style>
