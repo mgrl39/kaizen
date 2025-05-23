@@ -37,11 +37,11 @@
   <div class="container position-relative py-5 text-white">
     <div class="row min-vh-25 align-items-center justify-content-center text-center">
       <div class="col-lg-8">
-        <h1 class="display-4 fw-bold mb-3">{title}</h1>
+        <h1 class="display-4 fw-bold mb-3 mobile-title">{title}</h1>
         {#if subtitle}
-          <p class="lead mb-0">{subtitle}</p>
+          <p class="lead mb-0 mobile-subtitle">{subtitle}</p>
         {/if}
-        <a href={buttonUrl} class="btn btn-primary btn-lg">
+        <a href={buttonUrl} class="btn btn-primary btn-lg mt-3">
           {buttonText}
           <i class="bi bi-arrow-right ms-2"></i>
         </a>
@@ -72,5 +72,28 @@
   
   .text-shadow-lg {
     text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+  }
+  
+  /* Estilos responsivos para móviles */
+  @media (max-width: 768px) {
+    .mobile-title {
+      font-size: 2rem !important;
+      line-height: 1.2;
+    }
+    
+    .mobile-subtitle {
+      font-size: 1rem !important;
+      line-height: 1.4;
+    }
+    
+    .min-vh-25 {
+      min-height: 35vh;
+      padding: 2rem 0;
+    }
+    
+    :global(.btn-lg) {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+    }
   }
 </style>

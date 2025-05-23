@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
@@ -78,7 +78,7 @@
   }
   
   // Función para cambiar el idioma manualmente
-  function changeLanguage(lang) {
+  function changeLanguage(lang: string) {
     if (availableLanguages.includes(lang)) {
       currentLang = lang;
       localStorage.setItem('language', lang);
@@ -481,77 +481,7 @@
         <span class="badge bg-primary ms-1">Cinema</span>
       </a>
       
-      <!-- Barra de búsqueda rápida para móvil -->
-      <div class="mobile-search-container flex-grow-1 mx-2">
-        <a href="/search" class="mobile-search-bar d-flex align-items-center">
-          <i class="bi bi-search me-2"></i>
-          <span class="text-muted">Buscar películas, cines...</span>
-        </a>
-      </div>
-      
       <div class="d-flex gap-2">
-        <!-- Notificaciones para móvil -->
-        <div class="dropdown">
-          <button 
-            class="btn btn-sm position-relative {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i class="bi bi-bell"></i>
-            {#if isAuthenticated}
-              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                2
-                <span class="visually-hidden">notificaciones sin leer</span>
-              </span>
-            {/if}
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            {#if isAuthenticated}
-              <li><h6 class="dropdown-header">Notificaciones</h6></li>
-              <li>
-                <a class="dropdown-item" href="/bookings">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0 me-2">
-                      <i class="bi bi-ticket text-primary"></i>
-                    </div>
-                    <div class="small">
-                      <p class="mb-0 fw-bold">Nueva reserva confirmada</p>
-                      <p class="mb-0 text-muted">Tu reserva para "Película" ha sido confirmada</p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <a class="dropdown-item" href="/movies">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0 me-2">
-                      <i class="bi bi-film text-success"></i>
-                    </div>
-                    <div class="small">
-                      <p class="mb-0 fw-bold">Nuevo estreno disponible</p>
-                      <p class="mb-0 text-muted">Ya puedes reservar para el nuevo estreno</p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <a class="dropdown-item text-center text-primary" href="/notifications">
-                  Ver todas
-                </a>
-              </li>
-            {:else}
-              <li>
-                <div class="px-3 py-2 text-center">
-                  <p class="mb-0">Inicia sesión para ver notificaciones</p>
-                </div>
-              </li>
-            {/if}
-          </ul>
-        </div>
-        
         <!-- Selector de tema -->
         <button 
           class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
@@ -562,53 +492,57 @@
         </button>
       </div>
     </div>
-    
-    <!-- Segunda fila con categorías rápidas -->
-    <div class="mobile-categories-bar d-md-none py-1 border-top" data-bs-theme={$theme}>
-      <div class="container">
-        <div class="scrolling-wrapper">
-          <a href="/movies?category=accion" class="category-pill">Acción</a>
-          <a href="/movies?category=comedia" class="category-pill">Comedia</a>
-          <a href="/movies?category=drama" class="category-pill">Drama</a>
-          <a href="/movies?category=terror" class="category-pill">Terror</a>
-          <a href="/movies?category=ciencia-ficcion" class="category-pill">Sci-Fi</a>
-          <a href="/movies?category=familiar" class="category-pill">Familiar</a>
-          <a href="/movies?category=estrenos" class="category-pill">Estrenos</a>
-          <a href="/movies" class="category-pill">Ver todos</a>
-        </div>
-      </div>
-    </div>
   </div>
   
   <!-- Barra de navegación inferior mejorada -->
   <nav class="mobile-nav fixed-bottom d-md-none" data-bs-theme={$theme}>
     <div class="container">
       <div class="row g-0">
-        {#each mobileNavItems as item, i}
-          {#if i < 3} <!-- Limitamos a 3 elementos principales -->
-            <div class="col text-center">
-              <a 
-                href={item.url} 
-                class="nav-link py-3 {isActive(item.url) ? 'active' : ''}"
-                aria-current={isActive(item.url) ? 'page' : undefined}
-              >
-                <i class="bi bi-{item.icon} d-block fs-5"></i>
-                <small class="d-block mt-1">{item.text}</small>
-              </a>
-            </div>
-          {/if}
-        {/each}
-        
-        <!-- Botón de búsqueda destacado en el centro -->
+        <!-- Inicio -->
+        <div class="col text-center">
+          <a 
+            href="/" 
+            class="nav-link py-3 {isActive('/') ? 'active' : ''}"
+            aria-current={isActive('/') ? 'page' : undefined}
+          >
+            <i class="bi bi-house d-block fs-5"></i>
+            <small class="d-block mt-1">Inicio</small>
+          </a>
+        </div>
+
+        <!-- Cines -->
+        <div class="col text-center">
+          <a 
+            href="/cinemas" 
+            class="nav-link py-3 {isActive('/cinemas') ? 'active' : ''}"
+            aria-current={isActive('/cinemas') ? 'page' : undefined}
+          >
+            <i class="bi bi-building d-block fs-5"></i>
+            <small class="d-block mt-1">Cines</small>
+          </a>
+        </div>
+
+        <!-- Películas -->
+        <div class="col text-center">
+          <a 
+            href="/movies" 
+            class="nav-link py-3 {isActive('/movies') ? 'active' : ''}"
+            aria-current={isActive('/movies') ? 'page' : undefined}
+          >
+            <i class="bi bi-film d-block fs-5"></i>
+            <small class="d-block mt-1">Películas</small>
+          </a>
+        </div>
+
+        <!-- Buscar -->
         <div class="col text-center">
           <a 
             href="/search" 
-            class="nav-link search-button py-2 {isActive('/search') ? 'active' : ''}"
+            class="nav-link py-3 {isActive('/search') ? 'active' : ''}"
             aria-current={isActive('/search') ? 'page' : undefined}
           >
-            <div class="search-icon-container">
-              <i class="bi bi-search d-block"></i>
-            </div>
+            <i class="bi bi-search d-block fs-5"></i>
+            <small class="d-block mt-1">Buscar</small>
           </a>
         </div>
         
@@ -623,21 +557,6 @@
             <small class="d-block mt-1">{isAuthenticated ? 'Perfil' : 'Login'}</small>
           </a>
         </div>
-        
-        {#if isAdmin}
-          <!-- Admin panel -->
-          <div class="col text-center">
-            <a 
-              href="/admin" 
-              on:click={handleAdminClick}
-              class="nav-link py-3 {isActive('/admin') ? 'active' : ''}"
-              aria-current={isActive('/admin') ? 'page' : undefined}
-            >
-              <i class="bi bi-speedometer2 d-block fs-5"></i>
-              <small class="d-block mt-1">Admin</small>
-            </a>
-          </div>
-        {/if}
       </div>
     </div>
   </nav>
@@ -653,61 +572,6 @@
       z-index: 1030;
     }
     
-    .mobile-search-container {
-      max-width: 60%;
-    }
-    
-    .mobile-search-bar {
-      display: flex;
-      align-items: center;
-      background-color: var(--bs-tertiary-bg);
-      border-radius: 50px;
-      padding: 6px 12px;
-      color: var(--bs-body-color);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
-    }
-    
-    .mobile-search-bar:hover, .mobile-search-bar:focus {
-      background-color: var(--bs-secondary-bg);
-    }
-    
-    .mobile-categories-bar {
-      background-color: var(--bs-body-bg);
-      overflow-x: auto;
-      white-space: nowrap;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; /* Firefox */
-    }
-    
-    .mobile-categories-bar::-webkit-scrollbar {
-      display: none; /* Chrome, Safari, Opera */
-    }
-    
-    .scrolling-wrapper {
-      display: inline-flex;
-      padding: 4px 0;
-    }
-    
-    .category-pill {
-      display: inline-block;
-      padding: 4px 12px;
-      margin-right: 8px;
-      border-radius: 50px;
-      background-color: var(--bs-tertiary-bg);
-      color: var(--bs-body-color);
-      font-size: 0.85rem;
-      text-decoration: none;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-    
-    .category-pill:hover, .category-pill:focus {
-      background-color: var(--bs-primary);
-      color: white;
-    }
-    
     .mobile-nav {
       background-color: var(--bs-body-bg);
       box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
@@ -715,27 +579,20 @@
       z-index: 1030;
     }
     
-    .search-button {
-      margin-top: -20px;
-      position: relative;
-    }
-    
-    .search-icon-container {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: var(--bs-primary);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      font-size: 1.2rem;
-    }
-    
     .mobile-nav-spacer {
       height: 60px;
+    }
+
+    .nav-link {
+      transition: all 0.2s ease;
+    }
+
+    .nav-link.active {
+      color: var(--bs-primary);
+    }
+
+    .nav-link:not(.active) {
+      opacity: 0.7;
     }
   </style>
 {/if}
