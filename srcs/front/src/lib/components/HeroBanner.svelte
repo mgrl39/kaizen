@@ -8,9 +8,7 @@
   export let buttonText = "Ver películas";
   export let buttonUrl = "/movies";
   export let overlayOpacity: string = "50";
-  
-  import { theme } from '$lib/theme';
-  
+
   // Imagen por defecto en base64 (un placeholder gris simple)
   const DEFAULT_IMAGE_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 </script>
@@ -34,14 +32,14 @@
     ></div>
   </div>
   
-  <div class="container position-relative py-5 text-white">
+  <div class="container position-relative py-3 text-white">
     <div class="row min-vh-25 align-items-center justify-content-center text-center">
       <div class="col-lg-8">
-        <h1 class="display-4 fw-bold mb-3 mobile-title">{title}</h1>
+        <h1 class="display-5 fw-bold mb-2 mobile-title">{title}</h1>
         {#if subtitle}
-          <p class="lead mb-0 mobile-subtitle">{subtitle}</p>
+          <p class="lead mb-3 mobile-subtitle">{subtitle}</p>
         {/if}
-        <a href={buttonUrl} class="btn btn-primary btn-lg mt-3">
+        <a href={buttonUrl} class="btn btn-primary btn-lg">
           {buttonText}
           <i class="bi bi-arrow-right ms-2"></i>
         </a>
@@ -56,7 +54,7 @@
   }
   
   .min-vh-25 {
-    min-height: 25vh;
+    min-height: 20vh;
   }
   
   .inset-0 {
@@ -77,23 +75,25 @@
   /* Estilos responsivos para móviles */
   @media (max-width: 768px) {
     .mobile-title {
-      font-size: 2rem !important;
+      font-size: 1.75rem !important;
       line-height: 1.2;
+      margin-bottom: 0.5rem !important;
     }
     
     .mobile-subtitle {
-      font-size: 1rem !important;
+      font-size: 0.9rem !important;
       line-height: 1.4;
+      margin-bottom: 1rem !important;
     }
     
     .min-vh-25 {
-      min-height: 35vh;
-      padding: 2rem 0;
+      min-height: 25vh;
+      padding: 1rem 0;
     }
     
     :global(.btn-lg) {
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
     }
   }
 </style>
