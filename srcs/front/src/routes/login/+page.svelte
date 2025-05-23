@@ -2,7 +2,6 @@
   import { t } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
-  import { theme } from '$lib/theme';
   import Navbar from '$lib/components/Navbar.svelte';
   import { goto } from '$app/navigation';
   
@@ -37,7 +36,7 @@
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          email,
+          identifier: email,
           password
         })
       });
@@ -60,7 +59,8 @@
           isAuthenticated: true,
           isAdmin: data.user.role === 'admin',
           userName: data.user.name || data.user.username || 'Usuario',
-          loading: false
+          loading: false,
+          user: data.user  // Guardar la información completa del usuario
         };
         localStorage.setItem('authState', JSON.stringify(authState));
 
@@ -99,25 +99,34 @@
       .then(response => response.json())
       .then(data => {
         if (data.success) {
+          const authState = {
+            isAuthenticated: true,
+            isAdmin: data.user.role === 'admin',
+            userName: data.user.name || data.user.username || 'Usuario',
+            loading: false,
+            user: data.user
+          };
+          localStorage.setItem('authState', JSON.stringify(authState));
+          
           if (data.user.role === 'admin') {
             goto('/admin');
           } else {
             goto('/');
           }
         } else {
-          // Token inválido, limpiamos localStorage
+          // Token inválido o expirado, limpiar estado
           localStorage.removeItem('token');
           localStorage.removeItem('authState');
         }
       })
-      .catch(() => {
-        // Error al verificar, limpiamos localStorage
+      .catch(error => {
+        console.error('Error al verificar sesión:', error);
         localStorage.removeItem('token');
         localStorage.removeItem('authState');
       });
     }
     
-    // Cargar usuario recordado si existe
+    // Cargar email recordado si existe
     const rememberedUser = localStorage.getItem('rememberedUser');
     if (rememberedUser) {
       email = rememberedUser;
