@@ -40,7 +40,6 @@
     { url: '/', icon: 'house', text: 'Inicio' },
     { url: '/cinemas', icon: 'building', text: 'Cines' },
     { url: '/movies', icon: 'film', text: 'Películas' },
-    { url: '/search', icon: 'search', text: 'Buscar' },
     { url: isAuthenticated ? '/profile' : '/login', icon: isAuthenticated ? 'person-circle' : 'box-arrow-in-right', text: isAuthenticated ? 'Perfil' : 'Login' }
   ];
   
@@ -299,31 +298,18 @@
 </script>
 
 <!-- Navbar con Bootstrap estándar para desktop -->
-<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''} {isMobile ? 'd-none d-md-block' : ''}" data-bs-theme={$theme}>
+<nav class="navbar navbar-expand-lg fixed-top {scrolled ? 'shadow-sm' : ''}" data-bs-theme={$theme}>
   <div class="container">
-    <!-- Logo -->
-    <a href="/" class="navbar-brand">
-      Kaizen
-      <span class="badge bg-primary ms-1">Cinema</span>
-    </a>
-    
-    <!-- Botón de hamburguesa para móviles -->
-    <button 
-      class="navbar-toggler" 
-      type="button" 
-      data-bs-toggle="collapse" 
-      data-bs-target="#navbarContent" 
-      aria-controls="navbarContent" 
-      aria-expanded="false" 
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <!-- Contenido colapsable -->
-    <div class="collapse navbar-collapse" id="navbarContent">
+    <!-- Logo y navegación principal agrupados -->
+    <div class="d-flex align-items-center">
+      <!-- Logo -->
+      <a href="/" class="navbar-brand me-4">
+        <span class="brand-text">Kaizen</span>
+        <span class="badge bg-gradient ms-1">Cinema</span>
+      </a>
+      
       <!-- Elementos de navegación principal -->
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+      <ul class="navbar-nav d-none d-lg-flex">
         {#each navItems as item}
           <li class="nav-item">
             <a 
@@ -336,18 +322,6 @@
             </a>
           </li>
         {/each}
-        
-        <!-- Agregar enlace de búsqueda -->
-        <li class="nav-item d-none d-lg-block">
-          <a 
-            href="/search" 
-            class="nav-link {isActive('/search') ? 'active fw-bold' : ''}"
-            aria-current={isActive('/search') ? 'page' : undefined}
-          >
-            <i class="bi bi-search me-1"></i>
-            <span>Buscar</span>
-          </a>
-        </li>
         
         {#if isAdmin}
           <li class="nav-item">
@@ -363,239 +337,362 @@
           </li>
         {/if}
       </ul>
+    </div>
+    
+    <!-- Elementos de la derecha -->
+    <div class="d-none d-lg-flex align-items-center gap-3">
+      <!-- Selector de tema -->
+      <button 
+        class="btn btn-sm btn-icon {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+        on:click={handleThemeToggle}
+        aria-label="Toggle theme"
+      >
+        <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'}"></i>
+      </button>
       
-      <!-- Elementos de la derecha -->
-      <div class="d-flex align-items-center gap-2">
-        <!-- Selector de tema -->
+      <!-- Selector de idioma con dropdown -->
+      <div class="dropdown">
         <button 
-          class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
-          on:click={handleThemeToggle}
-          aria-label="Toggle theme"
+          id="language-selector-button"
+          class="btn btn-sm btn-icon {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+          type="button"
+          data-bs-toggle="dropdown" 
+          aria-expanded="false"
+          aria-label="Seleccionar idioma"
         >
-          <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'}"></i>
+          <i class="bi bi-globe2"></i>
         </button>
         
-        <!-- Selector de idioma con dropdown -->
+        <ul 
+          id="language-selector-dropdown"
+          class="dropdown-menu dropdown-menu-end py-1"
+          aria-labelledby="language-selector-button"
+        >
+          <li>
+            <button 
+              class="dropdown-item d-flex align-items-center {currentLang === 'es' ? 'active' : ''}"
+              on:click={() => changeLanguage('es')}
+            >
+              <span class="fi fi-es me-2"></span>
+              <span>Español</span>
+            </button>
+          </li>
+          <li>
+            <button 
+              class="dropdown-item d-flex align-items-center {currentLang === 'en' ? 'active' : ''}"
+              on:click={() => changeLanguage('en')}
+            >
+              <span class="fi fi-gb me-2"></span>
+              <span>English</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+      
+      {#if loading}
+        <!-- Spinner durante carga -->
+        <div class="spinner-border spinner-border-sm text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      {:else if isAuthenticated}
+        <!-- Menú de usuario -->
         <div class="dropdown">
           <button 
-            id="language-selector-button"
-            class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+            id="user-menu-button"
+            class="btn btn-gradient" 
             type="button"
             data-bs-toggle="dropdown" 
             aria-expanded="false"
-            aria-label="Seleccionar idioma"
           >
-            <i class="bi bi-globe me-1"></i>
-            <span class="d-none d-lg-inline">{currentLang.toUpperCase()}</span>
+            <i class="bi bi-person-circle me-1"></i>
+            <span class="d-none d-lg-inline">{userName}</span>
           </button>
           
           <ul 
-            id="language-selector-dropdown"
+            id="user-menu-dropdown"
             class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="language-selector-button"
+            aria-labelledby="user-menu-button"
           >
-            <li>
-              <button 
-                class="dropdown-item {currentLang === 'es' ? 'active' : ''}"
-                on:click={() => changeLanguage('es')}
-              >
-                <span class="me-2">🇪🇸</span>Español
-              </button>
-            </li>
-            <li>
-              <button 
-                class="dropdown-item {currentLang === 'en' ? 'active' : ''}"
-                on:click={() => changeLanguage('en')}
-              >
-                <span class="me-2">🇬🇧</span>English
-              </button>
-            </li>
+            <li><h6 class="dropdown-header">{userName}</h6></li>
+            
+            {#each userMenu as item}
+              {#if item.divider}
+                <li><hr class="dropdown-divider"></li>
+              {:else}
+                <li>
+                  <a 
+                    href={item.url} 
+                    class="dropdown-item {item.action === 'logout' ? 'text-danger' : ''}"
+                    on:click={(e) => handleNavItemClick(item, e)}
+                  >
+                    <i class="bi bi-{item.icon} me-2"></i>
+                    {item.text}
+                  </a>
+                </li>
+              {/if}
+            {/each}
           </ul>
         </div>
-        
-        {#if loading}
-          <!-- Spinner durante carga (ahora casi nunca se mostrará) -->
-          <div class="spinner-border spinner-border-sm text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        {:else if isAuthenticated}
-          <!-- Menú de usuario -->
-          <div class="dropdown">
-            <button 
-              id="user-menu-button"
-              class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
-              type="button"
-              data-bs-toggle="dropdown" 
-              aria-expanded="false"
-            >
-              <span class="d-none d-lg-inline me-1">{userName}</span>
-              <i class="bi bi-person-circle"></i>
-            </button>
-            
-            <ul 
-              id="user-menu-dropdown"
-              class="dropdown-menu dropdown-menu-end"
-              aria-labelledby="user-menu-button"
-            >
-              <li><h6 class="dropdown-header">{userName}</h6></li>
-              
-              {#each userMenu as item}
-                {#if item.divider}
-                  <li><hr class="dropdown-divider"></li>
-                {:else}
-                  <li>
-                    <a 
-                      href={item.url} 
-                      class="dropdown-item {item.action === 'logout' ? 'text-danger' : ''}"
-                      on:click={(e) => handleNavItemClick(item, e)}
-                    >
-                      <i class="bi bi-{item.icon} me-2"></i>
-                      {item.text}
-                    </a>
-                  </li>
-                {/if}
-              {/each}
-            </ul>
-          </div>
-        {:else}
-          <!-- Botones de login/registro -->
-          <a href="/login" class="btn btn-sm btn-primary">
+      {:else}
+        <!-- Botones de login/registro -->
+        <div class="d-flex gap-2">
+          <a href="/login" class="btn btn-gradient">
             <i class="bi bi-box-arrow-in-right me-1 d-lg-none"></i>
             <span>Login</span>
           </a>
-          <a href="/register" class="btn btn-sm btn-outline-secondary d-none d-sm-inline-block">
+          <a href="/register" class="btn btn-outline-primary d-none d-sm-inline-block">
             <span>Registro</span>
           </a>
-        {/if}
-      </div>
+        </div>
+      {/if}
     </div>
   </div>
 </nav>
 
-<!-- Navbar estilo Instagram para móviles -->
+<!-- Navbar móvil -->
 {#if isMobile}
-  <div class="mobile-header fixed-top d-md-none" data-bs-theme={$theme}>
-    <div class="container d-flex justify-content-between align-items-center py-2">
-      <a href="/" class="navbar-brand m-0">
-        Kaizen
-        <span class="badge bg-primary ms-1">Cinema</span>
+  <!-- Header móvil -->
+  <div class="mobile-header fixed-top d-lg-none" data-bs-theme={$theme}>
+    <div class="container-fluid px-3 d-flex justify-content-between align-items-center">
+      <a href="/" class="navbar-brand py-2 m-0">
+        <span class="brand-text">Kaizen</span>
+        <span class="badge bg-gradient ms-1">Cinema</span>
       </a>
       
-      <div class="d-flex gap-2">
-        <!-- Selector de tema -->
+      <div class="d-flex align-items-center gap-2">
         <button 
-          class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+          class="btn btn-sm btn-icon {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
           on:click={handleThemeToggle}
-          aria-label="Cambiar tema"
         >
-          <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'}"></i>
+          <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'} fs-5"></i>
         </button>
       </div>
     </div>
   </div>
   
-  <!-- Barra de navegación inferior mejorada -->
-  <nav class="mobile-nav fixed-bottom d-md-none" data-bs-theme={$theme}>
-    <div class="container">
-      <div class="row g-0">
-        <!-- Inicio -->
-        <div class="col text-center">
-          <a 
-            href="/" 
-            class="nav-link py-3 {isActive('/') ? 'active' : ''}"
-            aria-current={isActive('/') ? 'page' : undefined}
-          >
-            <i class="bi bi-house d-block fs-5"></i>
-            <small class="d-block mt-1">Inicio</small>
-          </a>
-        </div>
-
-        <!-- Cines -->
-        <div class="col text-center">
-          <a 
-            href="/cinemas" 
-            class="nav-link py-3 {isActive('/cinemas') ? 'active' : ''}"
-            aria-current={isActive('/cinemas') ? 'page' : undefined}
-          >
-            <i class="bi bi-building d-block fs-5"></i>
-            <small class="d-block mt-1">Cines</small>
-          </a>
-        </div>
-
-        <!-- Películas -->
-        <div class="col text-center">
-          <a 
-            href="/movies" 
-            class="nav-link py-3 {isActive('/movies') ? 'active' : ''}"
-            aria-current={isActive('/movies') ? 'page' : undefined}
-          >
-            <i class="bi bi-film d-block fs-5"></i>
-            <small class="d-block mt-1">Películas</small>
-          </a>
-        </div>
-
-        <!-- Buscar -->
-        <div class="col text-center">
-          <a 
-            href="/search" 
-            class="nav-link py-3 {isActive('/search') ? 'active' : ''}"
-            aria-current={isActive('/search') ? 'page' : undefined}
-          >
-            <i class="bi bi-search d-block fs-5"></i>
-            <small class="d-block mt-1">Buscar</small>
-          </a>
-        </div>
+  <!-- Navegación inferior móvil -->
+  <nav class="mobile-nav fixed-bottom d-lg-none" data-bs-theme={$theme}>
+    <div class="container-fluid px-0">
+      <div class="mobile-nav-content">
+        <a 
+          href="/" 
+          class="mobile-nav-item {isActive('/') ? 'active' : ''}"
+        >
+          <i class="bi bi-house"></i>
+          <span>Inicio</span>
+        </a>
         
-        <!-- Perfil o login -->
-        <div class="col text-center">
-          <a 
-            href={isAuthenticated ? '/profile' : '/login'} 
-            class="nav-link py-3 {isActive(isAuthenticated ? '/profile' : '/login') ? 'active' : ''}"
-            aria-current={isActive(isAuthenticated ? '/profile' : '/login') ? 'page' : undefined}
-          >
-            <i class="bi bi-{isAuthenticated ? 'person-circle' : 'box-arrow-in-right'} d-block fs-5"></i>
-            <small class="d-block mt-1">{isAuthenticated ? 'Perfil' : 'Login'}</small>
-          </a>
-        </div>
+        <a 
+          href="/movies" 
+          class="mobile-nav-item {isActive('/movies') ? 'active' : ''}"
+        >
+          <i class="bi bi-film"></i>
+          <span>Películas</span>
+        </a>
+        
+        <a 
+          href="/cinemas" 
+          class="mobile-nav-item {isActive('/cinemas') ? 'active' : ''}"
+        >
+          <i class="bi bi-building"></i>
+          <span>Cines</span>
+        </a>
+        
+        <a 
+          href={isAuthenticated ? '/profile' : '/login'} 
+          class="mobile-nav-item {isActive(isAuthenticated ? '/profile' : '/login') ? 'active' : ''}"
+        >
+          <i class="bi bi-{isAuthenticated ? 'person-circle' : 'box-arrow-in-right'}"></i>
+          <span>{isAuthenticated ? 'Perfil' : 'Login'}</span>
+        </a>
       </div>
     </div>
   </nav>
   
-  <!-- Espaciador para evitar que el contenido quede debajo de la barra inferior -->
-  <div class="mobile-nav-spacer d-md-none"></div>
-  
-  <style>
-    /* Estilos para la barra de navegación móvil mejorada */
-    .mobile-header {
-      background-color: var(--bs-body-bg);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-      z-index: 1030;
-    }
-    
-    .mobile-nav {
-      background-color: var(--bs-body-bg);
-      box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
-      padding: 0;
-      z-index: 1030;
-    }
-    
-    .mobile-nav-spacer {
-      height: 60px;
-    }
-
-    .nav-link {
-      transition: all 0.2s ease;
-    }
-
-    .nav-link.active {
-      color: var(--bs-primary);
-    }
-
-    .nav-link:not(.active) {
-      opacity: 0.7;
-    }
-  </style>
+  <!-- Espaciador para el contenido -->
+  <div class="mobile-spacer d-lg-none"></div>
 {/if}
+
+<style>
+  /* Estilos para la barra de navegación */
+  .navbar {
+    background-color: var(--bs-body-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+
+  .brand-text {
+    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient {
+    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    border: none;
+    color: white;
+  }
+
+  .btn-gradient {
+    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    border: none;
+    color: white;
+    padding: 0.375rem 1rem;
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(to right, var(--bs-primary-dark), var(--bs-indigo));
+    color: white;
+    transform: translateY(-1px);
+  }
+
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.1rem;
+  }
+
+  .nav-link {
+    position: relative;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+  }
+
+  .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    right: 1rem;
+    height: 2px;
+    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    border-radius: 2px;
+  }
+
+  .nav-link:not(.active) {
+    opacity: 0.7;
+  }
+
+  .nav-link:hover {
+    opacity: 1;
+  }
+
+  /* Estilos móviles */
+  .mobile-header {
+    background-color: var(--bs-body-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--bs-border-color);
+    height: 56px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-nav {
+    background-color: var(--bs-body-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid var(--bs-border-color);
+    padding: 0;
+    height: 56px;
+  }
+
+  .mobile-nav-content {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    height: 100%;
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--bs-body-color);
+    text-decoration: none;
+    gap: 4px;
+    position: relative;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-nav-item i {
+    font-size: 1.25rem;
+  }
+
+  .mobile-nav-item span {
+    font-size: 0.75rem;
+  }
+
+  .mobile-nav-item.active {
+    color: var(--bs-primary);
+  }
+
+  .mobile-nav-item.active::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    border-radius: 2px;
+  }
+
+  .mobile-nav-item:not(.active) {
+    opacity: 0.7;
+  }
+
+  .mobile-spacer {
+    height: 56px;
+  }
+
+  /* Estilos para el tema oscuro */
+  :global([data-bs-theme="dark"]) .navbar,
+  :global([data-bs-theme="dark"]) .mobile-header,
+  :global([data-bs-theme="dark"]) .mobile-nav {
+    background-color: rgba(33, 37, 41, 0.8);
+  }
+
+  :global([data-bs-theme="dark"]) .dropdown-menu {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark-border-subtle);
+  }
+
+  :global([data-bs-theme="dark"]) .dropdown-item {
+    color: var(--bs-body-color);
+  }
+
+  :global([data-bs-theme="dark"]) .dropdown-item:hover {
+    background-color: var(--bs-dark-bg-subtle);
+  }
+
+  /* Variables para colores más oscuros */
+  :root {
+    --bs-primary-dark: #5b21b6;
+    --bs-indigo-dark: #4338ca;
+  }
+
+  .dropdown-item {
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .dropdown-item.active {
+    background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
+    color: white;
+  }
+</style>
 
 <!-- Modal de confirmación para acceso al panel de administrador -->
 {#if showAdminConfirmDialog}
