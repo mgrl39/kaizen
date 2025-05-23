@@ -3,11 +3,11 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  import { theme } from '$lib/theme';
   
   // Estado para el sidebar
   let sidebarCollapsed = false;
   let isBrowser = false;
+
   
   // Estructura del menú de navegación simplificada
   const menuItems = [
