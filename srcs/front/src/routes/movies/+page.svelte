@@ -24,9 +24,12 @@
     overlayOpacity: "50"
   };
   
+  // Imagen por defecto en base64 (un placeholder gris simple)
+  const DEFAULT_IMAGE_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+  
   // Función para obtener la URL correcta de la imagen
   function getImageUrl(photoUrl) {
-    if (!photoUrl) return 'https://via.placeholder.com/300x450?text=No+Image';
+    if (!photoUrl) return DEFAULT_IMAGE_BASE64;
     
     // Si ya es una URL completa
     if (photoUrl.startsWith('http')) {
@@ -44,7 +47,10 @@
   
   // Función para manejar errores de carga de imagen
   function handleImageError(event) {
-    event.target.src = 'https://via.placeholder.com/300x450?text=No+Image';
+    if (event.target) {
+      event.target.src = DEFAULT_IMAGE_BASE64;
+      event.target.onerror = null; // Prevenir bucle infinito
+    }
   }
   
   onMount(async () => {
@@ -173,6 +179,12 @@
   title="Cartelera"
   subtitle="Descubre todas las películas disponibles en nuestro cine"
   imageUrl="https://source.unsplash.com/random/1920x1080/?movies,cinema,popcorn"
+  on:error={(e) => {
+    if (e.target) {
+      e.target.src = DEFAULT_IMAGE_BASE64;
+      e.target.onerror = null;
+    }
+  }}
 />
 
 <!-- Contenido principal con estilo Bootstrap -->
@@ -273,6 +285,7 @@
                   class="card-img-top movie-poster" 
                   alt={movie.title}
                   on:error={handleImageError}
+                  loading="lazy"
                 />
                 {#if movie.rating}
                   <span class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark">

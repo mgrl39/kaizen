@@ -30,14 +30,52 @@
     errorMessage = '';
     
     try {
-      // Simulación de login (reemplazar con tu lógica real)
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Redirigir al usuario después del login exitoso
-      goto('/');
+      const response = await fetch(`${API_URL}/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        // Guardar el token
+        localStorage.setItem('token', data.token);
+        
+        // Si "recordar usuario" está activado, guardar el email
+        if (rememberMe) {
+          localStorage.setItem('rememberedUser', email);
+        } else {
+          localStorage.removeItem('rememberedUser');
+        }
+
+        // Guardar estado de autenticación
+        const authState = {
+          isAuthenticated: true,
+          isAdmin: data.user.role === 'admin',
+          userName: data.user.name || data.user.username || 'Usuario',
+          loading: false
+        };
+        localStorage.setItem('authState', JSON.stringify(authState));
+
+        // Redirigir según el rol
+        if (data.user.role === 'admin') {
+          goto('/admin');
+        } else {
+          goto('/');
+        }
+      } else {
+        errorMessage = data.message || 'Credenciales inválidas. Por favor intenta de nuevo.';
+      }
     } catch (error) {
       console.error('Error de login:', error);
-      errorMessage = 'Credenciales inválidas. Por favor intenta de nuevo.';
+      errorMessage = 'Error al conectar con el servidor. Por favor intenta más tarde.';
     } finally {
       isSubmitting = false;
     }
@@ -51,7 +89,32 @@
   onMount(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      goto('/');
+      // Verificar si el token es válido
+      fetch(`${API_URL}/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          if (data.user.role === 'admin') {
+            goto('/admin');
+          } else {
+            goto('/');
+          }
+        } else {
+          // Token inválido, limpiamos localStorage
+          localStorage.removeItem('token');
+          localStorage.removeItem('authState');
+        }
+      })
+      .catch(() => {
+        // Error al verificar, limpiamos localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('authState');
+      });
     }
     
     // Cargar usuario recordado si existe

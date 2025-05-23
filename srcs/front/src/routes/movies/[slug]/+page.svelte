@@ -6,6 +6,9 @@
   
   export let data;
   
+  // Imagen por defecto en base64 (un placeholder gris simple)
+  const DEFAULT_IMAGE_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
+  
   // Estado
   let movie = null;
   let loading = true;
@@ -172,7 +175,15 @@
           alt="" 
           class="w-100 h-100 object-cover opacity-20"
           style="object-position: center 20%;"
+          on:error={(e) => {
+            if (e.target) {
+              e.target.src = DEFAULT_IMAGE_BASE64;
+              e.target.onerror = null;
+            }
+          }}
         />
+      {:else}
+        <div class="position-absolute inset-0 bg-black"></div>
       {/if}
     </div>
     
@@ -194,10 +205,16 @@
           <div class="col-md-4 col-lg-3">
             <div class="position-relative h-100">
               <img 
-                src={movie.photo_url || '/img/default-movie.jpg'} 
+                src={movie.photo_url || DEFAULT_IMAGE_BASE64} 
                 alt={movie.title}
                 class="w-100 h-100 object-cover"
                 style="min-height: 300px;"
+                on:error={(e) => {
+                  if (e.target) {
+                    e.target.src = DEFAULT_IMAGE_BASE64;
+                    e.target.onerror = null;
+                  }
+                }}
               />
               {#if movie.rating}
                 <span class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark fs-6">

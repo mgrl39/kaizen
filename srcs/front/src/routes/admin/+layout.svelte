@@ -1,143 +1,222 @@
 <script lang="ts">
-  import { t } from '$lib/i18n';
-  import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  
-  // Estado para el sidebar
-  let sidebarCollapsed = false;
-  let isBrowser = false;
+  import { page } from '$app/stores';
+  import { API_URL } from '$lib/config';
 
-  
-  // Estructura del menú de navegación simplificada
-  const menuItems = [
-    { id: 'dashboard', name: 'Dashboard', icon: 'speedometer2', path: '/admin' },
-    { id: 'movies', name: 'Películas', icon: 'film', path: '/admin/movies' },
-    { id: 'cinemas', name: 'Cines', icon: 'building', path: '/admin/cinemas' },
-    { id: 'users', name: 'Usuarios', icon: 'people', path: '/admin/users' },
-    { id: 'bookings', name: $t('bookings'), icon: 'ticket-perforated', path: '/admin/bookings' },
-    { id: 'reports', name: 'Informes', icon: 'bar-chart', path: '/admin/reports' },
-    { id: 'settings', name: 'Configuración', icon: 'gear', path: '/admin/settings' }
+  // Tipos
+  interface AdminMenuItem {
+    url: string;
+    icon: string;
+    text: string;
+  }
+
+  // Estado de autenticación
+  let isAuthenticated = false;
+  let isAdmin = false;
+  let userName = '';
+
+  // Elementos de navegación del admin
+  const adminMenuItems: AdminMenuItem[] = [
+    { url: '/admin', icon: 'speedometer2', text: 'Panel Principal' },
+    { url: '/admin/movies', icon: 'film', text: 'Películas' },
+    { url: '/admin/cinemas', icon: 'building', text: 'Cines' },
+    { url: '/admin/bookings', icon: 'ticket-detailed', text: 'Reservas' },
+    { url: '/admin/users', icon: 'people', text: 'Usuarios' },
+    { url: '/admin/reports', icon: 'graph-up', text: 'Informes' },
+    { url: '/admin/settings', icon: 'gear', text: 'Configuración' }
   ];
-  
-  // Función para verificar si una ruta está activa
-  function isActive(path: string) {
-    if (path === '/admin') {
-      return $page.url.pathname === '/admin' || $page.url.pathname === '/admin/';
-    }
-    return $page.url.pathname.startsWith(path);
-  }
-  
-  // Función para salir del panel de administración
-  function exitAdminPanel() {
-    goto('/');
-  }
-  
-  onMount(() => {
-    isBrowser = true;
+
+  onMount(async () => {
+    // Forzar tema claro
+    document.documentElement.setAttribute('data-bs-theme', 'light');
     
-    // Ensure body has correct styles immediately
-    document.body.classList.add('admin-route');
-    document.body.style.margin = '0';
-    document.body.style.padding = '0';
+    // Verificar autenticación
+    const token = localStorage.getItem('token');
+    if (!token) {
+      goto('/login');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        }
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        isAuthenticated = true;
+        isAdmin = data.user.role === 'admin';
+        userName = data.user.name || data.user.username;
+
+        if (!isAdmin) {
+          goto('/');
+        }
+      } else {
+        goto('/login');
+      }
+    } catch (error) {
+      console.error('Error al verificar perfil:', error);
+      goto('/login');
+    }
   });
+
+  function isActive(path: string): boolean {
+    return $page.url.pathname === path;
+  }
+
+  async function handleLogout(): Promise<void> {
+    const token = localStorage.getItem('token');
+    if (token) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('authState');
+      
+      try {
+        await fetch(`${API_URL}/logout`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+          }
+        });
+      } catch (e) {
+        console.error("Error en logout:", e);
+      }
+      
+      goto('/login');
+    }
+  }
 </script>
 
-<svelte:head>
-  <style>
-    body {
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-  </style>
-</svelte:head>
-
-<div class="admin-layout d-flex vh-100">
+<div class="admin-layout">
   <!-- Sidebar -->
-  <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark sidebar" style="width: {sidebarCollapsed ? '4.5rem' : '280px'}; transition: width 0.3s;">
-    <a href="/admin" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      {#if !sidebarCollapsed}
-        <span class="fs-4">Admin Panel</span>
-      {:else}
-        <i class="bi bi-speedometer2"></i>
-      {/if}
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
-      {#each menuItems as item}
-        <li class="nav-item">
-          <a href={item.path} class="nav-link {isActive(item.path) ? 'active' : 'text-white'} d-flex align-items-center">
-            <i class="bi bi-{item.icon} me-2"></i>
-            {#if !sidebarCollapsed}
-              <span>{item.name}</span>
-            {/if}
-          </a>
-        </li>
-      {/each}
-    </ul>
-    <hr>
-    <div class="dropdown">
-      <button class="d-flex align-items-center text-white text-decoration-none border-0 bg-transparent p-0" 
-              on:click={exitAdminPanel}>
-        <i class="bi bi-box-arrow-left me-2"></i>
-        {#if !sidebarCollapsed}
-          <span>Salir</span>
-        {/if}
+  <nav class="admin-sidebar">
+    <div class="sidebar-header">
+      <a href="/admin" class="brand">
+        Kaizen Admin
+      </a>
+    </div>
+
+    <div class="sidebar-content">
+      <ul class="nav flex-column">
+        {#each adminMenuItems as item}
+          <li class="nav-item">
+            <a 
+              href={item.url} 
+              class="nav-link {isActive(item.url) ? 'active' : ''}"
+            >
+              <i class="bi bi-{item.icon} me-2"></i>
+              {item.text}
+            </a>
+          </li>
+        {/each}
+      </ul>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-info mb-2">
+        <i class="bi bi-person-circle me-2"></i>
+        <span>{userName}</span>
+      </div>
+      <button class="btn btn-outline-secondary w-100" on:click={handleLogout}>
+        <i class="bi bi-box-arrow-right me-2"></i>
+        Cerrar Sesión
       </button>
     </div>
-  </div>
+  </nav>
 
   <!-- Main content -->
-  <div class="admin-content flex-grow-1 overflow-auto">
-    <div class="px-3 py-2 border-bottom bg-light">
-      <div class="container-fluid d-flex align-items-center">
-        <button class="btn btn-sm" on:click={() => sidebarCollapsed = !sidebarCollapsed}>
-          <i class="bi bi-list"></i>
-        </button>
-        
-        <h1 class="h5 mb-0 ms-3">
-          {#each menuItems as item}
-            {#if isActive(item.path)}
-              {item.name}
-            {/if}
-          {/each}
-        </h1>
-      </div>
-    </div>
-    
-    <main class="container-fluid py-3">
-      <slot></slot>
-    </main>
-  </div>
+  <main class="admin-main">
+    <slot />
+  </main>
 </div>
 
 <style>
-  :global(body) {
-    overflow: hidden;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-
-  :global(body.admin-route) {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
   .admin-layout {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+  }
+
+  .admin-sidebar {
+    width: 280px;
+    background: white;
+    border-right: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
+    height: 100vh;
+    z-index: 1030;
   }
-  
-  .sidebar {
-    height: 100%;
+
+  .sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .brand {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #212529;
+    text-decoration: none;
+  }
+
+  .sidebar-content {
+    flex: 1;
     overflow-y: auto;
+    padding: 1rem 0;
   }
-  
-  .admin-content {
-    height: 100%;
+
+  .nav-link {
+    color: #495057;
+    padding: 0.75rem 1rem;
+    transition: all 0.2s;
+  }
+
+  .nav-link:hover {
+    background-color: #f8f9fa;
+    color: #0d6efd;
+  }
+
+  .nav-link.active {
+    background-color: #e9ecef;
+    color: #0d6efd;
+    font-weight: 500;
+  }
+
+  .sidebar-footer {
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+  }
+
+  .user-info {
+    color: #6c757d;
+    font-size: 0.875rem;
+  }
+
+  .admin-main {
+    margin-left: 280px;
+    padding: 2rem;
+    width: calc(100% - 280px);
+  }
+
+  @media (max-width: 768px) {
+    .admin-sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+
+    .admin-main {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    .admin-layout {
+      flex-direction: column;
+    }
   }
 </style>
