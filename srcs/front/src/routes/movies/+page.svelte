@@ -173,7 +173,6 @@
   title="Cartelera"
   subtitle="Descubre todas las películas disponibles en nuestro cine"
   imageUrl="https://source.unsplash.com/random/1920x1080/?movies,cinema,popcorn"
-  overlayOpacity="60"
 />
 
 <!-- Contenido principal con estilo Bootstrap -->
@@ -181,10 +180,10 @@
   <!-- Sección de filtros -->
   <div class="row mb-4">
     <div class="col-12">
-      <div class="card bg-dark text-white border-secondary">
-        <div class="card-header bg-dark d-flex justify-content-between align-items-center">
+      <div class="card border">
+        <div class="card-header d-flex justify-content-between align-items-center">
           <h5 class="mb-0">Filtros</h5>
-          <button class="btn btn-sm btn-outline-light" on:click={resetFilters}>
+          <button class="btn btn-sm btn-outline-primary" on:click={resetFilters}>
             <i class="bi bi-arrow-counterclockwise me-1"></i>Resetear
           </button>
         </div>
@@ -193,7 +192,7 @@
             <div class="col-md-4">
               <label for="searchQuery" class="form-label">Buscar</label>
               <div class="input-group">
-                <span class="input-group-text bg-dark border-secondary text-light">
+                <span class="input-group-text">
                   <i class="bi bi-search"></i>
                 </span>
                 <input 
@@ -201,7 +200,7 @@
                   id="searchQuery" 
                   bind:value={searchQuery} 
                   placeholder="Buscar películas..." 
-                  class="form-control bg-dark border-secondary text-light"
+                  class="form-control"
                 />
               </div>
             </div>
@@ -211,7 +210,7 @@
               <select 
                 id="genreSelect" 
                 bind:value={selectedGenre} 
-                class="form-select bg-dark border-secondary text-light"
+                class="form-select"
               >
                 <option value="">Todos los géneros</option>
                 {#each genres as genre}
@@ -225,7 +224,7 @@
               <select 
                 id="sortSelect" 
                 bind:value={sortBy} 
-                class="form-select bg-dark border-secondary text-light"
+                class="form-select"
               >
                 <option value="rating">Valoración</option>
                 <option value="title">Título</option>
@@ -239,7 +238,7 @@
   </div>
   
   <!-- Resultados -->
-  <h2 class="mb-4 text-white">
+  <h2 class="mb-4">
     <i class="bi bi-film me-2"></i>Películas en cartelera
     {#if filteredMovies.length > 0}
       <span class="badge bg-secondary ms-2">{filteredMovies.length}</span>
@@ -248,7 +247,7 @@
   
   {#if loading}
     <div class="d-flex justify-content-center py-5">
-      <div class="spinner-border text-light" role="status">
+      <div class="spinner-border" role="status">
         <span class="visually-hidden">Cargando...</span>
       </div>
     </div>
@@ -266,8 +265,8 @@
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
       {#each filteredMovies as movie}
         <div class="col">
-          <div class="card h-100 bg-dark text-white border-secondary hover-card">
-            <a href={`/movies/${movie.slug || movie.id}`} class="text-decoration-none text-white">
+          <div class="card h-100 movie-card hover-card">
+            <a href={`/movies/${movie.slug || movie.id}`} class="text-decoration-none">
               <div class="position-relative">
                 <img 
                   src={getImageUrl(movie.photo_url)} 
@@ -310,7 +309,7 @@
                   {/if}
                 </div>
               </div>
-              <div class="card-footer bg-dark border-secondary">
+              <div class="card-footer">
                 <div class="d-flex justify-content-between align-items-center">
                   <small class="text-muted">
                     {#if movie.release_date}
@@ -318,7 +317,7 @@
                       {new Date(movie.release_date).toLocaleDateString()}
                     {/if}
                   </small>
-                  <button class="btn btn-sm btn-outline-light">
+                  <button class="btn btn-sm btn-outline-primary">
                     <i class="bi bi-eye"></i>
                   </button>
                 </div>
@@ -378,11 +377,21 @@
   
   .hover-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
   
   /* Asegúrate de que los enlaces no tengan el subrayado predeterminado */
   a {
     text-decoration: none;
+  }
+  
+  /* Cuando está en modo oscuro, ajustar colores para mantener contraste */
+  :global([data-bs-theme="dark"]) .movie-card {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-dark-border-subtle);
+  }
+  
+  :global([data-bs-theme="dark"]) .movie-card a {
+    color: var(--bs-body-color);
   }
 </style>
