@@ -1,0 +1,29 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,301,68,327"/>
+<area shape="rect" id="Node000001" href="$classApp_1_1Models_1_1Actor.html" title=" " alt="" coords="140,5,276,31"/>
+<area shape="poly" id="edge42_Node000000_Node000001" title=" " alt="" coords="35,287,38,235,49,169,59,134,72,100,91,68,114,40,139,25,141,29,118,44,95,71,77,102,64,136,54,170,43,236,40,288"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Models_1_1Booking.html" title=" " alt="" coords="131,55,285,80"/>
+<area shape="poly" id="edge43_Node000000_Node000002" title=" " alt="" coords="37,287,43,244,55,191,78,136,94,111,114,89,131,78,134,82,118,93,99,115,83,139,60,192,48,245,42,288"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Models_1_1BookingSeat.html" title=" " alt="" coords="116,104,300,129"/>
+<area shape="poly" id="edge44_Node000000_Node000003" title=" " alt="" coords="40,287,48,254,63,213,84,173,114,139,132,127,135,132,118,143,89,176,68,216,53,255,45,289"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Models_1_1Cinema.html" title=" " alt="" coords="132,153,284,179"/>
+<area shape="poly" id="edge45_Node000000_Node000004" title=" " alt="" coords="45,287,71,237,91,210,114,188,135,176,138,181,118,192,94,214,76,239,50,290"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Models_1_1Functions.html" title=" " alt="" coords="126,203,290,228"/>
+<area shape="poly" id="edge46_Node000000_Node000005" title=" " alt="" coords="55,288,82,261,115,237,141,226,143,231,117,242,85,265,59,292"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Models_1_1Genre.html" title=" " alt="" coords="137,252,279,277"/>
+<area shape="poly" id="edge47_Node000000_Node000006" title=" " alt="" coords="80,297,115,286,156,275,157,280,117,291,82,302"/>
+<area shape="rect" id="Node000007" href="$classApp_1_1Models_1_1Manage.html" title=" " alt="" coords="131,301,285,327"/>
+<area shape="poly" id="edge48_Node000000_Node000007" title=" " alt="" coords="82,311,130,311,130,317,82,317"/>
+<area shape="rect" id="Node000008" href="$classApp_1_1Models_1_1Movie.html" title=" " alt="" coords="137,351,279,376"/>
+<area shape="poly" id="edge49_Node000000_Node000008" title=" " alt="" coords="82,325,117,335,161,348,159,353,115,341,80,330"/>
+<area shape="rect" id="Node000009" href="$classApp_1_1Models_1_1MovieActor.html" title=" " alt="" coords="120,400,296,425"/>
+<area shape="poly" id="edge50_Node000000_Node000009" title=" " alt="" coords="59,335,85,361,117,385,147,398,144,402,115,390,82,366,55,339"/>
+<area shape="rect" id="Node000010" href="$classApp_1_1Models_1_1MovieGenre.html" title=" " alt="" coords="117,449,299,475"/>
+<area shape="poly" id="edge51_Node000000_Node000010" title=" " alt="" coords="50,338,76,388,95,413,118,435,140,447,138,452,114,439,91,417,71,391,45,341"/>
+<area shape="rect" id="Node000011" href="$classApp_1_1Models_1_1Room.html" title=" " alt="" coords="138,499,278,524"/>
+<area shape="poly" id="edge52_Node000000_Node000011" title=" " alt="" coords="45,340,54,373,68,412,89,451,118,484,139,497,137,502,114,488,85,454,63,414,49,374,40,341"/>
+<area shape="rect" id="Node000012" href="$classApp_1_1Models_1_1Screening.html" title=" " alt="" coords="125,548,291,573"/>
+<area shape="poly" id="edge53_Node000000_Node000012" title=" " alt="" coords="42,340,48,382,61,435,83,488,99,512,118,533,136,546,133,550,114,537,95,515,79,490,56,436,43,383,37,341"/>
+<area shape="rect" id="Node000013" href="$classApp_1_1Models_1_1Seat.html" title=" " alt="" coords="143,597,273,623"/>
+<area shape="poly" id="edge54_Node000000_Node000013" title=" " alt="" coords="40,340,43,391,54,457,64,491,78,524,95,555,118,583,144,599,141,603,114,587,91,559,73,527,59,493,49,458,38,392,35,341"/>
+</map>

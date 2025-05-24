@@ -1,0 +1,7 @@
+var classApp_1_1Models_1_1Room =
+[
+    [ "cinema", "classApp_1_1Models_1_1Room.html#a0b5a6c368c3cf6b6c43845664aa8fdce", null ],
+    [ "functions", "classApp_1_1Models_1_1Room.html#acb29bd081aab8bd42798c24fc6eba502", null ],
+    [ "seats", "classApp_1_1Models_1_1Room.html#ab7ed1f1a5106bed4bdae7471b875015d", null ],
+    [ "$fillable", "classApp_1_1Models_1_1Room.html#a64e8255768f2b0a9b734da2dbf732fea", null ]
+];

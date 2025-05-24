@@ -1,0 +1,14 @@
+<map id="App\Models\Movie\actors" name="App\Models\Movie\actors">
+<area shape="rect" id="Node000001" title="Obtener los actores asociados con esta película." alt="" coords="729,96,916,121"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a4acb5e947f86842db726da784f9f8b61" title=" " alt="" coords="482,45,663,100"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="720,97,663,88,664,83,721,91"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Models_1_1Movie.html#a761af6742dda30a1259a4bc88786d594" title="Sincronizar actores desde un array de nombres." alt="" coords="464,125,681,165"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="721,126,682,132,681,126,720,121"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a45c94929f5e636834f626838d20007f4" title=" " alt="" coords="235,5,416,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="468,59,416,50,417,45,469,53"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a0ecc46e111e5fe5c504ef0d1c5ec7dcc" title=" " alt="" coords="235,84,416,139"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="469,92,417,100,416,95,468,86"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#ac22640744ebb16ae8d65c0ab483c3e3f" title=" " alt="" coords="5,45,187,100"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="222,53,187,59,187,54,221,48"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="221,96,187,91,187,85,222,91"/>
+</map>

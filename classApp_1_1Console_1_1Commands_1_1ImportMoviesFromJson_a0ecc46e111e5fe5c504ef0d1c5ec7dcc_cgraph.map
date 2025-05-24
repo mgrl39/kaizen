@@ -1,0 +1,15 @@
+<map id="App\Console\Commands\ImportMoviesFromJson\updateMovie" name="App\Console\Commands\ImportMoviesFromJson\updateMovie">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,124,187,179"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a4b0935604439e557197269e334a3fad7" title=" " alt="" coords="235,5,432,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,121,233,69,246,63,248,68,236,74,142,126"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a21898d55b0a9483950826e0feb40d28c" title=" " alt="" coords="243,84,424,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,133,229,126,230,132,187,139"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a4acb5e947f86842db726da784f9f8b61" title=" " alt="" coords="243,163,424,217"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="187,163,229,170,229,176,186,169"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#acc24932d8c99ad94ab046d6c873daab4" title=" " alt="" coords="243,241,424,296"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="144,177,236,226,251,233,249,238,233,231,142,181"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Models_1_1Movie.html#a7346c784b36820a94e59edfd5b0999f1" title="Obtener los actores asociados con esta película." alt="" coords="482,177,669,203"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="424,187,468,187,468,193,424,193"/>
+<area shape="rect" id="Node000007" href="$classApp_1_1Models_1_1Movie.html#a1301ceed205ee879f5af32ece84a0076" title="Obtener los géneros asociados con esta película." alt="" coords="480,256,671,281"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="424,266,466,266,466,271,424,271"/>
+</map>
