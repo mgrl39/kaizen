@@ -208,7 +208,6 @@
         </div>
         <div class="col-md-6 mb-3">
           <h4>Estadísticas</h4>
-          <p><strong>Puntos de Lealtad:</strong> {user.loyaltyPoints || 0}</p>
           <p><strong>Fecha de Registro:</strong> {formatDate(new Date(user.created_at || Date.now()))}</p>
         </div>
       </div>

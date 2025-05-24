@@ -36,53 +36,28 @@
     // Client-side validation
     function validateForm() {
         errors = {};
-        
         // Username validation
-        if (!username) {
-            errors.username = $t('usernameRequired');
-        } else if (username.length < 3) {
-            errors.username = $t('usernameMinLength');
-        }
-        
+        if (!username) errors.username = $t('usernameRequired');
+        else if (username.length < 3) errors.username = $t('usernameMinLength');
         // Name validation
-        if (!name) {
-            errors.name = $t('nameRequired');
-        }
-        
+        if (!name) errors.name = $t('nameRequired');
         // Email validation
-        if (!email) {
-            errors.email = $t('emailRequired');
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            errors.email = $t('emailInvalid');
-        }
-        
+        if (!email) errors.email = $t('emailRequired');
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = $t('emailInvalid');
         // Password validation
-        if (!password) {
-            errors.password = $t('passwordRequired');
-        } else if (password.length < 8) {
-            errors.password = $t('passwordMinLength');
-        }
-        
+        if (!password) errors.password = $t('passwordRequired');
+        else if (password.length < 8) errors.password = $t('passwordMinLength');
         // Password confirmation
-        if (password !== passwordConfirmation) {
-            errors.passwordConfirmation = $t('passwordsDontMatch');
-        }
-        
+        if (password !== passwordConfirmation) errors.passwordConfirmation = $t('passwordsDontMatch');
         // Birthdate validation is optional now
         if (birthdate) {
-            const today = new Date();
-            const selectedDate = new Date(birthdate);
-            if (selectedDate >= today) {
-                errors.birthdate = $t('birthdateInvalid');
-            }
+            const today : Date = new Date();
+            const selectedDate : Date = new Date(birthdate);
+            if (selectedDate >= today) errors.birthdate = $t('birthdateInvalid');
         }
-        
         // Terms validation
-        if (!agreeTerms) {
-            errors.terms = $t('agreeTermsRequired');
-        }
-        
-        return Object.keys(errors).length === 0;
+        if (!agreeTerms) errors.terms = $t('agreeTermsRequired');
+        return (Object.keys(errors).length === 0);
     }
 
     async function registerUser(userData: any) {
@@ -115,11 +90,7 @@
                     message: data.message || $t('registerError')
                 };
             }
-
-            if (data.token) {
-                localStorage.setItem('token', data.token);
-            }
-
+            if (data.token) localStorage.setItem('token', data.token);
             return {
                 success: true,
                 data
@@ -163,11 +134,8 @@
                     goto('/login');
                 }, 2000);
             } else {
-                if (response.errors) {
-                    errors = response.errors;
-                } else {
-                    errorMessage = response.message || $t('registerError');
-                }
+                if (response.errors) errors = response.errors;
+                else errorMessage = response.message || $t('registerError');
                 showError = true;
             }
         } catch (error: any) {
@@ -181,9 +149,7 @@
     // Verificar si ya hay sesión
     onMount(() => {
         const token = localStorage.getItem('token');
-        if (token) {
-            goto('/');
-        }
+        if (token) goto('/');
     });
 </script>
 
