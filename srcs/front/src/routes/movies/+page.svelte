@@ -184,75 +184,68 @@
 
 <!-- Contenido principal con estilo Bootstrap -->
 <div class="container py-5">
-  <!-- Sección de filtros -->
-  <div class="row mb-4">
+  <!-- Sección de filtros modernizada -->
+  <div class="row mb-5">
     <div class="col-12">
-      <div class="card border-0 shadow-sm">
-        <div class="card-header bg-gradient">
-          <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0 text-white">
-              <i class="bi bi-funnel me-2"></i>
-              Filtros
-            </h5>
-            <button class="btn btn-sm btn-light" on:click={resetFilters}>
-              <i class="bi bi-arrow-counterclockwise me-1"></i>
-              Resetear
-            </button>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h3 mb-0">Explorar Películas</h2>
+        <button class="btn btn-outline-primary" on:click={resetFilters}>
+          <i class="bi bi-arrow-counterclockwise me-2"></i>
+          Resetear Filtros
+        </button>
+      </div>
+      
+      <div class="row g-3">
+        <div class="col-md-4">
+          <div class="form-floating">
+            <input
+              type="text"
+              class="form-control"
+              id="searchQuery"
+              placeholder="Buscar películas"
+              bind:value={searchQuery}
+            />
+            <label for="searchQuery">
+              <i class="bi bi-search me-2"></i>
+              Buscar películas
+            </label>
           </div>
         </div>
-        <div class="card-body">
-          <div class="row g-3">
-            <div class="col-md-6">
-              <label for="searchQuery" class="form-label">Buscar por título o sinopsis</label>
-              <div class="input-group">
-                <span class="input-group-text border-primary bg-white">
-                  <i class="bi bi-search text-primary"></i>
-                </span>
-                <input 
-                  type="text" 
-                  id="searchQuery" 
-                  bind:value={searchQuery} 
-                  placeholder="Escribe para buscar..." 
-                  class="form-control border-primary"
-                />
-                {#if searchQuery}
-                  <button 
-                    class="btn btn-outline-primary" 
-                    type="button"
-                    on:click={() => searchQuery = ''}
-                  >
-                    <i class="bi bi-x"></i>
-                  </button>
-                {/if}
-              </div>
-            </div>
-            
-            <div class="col-md-3">
-              <label for="genreSelect" class="form-label">Género</label>
-              <select 
-                id="genreSelect" 
-                bind:value={selectedGenre} 
-                class="form-select border-primary"
-              >
-                <option value="">Todos los géneros</option>
-                {#each genres as genre}
-                  <option value={genre}>{genre}</option>
-                {/each}
-              </select>
-            </div>
-            
-            <div class="col-md-3">
-              <label for="sortSelect" class="form-label">Ordenar por</label>
-              <select 
-                id="sortSelect" 
-                bind:value={sortBy} 
-                class="form-select border-primary"
-              >
-                <option value="rating">Mejor valoradas</option>
-                <option value="title">Título</option>
-                <option value="release_date">Más recientes</option>
-              </select>
-            </div>
+        
+        <div class="col-md-4">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="genreSelect"
+              bind:value={selectedGenre}
+            >
+              <option value="">Todos los géneros</option>
+              {#each genres as genre}
+                <option value={genre}>{genre}</option>
+              {/each}
+            </select>
+            <label for="genreSelect">
+              <i class="bi bi-film me-2"></i>
+              Género
+            </label>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="form-floating">
+            <select
+              class="form-select"
+              id="sortSelect"
+              bind:value={sortBy}
+            >
+              <option value="rating">Mejor valoradas</option>
+              <option value="title">Título (A-Z)</option>
+              <option value="release_date">Más recientes</option>
+            </select>
+            <label for="sortSelect">
+              <i class="bi bi-sort-down me-2"></i>
+              Ordenar por
+            </label>
           </div>
         </div>
       </div>
@@ -261,11 +254,11 @@
   
   <!-- Resultados -->
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0 text-gradient">
+    <h2 class="mb-0">
       <i class="bi bi-film me-2"></i>
       {searchQuery ? 'Resultados' : 'Todas las películas'}
       {#if filteredMovies.length > 0}
-        <span class="badge bg-gradient ms-2">{filteredMovies.length}</span>
+        <span class="badge bg-primary ms-2">{filteredMovies.length}</span>
       {/if}
     </h2>
     {#if searchQuery && filteredMovies.length === 0}
@@ -412,98 +405,78 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
   
-  /* Estilos para el tema morado */
-  .bg-gradient {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-  }
-
-  .text-gradient {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .badge.bg-gradient {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    color: white;
-    font-weight: 500;
-  }
-
   /* Asegúrate de que los enlaces no tengan el subrayado predeterminado */
   a {
     text-decoration: none;
   }
   
-  /* Cuando está en modo oscuro, ajustar colores para mantener contraste */
+  /* Estilos para modo oscuro - solo cambios de color */
+  :global([data-bs-theme="dark"]) {
+    /* Colores de fondo */
+    --bg-card: rgba(17, 24, 39, 0.8);
+    --bg-input: rgba(17, 24, 39, 0.8);
+    
+    /* Colores de texto */
+    --text-primary: #fff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --text-muted: rgba(255, 255, 255, 0.6);
+    
+    /* Colores de borde */
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-focus: #6366f1;
+    
+    /* Color de acento */
+    --accent-color: #6366f1;
+  }
+
+  /* Aplicar colores en modo oscuro */
+  :global([data-bs-theme="dark"]) .card,
   :global([data-bs-theme="dark"]) .movie-card {
-    background-color: rgba(17, 24, 39, 0.6);
-    border-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-  
-  :global([data-bs-theme="dark"]) .movie-card a {
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  :global([data-bs-theme="dark"]) .card {
-    background-color: rgba(17, 24, 39, 0.6);
-    border-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  :global([data-bs-theme="dark"]) .card-header {
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-  }
-
-  :global([data-bs-theme="dark"]) .input-group-text {
-    background-color: rgba(17, 24, 39, 0.6);
-    border-color: rgba(99, 102, 241, 0.5);
-    color: rgba(255, 255, 255, 0.8);
+    background-color: var(--bg-card);
+    border-color: var(--border-color);
   }
 
   :global([data-bs-theme="dark"]) .form-control,
   :global([data-bs-theme="dark"]) .form-select {
-    background-color: rgba(17, 24, 39, 0.6);
-    border-color: rgba(99, 102, 241, 0.5);
-    color: rgba(255, 255, 255, 0.9);
+    background-color: var(--bg-input);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  :global([data-bs-theme="dark"]) .form-floating label {
+    color: var(--text-secondary);
   }
 
   :global([data-bs-theme="dark"]) .form-control:focus,
   :global([data-bs-theme="dark"]) .form-select:focus {
-    background-color: rgba(17, 24, 39, 0.8);
-    border-color: #6366f1;
+    border-color: var(--accent-color);
     box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
   }
 
-  :global([data-bs-theme="dark"]) .form-control::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+  :global([data-bs-theme="dark"]) .btn-outline-primary {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
   }
 
-  :global([data-bs-theme="dark"]) .btn-light {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-color: transparent;
-    color: rgba(255, 255, 255, 0.8);
+  :global([data-bs-theme="dark"]) .btn-outline-primary:hover {
+    background-color: var(--accent-color);
+    color: var(--text-primary);
   }
 
-  :global([data-bs-theme="dark"]) .btn-light:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: white;
+  :global([data-bs-theme="dark"]) .badge.bg-primary {
+    background-color: var(--accent-color) !important;
   }
 
   :global([data-bs-theme="dark"]) .badge.bg-secondary {
     background-color: rgba(255, 255, 255, 0.1) !important;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
   }
 
   :global([data-bs-theme="dark"]) .text-muted {
-    color: rgba(255, 255, 255, 0.6) !important;
+    color: var(--text-muted) !important;
   }
 
   :global([data-bs-theme="dark"]) .card-footer {
-    border-top-color: rgba(255, 255, 255, 0.1);
-    background-color: transparent;
+    border-top-color: var(--border-color);
   }
 </style>
