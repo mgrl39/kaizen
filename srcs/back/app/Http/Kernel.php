@@ -96,5 +96,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\CheckRole::class,
         'api.rate' => \App\Http\Middleware\ApiRateLimiter::class,
+        'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }

@@ -204,27 +204,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| V2 API Routes (Template for future implementation)
-|--------------------------------------------------------------------------
-*/
-Route::prefix('v2')->name('api.v2.')->group(function () {
-    // Base information for v2
-    Route::get('/', function () {
-        return response()->json([
-            'name' => config('app.name') . ' API',
-            'version' => 'v2',
-            'status' => config('api.versions.current') === 'v2' ? 'current' : 'supported',
-            'message' => 'API v2 - Under development',
-            'timestamp' => now()->toIso8601String()
-        ]);
-    })->name('info');
-
-    // In the future, define v2 routes here
-    // You can start by extending v1 functionality with improvements
-});
-
-/*
-|--------------------------------------------------------------------------
 | API General Routes
 |--------------------------------------------------------------------------
 */
