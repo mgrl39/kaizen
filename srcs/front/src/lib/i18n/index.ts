@@ -117,18 +117,18 @@ const createLanguageStore = () => {
 		if (!browser) return 'es'; // Valor por defecto en SSR
 
 		const savedLanguage = localStorage.getItem('language');
-		if (savedLanguage && languages[savedLanguage]) return savedLanguage;
+		if (savedLanguage && savedLanguage in languages && typeof savedLanguage === 'string') return savedLanguage as LanguageCode;
 
 		// Detectar idioma del navegador
 		const browserLanguage = navigator.language.split('-')[0];
-		return languages[browserLanguage] ? browserLanguage : 'es';
+		return browserLanguage in languages ? (browserLanguage as LanguageCode) : 'es';
 	};
 
 	const { subscribe, set, update } = writable(getInitialLanguage());
 
 	return {
 		subscribe,
-		set: (language) => {
+		set: (language: LanguageCode) => {
 			if (!languages[language]) return;
 
 			if (browser) {
@@ -139,7 +139,7 @@ const createLanguageStore = () => {
 		},
 		// Método para cambiar al siguiente idioma disponible
 		toggle: () => {
-			update((currentLang) => {
+			update((currentLang: LanguageCode): LanguageCode => {
 				const langKeys = Object.keys(languages);
 				const currentIndex = langKeys.indexOf(currentLang);
 				const nextIndex = (currentIndex + 1) % langKeys.length;
@@ -149,7 +149,7 @@ const createLanguageStore = () => {
 					localStorage.setItem('language', nextLang);
 				}
 
-				return nextLang;
+				return nextLang as LanguageCode;
 			});
 		}
 	};
@@ -168,12 +168,12 @@ export const translations = derived(
 export const t = derived(
 	translations,
 	($translations) =>
-		(key, defaultValue = key) =>
+		(key: TranslationKey, defaultValue: string = key) =>
 			$translations[key] || defaultValue
 );
 
 // Función para obtener traducciones (para uso en JS)
-export function getTranslation(key) {
+export function getTranslation(key: TranslationKey) {
 	let translation;
 
 	const unsubscribe = translations.subscribe((trans) => {

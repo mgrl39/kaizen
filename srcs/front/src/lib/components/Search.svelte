@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
   import { API_URL } from '$lib/config';
@@ -7,9 +7,8 @@
   // Store básico para la búsqueda
   const searchQuery = writable('');
   const searchCategory = writable('all'); // 'all', 'movies', 'cinemas'
-  const isSearching = writable(false);
 
-  let searchInput;
+  let searchInput: HTMLInputElement;
 
   // Categorías disponibles para búsqueda
   const categories = [
@@ -19,23 +18,17 @@
   ];
 
   // Manejar envío del formulario
-  function handleSubmit(e) {
+  function handleSubmit(e: SubmitEvent) {
     e.preventDefault();
     if ($searchQuery) {
-      // Determinar la URL basada en la categoría seleccionada
-      let searchUrl = '/search';
-      
-      if ($searchCategory !== 'all') {
-        // Si es una categoría específica, usar esa página
-        searchUrl = `/${$searchCategory}`;
-      }
-      
+      let searchUrl : string = '/search';
+      if ($searchCategory !== 'all') searchUrl = `/${$searchCategory}`;
       goto(`${searchUrl}?q=${encodeURIComponent($searchQuery)}`);
     }
   }
 
   // Cambiar categoría
-  function setCategory(categoryId) {
+  function setCategory(categoryId: string) {
     searchCategory.set(categoryId);
     if (searchInput) {
       searchInput.focus();
@@ -51,7 +44,6 @@
   }
 
   onMount(() => {
-    // Enfocar el campo de búsqueda automáticamente en la página de búsqueda
     if (window.location.pathname === '/search' && searchInput) {
       searchInput.focus();
     }
@@ -93,7 +85,8 @@
         autocomplete="off"
       />
       {#if $searchQuery}
-        <button 
+        <button
+          aria-label="Clear search"
           type="button" 
           class="btn btn-outline-secondary border-start-0" 
           on:click={clearSearch}

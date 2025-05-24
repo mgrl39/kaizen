@@ -47,8 +47,8 @@
     on:click={toggleMenu}
     aria-expanded={isOpen}
   >
-    <span class="me-1">{languages[$language]?.flag || '🌐'}</span>
-    <span class="d-none d-md-inline">{languages[$language]?.name || 'Unknown'}</span>
+    <span class="me-1">{languages[$language as keyof typeof languages]?.flag || '🌐'}</span>
+    <span class="d-none d-md-inline">{languages[$language as keyof typeof languages]?.name || 'Unknown'}</span>
     <i class="bi bi-chevron-down ms-1"></i>
   </button>
 
@@ -60,8 +60,8 @@
             class="dropdown-item {$language === lang ? 'active' : ''}" 
             on:click={() => selectLanguage(lang)}
           >
-            <span class="me-2">{languages[lang].flag}</span>
-            {languages[lang].name}
+            <span class="me-2">{languages[lang as keyof typeof languages].flag}</span>
+            {languages[lang as keyof typeof languages].name}
           </button>
         </li>
       {/each}
