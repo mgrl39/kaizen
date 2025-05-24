@@ -127,90 +127,303 @@
   onMount(fetchProfile);
 </script>
 
-<div class="container my-2">
-  <div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-      <h1>{user?.name || 'Cargando...'}</h1>
-      <p class="text-muted">Miembro desde {formatDate(new Date(user?.created_at || Date.now()))}</p>
+<div class="profile-container">
+  <!-- Header Section -->
+  <div class="profile-header mb-5">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <div class="avatar-container">
+            <img 
+              src={user?.avatar || 'https://ui-avatars.com/api/?name=' + (user?.name || 'User')} 
+              alt="Profile" 
+              class="profile-avatar"
+            />
+          </div>
+        </div>
+        <div class="col">
+          <h1 class="display-6 mb-0">{user?.name || 'Cargando...'}</h1>
+          <p class="text-muted mb-2">@{user?.username}</p>
+          <div class="d-flex align-items-center gap-3">
+            <span class="badge bg-primary-subtle text-primary">
+              <i class="bi bi-calendar3 me-1"></i>
+              Miembro desde {formatDate(new Date(user?.created_at || Date.now()))}
+            </span>
+            {#if user?.loyaltyPoints}
+              <span class="badge bg-warning-subtle text-warning">
+                <i class="bi bi-star-fill me-1"></i>
+                {user.loyaltyPoints} puntos
+              </span>
+            {/if}
+          </div>
+        </div>
+        {#if user}
+          <div class="col-auto">
+            <button 
+              class="btn btn-outline-primary btn-lg {editing ? 'active' : ''}" 
+              on:click={() => editing = !editing}
+            >
+              <i class="bi bi-pencil-square me-2"></i>
+              {editing ? 'Cancelar' : 'Editar Perfil'}
+            </button>
+          </div>
+        {/if}
+      </div>
     </div>
-    {#if user}
-      <div>
-        <button class="btn btn-outline-secondary me-2" on:click={() => editing = !editing}>
-          {editing ? 'Cancelar' : 'Editar Perfil'}
-        </button>
-        <button class="btn btn-primary" on:click={() => editing ? updateProfile() : null} disabled={!editing}>
-          Guardar Cambios
-        </button>
+  </div>
+
+  <div class="container">
+    {#if error}
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {error}
+      </div>
+    {/if}
+    {#if success}
+      <div class="alert alert-success d-flex align-items-center" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i>
+        {success}
+      </div>
+    {/if}
+
+    {#if editing && user}
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card card-hover h-100">
+            <div class="card-body">
+              <h4 class="card-title d-flex align-items-center mb-4">
+                <i class="bi bi-person-circle me-2"></i>
+                Información Personal
+              </h4>
+              <form>
+                <div class="form-floating mb-3">
+                  <input 
+                    type="text" 
+                    bind:value={formData.name} 
+                    class="form-control" 
+                    id="name" 
+                    placeholder="Nombre"
+                  />
+                  <label for="name">Nombre</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input 
+                    type="text" 
+                    bind:value={formData.username} 
+                    class="form-control" 
+                    id="username" 
+                    placeholder="Username"
+                  />
+                  <label for="username">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input 
+                    type="email" 
+                    bind:value={formData.email} 
+                    class="form-control" 
+                    id="email" 
+                    placeholder="Email"
+                  />
+                  <label for="email">Email</label>
+                </div>
+                <button 
+                  type="button" 
+                  class="btn btn-primary w-100" 
+                  on:click={updateProfile}
+                >
+                  <i class="bi bi-check2-circle me-2"></i>
+                  Guardar Cambios
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card card-hover h-100">
+            <div class="card-body">
+              <h4 class="card-title d-flex align-items-center mb-4">
+                <i class="bi bi-shield-lock me-2"></i>
+                Cambiar Contraseña
+              </h4>
+              <form on:submit|preventDefault={changePassword}>
+                <div class="form-floating mb-3">
+                  <input 
+                    type="password" 
+                    bind:value={formData.current_password} 
+                    class="form-control" 
+                    id="current_password" 
+                    placeholder="Contraseña Actual"
+                  />
+                  <label for="current_password">Contraseña Actual</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input 
+                    type="password" 
+                    bind:value={formData.new_password} 
+                    class="form-control" 
+                    id="new_password" 
+                    placeholder="Nueva Contraseña"
+                  />
+                  <label for="new_password">Nueva Contraseña</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input 
+                    type="password" 
+                    bind:value={formData.new_password_confirmation} 
+                    class="form-control" 
+                    id="new_password_confirmation" 
+                    placeholder="Confirmar Nueva Contraseña"
+                  />
+                  <label for="new_password_confirmation">Confirmar Nueva Contraseña</label>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                  <i class="bi bi-key me-2"></i>
+                  Cambiar Contraseña
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    {:else if user}
+      <div class="card card-hover">
+        <div class="card-body">
+          <div class="row g-4">
+            <div class="col-md-6">
+              <h4 class="d-flex align-items-center mb-4">
+                <i class="bi bi-person-circle me-2"></i>
+                Información Personal
+              </h4>
+              <div class="profile-info">
+                <div class="info-item">
+                  <span class="info-label">Nombre</span>
+                  <span class="info-value">{user.name}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Username</span>
+                  <span class="info-value">@{user.username}</span>
+                </div>
+                <div class="info-item">
+                  <span class="info-label">Email</span>
+                  <span class="info-value">{user.email}</span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h4 class="d-flex align-items-center mb-4">
+                <i class="bi bi-graph-up me-2"></i>
+                Estadísticas
+              </h4>
+              <div class="profile-info">
+                <div class="info-item">
+                  <span class="info-label">Fecha de Registro</span>
+                  <span class="info-value">{formatDate(new Date(user.created_at || Date.now()))}</span>
+                </div>
+                {#if user.loyaltyPoints}
+                  <div class="info-item">
+                    <span class="info-label">Puntos de Fidelidad</span>
+                    <span class="info-value">{user.loyaltyPoints} puntos</span>
+                  </div>
+                {/if}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     {/if}
   </div>
-
-  {#if error}
-    <div class="alert alert-danger">{error}</div>
-  {/if}
-  {#if success}
-    <div class="alert alert-success">{success}</div>
-  {/if}
-
-  {#if editing && user}
-    <div class="row">
-      <div class="col-md-6 mb-4">
-        <div class="card p-4">
-          <h4>Información Personal</h4>
-          <form>
-            <div class="mb-3">
-              <label class="form-label" for="name">Nombre</label>
-              <input type="text" bind:value={formData.name} class="form-control" id="name" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="username">Username</label>
-              <input type="text" bind:value={formData.username} class="form-control" id="username" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="email">Email</label>
-              <input type="email" bind:value={formData.email} class="form-control" id="email" />
-            </div>
-          </form>
-        </div>
-      </div>
-
-      <div class="col-md-6 mb-4">
-        <div class="card p-4">
-          <h4>Cambiar Contraseña</h4>
-          <form on:submit|preventDefault={changePassword}>
-            <div class="mb-3">
-              <label for="current_password" class="form-label">Contraseña Actual</label>
-              <input type="password" bind:value={formData.current_password} name="current_password" class="form-control" />
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Nueva Contraseña</label>
-              <input type="password" bind:value={formData.new_password} name="password" class="form-control" />
-            </div>
-            <div class="mb-3">
-              <label for="password_confirmation" class="form-label">Confirmar Nueva Contraseña</label>
-              <input type="password" bind:value={formData.new_password_confirmation} name="password_confirmation" class="form-control" />
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Cambiar Contraseña</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  {/if}
-
-  {#if !editing && user}
-    <div class="card p-4">
-      <div class="row">
-        <div class="col-md-6 mb-3">
-          <h4>Información Personal</h4>
-          <p><strong>Nombre:</strong> {user.name}</p>
-          <p><strong>Username:</strong> {user.username}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-        </div>
-        <div class="col-md-6 mb-3">
-          <h4>Estadísticas</h4>
-          <p><strong>Fecha de Registro:</strong> {formatDate(new Date(user.created_at || Date.now()))}</p>
-        </div>
-      </div>
-    </div>
-  {/if}
 </div>
+
+<style>
+  .profile-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+  }
+
+  .profile-header {
+    background: linear-gradient(to right, #6366f1, #8b5cf6);
+    padding: 3rem 0;
+    color: white;
+    margin-top: -2rem;
+    margin-bottom: 3rem;
+  }
+
+  .avatar-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .profile-info .info-item {
+    padding: 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .profile-info .info-item:last-child {
+    border-bottom: none;
+  }
+
+  .info-label {
+    color: var(--bs-secondary-color);
+    font-weight: 500;
+  }
+
+  .info-value {
+    font-weight: 600;
+  }
+
+  :global([data-bs-theme="dark"]) .profile-header {
+    background: linear-gradient(to right, #4f46e5, #7c3aed);
+  }
+
+  :global([data-bs-theme="dark"]) .card-hover {
+    background-color: rgba(17, 24, 39, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  :global([data-bs-theme="dark"]) .info-label {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  :global([data-bs-theme="dark"]) .info-value {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  :global([data-bs-theme="dark"]) .form-control,
+  :global([data-bs-theme="dark"]) .form-select {
+    background-color: rgba(17, 24, 39, 0.8);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  :global([data-bs-theme="dark"]) .form-control:focus,
+  :global([data-bs-theme="dark"]) .form-select:focus {
+    background-color: rgba(17, 24, 39, 1);
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+  }
+</style>
