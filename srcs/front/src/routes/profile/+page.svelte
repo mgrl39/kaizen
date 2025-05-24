@@ -128,7 +128,7 @@
   onMount(fetchProfile);
 </script>
 
-<div class="container my-5">
+<div class="container my-2">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
       <h1>{user?.name || 'Cargando...'}</h1>

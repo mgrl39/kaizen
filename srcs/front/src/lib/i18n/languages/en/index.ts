@@ -67,6 +67,9 @@ const en: TranslationDictionary = {
 	emailPlaceholder: 'user@email.com',
 	loggingIn: 'Logging in...',
 	noAccount: "Don't have an account?",
+	dontHaveAccount: "Don't have an account?",
+	signUpNow: 'Sign up now',
+	test: 'Test',
 
 	// Error pages
 	pageNotFound: "The page you are looking for doesn't exist or has been moved.",

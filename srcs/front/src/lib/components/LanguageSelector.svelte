@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { get } from 'svelte/store';
-  import { currentLanguage, languages } from '$lib/i18n';
+  import { language, languages } from '$lib/i18n';
   import { browser } from '$app/environment';
   import { theme } from '$lib/theme';
 
@@ -10,37 +10,23 @@
 
   let selectorRef: HTMLElement | null = null;
 
+  const availableLanguages = Object.keys(languages);
+
   function selectLanguage(lang: string) {
-    currentLanguage.set(lang);
-    toggleMenu(); // Cierra el menú desde el padre si así lo controla
-  }
-
-  function getLanguageFlag(lang: string): string {
-    switch(lang) {
-      case 'es': return '🇪🇸';
-      case 'en': return '🇬🇧';
-      default: return '🌐';
-    }
-  }
-
-  function getLanguageName(lang: string): string {
-    switch(lang) {
-      case 'es': return 'Español';
-      case 'en': return 'English';
-      default: return 'Unknown';
-    }
+    language.set(lang);
+    toggleMenu(); // Cierra el menú desde el padre
   }
 
   onMount(() => {
-    if (browser && !languages.includes(get(currentLanguage))) {
+    if (browser && !availableLanguages.includes(get(language))) {
       console.warn('Idioma no válido en localStorage, usando español como predeterminado');
-      currentLanguage.set('es');
+      language.set('es');
     }
   });
 
   function handleClickOutside(event: MouseEvent) {
     if (isOpen && selectorRef && !selectorRef.contains(event.target as Node)) {
-      toggleMenu(); // Usa la función pasada para cerrar
+      toggleMenu();
     }
   }
 
@@ -61,21 +47,21 @@
     on:click={toggleMenu}
     aria-expanded={isOpen}
   >
-    <span class="me-1">{getLanguageFlag($currentLanguage)}</span>
-    <span class="d-none d-md-inline">{getLanguageName($currentLanguage)}</span>
+    <span class="me-1">{languages[$language]?.flag || '🌐'}</span>
+    <span class="d-none d-md-inline">{languages[$language]?.name || 'Unknown'}</span>
     <i class="bi bi-chevron-down ms-1"></i>
   </button>
 
   {#if isOpen}
     <ul class="dropdown-menu dropdown-menu-end show">
-      {#each languages as lang}
+      {#each Object.keys(languages) as lang}
         <li>
           <button 
-            class="dropdown-item {$currentLanguage === lang ? 'active' : ''}" 
+            class="dropdown-item {$language === lang ? 'active' : ''}" 
             on:click={() => selectLanguage(lang)}
           >
-            <span class="me-2">{getLanguageFlag(lang)}</span>
-            {getLanguageName(lang)}
+            <span class="me-2">{languages[lang].flag}</span>
+            {languages[lang].name}
           </button>
         </li>
       {/each}
