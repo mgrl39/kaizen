@@ -159,16 +159,16 @@
           <h4>Información Personal</h4>
           <form>
             <div class="mb-3">
-              <label class="form-label">Nombre</label>
-              <input type="text" bind:value={formData.name} class="form-control" />
+              <label class="form-label" for="name">Nombre</label>
+              <input type="text" bind:value={formData.name} class="form-control" id="name" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Username</label>
-              <input type="text" bind:value={formData.username} class="form-control" />
+              <label class="form-label" for="username">Username</label>
+              <input type="text" bind:value={formData.username} class="form-control" id="username" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Email</label>
-              <input type="email" bind:value={formData.email} class="form-control" />
+              <label class="form-label" for="email">Email</label>
+              <input type="email" bind:value={formData.email} class="form-control" id="email" />
             </div>
           </form>
         </div>
