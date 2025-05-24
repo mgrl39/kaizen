@@ -51,7 +51,7 @@
       <!-- Columna izquierda: Información de contacto -->
       <div class="col-lg-4">
         <div class="card h-100 border-0 shadow">
-          <div class="card-header bg-primary text-white">
+          <div class="card-header bg-light text-dark">
             <h3 class="h5 mb-0">Información de contacto</h3>
           </div>
           <div class="card-body">
@@ -109,7 +109,7 @@
       <!-- Columna central: Descripción y características -->
       <div class="col-lg-4">
         <div class="card h-100 border-0 shadow">
-          <div class="card-header bg-primary text-white">
+          <div class="card-header bg-light text-dark">
             <h3 class="h5 mb-0">Sobre nosotros</h3>
           </div>
           <div class="card-body">
@@ -154,7 +154,7 @@
       <!-- Columna derecha: Botones de acción -->
       <div class="col-lg-4">
         <div class="card h-100 border-0 shadow">
-          <div class="card-header bg-primary text-white">
+          <div class="card-header bg-light text-dark">
             <h3 class="h5 mb-0">Acciones rápidas</h3>
           </div>
           <div class="card-body">
