@@ -20,10 +20,10 @@
   
   // Redes sociales
   const socialLinks = [
-    { icon: 'facebook', url: '#', label: 'Facebook' },
-    { icon: 'twitter', url: '#', label: 'Twitter' },
-    { icon: 'instagram', url: '#', label: 'Instagram' },
-    { icon: 'youtube', url: '#', label: 'YouTube' }
+    { icon: 'facebook', url: 'http://facebook.com', label: 'Facebook' },
+    { icon: 'twitter', url: 'http://twitter.com', label: 'Twitter' },
+    { icon: 'instagram', url: 'http://instagram.com', label: 'Instagram' },
+    { icon: 'youtube', url: 'http://youtube.com', label: 'YouTube' }
   ];
 </script>
 

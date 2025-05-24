@@ -120,12 +120,6 @@
       email = rememberedUser;
       rememberMe = true;
     }
-    
-    // Inicializar tooltips de Bootstrap si es necesario
-    if (typeof bootstrap !== 'undefined') {
-      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-      [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-    }
   });
 </script>
 

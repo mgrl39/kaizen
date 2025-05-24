@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { Movie } from '$lib/types';
-  import { t } from '$lib/i18n';
   import HeroBanner from '$lib/components/HeroBanner.svelte';
   import { API_URL } from '$lib/config';
 
@@ -61,17 +60,10 @@
       if (!response.ok) {
         throw new Error(`API respondió con estado: ${response.status}`);
       }
-      
       const data = await response.json();
-      
-      // Ahora los datos están en data.data
       if (data && data.success && Array.isArray(data.data)) {
         movies = data.data;
-        
-        // Guardar información de paginación
         pagination = data.pagination;
-        
-        // Mostrar información para depuración
         console.log('Películas cargadas:', movies);
         console.log('Primera película:', movies[0]);
         if (movies[0]) {

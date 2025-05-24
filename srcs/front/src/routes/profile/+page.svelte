@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
   import { goto } from '$app/navigation';
-  import { t } from '$lib/i18n';
 
   function formatDate(date: Date | string): string {
     const d = typeof date === 'string' ? new Date(date) : date;
@@ -180,16 +179,16 @@
           <h4>Cambiar Contraseña</h4>
           <form on:submit|preventDefault={changePassword}>
             <div class="mb-3">
-              <label class="form-label">Contraseña Actual</label>
-              <input type="password" bind:value={formData.current_password} class="form-control" />
+              <label for="current_password" class="form-label">Contraseña Actual</label>
+              <input type="password" bind:value={formData.current_password} name="current_password" class="form-control" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Nueva Contraseña</label>
-              <input type="password" bind:value={formData.new_password} class="form-control" />
+              <label for="password" class="form-label">Nueva Contraseña</label>
+              <input type="password" bind:value={formData.new_password} name="password" class="form-control" />
             </div>
             <div class="mb-3">
-              <label class="form-label">Confirmar Nueva Contraseña</label>
-              <input type="password" bind:value={formData.new_password_confirmation} class="form-control" />
+              <label for="password_confirmation" class="form-label">Confirmar Nueva Contraseña</label>
+              <input type="password" bind:value={formData.new_password_confirmation} name="password_confirmation" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary w-100">Cambiar Contraseña</button>
           </form>

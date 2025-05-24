@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { theme } from '$lib/theme';
   import Navbar from '$lib/components/Navbar.svelte';
-  import Footer from '$lib/components/Footer.svelte';
   import { marked } from 'marked';
 
   let currentTheme = 'light';
@@ -37,7 +36,7 @@
     <div class="col-12 col-lg-10">
       <div class="text-center mb-5">
         <h1 class="display-5 fw-bold">Política de Privacidad</h1>
-        <p class="text-muted">Última actualización: 15 de agosto de 2023</p>
+        <p class="text-muted">Última actualización: {new Date().toLocaleDateString()}</p>
       </div>
 
       <div class="card shadow-sm mb-4">
@@ -61,10 +60,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  :global([data-bs-theme="dark"]) .card {
-    background-color: var(--bs-dark);
-    border-color: var(--bs-gray-700);
-  }
-</style>

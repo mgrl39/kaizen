@@ -3,7 +3,6 @@
     import { t } from '$lib/i18n';
     import { API_URL } from '$lib/config';
     import { onMount } from 'svelte';
-    import { theme } from '$lib/theme';
     import Navbar from '$lib/components/Navbar.svelte';
 
     // Form data
