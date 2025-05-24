@@ -160,10 +160,10 @@
         {#if user}
           <div class="col-auto">
             <button 
-              class="btn btn-outline-primary btn-lg {editing ? 'active' : ''}" 
+              class="btn custom-btn {editing ? 'custom-btn-active' : ''}" 
               on:click={() => editing = !editing}
             >
-              <i class="bi bi-pencil-square me-2"></i>
+              <i class="bi bi-{editing ? 'x-lg' : 'pencil-square'} me-2"></i>
               {editing ? 'Cancelar' : 'Editar Perfil'}
             </button>
           </div>
@@ -347,6 +347,33 @@
     color: white;
     margin-top: -2rem;
     margin-bottom: 3rem;
+    border-radius: 0 0 2rem 2rem;
+  }
+
+  .custom-btn {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
+  }
+
+  .custom-btn:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    color: white;
+  }
+
+  .custom-btn-active {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  .custom-btn-active:hover {
+    background-color: rgba(255, 255, 255, 0.35);
   }
 
   .avatar-container {
@@ -365,14 +392,14 @@
   }
 
   .card-hover {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
   }
 
   .card-hover:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px #6366f1;
   }
 
   .profile-info .info-item {
@@ -398,11 +425,17 @@
 
   :global([data-bs-theme="dark"]) .profile-header {
     background: linear-gradient(to right, #4f46e5, #7c3aed);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
   }
 
   :global([data-bs-theme="dark"]) .card-hover {
     background-color: rgba(17, 24, 39, 0.8);
     border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  :global([data-bs-theme="dark"]) .card-hover:hover {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px #6366f1;
   }
 
   :global([data-bs-theme="dark"]) .info-label {
@@ -425,5 +458,20 @@
     background-color: rgba(17, 24, 39, 1);
     border-color: #6366f1;
     box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
+  }
+
+  :global([data-bs-theme="dark"]) .custom-btn {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  :global([data-bs-theme="dark"]) .custom-btn:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  :global([data-bs-theme="dark"]) .custom-btn-active {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-color: rgba(255, 255, 255, 0.4);
   }
 </style>
