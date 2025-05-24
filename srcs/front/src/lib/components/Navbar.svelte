@@ -86,17 +86,17 @@
     }
   }
   
-  function handleClickOutside(event) {
+  function handleClickOutside(event: MouseEvent) {
     const userMenu = document.getElementById('user-menu-dropdown');
     const userButton = document.getElementById('user-menu-button');
     const langSelector = document.getElementById('language-selector-dropdown');
     const langButton = document.getElementById('language-selector-button');
     
-    if (userMenu && userButton && !userMenu.contains(event.target) && !userButton.contains(event.target)) {
+    if (userMenu && userButton && !userMenu.contains(event.target as Node) && !userButton.contains(event.target as Node)) {
       userMenuOpen = false;
     }
     
-    if (langSelector && langButton && !langSelector.contains(event.target) && !langButton.contains(event.target)) {
+    if (langSelector && langButton && !langSelector.contains(event.target as Node) && !langButton.contains(event.target as Node)) {
       languageSelectorOpen = false;
     }
   }
@@ -155,7 +155,7 @@
       // Usar Promise.race para tomar el que termine primero
       Promise.race([profilePromise, timeoutPromise])
         .then(result => {
-          if (result && result.timeout) {
+          if ('timeout' in (result as { timeout?: boolean }) && (result as { timeout: boolean }).timeout) {
             console.warn('Tiempo de espera agotado al cargar el perfil');
             // Mostrar como no autenticado si hay timeout
             authState.set({
@@ -183,7 +183,7 @@
     };
   });
   
-  function handleAdminClick(event) {
+  function handleAdminClick(event : Event) {
     event.preventDefault();
     showAdminConfirmDialog = true;
   }
@@ -256,7 +256,7 @@
     }
   }
   
-  async function handleLogout(event) {
+  async function handleLogout(event : Event | null) {
     if (event) event.preventDefault();
     
     const token = localStorage.getItem('token');
@@ -285,12 +285,12 @@
     }
   }
 
-  function isActive(path) {
+  function isActive(path: string) {
     if (path === '/') return $page.url.pathname === '/';
     return $page.url.pathname.startsWith(path);
   }
   
-  function handleNavItemClick(item, event) {
+  function handleNavItemClick(item: { action?: string }, event: Event) {
     if (item.action === 'logout') {
       handleLogout(event);
     }
@@ -461,7 +461,8 @@
       
       <div class="d-flex align-items-center gap-2">
         <button 
-          class="btn btn-sm btn-icon {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+          class="btn btn-sm btn-icon {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}"
+          aria-label="Toggle theme"
           on:click={handleThemeToggle}
         >
           <i class="bi bi-{$theme === 'dark' ? 'sun' : 'moon'} fs-5"></i>

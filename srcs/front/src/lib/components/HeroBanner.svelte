@@ -21,8 +21,8 @@
       class="w-100 h-100 object-cover"
       on:error={(e) => {
         if (e.target) {
-          e.target.src = DEFAULT_IMAGE_BASE64;
-          e.target.onerror = null;
+          (e.target as HTMLImageElement).src = DEFAULT_IMAGE_BASE64;
+          (e.target as HTMLImageElement).onerror = null;
         }
       }}
     />

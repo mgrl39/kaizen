@@ -1,4 +1,4 @@
-import type { TranslationDictionary } from '../../index';
+import type { TranslationDictionary } from '../index';
 
 const es: TranslationDictionary = {
 	// Navbar
