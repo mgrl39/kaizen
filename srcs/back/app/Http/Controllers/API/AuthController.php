@@ -96,6 +96,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'identifier' => 'required|string',
             'password' => 'required|string',
+            'is_admin' => 'boolean'
         ]);
 
         if ($validator->fails()) {
@@ -121,6 +122,14 @@ class AuthController extends Controller
                     'success' => false,
                     'message' => 'Invalid credentials: Password is incorrect'
                 ], 401);
+            }
+
+            // Check admin access if requested
+            if ($request->is_admin && $user->role !== 'admin') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Access denied: Admin privileges required'
+                ], 403);
             }
             
             // Generate JWT token
@@ -180,6 +189,47 @@ class AuthController extends Controller
                 'success' => false,
                 'message' => 'Logout failed: ' . $e->getMessage()
             ], 500);
+        }
+    }
+
+    public function verifyToken()
+    {
+        try {
+            $user = JWTAuth::parseToken()->authenticate();
+            
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User not found'
+                ], 404);
+            }
+
+            return response()->json([
+                'success' => true,
+                'user' => [
+                    'id' => $user->id,
+                    'username' => $user->username,
+                    'email' => $user->email,
+                    'name' => $user->name,
+                    'role' => $user->role
+                ]
+            ]);
+            
+        } catch (\PHPOpenSourceSaver\JWTAuth\Exceptions\TokenExpiredException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token has expired'
+            ], 401);
+        } catch (\PHPOpenSourceSaver\JWTAuth\Exceptions\TokenInvalidException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token is invalid'
+            ], 401);
+        } catch (\PHPOpenSourceSaver\JWTAuth\Exceptions\JWTException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token is missing'
+            ], 401);
         }
     }
 } 

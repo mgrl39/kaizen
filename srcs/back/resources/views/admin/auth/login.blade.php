@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login - Kaizen</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
@@ -43,18 +44,11 @@
             <p class="text-muted">Sign in to your account</p>
         </div>
 
-        @if($errors->any())
-            <div class="alert alert-danger">
-                <ul class="mb-0">
-                    @foreach($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <div id="error-container" class="alert alert-danger d-none">
+            <ul class="mb-0" id="error-list"></ul>
+        </div>
 
-        <form method="POST" action="{{ route('admin.login') }}">
-            @csrf
+        <form id="login-form" onsubmit="handleLogin(event)">
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" id="email" name="email" required>
@@ -70,5 +64,48 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorContainer = document.getElementById('error-container');
+            const errorList = document.getElementById('error-list');
+            
+            try {
+                const response = await fetch('/api/v1/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    },
+                    body: JSON.stringify({
+                        identifier: email,
+                        password: password,
+                        is_admin: true
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Login failed');
+                }
+
+                if (data.success) {
+                    // Store the token
+                    localStorage.setItem('token', data.token);
+                    // Redirect to admin dashboard
+                    window.location.href = '/admin/dashboard';
+                } else {
+                    throw new Error(data.message || 'Login failed');
+                }
+            } catch (error) {
+                errorList.innerHTML = `<li>${error.message}</li>`;
+                errorContainer.classList.remove('d-none');
+            }
+        }
+    </script>
 </body>
 </html>

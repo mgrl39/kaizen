@@ -22,10 +22,8 @@ use App\Http\Controllers\Admin\AdminController;
 // Admin Routes
 Route::prefix('admin')->group(function () {
     // Authentication Routes
-    Route::middleware('guest:admin')->group(function () {
-        Route::get('login', [AdminController::class, 'showLoginForm'])->name('admin.login');
-        Route::post('login', [AdminController::class, 'login']);
-    });
+    Route::get('login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('login', [AdminController::class, 'login']);
 
     // Protected Admin Routes
     Route::middleware('admin')->group(function () {

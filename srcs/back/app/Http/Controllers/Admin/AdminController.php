@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AdminController extends Controller
 {
@@ -20,26 +22,48 @@ class AdminController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('/admin/dashboard');
+        $user = User::where('email', $credentials['email'])->first();
+
+        if (!$user || !Hash::check($credentials['password'], $user->password) || $user->role !== 'admin') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid credentials or insufficient permissions'
+            ], 401);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+        $token = JWTAuth::fromUser($user);
+        
+        // Store token in database
+        $user->remember_token = $token;
+        $user->save();
+        
+        return response()->json([
+            'success' => true,
+            'token' => $token,
+            'user' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                'role' => $user->role
+            ]
         ]);
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         return view('admin.dashboard');
     }
 
     public function logout(Request $request)
     {
-        Auth::guard('admin')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/admin/login');
+        if ($request->header('Authorization')) {
+            $token = str_replace('Bearer ', '', $request->header('Authorization'));
+            $user = User::where('remember_token', $token)->first();
+            if ($user) {
+                $user->remember_token = null;
+                $user->save();
+            }
+        }
+        
+        return response()->json(['success' => true]);
     }
 }

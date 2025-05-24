@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Admin Dashboard - Kaizen</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body class="bg-gray-100">
-    <div class="flex h-screen bg-gray-100">
+    <div id="app" class="flex h-screen bg-gray-100" style="display: none;">
         <!-- Sidebar -->
         <div class="bg-gray-900 text-white w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition duration-200 ease-in-out">
             <div class="text-white flex items-center space-x-2 px-4">
@@ -28,12 +29,9 @@
                 <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-800 hover:text-white">
                     <i class="fas fa-ticket-alt mr-2"></i>Screenings
                 </a>
-                <form method="POST" action="{{ route('admin.logout') }}" class="mt-4">
-                    @csrf
-                    <button type="submit" class="w-full text-left py-2.5 px-4 rounded transition duration-200 hover:bg-gray-800 hover:text-white">
-                        <i class="fas fa-sign-out-alt mr-2"></i>Logout
-                    </button>
-                </form>
+                <button onclick="handleLogout()" class="w-full text-left py-2.5 px-4 rounded transition duration-200 hover:bg-gray-800 hover:text-white">
+                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                </button>
             </nav>
         </div>
 
@@ -57,17 +55,17 @@
                         </div>
                         <div class="relative">
                             <button class="flex items-center focus:outline-none">
-                                <div class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white">
-                                    {{ strtoupper(substr(Auth::guard('admin')->user()->email, 0, 1)) }}
+                                <div id="userInitial" class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center text-white">
+                                    A
                                 </div>
-                                <span class="ml-2 text-gray-700">{{ Auth::guard('admin')->user()->name ?? 'Admin' }}</span>
+                                <span id="userName" class="ml-2 text-gray-700">Admin</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </header>
 
-            <!-- Page content -->
+            <!-- Main content -->
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Stats Cards -->
@@ -134,15 +132,49 @@
         </div>
     </div>
 
-    <!-- Mobile menu toggle script -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.querySelector('.md\\.hidden');
-            const sidebar = document.querySelector('.transform');
+        // Check token on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            const token = localStorage.getItem('token');
             
-            mobileMenuButton?.addEventListener('click', function() {
-                sidebar.classList.toggle('-translate-x-full');
-            });
+            if (!token) {
+                window.location.href = '/admin/login';
+                return;
+            }
+
+            try {
+                // Send a request to the current page with the token
+                const response = await fetch(window.location.href, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Unauthorized');
+                }
+
+                // Show dashboard if token is valid
+                document.getElementById('app').style.display = 'flex';
+            } catch (error) {
+                console.error('Auth failed:', error);
+                localStorage.removeItem('token');
+                window.location.href = '/admin/login';
+            }
+        });
+
+        // Handle logout
+        function handleLogout() {
+            localStorage.removeItem('token');
+            window.location.href = '/admin/login';
+        }
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.querySelector('.md\\.hidden');
+        const sidebar = document.querySelector('.transform');
+        
+        mobileMenuButton?.addEventListener('click', function() {
+            sidebar.classList.toggle('-translate-x-full');
         });
     </script>
 </body>

@@ -21,6 +21,7 @@ use App\Http\Controllers\API\{
     UserController,
     ImageController
 };
+use App\Http\Controllers\Admin\AdminController;
 use App\Services\ResponseService;
 
 /*
@@ -161,6 +162,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::middleware('api.auth')->group(function () {
         // Authentication
         Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::get('verify-token', [AdminController::class, 'verifyToken'])->name('auth.verify');
         
         // User Profile
         Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
