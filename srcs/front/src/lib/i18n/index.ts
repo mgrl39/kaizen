@@ -4,9 +4,9 @@ import { browser } from '$app/environment';
 export type LanguageCode = 'es' | 'en';
 
 type LanguageMeta = {
-  name: string;
-  flag: string;
-  translations: TranslationDictionary;
+	name: string;
+	flag: string;
+	translations: TranslationDictionary;
 };
 
 // Importar idiomas
@@ -94,7 +94,7 @@ export type TranslationKey =
 	| 'emailAddress'
 	| 'rememberMe'
 	| 'dontHaveAccount'
-	| 'signUpNow'
+	| 'signUpNow';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;
@@ -117,7 +117,8 @@ const createLanguageStore = () => {
 		if (!browser) return 'es'; // Valor por defecto en SSR
 
 		const savedLanguage = localStorage.getItem('language');
-		if (savedLanguage && savedLanguage in languages && typeof savedLanguage === 'string') return savedLanguage as LanguageCode;
+		if (savedLanguage && savedLanguage in languages && typeof savedLanguage === 'string')
+			return savedLanguage as LanguageCode;
 
 		// Detectar idioma del navegador
 		const browserLanguage = navigator.language.split('-')[0];
@@ -187,7 +188,7 @@ export function getTranslation(key: TranslationKey) {
 
 // Función para obtener traducciones con formato
 export function tf(key: TranslationKey, values: Record<string, string | number> = {}) {
-	let translation;
+	let translation = key as string;
 
 	const unsubscribe = translations.subscribe((trans) => {
 		translation = trans[key] || key;
@@ -198,7 +199,7 @@ export function tf(key: TranslationKey, values: Record<string, string | number> 
 	// Reemplazar placeholders en la traducción
 	if (typeof translation === 'string' && Object.keys(values).length > 0) {
 		Object.entries(values).forEach(([key, value]) => {
-			translation = translation.replace(new RegExp(`{${key}}`, 'g'), value);
+			translation = translation.replace(new RegExp(`{${key}}`, 'g'), String(value));
 		});
 	}
 
@@ -222,11 +223,8 @@ export function tp(
 export function initI18n() {
 	if (browser) {
 		// Detectar cambios de idioma en la URL o localStorage
-		const urlParams = new URLSearchParams(window.location.search);
-		const urlLang = urlParams.get('lang');
-
-		if (urlLang && languages[urlLang]) {
-			language.set(urlLang);
-		}
+		const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
+		const urlLang: string | null = urlParams.get('lang');
+		if (urlLang && (urlLang === 'es' || urlLang === 'en')) language.set(urlLang);
 	}
 }
