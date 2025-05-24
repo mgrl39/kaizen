@@ -2,7 +2,6 @@
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
   import { fade, fly } from 'svelte/transition';
-  import { browser } from '$app/environment';
   
   export let data;
   
