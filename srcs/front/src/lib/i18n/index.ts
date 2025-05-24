@@ -1,6 +1,14 @@
 import { derived, writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
+export type LanguageCode = 'es' | 'en';
+
+type LanguageMeta = {
+  name: string;
+  flag: string;
+  translations: TranslationDictionary;
+};
+
 // Importar idiomas
 import es from './languages/es';
 import en from './languages/en';
@@ -82,7 +90,11 @@ export type TranslationKey =
 	| 'serverErrorTitle'
 	| 'genericErrorTitle'
 	| 'backToHome'
-	| 'test';
+	| 'test'
+	| 'emailAddress'
+	| 'rememberMe'
+	| 'dontHaveAccount'
+	| 'signUpNow'
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

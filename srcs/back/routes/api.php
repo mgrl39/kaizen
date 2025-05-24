@@ -21,6 +21,7 @@ use App\Http\Controllers\API\{
     UserController,
     ImageController
 };
+use App\Http\Controllers\Admin\AdminController;
 use App\Services\ResponseService;
 
 /*
@@ -161,6 +162,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::middleware('api.auth')->group(function () {
         // Authentication
         Route::post('logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::get('verify-token', [AdminController::class, 'verifyToken'])->name('auth.verify');
         
         // User Profile
         Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
@@ -200,27 +202,6 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('images/{path}', [ImageController::class, 'show'])
         ->where('path', '.*')
         ->name('api.images.show');
-});
-
-/*
-|--------------------------------------------------------------------------
-| V2 API Routes (Template for future implementation)
-|--------------------------------------------------------------------------
-*/
-Route::prefix('v2')->name('api.v2.')->group(function () {
-    // Base information for v2
-    Route::get('/', function () {
-        return response()->json([
-            'name' => config('app.name') . ' API',
-            'version' => 'v2',
-            'status' => config('api.versions.current') === 'v2' ? 'current' : 'supported',
-            'message' => 'API v2 - Under development',
-            'timestamp' => now()->toIso8601String()
-        ]);
-    })->name('info');
-
-    // In the future, define v2 routes here
-    // You can start by extending v1 functionality with improvements
 });
 
 /*

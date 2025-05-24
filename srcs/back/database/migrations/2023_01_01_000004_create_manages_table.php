@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create(
             'manages',
             function (Blueprint $table) {
-                $table->foreignId('admin_id')->constrained('admin_users');
+                $table->foreignId('admin_id')->constrained('users');
                 $table->foreignId('cinema_id')->constrained();
                 $table->primary(['admin_id', 'cinema_id']);
             }

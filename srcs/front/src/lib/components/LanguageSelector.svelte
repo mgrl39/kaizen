@@ -1,88 +1,70 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { currentLanguage, languages } from '$lib/i18n';
+  import { get } from 'svelte/store';
+  import { language, languages } from '$lib/i18n';
   import { browser } from '$app/environment';
   import { theme } from '$lib/theme';
-  
-  // Props para controlar el estado desde el componente padre
+
   export let isOpen = false;
-  export let toggleMenu = () => { isOpen = !isOpen; };
-  
-  let selectorRef: HTMLElement; // Referencia al elemento contenedor con tipo explícito
-  
+  export let toggleMenu: () => void;
+
+  let selectorRef: HTMLElement | null = null;
+
+  const availableLanguages = Object.keys(languages);
+
   function selectLanguage(lang: string) {
-    currentLanguage.set(lang);
-    isOpen = false;
+    language.set(lang);
+    toggleMenu(); // Cierra el menú desde el padre
   }
-  
-  function getLanguageFlag(lang: string): string {
-    switch(lang) {
-      case 'es': return '🇪🇸';
-      case 'en': return '🇬🇧';
-      default: return '🌐';
-    }
-  }
-  
-  function getLanguageName(lang: string): string {
-    switch(lang) {
-      case 'es': return 'Español';
-      case 'en': return 'English';
-      default: return 'Unknown';
-    }
-  }
-  
-  // Forzar español como idioma por defecto si el valor guardado no es válido
+
   onMount(() => {
-    if (browser && !languages.includes($currentLanguage)) {
+    if (browser && !availableLanguages.includes(get(language))) {
       console.warn('Idioma no válido en localStorage, usando español como predeterminado');
-      $currentLanguage = 'es';
+      language.set('es');
     }
   });
-  
-  // Cerrar el menú al hacer clic fuera
+
   function handleClickOutside(event: MouseEvent) {
     if (isOpen && selectorRef && !selectorRef.contains(event.target as Node)) {
-      isOpen = false;
+      toggleMenu();
     }
   }
-  
+
   onMount(() => {
     document.addEventListener('click', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
   });
+
+  $: themeClass = $theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark';
 </script>
 
-<!-- Contenedor con referencia para detectar clics fuera -->
-<div class="dropdown" id="language-dropdown">
+<div class="dropdown" id="language-dropdown" bind:this={selectorRef}>
   <button 
-    class="btn btn-sm {$theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark'}" 
+    class="btn btn-sm {themeClass}" 
     type="button" 
     on:click={toggleMenu}
     aria-expanded={isOpen}
   >
-    <span class="me-1">{getLanguageFlag($currentLanguage)}</span>
-    <span class="d-none d-md-inline">{getLanguageName($currentLanguage)}</span>
+    <span class="me-1">{languages[$language]?.flag || '🌐'}</span>
+    <span class="d-none d-md-inline">{languages[$language]?.name || 'Unknown'}</span>
     <i class="bi bi-chevron-down ms-1"></i>
   </button>
-  
+
   {#if isOpen}
     <ul class="dropdown-menu dropdown-menu-end show">
-      {#each languages as lang}
+      {#each Object.keys(languages) as lang}
         <li>
           <button 
-            class="dropdown-item {$currentLanguage === lang ? 'active' : ''}" 
+            class="dropdown-item {$language === lang ? 'active' : ''}" 
             on:click={() => selectLanguage(lang)}
           >
-            <span class="me-2">{getLanguageFlag(lang)}</span>
-            {getLanguageName(lang)}
+            <span class="me-2">{languages[lang].flag}</span>
+            {languages[lang].name}
           </button>
         </li>
       {/each}
     </ul>
   {/if}
 </div>
-
-<style>
-</style>

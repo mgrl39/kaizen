@@ -80,7 +80,11 @@ const es: TranslationDictionary = {
 	exploreCategories: 'Explorar categorías',
 	viewAll: 'Ver todas',
 	noCategories: 'No hay categorías disponibles',
-	test: 'test'
+	test: 'test',
+	emailAddress: 'Correo electronico',
+	rememberMe: 'Recordarme',
+	dontHaveAccount: '¿No tienes una cuenta?',
+	signUpNow: 'Registrate ahora'
 };
 
 export default es;

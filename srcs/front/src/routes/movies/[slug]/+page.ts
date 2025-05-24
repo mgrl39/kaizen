@@ -6,5 +6,4 @@ export const load: PageLoad = ({ params }) => {
 	};
 };
 
-// Asegurar que la página se renderiza del lado del cliente
 export const ssr = false;

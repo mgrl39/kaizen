@@ -7,6 +7,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Services\ResponseService;
+use App\Http\Controllers\Admin\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,19 @@ use App\Services\ResponseService;
 | to API information endpoints or return JSON responses.
 |
 */
+
+// Admin Routes
+Route::prefix('admin')->group(function () {
+    // Authentication Routes
+    Route::get('login', [AdminController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('login', [AdminController::class, 'login']);
+
+    // Protected Admin Routes
+    Route::middleware('admin')->group(function () {
+        Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
+    });
+});
 
 // Root route - redirect to API
 Route::get('/', function () {
@@ -31,7 +45,8 @@ Route::fallback(function () {
             'available_endpoints' => [
                 'api_info' => url('/api'),
                 'api_v1' => url('/api/v1'),
-                'health_check' => url('/api/ping')
+                'health_check' => url('/api/ping'),
+                'admin_login' => url('/admin/login')
             ]
         ],
         404
