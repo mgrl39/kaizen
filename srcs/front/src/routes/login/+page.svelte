@@ -57,19 +57,13 @@
         // Guardar estado de autenticación
         const authState = {
           isAuthenticated: true,
-          isAdmin: data.user.role === 'admin',
           userName: data.user.name || data.user.username || 'Usuario',
-          loading: false,
-          user: data.user  // Guardar la información completa del usuario
+          loading: false
         };
         localStorage.setItem('authState', JSON.stringify(authState));
 
-        // Redirigir según el rol
-        if (data.user.role === 'admin') {
-          goto('/admin');
-        } else {
-          goto('/');
-        }
+        // Redirigir a inicio
+        goto('/');
       } else {
         errorMessage = data.message || 'Credenciales inválidas. Por favor intenta de nuevo.';
       }
@@ -101,18 +95,12 @@
         if (data.success) {
           const authState = {
             isAuthenticated: true,
-            isAdmin: data.user.role === 'admin',
             userName: data.user.name || data.user.username || 'Usuario',
-            loading: false,
-            user: data.user
+            loading: false
           };
           localStorage.setItem('authState', JSON.stringify(authState));
           
-          if (data.user.role === 'admin') {
-            goto('/admin');
-          } else {
-            goto('/');
-          }
+          goto('/');
         } else {
           // Token inválido o expirado, limpiar estado
           localStorage.removeItem('token');
