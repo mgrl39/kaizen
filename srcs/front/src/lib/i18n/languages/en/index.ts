@@ -79,7 +79,11 @@ const en: TranslationDictionary = {
 	// Categories
 	exploreCategories: 'Explore categories',
 	viewAll: 'View all',
-	noCategories: 'No categories available'
+	noCategories: 'No categories available',
+	emailAddress: 'Email Address',
+	rememberMe: 'Remember me',
+	dontHaveAccount: "Don't have an account?",
+	signUpNow: 'Sign up now',
 };
 
 export default en;

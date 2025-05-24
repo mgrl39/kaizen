@@ -82,7 +82,11 @@ export type TranslationKey =
 	| 'serverErrorTitle'
 	| 'genericErrorTitle'
 	| 'backToHome'
-	| 'test';
+	| 'test'
+	| 'emailAddress'
+	| 'rememberMe'
+	| 'dontHaveAccount'
+	| 'signUpNow'
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;
