@@ -102,6 +102,19 @@ const en: TranslationDictionary = {
 	thankYouMessage: 'Thank you! We will respond soon.',
 	newMessage: 'New message',
 	errorSendingMessage: 'Error sending message.',
+
+	// Footer
+	about: 'About Us',
+	terms: 'Terms & Conditions',
+	privacy: 'Privacy Policy',
+	footerTagline: 'Your destination for the best cinematic experiences',
+	enterEmail: 'Enter your email',
+	subscribe: 'Subscribe',
+	quickLinks: 'Quick Links',
+	legal: 'Legal',
+	contactUs: 'Contact Us',
+	allRightsReserved: 'All rights reserved',
+	paymentMethods: 'Payment Methods',
 };
 
 export default en;

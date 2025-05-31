@@ -6,16 +6,16 @@
   
   // Enlaces para el footer
   const links = [
-    { url: '/about', text: $t('about', 'Acerca de nosotros') },
-    { url: '/movies', text: $t('movies', 'Películas') },
-    { url: '/cinemas', text: $t('cinemas', 'Cines') },
-    { url: '/contact', text: $t('contact', 'Contacto') }
+    { url: '/about', text: $t('about') },
+    { url: '/movies', text: $t('movies') },
+    { url: '/cinemas', text: $t('cinemas') },
+    { url: '/contact', text: $t('contact') }
   ];
   
   // Enlaces legales
   const legalLinks = [
-    { url: '/terms', text: $t('terms', 'Términos y condiciones') },
-    { url: '/privacy', text: $t('privacy', 'Política de privacidad') }
+    { url: '/terms', text: $t('terms') },
+    { url: '/privacy', text: $t('privacy') }
   ];
   
   // Redes sociales
@@ -37,20 +37,20 @@
           <h5 class="fw-bold mb-0 me-2">KAIZEN</h5>
           <span class="badge bg-primary">CINEMA</span>
         </div>
-        <p class="text-muted mb-3">{$t('footerTagline', 'Tu destino para las mejores experiencias cinematográficas')}</p>
+        <p class="text-muted mb-3">{$t('footerTagline')}</p>
         
         <!-- Botón de newsletter -->
         <div class="input-group">
-          <input type="email" class="form-control" placeholder={$t('enterEmail', 'Ingresa tu email')} aria-label="Email" aria-describedby="subscribe-btn">
+          <input type="email" class="form-control" placeholder={$t('enterEmail')} aria-label="Email" aria-describedby="subscribe-btn">
           <button class="btn btn-primary" type="button" id="subscribe-btn">
-            <i class="bi bi-envelope me-1"></i> {$t('subscribe', 'Suscribirse')}
+            <i class="bi bi-envelope me-1"></i> {$t('subscribe')}
           </button>
         </div>
       </div>
       
       <!-- Enlaces rápidos -->
       <div class="col-6 col-md-3 col-lg-2">
-        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('quickLinks', 'Enlaces')}</h6>
+        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('quickLinks')}</h6>
         <ul class="list-unstyled">
           {#each links as link}
             <li class="mb-2">
@@ -64,7 +64,7 @@
       
       <!-- Enlaces legales -->
       <div class="col-6 col-md-3 col-lg-2">
-        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('legal', 'Legal')}</h6>
+        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('legal')}</h6>
         <ul class="list-unstyled">
           {#each legalLinks as link}
             <li class="mb-2">
@@ -78,7 +78,7 @@
       
       <!-- Contacto -->
       <div class="col-md-6 col-lg-4">
-        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('contactUs', 'Contáctanos')}</h6>
+        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('contactUs')}</h6>
         <ul class="list-unstyled">
           <li class="mb-2 d-flex align-items-center">
             <i class="bi bi-geo-alt me-2 text-primary"></i>
@@ -108,16 +108,8 @@
     <!-- Sección inferior con copyright -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
       <p class="text-muted mb-3 mb-md-0">
-        © {currentYear} Kaizen Cinema. {$t('allRightsReserved', 'Todos los derechos reservados')}
+        © {currentYear} Kaizen Cinema. {$t('allRightsReserved')}
       </p>
-      
-      <!-- Métodos de pago -->
-      <div class="d-flex align-items-center">
-        <small class="text-muted me-3">{$t('paymentMethods', 'Métodos de pago')}:</small>
-        <i class="bi bi-credit-card me-2" title="Credit Card"></i>
-        <i class="bi bi-paypal me-2" title="PayPal"></i>
-        <i class="bi bi-wallet2" title="Digital Wallet"></i>
-      </div>
     </div>
   </div>
 </footer>

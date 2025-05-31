@@ -29,6 +29,22 @@ export type TranslationKey =
 	| 'unreadNotifications'
 	| 'required'
 
+	// Footer
+	| 'about'
+	| 'terms'
+	| 'privacy'
+	| 'footerTagline'
+	| 'enterEmail'
+	| 'subscribe'
+	| 'quickLinks'
+	| 'legal'
+	| 'contactUs'
+	| 'address'
+	| 'phone'
+	| 'email'
+	| 'allRightsReserved'
+	| 'paymentMethods'
+
 	// Contact page
 	| 'contact'
 	| 'contactTitle'
@@ -53,7 +69,6 @@ export type TranslationKey =
 	| 'ourCinema'
 	| 'cinemaSubtitle'
 	| 'contactInfo'
-	| 'address'
 	| 'viewOnMap'
 	| 'phone'
 	| 'openingHours'

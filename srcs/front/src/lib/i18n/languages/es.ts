@@ -101,7 +101,20 @@ const es: TranslationDictionary = {
 	serverErrorTitle: 'Error del servidor',
 	genericErrorTitle: 'Ha ocurrido un error',
 	backToHome: 'Volver al inicio',
-	test: 'Prueba'
+	test: 'Prueba',
+
+	// Footer
+	about: 'Acerca de nosotros',
+	terms: 'Términos y condiciones',
+	privacy: 'Política de privacidad',
+	footerTagline: 'Tu destino para las mejores experiencias cinematográficas',
+	enterEmail: 'Ingresa tu email',
+	subscribe: 'Suscribirse',
+	quickLinks: 'Enlaces rápidos',
+	legal: 'Legal',
+	contactUs: 'Contáctanos',
+	allRightsReserved: 'Todos los derechos reservados',
+	paymentMethods: 'Métodos de pago',
 };
 
 export default es;
