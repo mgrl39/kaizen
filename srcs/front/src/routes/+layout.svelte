@@ -14,6 +14,20 @@
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import '$lib/styles/custom-bootstrap.css';
+
+	// Metadata por defecto
+	const defaultMetadata = {
+		title: 'Kaizen Cinema',
+		description: 'Tu destino para las mejores experiencias cinematográficas. Disfruta de las últimas películas en la mejor calidad y confort.',
+		url: dev ? 'http://localhost:5173' : 'https://kaizen.doncom.me'
+	};
+
+	// Reactive metadata based on current page
+	$: metadata = {
+		...defaultMetadata,
+		url: `${defaultMetadata.url}${$page.url.pathname}`
+	};
+
 	onMount(() => {
 		// Inicializar tema
 		initTheme();
@@ -64,8 +78,34 @@
 		!routesWithoutFooter.includes($page.url.pathname) && !$page.error && !isAdminRoute;
 </script>
 
-<!-- Añadimos la etiqueta para gestionar clases del body -->
 <svelte:head>
+	<!-- Primary Meta Tags -->
+	<title>{metadata.title}</title>
+	<meta name="title" content={metadata.title}>
+	<meta name="description" content={metadata.description}>
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content={metadata.url}>
+	<meta property="og:title" content={metadata.title}>
+	<meta property="og:description" content={metadata.description}>
+	<meta property="og:site_name" content="Kaizen Cinema">
+	<meta property="og:locale" content="es_ES">
+	<meta property="og:image" content={`${defaultMetadata.url}/favicon.png`}>
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary">
+	<meta property="twitter:url" content={metadata.url}>
+	<meta property="twitter:title" content={metadata.title}>
+	<meta property="twitter:description" content={metadata.description}>
+	<meta property="twitter:image" content={`${defaultMetadata.url}/favicon.png`}>
+
+	<!-- Favicon -->
+	<link rel="icon" href="/favicon.png" type="image/png">
+
+	<!-- Theme Color -->
+	<meta name="theme-color" content="#6d28d9">
+
 	{#if isAdminRoute}
 		<script>
 			document.body.classList.add('admin-route');
