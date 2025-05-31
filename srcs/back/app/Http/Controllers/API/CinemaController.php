@@ -69,17 +69,44 @@ class CinemaController extends Controller
     }
 
     /**
-     * @brief Muestra un cine específico
+     * @brief Muestra un cine específico con sus salas
      * @param int $id ID del cine
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
         try {
-            $cinema = Cinema::findOrFail($id);
+            $cinema = Cinema::with('rooms')->findOrFail($id);
+            
+            // Transformar los datos para que coincidan con el formato del frontend
+            $transformedCinema = [
+                'id' => $cinema->id,
+                'name' => $cinema->name,
+                'location' => $cinema->location,
+                'address' => $cinema->address,
+                'phone' => $cinema->phone,
+                'email' => $cinema->email,
+                'description' => $cinema->description,
+                'image_url' => $cinema->image_url,
+                'has_3d' => $cinema->has_3d,
+                'has_imax' => $cinema->has_imax,
+                'has_vip' => $cinema->has_vip,
+                'rooms_count' => $cinema->rooms->count(),
+                'opening_hours' => $cinema->opening_hours,
+                'features' => $cinema->features,
+                'rooms' => $cinema->rooms->map(function($room) {
+                    return [
+                        'id' => $room->id,
+                        'name' => $room->name,
+                        'capacity' => $room->capacity,
+                        'features' => $room->features
+                    ];
+                })
+            ];
+
             return response()->json([
                 'success' => true,
-                'data' => $cinema,
+                'data' => $transformedCinema,
                 'message' => 'Cine encontrado'
             ]);
         } catch (\Exception $e) {
@@ -103,8 +130,23 @@ class CinemaController extends Controller
             $cinema = Cinema::findOrFail($id);
             $validated = $request->validate([
                 'name' => 'sometimes|string|max:255',
-                'location' => 'sometimes|string|max:255'
+                'location' => 'sometimes|string|max:255',
+                'address' => 'sometimes|string|max:255',
+                'phone' => 'sometimes|string|max:20',
+                'email' => 'sometimes|email|max:255',
+                'description' => 'sometimes|string',
+                'image_url' => 'sometimes|string|max:255',
+                'has_3d' => 'sometimes|boolean',
+                'has_imax' => 'sometimes|boolean',
+                'has_vip' => 'sometimes|boolean',
+                'opening_hours' => 'sometimes|string|max:255',
+                'features' => 'sometimes|array'
             ]);
+
+            // Convertir el array de features a JSON si existe
+            if (isset($validated['features'])) {
+                $validated['features'] = json_encode($validated['features']);
+            }
 
             $cinema->update($validated);
             return response()->json([

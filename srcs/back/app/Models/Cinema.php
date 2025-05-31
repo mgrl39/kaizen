@@ -23,7 +23,29 @@ class Cinema extends Model
      */
     protected $fillable = [
         'name',
-        'location'
+        'location',
+        'address',
+        'phone',
+        'email',
+        'description',
+        'image_url',
+        'has_3d',
+        'has_imax',
+        'has_vip',
+        'opening_hours',
+        'features'
+    ];
+
+    /**
+     * Los atributos que deben ser convertidos a tipos nativos.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'has_3d' => 'boolean',
+        'has_imax' => 'boolean',
+        'has_vip' => 'boolean',
+        'features' => 'json'
     ];
 
     /**
