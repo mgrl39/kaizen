@@ -2,7 +2,6 @@
   import { t } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
-  import Navbar from '$lib/components/Navbar.svelte';
   import { goto } from '$app/navigation';
   
   // Importar estilos globales necesarios
@@ -12,7 +11,6 @@
   // Estado del formulario
   let email = '';
   let password = '';
-  let rememberMe = false;
   let isSubmitting = false;
   let errorMessage = '';
   let showPassword = false;
@@ -46,13 +44,6 @@
       if (response.ok && data.success) {
         // Guardar el token
         localStorage.setItem('token', data.token);
-        
-        // Si "recordar usuario" está activado, guardar el email
-        if (rememberMe) {
-          localStorage.setItem('rememberedUser', email);
-        } else {
-          localStorage.removeItem('rememberedUser');
-        }
 
         // Guardar estado de autenticación
         const authState = {
@@ -79,7 +70,7 @@
     showPassword = !showPassword;
   }
   
-  // Verificar si ya hay sesión y cargar usuario recordado
+  // Verificar si ya hay sesión
   onMount(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -113,18 +104,17 @@
         localStorage.removeItem('authState');
       });
     }
-    
-    // Cargar email recordado si existe
-    const rememberedUser = localStorage.getItem('rememberedUser');
-    if (rememberedUser) {
-      email = rememberedUser;
-      rememberMe = true;
-    }
   });
 </script>
 
-<!-- Navbar -->
-<Navbar />
+<div class="position-fixed top-0 start-0 p-3">
+  <button 
+    class="btn btn-link text-decoration-none" 
+    on:click={() => goto('/')}
+  >
+    <i class="bi bi-arrow-left fs-4"></i>
+  </button>
+</div>
 
 <!-- Main content with proper centering -->
 <div class="container py-5 my-5">
@@ -157,6 +147,7 @@
                   id="email" 
                   bind:value={email}
                   class:is-invalid={email && !isEmailValid}
+                  class:is-valid={email && isEmailValid}
                   placeholder="tu@email.com" 
                   required
                 />
@@ -178,6 +169,7 @@
                   id="password" 
                   bind:value={password}
                   class:is-invalid={password && !isPasswordValid}
+                  class:is-valid={password && isPasswordValid}
                   placeholder={$t('password')} 
                   required
                 />
@@ -200,27 +192,17 @@
               </div>
             </div>
             
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <div class="form-check">
-                <input 
-                  type="checkbox" 
-                  class="form-check-input" 
-                  id="rememberMe" 
-                  bind:checked={rememberMe}
-                />
-                <label class="form-check-label" for="rememberMe">{$t('rememberMe')}</label>
-              </div>
-            </div>
-            <div class="d-grid">
+            <div class="d-grid mt-4">
               <button 
                 type="submit" 
-                class="btn btn-primary btn-lg" 
+                class="btn btn-lg {isFormValid ? 'btn-primary' : 'btn-secondary opacity-75'}" 
                 disabled={!isFormValid || isSubmitting}
               >
                 {#if isSubmitting}
                   <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                   {$t('loading')}
                 {:else}
+                  <i class="bi {isFormValid ? 'bi-box-arrow-in-right' : 'bi-lock'} me-2"></i>
                   {$t('signIn')}
                 {/if}
               </button>

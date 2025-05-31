@@ -3,7 +3,6 @@
     import { t } from '$lib/i18n';
     import { API_URL } from '$lib/config';
     import { onMount } from 'svelte';
-    import Navbar from '$lib/components/Navbar.svelte';
 
     // Form data
     let username: string = '';
@@ -17,7 +16,6 @@
     let errorMessage = '';
     let showSuccess = false;
     let successMessage = '';
-    let agreeTerms = false;
 
     // Error handling
     type ErrorsType = {
@@ -27,7 +25,6 @@
         password?: string;
         passwordConfirmation?: string;
         birthdate?: string;
-        terms?: string;
         [key: string]: string | undefined;
     };
     
@@ -55,8 +52,6 @@
             const selectedDate : Date = new Date(birthdate);
             if (selectedDate >= today) errors.birthdate = $t('birthdateInvalid');
         }
-        // Terms validation
-        if (!agreeTerms) errors.terms = $t('agreeTermsRequired');
         return (Object.keys(errors).length === 0);
     }
 
@@ -120,8 +115,7 @@
                 email,
                 password,
                 password_confirmation: passwordConfirmation,
-                birthdate: birthdate || null,
-                agreeTerms
+                birthdate: birthdate || null
             };
             
             const response = await registerUser(userData);
@@ -153,7 +147,14 @@
     });
 </script>
 
-<Navbar />
+<div class="position-fixed top-0 start-0 p-3">
+  <button 
+    class="btn btn-link text-decoration-none" 
+    on:click={() => goto('/')}
+  >
+    <i class="bi bi-arrow-left fs-4"></i>
+  </button>
+</div>
 
 <div class="container py-5 my-3">
     <div class="row justify-content-center">
@@ -291,27 +292,6 @@
                                     />
                                     {#if errors.passwordConfirmation}
                                         <div class="invalid-feedback">{errors.passwordConfirmation}</div>
-                                    {/if}
-                                </div>
-                            </div>
-                            
-                            <!-- Términos y condiciones -->
-                            <div class="col-12 mt-3">
-                                <div class="form-check">
-                                    <input
-                                        type="checkbox"
-                                        id="agreeTerms"
-                                        bind:checked={agreeTerms}
-                                        class="form-check-input {errors.terms ? 'is-invalid' : ''}"
-                                    />
-                                    <label class="form-check-label" for="agreeTerms">
-                                        {$t('agreeTerms')} 
-                                        <a href="/terms" target="_blank" class="text-decoration-none">
-                                            {$t('termsAndConditions')}
-                                        </a>
-                                    </label>
-                                    {#if errors.terms}
-                                        <div class="invalid-feedback">{errors.terms}</div>
                                     {/if}
                                 </div>
                             </div>
