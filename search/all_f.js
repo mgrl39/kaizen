@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['backtohome_0',['backtohome',['../en_8ts.html#a8d5a57aa3320c02167819c0bd91f8674',1,'backToHome:&#160;en.ts'],['../es_8ts.html#a894946bf76f72408b117585f04df63f0',1,'backToHome:&#160;es.ts']]],
+  ['base64_1',['base64',['../HeroBanner_8svelte.html#a7592b6b7b6a90d70b23135b3a41e05ae',1,'base64:&#160;HeroBanner.svelte'],['../bookings_2_09page_8svelte.html#a7592b6b7b6a90d70b23135b3a41e05ae',1,'base64:&#160;+page.svelte'],['../movies_2_09page_8svelte.html#a7592b6b7b6a90d70b23135b3a41e05ae',1,'base64:&#160;+page.svelte'],['../movies_2_0fslug_0e_2_09page_8svelte.html#a7592b6b7b6a90d70b23135b3a41e05ae',1,'base64:&#160;+page.svelte']]],
+  ['birthdate_2',['birthdate',['../register_2_09page_8svelte.html#ad9f7178ec8fc460fd9a3c455442bf9ea',1,'birthdate:&#160;+page.svelte'],['../en_8ts.html#ac3bdb403ad9be53e7dc378d71537ce82',1,'birthdate:&#160;en.ts'],['../es_8ts.html#a8637845d7b5ea5e701afc9c6e73815e9',1,'birthdate:&#160;es.ts']]],
+  ['booking_3',['booking',['../types_8ts.html#ac55625e90bf0172d522ed64959202d84',1,'Booking:&#160;types.ts'],['../classApp_1_1Models_1_1Booking.html',1,'App\Models\Booking']]],
+  ['booking_2ephp_4',['Booking.php',['../Booking_8php.html',1,'']]],
+  ['bookings_5',['bookings',['../classApp_1_1Models_1_1User.html#ac09d65244d46a0fc9bbbc4e5c459978e',1,'App\Models\User\bookings()'],['../classApp_1_1Models_1_1Seat.html#a1e2fa9e7750f64ea00d56682cca48875',1,'App\Models\Seat\bookings()'],['../en_8ts.html#a38407e935f8f30f8999ab6ea71070763',1,'bookings:&#160;en.ts'],['../es_8ts.html#a38407e935f8f30f8999ab6ea71070763',1,'bookings:&#160;es.ts'],['../bookings_2_09page_8svelte.html#ae2e70fe057986ab12b472c5a60d065e4',1,'bookings:&#160;+page.svelte']]],
+  ['bookingseat_6',['BookingSeat',['../classApp_1_1Models_1_1BookingSeat.html',1,'App::Models']]],
+  ['bookingseat_2ephp_7',['BookingSeat.php',['../BookingSeat_8php.html',1,'']]],
+  ['bookingtocancel_8',['bookingToCancel',['../bookings_2_09page_8svelte.html#a2cef129765799c1aa8b78668a2587c93',1,'+page.svelte']]],
+  ['boot_9',['boot',['../classApp_1_1Providers_1_1RouteServiceProvider.html#a56a795694834493c054b9eac589b572a',1,'App\Providers\RouteServiceProvider\boot()'],['../classApp_1_1Providers_1_1EventServiceProvider.html#a316894ee1e83b63096b91fabadd27476',1,'App\Providers\EventServiceProvider\boot()'],['../classApp_1_1Providers_1_1BroadcastServiceProvider.html#a00e0773db96bb9be027c3e8fe2346032',1,'App\Providers\BroadcastServiceProvider\boot()'],['../classApp_1_1Providers_1_1AuthServiceProvider.html#ab898ea18122c5ed8a43921ea00c2bad7',1,'App\Providers\AuthServiceProvider\boot()'],['../classApp_1_1Providers_1_1AppServiceProvider.html#ace5b6b100b2a3d1ee0f006501bb6b02f',1,'App\Providers\AppServiceProvider\boot()'],['../classApp_1_1Models_1_1Movie.html#a5b0f025200a294d915acf0eff09785bd',1,'App\Models\Movie\boot()'],['../classApp_1_1Models_1_1Genre.html#a022887adb38b3212d2e92bc2b9c70845',1,'App\Models\Genre\boot()'],['../classApp_1_1Models_1_1Actor.html#ab20bc414ad49b9d019448b81dec1edda',1,'App\Models\Actor\boot()']]],
+  ['broadcasting_2ephp_10',['broadcasting.php',['../broadcasting_8php.html',1,'']]],
+  ['broadcastserviceprovider_11',['BroadcastServiceProvider',['../classApp_1_1Providers_1_1BroadcastServiceProvider.html',1,'App::Providers']]],
+  ['broadcastserviceprovider_2ephp_12',['BroadcastServiceProvider.php',['../BroadcastServiceProvider_8php.html',1,'']]],
+  ['building_13',['Building',['../index.html#autotoc_md3',1,'']]],
+  ['buttonhref_14',['buttonHref',['../ErrorPage_8svelte.html#a41d9e714d47fabdcf13c3a6424d34923',1,'ErrorPage.svelte']]],
+  ['buttontext_15',['buttontext',['../ErrorPage_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8',1,'buttonText:&#160;ErrorPage.svelte'],['../HeroBanner_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8',1,'buttonText:&#160;HeroBanner.svelte']]],
+  ['buttonurl_16',['buttonUrl',['../HeroBanner_8svelte.html#ac022611a2682f1c42d642a80aeda9a4b',1,'HeroBanner.svelte']]],
+  ['bygenre_17',['byGenre',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#a8367eccc8dbca0112b3bb38edb818dda',1,'App::Http::Controllers::API::MovieController']]],
+  ['bylocation_18',['byLocation',['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a00405279a1714c8be467bb88423bf54d',1,'App::Http::Controllers::API::CinemaController']]]
+];

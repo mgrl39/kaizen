@@ -1,0 +1,35 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,461,124,486"/>
+<area shape="rect" id="Node000001" href="$classApp_1_1Http_1_1Controllers_1_1Controller.html" title=" " alt="" coords="172,453,327,493"/>
+<area shape="poly" id="edge3_Node000000_Node000001" title=" " alt="" coords="138,471,172,471,172,476,138,476"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1ApiInfoController.html" title="Controlador para obtener información sobre los endpoints de la API." alt="" coords="393,5,555,45"/>
+<area shape="poly" id="edge4_Node000001_Node000002" title=" " alt="" coords="248,439,253,362,271,259,287,205,308,151,337,100,373,55,392,41,395,46,377,59,341,103,313,153,292,206,276,261,259,362,253,440"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1AuthController.html" title=" " alt="" coords="397,69,551,109"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="250,439,259,373,279,287,295,242,316,198,341,156,373,119,395,104,398,108,376,123,346,159,320,200,300,244,285,289,264,374,256,440"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html" title="Controlador para gestionar operaciones relacionadas con cines." alt="" coords="391,133,557,173"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="253,439,266,384,288,315,323,245,346,212,373,183,390,171,393,176,376,187,350,216,328,248,293,317,271,386,258,441"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html" title=" " alt="" coords="389,197,559,237"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="258,439,274,395,298,344,331,292,373,247,391,235,394,240,376,251,335,295,303,346,279,397,263,440"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1GenreController.html" title=" " alt="" coords="397,261,551,301"/>
+<area shape="poly" id="edge8_Node000001_Node000006" title=" " alt="" coords="265,440,309,375,339,341,373,311,395,299,398,303,376,316,342,344,313,378,270,443"/>
+<area shape="rect" id="Node000007" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1ImageController.html" title=" " alt="" coords="396,325,552,365"/>
+<area shape="poly" id="edge9_Node000001_Node000007" title=" " alt="" coords="280,442,323,407,373,375,400,363,402,368,376,380,326,412,284,446"/>
+<area shape="rect" id="Node000008" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html" title="Class MovieController." alt="" coords="397,389,551,429"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="333,447,403,427,404,432,334,452"/>
+<area shape="rect" id="Node000009" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1ProfileController.html" title=" " alt="" coords="396,453,552,493"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="341,471,396,471,396,476,341,476"/>
+<area shape="rect" id="Node000010" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html" title=" " alt="" coords="375,517,573,557"/>
+<area shape="poly" id="edge12_Node000001_Node000010" title=" " alt="" coords="334,495,404,515,403,520,333,500"/>
+<area shape="rect" id="Node000011" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1UserController.html" title=" " alt="" coords="397,581,551,621"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="284,501,326,535,376,567,402,579,400,584,373,572,323,539,280,505"/>
+<area shape="rect" id="Node000012" href="$classApp_1_1Http_1_1Controllers_1_1Admin_1_1AdminController.html" title=" " alt="" coords="385,645,563,685"/>
+<area shape="poly" id="edge14_Node000001_Node000012" title=" " alt="" coords="270,504,313,569,342,602,376,631,397,643,394,647,373,636,339,606,309,572,265,507"/>
+<area shape="rect" id="Node000013" href="$classApp_1_1Http_1_1Controllers_1_1LanguageController.html" title="Controlador para manejar el cambio de idioma en la aplicación." alt="" coords="397,709,551,749"/>
+<area shape="poly" id="edge15_Node000001_Node000013" title=" " alt="" coords="263,506,279,549,303,600,335,651,376,695,398,709,395,713,373,699,331,655,298,603,274,551,258,508"/>
+<area shape="rect" id="Node000014" href="$classApp_1_1Http_1_1Controllers_1_1MovieController.html" title="Controlador para manejar las vistas relacionadas con películas." alt="" coords="397,773,551,813"/>
+<area shape="poly" id="edge16_Node000001_Node000014" title=" " alt="" coords="258,506,271,561,293,629,328,699,350,731,376,759,398,774,395,778,373,763,346,734,323,702,288,631,266,563,253,507"/>
+<area shape="rect" id="Node000015" href="$classApp_1_1Http_1_1Controllers_1_1SimpleEndpointController.html" title="Controlador para mostrar los endpoints disponibles en la aplicación." alt="" coords="378,837,570,877"/>
+<area shape="poly" id="edge17_Node000001_Node000015" title=" " alt="" coords="256,507,264,573,285,658,300,703,320,747,346,787,376,823,392,835,389,839,373,827,341,791,316,749,295,705,279,660,259,574,250,507"/>
+<area shape="rect" id="Node000016" href="$classApp_1_1Http_1_1Controllers_1_1WelcomeController.html" title="Controlador que gestiona la página principal de bienvenida." alt="" coords="397,901,551,941"/>
+<area shape="poly" id="edge18_Node000001_Node000016" title=" " alt="" coords="253,507,259,584,276,686,292,740,313,794,341,843,376,887,398,903,395,907,373,891,337,846,308,796,287,742,271,687,253,585,248,507"/>
+</map>

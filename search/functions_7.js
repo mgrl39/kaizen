@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['gate_0',['gate',['../classApp_1_1Providers_1_1TelescopeServiceProvider.html#a99b226b49a38d89785a950599519a28b',1,'App::Providers::TelescopeServiceProvider']]],
+  ['genres_1',['genres',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html#af1a73acb1f350d1e5246f0acf348bf96',1,'App\Http\Controllers\API\MovieController\genres()'],['../classApp_1_1Models_1_1Movie.html#a1301ceed205ee879f5af32ece84a0076',1,'App\Models\Movie\genres()']]],
+  ['getauthenticateduser_2',['getAuthenticatedUser',['../classApp_1_1Services_1_1AuthService.html#a0ee445e40f8b3dcc6bbb0d88f7ff85df',1,'App::Services::AuthService']]],
+  ['getconnection_3',['getConnection',['../classMigration.html#aa91cd9a118af64c0502a39c42b16ca64',1,'Migration']]],
+  ['getcpuusage_4',['getCpuUsage',['../classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#a729fd21e70a745208e3ec4c68672649d',1,'App::Http::Controllers::API::ServerStatusController']]],
+  ['getdatabasestats_5',['getDatabaseStats',['../classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#ad47c7164944bf4946d089b596318e2b5',1,'App::Http::Controllers::API::ServerStatusController']]],
+  ['getdiskspace_6',['getDiskSpace',['../classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#a05a0d318d32afe5f38be9f516ac4c6b4',1,'App::Http::Controllers::API::ServerStatusController']]],
+  ['geterrors_7',['getErrors',['../classApp_1_1Exceptions_1_1ApiException.html#a5680af7af1563b857dff05c8d388b03c',1,'App::Exceptions::ApiException']]],
+  ['getimageurl_8',['getimageurl',['../movies_2_09page_8svelte.html#a648e65a6de900c057fae6a5fc89c3582',1,'getImageUrl(photoUrl):&#160;+page.svelte'],['../bookings_2_09page_8svelte.html#a648e65a6de900c057fae6a5fc89c3582',1,'getImageUrl(photoUrl):&#160;+page.svelte']]],
+  ['getjwtcustomclaims_9',['getJWTCustomClaims',['../classApp_1_1Models_1_1User.html#af16ffb57c21d51919a0bf61795284fef',1,'App::Models::User']]],
+  ['getjwtidentifier_10',['getJWTIdentifier',['../classApp_1_1Models_1_1User.html#af74a00e518825e531ac79ddec6b3527d',1,'App::Models::User']]],
+  ['getmemoryusage_11',['getMemoryUsage',['../classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#ac631ffd453ffcffce6a1c42402fe8419',1,'App::Http::Controllers::API::ServerStatusController']]],
+  ['getphotourlattribute_12',['getPhotoUrlAttribute',['../classApp_1_1Models_1_1Movie.html#a0e1989a44f958ff992f2db6b83efe1f9',1,'App::Models::Movie']]],
+  ['getrandommovies_13',['getRandomMovies',['../_09page_8svelte.html#a350d2687a915e73fc7981ea816849b60',1,'+page.svelte']]],
+  ['getroutekeyname_14',['getRouteKeyName',['../classApp_1_1Models_1_1Movie.html#abd31ccd3388a77ffd647b3867c3c07e8',1,'App::Models::Movie']]],
+  ['getstatuscode_15',['getStatusCode',['../classApp_1_1Exceptions_1_1ApiException.html#a3a4b19ce64f559aedb3715cf6d4e5acc',1,'App::Exceptions::ApiException']]],
+  ['gettranslation_16',['getTranslation',['../i18n_2index_8ts.html#a74f057f542bd260e84694c4f824e5022',1,'index.ts']]],
+  ['goback_17',['goBack',['../movies_2_0fslug_0e_2_09page_8svelte.html#ac108b84c1885d45d74ed28a2f0ed1b0c',1,'+page.svelte']]],
+  ['gotopage_18',['goToPage',['../movies_2_09page_8svelte.html#ae09538b0430a24a6f91bcfed55ccbb4f',1,'+page.svelte']]]
+];

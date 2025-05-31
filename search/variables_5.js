@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['categories_0',['categories',['../Search_8svelte.html#a7381ddc7e4d4b483cd0de764f6912999',1,'categories:&#160;Search.svelte'],['../CategoriesSection_8svelte.html#a6fbdd7cd6f2e36c4be067bc62cfca8e2',1,'categories:&#160;CategoriesSection.svelte']]],
+  ['category_1',['category',['../CategoryCard_8svelte.html#a8fd93fe9b5f043f7fffc7cbe91121620',1,'category:&#160;CategoryCard.svelte'],['../types_8ts.html#a6c9ff2f14c4842d3466f49e7fa444b21',1,'Category:&#160;types.ts']]],
+  ['category_5faction_2',['category_action',['../en_8ts.html#a15987673efeb440d646f8070319db297',1,'category_action:&#160;en.ts'],['../es_8ts.html#a74d9c5de6827492e4be5abcefebf34c6',1,'category_action:&#160;es.ts']]],
+  ['category_5fcomedy_3',['category_comedy',['../en_8ts.html#ab7dfe565e83a740334a346c4111db152',1,'category_comedy:&#160;en.ts'],['../es_8ts.html#a9891e744eea8b22c0f224072445e0a6b',1,'category_comedy:&#160;es.ts']]],
+  ['category_5fdrama_4',['category_drama',['../en_8ts.html#a514ce50c6a1920593b96dd0b17af064c',1,'category_drama:&#160;en.ts'],['../es_8ts.html#a3bc55a38ed4d950eece7d379a142babe',1,'category_drama:&#160;es.ts']]],
+  ['cinema_5',['cinema',['../types_8ts.html#a6289a7d5763c986b11fb7f0c84ecd197',1,'Cinema:&#160;types.ts'],['../cinemas_2_09page_8svelte.html#a382ee9b4adc4f736983f430305159422',1,'cinema:&#160;+page.svelte']]],
+  ['color_6',['color',['../movies_2_09page_8svelte.html#a349f6cdb38b4f2562aa254552eac487d',1,'color:&#160;+page.svelte'],['../profile_2_09page_8svelte.html#a349f6cdb38b4f2562aa254552eac487d',1,'color:&#160;+page.svelte']]],
+  ['confirmpassword_7',['confirmpassword',['../en_8ts.html#aeba205e295771f96be5286e990890e3c',1,'confirmPassword:&#160;en.ts'],['../es_8ts.html#a23d8790ef628bb7ee3daf41e517e36e1',1,'confirmPassword:&#160;es.ts']]],
+  ['confirmpasswordplaceholder_8',['confirmpasswordplaceholder',['../en_8ts.html#a8ea82f43e408f61fe212b726b836c0fd',1,'confirmPasswordPlaceholder:&#160;en.ts'],['../es_8ts.html#ad376161392d5bac602f095bc8f35aa73',1,'confirmPasswordPlaceholder:&#160;es.ts']]],
+  ['contactoptions_9',['contactOptions',['../contact_2_09page_8svelte.html#a47f7e83558abf0bf53a5fa2e633b10e2',1,'+page.svelte']]],
+  ['container_5fname_10',['container_name',['../namespacepodman-compose.html#ac25f2494ca9c995174f7840aaac6f4b1',1,'podman-compose']]],
+  ['content_11',['content',['../privacy_2_09page_8svelte.html#abcce88189290a98e8298e8877f62ceb6',1,'content:&#160;+page.svelte'],['../terms_2_09page_8svelte.html#aa9229cbd8432f05164118385e445860e',1,'content:&#160;+page.svelte']]],
+  ['count_12',['count',['../CategoryCard_8svelte.html#a9fcd634eebe990cd5e9ebfc57b85327e',1,'count:&#160;CategoryCard.svelte'],['../_09page_8svelte.html#a8dfc514717e8eedb86a713b11a1fee19',1,'count:&#160;+page.svelte']]],
+  ['createaccount_13',['createaccount',['../en_8ts.html#ab8fda9aa945abb03a2f77e6348a48a84',1,'createAccount:&#160;en.ts'],['../es_8ts.html#a894d1316efc281aef4033f9207a1c7a6',1,'createAccount:&#160;es.ts']]],
+  ['createlanguagestore_14',['createLanguageStore',['../i18n_2index_8ts.html#a430eb50570ed21deb241ac91a90f5333',1,'index.ts']]],
+  ['css_15',['css',['../app_8d_8ts.html#a451f7e15c506e5410a821a6c55d6217e',1,'app.d.ts']]],
+  ['currentlang_16',['currentLang',['../Navbar_8svelte.html#acccabefea1de110f74b06578f4ee00d5',1,'Navbar.svelte']]],
+  ['currentslide_17',['currentSlide',['../FeaturedMovies_8svelte.html#a2fc5110e4a5f0c8454d3ea315909ac4f',1,'FeaturedMovies.svelte']]],
+  ['currenttheme_18',['currenttheme',['../Navbar_8svelte.html#a24ea88e27562b279e77ad9ba443b8f5b',1,'currentTheme:&#160;Navbar.svelte'],['../privacy_2_09page_8svelte.html#a051dab67f8c90126d48c4f0f4aed227a',1,'currentTheme:&#160;+page.svelte']]],
+  ['currentyear_19',['currentYear',['../Footer_8svelte.html#a8754e27241fc40133b858c15cbb645a0',1,'Footer.svelte']]]
+];

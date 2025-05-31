@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['mail_2ephp_0',['mail.php',['../mail_8php.html',1,'']]],
+  ['manage_1',['Manage',['../classApp_1_1Models_1_1Manage.html',1,'App::Models']]],
+  ['manage_2ephp_2',['Manage.php',['../Manage_8php.html',1,'']]],
+  ['menores_3',['7. Menores',['../md_srcs_2front_2static_2docs_2privacy.html#autotoc_md14',1,'']]],
+  ['message_4',['message',['../ErrorPage_8svelte.html#acf7afe818f18bbb97f502ada48c1e733',1,'ErrorPage.svelte']]],
+  ['migration_5',['Migration',['../classMigration.html',1,'']]],
+  ['mobilemenuopen_6',['mobileMenuOpen',['../Navbar_8svelte.html#acc74c2c31dbf5d3b5252afb748a6f4bc',1,'Navbar.svelte']]],
+  ['mobilenavitems_7',['mobileNavItems',['../Navbar_8svelte.html#afe0459ae3c63dff7f71ab571374fb119',1,'Navbar.svelte']]],
+  ['movie_8',['movie',['../classApp_1_1Models_1_1Movie.html',1,'App\Models\Movie'],['../MovieCard_8svelte.html#a98ac747da1f04e72458d790f41d10524',1,'movie:&#160;MovieCard.svelte'],['../types_8ts.html#a698186c0c4844869610dd0b58d07f02e',1,'Movie:&#160;types.ts'],['../classApp_1_1Models_1_1Functions.html#a8f5f7c9b2189a46de39b95cfffe142d9',1,'App\Models\Functions\movie()'],['../movies_2_0fslug_0e_2_09page_8svelte.html#aa7948d126a299b11352125e6a5b686c1',1,'movie:&#160;+page.svelte']]],
+  ['movie_2ephp_9',['Movie.php',['../Movie_8php.html',1,'']]],
+  ['movieactor_10',['MovieActor',['../classApp_1_1Models_1_1MovieActor.html',1,'App::Models']]],
+  ['movieactor_2ephp_11',['MovieActor.php',['../MovieActor_8php.html',1,'']]],
+  ['moviecard_2esvelte_12',['MovieCard.svelte',['../MovieCard_8svelte.html',1,'']]],
+  ['moviecontroller_13',['moviecontroller',['../classApp_1_1Http_1_1Controllers_1_1API_1_1MovieController.html',1,'App\Http\Controllers\API\MovieController'],['../classApp_1_1Http_1_1Controllers_1_1MovieController.html',1,'App\Http\Controllers\MovieController']]],
+  ['moviecontroller_2ephp_14',['moviecontroller.php',['../MovieController_8php.html',1,'(Espacio de nombres global)'],['../API_2MovieController_8php.html',1,'(Espacio de nombres global)']]],
+  ['moviefactory_15',['MovieFactory',['../classDatabase_1_1Factories_1_1MovieFactory.html',1,'Database::Factories']]],
+  ['moviefactory_2ephp_16',['MovieFactory.php',['../MovieFactory_8php.html',1,'']]],
+  ['moviegenre_17',['MovieGenre',['../classApp_1_1Models_1_1MovieGenre.html',1,'App::Models']]],
+  ['moviegenre_2ephp_18',['MovieGenre.php',['../MovieGenre_8php.html',1,'']]],
+  ['movies_19',['movies',['../classApp_1_1Models_1_1Genre.html#a888d984aa55634a5f0cbf652c6692778',1,'App\Models\Genre\movies()'],['../classApp_1_1Models_1_1Actor.html#a5d9128b6fa3d0839cec7138a39c821f0',1,'App\Models\Actor\movies()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1GenreController.html#a591f4c9005962cad58f993ac457288db',1,'App\Http\Controllers\API\GenreController\movies()'],['../classApp_1_1Http_1_1Controllers_1_1API_1_1CinemaController.html#a318775720992266edc30e9288a8e3c2f',1,'App\Http\Controllers\API\CinemaController\movies()'],['../FeaturedMovies_8svelte.html#a3934ecb2d241083803caaa0f04f0b999',1,'movies:&#160;FeaturedMovies.svelte'],['../en_8ts.html#a2b926dbd938052b575ad0128745bf8da',1,'movies:&#160;en.ts'],['../es_8ts.html#a2b926dbd938052b575ad0128745bf8da',1,'movies:&#160;es.ts'],['../movies_2_09page_8svelte.html#a2b571977c365a4649fe911b7f0fbbd16',1,'movies:&#160;+page.svelte']]],
+  ['movieseeder_20',['MovieSeeder',['../classDatabase_1_1Seeders_1_1MovieSeeder.html',1,'Database::Seeders']]],
+  ['movieseeder_2ephp_21',['MovieSeeder.php',['../MovieSeeder_8php.html',1,'']]]
+];
