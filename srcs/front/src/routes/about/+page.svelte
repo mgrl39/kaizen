@@ -306,9 +306,9 @@
   <section class="mb-5">
     <div class="row g-4">
       <div class="col-md-6">
-        <div class="p-4 rounded-3 bg-light h-100 border-start border-5 border-primary">
+        <div class="p-4 rounded-3 bg-light h-100 border-start border-5 border-custom-primary">
           <h3 class="h4 mb-3">
-            <i class="bi bi-bullseye text-primary me-2"></i>
+            <i class="bi bi-bullseye text-custom-primary me-2"></i>
             {$t('ourMission')}
           </h3>
           <p class="text-muted mb-0">
@@ -317,9 +317,9 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="p-4 rounded-3 bg-light h-100 border-start border-5 border-primary">
+        <div class="p-4 rounded-3 bg-light h-100 border-start border-5 border-custom-primary">
           <h3 class="h4 mb-3">
-            <i class="bi bi-eye text-primary me-2"></i>
+            <i class="bi bi-eye text-custom-primary me-2"></i>
             {$t('ourVision')}
           </h3>
           <p class="text-muted mb-0">
@@ -412,10 +412,10 @@
   
   <!-- CTA -->
   <section class="text-center mb-5">
-    <div class="py-5 px-4 rounded-3 bg-gradient" style="background: linear-gradient(45deg, var(--bs-primary) 0%, #8b5cf6 100%)">
+    <div class="py-5 px-4 rounded-3 bg-custom-gradient">
       <div class="py-4">
         <h2 class="h3 mb-4 text-white">{$t('readyForKaizen')}</h2>
-        <a href="/movies" class="btn btn-light btn-lg">
+        <a href="/movies" class="btn btn-light btn-lg hover-scale">
           <i class="bi bi-film me-2"></i>
           {$t('viewMoviesButton')}
         </a>
@@ -465,5 +465,29 @@
   .border-start.border-5:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Color primario personalizado */
+  .border-custom-primary {
+    border-color: #6d28d9 !important;
+  }
+
+  .text-custom-primary {
+    color: #6d28d9 !important;
+  }
+
+  /* Gradiente personalizado */
+  .bg-custom-gradient {
+    background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
+    box-shadow: 0 10px 20px rgba(109, 40, 217, 0.2);
+  }
+
+  /* Efecto hover para el botón */
+  .hover-scale {
+    transition: transform 0.3s ease;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.05);
   }
 </style>
