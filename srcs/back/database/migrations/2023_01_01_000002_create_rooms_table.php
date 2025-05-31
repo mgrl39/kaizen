@@ -14,9 +14,10 @@ return new class () extends Migration {
             'rooms',
             function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('cinema_id')->constrained();
+                $table->foreignId('cinema_id')->constrained()->onDelete('cascade');
                 $table->string('name');
                 $table->integer('capacity');
+                $table->json('features')->nullable();
                 $table->timestamps();
             }
         );

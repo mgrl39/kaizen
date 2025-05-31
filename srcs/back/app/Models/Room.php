@@ -17,7 +17,17 @@ class Room extends Model
     protected $fillable = [
         'cinema_id',
         'name',
-        'capacity'
+        'capacity',
+        'features'
+    ];
+
+    /**
+     * Los atributos que deben ser convertidos a tipos nativos.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'features' => 'json'
     ];
 
     /**

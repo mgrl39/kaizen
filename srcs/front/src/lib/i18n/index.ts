@@ -15,6 +15,7 @@ import en from './languages/en';
 
 // Definir tipo para las traducciones
 export type TranslationKey =
+	// Navbar and common
 	| 'cinemas'
 	| 'movies'
 	| 'profile'
@@ -26,64 +27,47 @@ export type TranslationKey =
 	| 'adminPanel'
 	| 'loading'
 	| 'unreadNotifications'
-	// Traducciones para la página principal
-	| 'featuredMoviesError'
-	| 'category_action'
-	| 'category_comedy'
-	| 'category_drama'
-	// FeaturedMovies component
-	| 'featuredMoviesTitle'
-	| 'noFeaturedMovies'
-	// HeroBanner component
-	| 'heroBannerTitle'
-	| 'heroBannerSubtitle'
-	| 'viewMovies'
-	| 'exploreCinemas'
+	| 'required'
+
+	// Login page
+	| 'loginError'
+	| 'signIn'
+	| 'welcomeBack'
+	| 'emailOrUsername'
+	| 'email'
+	| 'password'
+	| 'emailPlaceholder'
+	| 'passwordPlaceholder'
+	| 'showPassword'
+	| 'hidePassword'
+	| 'dontHaveAccount'
+	| 'signUpNow'
 
 	// Register page
 	| 'createAccount'
-	| 'registerSuccess'
-	| 'username'
+	| 'joinKaizenCinema'
 	| 'fullName'
-	| 'email'
-	| 'password'
+	| 'username'
 	| 'confirmPassword'
 	| 'birthdate'
 	| 'optional'
-	| 'processing'
+	| 'registering'
 	| 'alreadyHaveAccount'
-	| 'login'
-	| 'joinKaizenCinema'
-
-	// Register validation errors
-	| 'usernameRequired'
-	| 'usernameMinLength'
-	| 'nameRequired'
-	| 'emailRequired'
-	| 'emailInvalid'
-	| 'passwordRequired'
-	| 'passwordMinLength'
-	| 'passwordsDontMatch'
-	| 'birthdateInvalid'
-	| 'formErrors'
+	| 'fullNamePlaceholder'
+	| 'usernamePlaceholder'
+	| 'confirmPasswordPlaceholder'
 	| 'registerError'
-	| 'connectionError'
-	| 'unknownError'
-	| 'showFilms'
-
-	// Login page
-	| 'welcomeBack'
-	| 'emailOrUsername'
-	| 'emailPlaceholder'
-	| 'loggingIn'
-	| 'noAccount'
+	| 'registerSuccess'
 
 	// Categories
 	| 'exploreCategories'
 	| 'viewAll'
 	| 'noCategories'
+	| 'category_action'
+	| 'category_comedy'
+	| 'category_drama'
 
-	// Error pages (ya veo que están en los archivos pero faltan en el tipo)
+	// Error pages
 	| 'pageNotFound'
 	| 'pageNotFoundTitle'
 	| 'accessDeniedTitle'
@@ -91,9 +75,13 @@ export type TranslationKey =
 	| 'genericErrorTitle'
 	| 'backToHome'
 	| 'test'
+	| 'accessDeniedTitle'
+	| 'serverErrorTitle'
+	| 'genericErrorTitle'
+	| 'backToHome'
+	| 'test'
 	| 'emailAddress'
 	| 'rememberMe'
-	| 'dontHaveAccount'
 	| 'signUpNow';
 
 // Definir tipo para un diccionario de idioma
