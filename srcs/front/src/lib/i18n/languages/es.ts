@@ -67,6 +67,17 @@ const es: TranslationDictionary = {
 	emailPlaceholder: 'usuario@email.com',
 	loggingIn: 'Iniciando sesión...',
 	noAccount: '¿No tienes una cuenta?',
+	signIn: 'Iniciar Sesión',
+	hidePassword: 'Ocultar contraseña',
+	showPassword: 'Mostrar contraseña',
+	secureLogin: 'Conexión segura',
+
+	// Register page additions
+	registering: 'Registrando...',
+	fullNamePlaceholder: 'Ej. Juan Pérez',
+	usernamePlaceholder: 'Ej. juanperez',
+	passwordPlaceholder: '••••••••',
+	confirmPasswordPlaceholder: '••••••••',
 
 	// Páginas de error
 	pageNotFound: 'La página que buscas no existe o ha sido movida.',

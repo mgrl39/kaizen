@@ -54,6 +54,12 @@ export type TranslationKey =
 	| 'alreadyHaveAccount'
 	| 'login'
 	| 'joinKaizenCinema'
+	| 'registering'
+	| 'fullNamePlaceholder'
+	| 'usernamePlaceholder'
+	| 'emailPlaceholder'
+	| 'passwordPlaceholder'
+	| 'confirmPasswordPlaceholder'
 
 	// Register validation errors
 	| 'usernameRequired'
@@ -74,16 +80,19 @@ export type TranslationKey =
 	// Login page
 	| 'welcomeBack'
 	| 'emailOrUsername'
-	| 'emailPlaceholder'
 	| 'loggingIn'
 	| 'noAccount'
+	| 'signIn'
+	| 'hidePassword'
+	| 'showPassword'
+	| 'secureLogin'
 
 	// Categories
 	| 'exploreCategories'
 	| 'viewAll'
 	| 'noCategories'
 
-	// Error pages (ya veo que están en los archivos pero faltan en el tipo)
+	// Error pages
 	| 'pageNotFound'
 	| 'pageNotFoundTitle'
 	| 'accessDeniedTitle'

@@ -67,9 +67,17 @@ const en: TranslationDictionary = {
 	emailPlaceholder: 'user@email.com',
 	loggingIn: 'Logging in...',
 	noAccount: "Don't have an account?",
-	dontHaveAccount: "Don't have an account?",
-	signUpNow: 'Sign up now',
-	test: 'Test',
+	signIn: 'Sign In',
+	hidePassword: 'Hide password',
+	showPassword: 'Show password',
+	secureLogin: 'Secure connection',
+
+	// Register page additions
+	registering: 'Registering...',
+	fullNamePlaceholder: 'E.g. John Smith',
+	usernamePlaceholder: 'E.g. johnsmith',
+	passwordPlaceholder: '••••••••',
+	confirmPasswordPlaceholder: '••••••••',
 
 	// Error pages
 	pageNotFound: "The page you are looking for doesn't exist or has been moved.",
@@ -87,6 +95,7 @@ const en: TranslationDictionary = {
 	rememberMe: 'Remember me',
 	dontHaveAccount: "Don't have an account?",
 	signUpNow: 'Sign up now',
+	test: 'Test'
 };
 
 export default en;
