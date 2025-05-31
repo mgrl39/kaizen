@@ -91,17 +91,18 @@
 	<meta property="og:description" content={metadata.description}>
 	<meta property="og:site_name" content="Kaizen Cinema">
 	<meta property="og:locale" content="es_ES">
-	<meta property="og:image" content={`${defaultMetadata.url}/favicon.png`}>
+	<meta property="og:image" content={`${defaultMetadata.url}/logonotitle.png`}>
 
 	<!-- Twitter -->
 	<meta property="twitter:card" content="summary">
 	<meta property="twitter:url" content={metadata.url}>
 	<meta property="twitter:title" content={metadata.title}>
 	<meta property="twitter:description" content={metadata.description}>
-	<meta property="twitter:image" content={`${defaultMetadata.url}/favicon.png`}>
+	<meta property="twitter:image" content={`${defaultMetadata.url}/logonotitle.png`}>
 
 	<!-- Favicon -->
-	<link rel="icon" href="/favicon.png" type="image/png">
+	<link rel="icon" href="/logonotitle.png" type="image/png">
+	<link rel="apple-touch-icon" href="/logonotitle.png">
 
 	<!-- Theme Color -->
 	<meta name="theme-color" content="#6d28d9">
