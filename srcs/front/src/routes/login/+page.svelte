@@ -256,4 +256,19 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
+
+  :global(.dropdown-menu) {
+    border-color: var(--app-border);
+  }
+
+  :global(.dropdown-item.active),
+  :global(.dropdown-item:active) {
+    background-color: var(--app-primary);
+    color: white;
+  }
+
+  :global(.dropdown-item:hover) {
+    background-color: var(--app-primary-hover);
+    color: white;
+  }
 </style>

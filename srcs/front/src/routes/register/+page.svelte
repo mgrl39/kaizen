@@ -321,4 +321,20 @@
   :global([data-bs-theme="dark"]) .info-card {
     background-color: var(--app-card-bg);
   }
+
+  /* Estilos específicos y adaptados al tema global */
+  :global(.dropdown-menu) {
+    border-color: var(--app-border);
+  }
+
+  :global(.dropdown-item.active),
+  :global(.dropdown-item:active) {
+    background-color: var(--app-primary);
+    color: white;
+  }
+
+  :global(.dropdown-item:hover) {
+    background-color: var(--app-primary-hover);
+    color: white;
+  }
 </style>
