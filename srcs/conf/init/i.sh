@@ -43,8 +43,18 @@ install_if_missing unzip unzip
 # PHP y extensiones
 install_if_missing php php
 install_if_missing php-cli php
-install_if_missing php-mbstring php
-phpenmod mbstring
+
+# Instalación y verificación de mbstring
+echo -e "${YELLOW}➤ Instalando extensión PHP 'mbstring'...${NC}"
+apt install -y php-mbstring >> "$LOGFILE" 2>&1
+
+if [ -f /etc/php/*/mods-available/mbstring.ini ]; then
+    phpenmod mbstring
+    echo -e "${GREEN}✔ Extensión PHP 'mbstring' instalada y activada.${NC}"
+else
+    echo -e "${RED}✖ No se encontró el archivo de configuración de mbstring. La instalación puede haber fallado.${NC}"
+fi
+
 install_if_missing php-xml php
 install_if_missing php-pgsql php
 
