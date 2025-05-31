@@ -115,6 +115,26 @@ const es: TranslationDictionary = {
 	contactUs: 'Contáctanos',
 	allRightsReserved: 'Todos los derechos reservados',
 	paymentMethods: 'Métodos de pago',
+
+	// About page
+	aboutTitle: 'Sobre Kaizen Cinema',
+	aboutSubtitle: 'Transformando la experiencia cinematográfica desde 2024',
+	ourHistory: 'Nuestra Historia',
+	historyText1: 'Kaizen Cinema nació de la pasión por el cine y la innovación. Fundada en 2024, nos propusimos revolucionar la forma en que las personas experimentan el cine, combinando tecnología de vanguardia con el encanto tradicional de las salas de cine.',
+	historyText2: 'Nuestro nombre, "Kaizen", refleja nuestra filosofía de mejora continua, aplicando este principio japonés a cada aspecto de nuestra operación.',
+	ourMission: 'Nuestra Misión',
+	missionText: 'Proporcionar experiencias cinematográficas excepcionales que conecten a las personas con el arte del cine, utilizando tecnología innovadora y un servicio de primera clase.',
+	ourVision: 'Nuestra Visión',
+	visionText: 'Ser el líder en innovación cinematográfica, creando espacios donde la tecnología y la tradición se unen para ofrecer experiencias memorables a nuestros clientes.',
+	leadDeveloper: 'Desarrollador Principal',
+	leadDeveloperBio: 'Desarrollador Full Stack y creador principal de Kaizen Cinema',
+	collaborator: 'Desarrollador Colaborador',
+	collaboratorBio: 'Desarrollador y colaborador clave en el proyecto Kaizen Cinema',
+	moviesInTheater: 'Películas en Cartelera',
+	satisfiedClients: 'Clientes Satisfechos',
+	support247: 'Soporte 24/7',
+	readyForKaizen: '¿Listo para vivir la experiencia Kaizen?',
+	viewMoviesButton: 'Ver Películas',
 };
 
 export default es;

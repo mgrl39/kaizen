@@ -29,6 +29,26 @@ export type TranslationKey =
 	| 'unreadNotifications'
 	| 'required'
 
+	// About page
+	| 'aboutTitle'
+	| 'aboutSubtitle'
+	| 'ourHistory'
+	| 'historyText1'
+	| 'historyText2'
+	| 'ourMission'
+	| 'missionText'
+	| 'ourVision'
+	| 'visionText'
+	| 'leadDeveloper'
+	| 'leadDeveloperBio'
+	| 'collaborator'
+	| 'collaboratorBio'
+	| 'moviesInTheater'
+	| 'satisfiedClients'
+	| 'support247'
+	| 'readyForKaizen'
+	| 'viewMoviesButton'
+
 	// Footer
 	| 'about'
 	| 'terms'

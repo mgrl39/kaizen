@@ -21,49 +21,87 @@
   import { onMount, onDestroy } from 'svelte';
   import { page } from '$app/stores';
   import { browser } from '$app/environment';
+  import pkg from 'svelte-countup';
+  import { t } from '$lib/i18n';
+  const { CountUp } = pkg;
+  
+  let countersVisible = false;
+  let statsSection: HTMLElement;
+  let animatedNumbers: { [key: string]: number } = {};
   
   // Variables para metadatos de la página
-  const pageTitle = "Sobre Nosotros | Kaizen Cinema";
-  const pageDescription = "Conoce más sobre Kaizen Cinema, nuestra historia, misión y el equipo detrás de tu experiencia cinematográfica favorita.";
+  const pageTitle = $t('about', 'Sobre Nosotros | Kaizen Cinema');
+  const pageDescription = $t('aboutDescription', 'Conoce más sobre Kaizen Cinema, nuestra historia, misión y el equipo detrás de tu experiencia cinematográfica favorita.');
   
   // Datos del equipo
   const team = [
     {
-      name: "María García",
-      role: "CEO & Fundadora",
-      image: "https://i.pravatar.cc/300?img=1",
-      bio: "Apasionada del cine y la innovación, con más de 15 años de experiencia en la industria."
+      name: "mgrl39",
+      role: $t('leadDeveloper', 'Desarrollador Principal'),
+      image: "https://github.com/mgrl39.png",
+      bio: $t('leadDeveloperBio', 'Desarrollador Full Stack y creador principal de Kaizen Cinema')
     },
     {
-      name: "Carlos Rodríguez",
-      role: "CTO",
-      image: "https://i.pravatar.cc/300?img=2",
-      bio: "Experto en tecnología y desarrollo, liderando la transformación digital de Kaizen."
-    },
-    {
-      name: "Ana Martínez",
-      role: "Directora de Marketing",
-      image: "https://i.pravatar.cc/300?img=3",
-      bio: "Estratega creativa con un ojo para las tendencias y la experiencia del usuario."
+      name: "mgrbl",
+      role: $t('collaborator', 'Desarrollador Colaborador'),
+      image: "https://github.com/mgrbl.png",
+      bio: $t('collaboratorBio', 'Desarrollador y colaborador clave en el proyecto Kaizen Cinema')
     }
   ];
   
-  // Estadísticas de la empresa
+  // Estadísticas de la empresa con valores numéricos
   const stats = [
-    { number: "50+", label: "Películas en Cartelera" },
-    { number: "10", label: "Cines" },
-    { number: "100K+", label: "Clientes Satisfechos" },
-    { number: "24/7", label: "Soporte" }
+    { id: 'movies', number: 50, label: $t('moviesInTheater', 'Películas en Cartelera'), suffix: "+" },
+    { id: 'cinemas', number: 1, label: $t('cinemas', 'Cines') },
+    { id: 'clients', number: 50000, label: $t('satisfiedClients', 'Clientes Satisfechos'), suffix: "+" },
+    { id: 'support', number: 24, label: $t('support247', 'Soporte 24/7') }
   ];
   
   // Variable para guardar estado
   let tawkLoaded = false;
+  let tawkScript: HTMLScriptElement | null = null;
   
   // Función para manejar el click del chat
   function handleChatClick(): void {
     if (browser && window.Tawk_API) {
       window.Tawk_API.maximize();
     }
+  }
+  
+  // Función para limpiar Tawk completamente
+  function cleanupTawk(): void {
+    if (!browser) return;
+
+    // Eliminar el script
+    if (tawkScript && tawkScript.parentNode) {
+      tawkScript.parentNode.removeChild(tawkScript);
+    }
+
+    // Eliminar todos los elementos de Tawk del DOM
+    const tawkElements = document.querySelectorAll('[id^="tawk-"]');
+    tawkElements.forEach(element => {
+      if (element.parentNode) {
+        element.parentNode.removeChild(element);
+      }
+    });
+
+    // Limpiar las variables globales de Tawk
+    if (window.Tawk_API) {
+      window.Tawk_API = undefined;
+    }
+    if (window.Tawk_LoadStart) {
+      window.Tawk_LoadStart = undefined;
+    }
+
+    // Eliminar cualquier estilo de Tawk
+    const tawkStyles = document.querySelectorAll('style[id^="tawk-"]');
+    tawkStyles.forEach(style => {
+      if (style.parentNode) {
+        style.parentNode.removeChild(style);
+      }
+    });
+
+    tawkLoaded = false;
   }
   
   // Función que carga el script de Tawk de manera global una sola vez
@@ -73,13 +111,13 @@
     window.Tawk_API = window.Tawk_API || {} as TawkAPI;
     window.Tawk_LoadStart = new Date();
     
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = 'https://embed.tawk.to/682d391da55be4190a7c5bab/1iroae6sn';
-    script.charset = 'UTF-8';
-    script.setAttribute('crossorigin', '*');
-    script.id = 'tawk-script';
-    document.head.appendChild(script);
+    tawkScript = document.createElement("script");
+    tawkScript.async = true;
+    tawkScript.src = 'https://embed.tawk.to/682d391da55be4190a7c5bab/1iroae6sn';
+    tawkScript.charset = 'UTF-8';
+    tawkScript.setAttribute('crossorigin', '*');
+    tawkScript.id = 'tawk-script';
+    document.head.appendChild(tawkScript);
     
     tawkLoaded = true;
     
@@ -155,12 +193,59 @@
     });
   }
   
+  function formatNumber(num: number): string {
+    return new Intl.NumberFormat('es-ES').format(num);
+  }
+
+  function animateValue(id: string, start: number, end: number, duration: number) {
+    if (!browser) return;
+    
+    const range = end - start;
+    const increment = range / (duration / 16);
+    let current = start;
+    
+    function updateNumber() {
+      current += increment;
+      if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+        animatedNumbers[id] = end;
+      } else {
+        animatedNumbers[id] = Math.round(current);
+        requestAnimationFrame(updateNumber);
+      }
+      animatedNumbers = { ...animatedNumbers }; // Trigger Svelte update
+    }
+    
+    updateNumber();
+  }
+
   onMount(() => {
     if (!browser) return;
     
     window.scrollTo(0, 0);
+    countersVisible = true;
     
-    // Cargar Tawk solo la primera vez
+    // Inicializar los números en 0
+    stats.forEach(stat => {
+      animatedNumbers[stat.id] = 0;
+    });
+    
+    // Configurar el observer para la animación
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          stats.forEach(stat => {
+            animateValue(stat.id, 0, stat.number, 2000);
+          });
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.1 });
+    
+    if (statsSection) {
+      observer.observe(statsSection);
+    }
+    
+    // Cargar Tawk
     loadTawk();
     
     // Verificar que estamos en la página About
@@ -177,6 +262,10 @@
       }
     }
   });
+
+  onDestroy(() => {
+    cleanupTawk();
+  });
 </script>
 
 <svelte:head>
@@ -184,83 +273,74 @@
   <meta name="description" content={pageDescription} />
 </svelte:head>
 
-<div class="container mt-5 pt-5">
+<div class="container pt-2">
   <!-- Hero Section -->
   <section class="text-center mb-5">
-    <h1 class="display-4 fw-bold mb-4">Sobre Kaizen Cinema</h1>
+    <h1 class="display-4 fw-bold mb-4">{$t('aboutTitle')}</h1>
     <p class="lead text-muted">
-      Transformando la experiencia cinematográfica desde 2024
+      {$t('aboutSubtitle')}
     </p>
   </section>
   
   <!-- Historia y Misión -->
-  <section class="row align-items-center mb-5 py-5">
+  <section class="row align-items-center mb-5">
     <div class="col-md-6 mb-4 mb-md-0">
-      <h2 class="h3 mb-4">Nuestra Historia</h2>
+      <h2 class="h3 mb-4">{$t('ourHistory')}</h2>
       <p class="text-muted">
-        Kaizen Cinema nació de la pasión por el cine y la innovación. Fundada en 2024, 
-        nos propusimos revolucionar la forma en que las personas experimentan el cine, 
-        combinando tecnología de vanguardia con el encanto tradicional de las salas de cine.
+        {$t('historyText1')}
       </p>
       <p class="text-muted">
-        Nuestro nombre, "Kaizen", refleja nuestra filosofía de mejora continua, 
-        aplicando este principio japonés a cada aspecto de nuestra operación.
+        {$t('historyText2')}
       </p>
     </div>
     <div class="col-md-6">
       <img 
         src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-        alt="Nuestro cine" 
+        alt={$t('ourHistory')}
         class="img-fluid rounded shadow"
       />
     </div>
   </section>
   
   <!-- Misión y Visión -->
-  <section class="bg-light py-5 mb-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6 mb-4 mb-md-0">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body p-4">
-              <h3 class="h4 mb-3">
-                <i class="bi bi-bullseye text-primary me-2"></i>
-                Nuestra Misión
-              </h3>
-              <p class="text-muted mb-0">
-                Proporcionar experiencias cinematográficas excepcionales que conecten 
-                a las personas con el arte del cine, utilizando tecnología innovadora 
-                y un servicio de primera clase.
-              </p>
-            </div>
-          </div>
+  <section class="mb-5">
+    <div class="row g-4">
+      <div class="col-md-6">
+        <div class="p-4 rounded-3 bg-light h-100 border-start border-5 border-primary">
+          <h3 class="h4 mb-3">
+            <i class="bi bi-bullseye text-primary me-2"></i>
+            {$t('ourMission')}
+          </h3>
+          <p class="text-muted mb-0">
+            {$t('missionText')}
+          </p>
         </div>
-        <div class="col-md-6">
-          <div class="card h-100 border-0 shadow-sm">
-            <div class="card-body p-4">
-              <h3 class="h4 mb-3">
-                <i class="bi bi-eye text-primary me-2"></i>
-                Nuestra Visión
-              </h3>
-              <p class="text-muted mb-0">
-                Ser el líder en innovación cinematográfica, creando espacios donde 
-                la tecnología y la tradición se unen para ofrecer experiencias 
-                memorables a nuestros clientes.
-              </p>
-            </div>
-          </div>
+      </div>
+      <div class="col-md-6">
+        <div class="p-4 rounded-3 bg-light h-100 border-start border-5 border-primary">
+          <h3 class="h4 mb-3">
+            <i class="bi bi-eye text-primary me-2"></i>
+            {$t('ourVision')}
+          </h3>
+          <p class="text-muted mb-0">
+            {$t('visionText')}
+          </p>
         </div>
       </div>
     </div>
   </section>
   
   <!-- Estadísticas -->
-  <section class="mb-5">
+  <section class="mb-5" bind:this={statsSection}>
     <div class="row text-center">
       {#each stats as stat}
         <div class="col-6 col-md-3 mb-4">
           <div class="p-3">
-            <h3 class="h2 fw-bold text-primary mb-2">{stat.number}</h3>
+            <h3 class="h2 fw-bold text-primary mb-2">
+              {formatNumber(animatedNumbers[stat.id] || 0)}
+              {#if stat.suffix}{stat.suffix}{/if}
+              {#if stat.label === "Soporte 24/7"}<span>/7</span>{/if}
+            </h3>
             <p class="text-muted mb-0">{stat.label}</p>
           </div>
         </div>
@@ -271,9 +351,9 @@
   <!-- Equipo -->
   <section class="mb-5">
     <h2 class="h3 text-center mb-4">Nuestro Equipo</h2>
-    <div class="row">
+    <div class="row justify-content-center">
       {#each team as member}
-        <div class="col-md-4 mb-4">
+        <div class="col-md-5 mb-4">
           <div class="card h-100 border-0 shadow-sm">
             <img 
               src={member.image} 
@@ -285,6 +365,9 @@
               <h3 class="h5 mb-1">{member.name}</h3>
               <p class="text-primary mb-3">{member.role}</p>
               <p class="text-muted mb-0">{member.bio}</p>
+              <a href="https://github.com/{member.name}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary mt-3">
+                <i class="bi bi-github me-2"></i>Ver Perfil
+              </a>
             </div>
           </div>
         </div>
@@ -329,12 +412,12 @@
   
   <!-- CTA -->
   <section class="text-center mb-5">
-    <div class="card border-0 shadow-sm">
-      <div class="card-body p-5">
-        <h2 class="h3 mb-4">¿Listo para vivir la experiencia Kaizen?</h2>
-        <a href="/movies" class="btn btn-primary btn-lg">
+    <div class="py-5 px-4 rounded-3 bg-gradient" style="background: linear-gradient(45deg, var(--bs-primary) 0%, #8b5cf6 100%)">
+      <div class="py-4">
+        <h2 class="h3 mb-4 text-white">{$t('readyForKaizen')}</h2>
+        <a href="/movies" class="btn btn-light btn-lg">
           <i class="bi bi-film me-2"></i>
-          Ver Películas
+          {$t('viewMoviesButton')}
         </a>
       </div>
     </div>
@@ -372,5 +455,15 @@
     width: 0 !important;
     position: absolute !important;
     left: -9999px !important;
+  }
+  
+  /* Estilos para las cards de Misión y Visión */
+  .border-start.border-5 {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .border-start.border-5:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
   }
 </style>
