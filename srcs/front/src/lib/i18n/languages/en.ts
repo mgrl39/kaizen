@@ -62,7 +62,27 @@ const en: TranslationDictionary = {
 	serverErrorTitle: 'Server error',
 	genericErrorTitle: 'An error occurred',
 	backToHome: 'Back to home',
-	test: 'Test'
+	test: 'Test',
+
+	// Cinema page
+	ourCinema: 'Our Cinema',
+	cinemaSubtitle: 'Discover the best place to enjoy the seventh art',
+	contactInfo: 'Contact Information',
+	address: 'Address',
+	viewOnMap: 'View on map',
+	phone: 'Phone',
+	openingHours: 'Opening Hours',
+	aboutUs: 'About Us',
+	features: 'Features',
+	services: 'Services',
+	quickActions: 'Quick Actions',
+	viewMovies: 'View Movies',
+	buyTickets: 'Buy Tickets',
+	contact: 'Contact',
+	followUs: 'Follow Us',
+	ourRooms: 'Our Rooms',
+	capacity: 'Capacity',
+	viewNowShowing: 'View Now Showing Movies',
 };
 
 export default en;

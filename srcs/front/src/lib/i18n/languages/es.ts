@@ -47,6 +47,26 @@ const es: TranslationDictionary = {
 	registerError: 'No se pudo completar el registro. Por favor, inténtalo de nuevo.',
 	registerSuccess: 'Registro exitoso. Redirigiendo...',
 
+	// Página de cine
+	ourCinema: 'Nuestro Cine',
+	cinemaSubtitle: 'Descubre el mejor lugar para disfrutar del séptimo arte',
+	contactInfo: 'Información de contacto',
+	address: 'Dirección',
+	viewOnMap: 'Ver en mapa',
+	phone: 'Teléfono',
+	openingHours: 'Horario',
+	aboutUs: 'Sobre nosotros',
+	features: 'Características',
+	services: 'Servicios',
+	quickActions: 'Acciones rápidas',
+	viewMovies: 'Ver cartelera',
+	buyTickets: 'Comprar entradas',
+	contact: 'Contactar',
+	followUs: 'Síguenos',
+	ourRooms: 'Nuestras salas',
+	capacity: 'Capacidad',
+	viewNowShowing: 'Ver películas en cartelera',
+
 	// Categorías
 	exploreCategories: 'Explorar categorías',
 	viewAll: 'Ver todas',

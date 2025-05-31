@@ -58,8 +58,8 @@
   <div data-bs-theme={$theme}>
     <!-- Hero Banner con imagen específica para la página de cines -->
     <HeroBanner 
-      title="Nuestro Cine"
-      subtitle="Descubre el mejor lugar para disfrutar del séptimo arte"
+      title={$t('ourCinema')}
+      subtitle={$t('cinemaSubtitle')}
       imageUrl={cinema.image_url}
       overlayOpacity="60"
     />
@@ -71,14 +71,14 @@
         <div class="col-lg-4">
           <div class="card h-100 border-0 shadow">
             <div class="card-header bg-light text-dark">
-              <h3 class="h5 mb-0">Información de contacto</h3>
+              <h3 class="h5 mb-0">{$t('contactInfo')}</h3>
             </div>
             <div class="card-body">
               <div class="mb-4">
                 <div class="d-flex">
                   <i class="bi bi-geo-alt text-primary me-3 mt-1"></i>
                   <div>
-                    <p class="fw-medium mb-1">Dirección</p>
+                    <p class="fw-medium mb-1">{$t('address')}</p>
                     <p class="mb-1">{cinema.address}</p>
                     <a 
                       href={`https://maps.google.com/?q=${encodeURIComponent(cinema.address)}`} 
@@ -86,7 +86,7 @@
                       rel="noopener noreferrer"
                       class="text-primary small d-inline-flex align-items-center"
                     >
-                      <i class="bi bi-map me-1"></i>Ver en mapa
+                      <i class="bi bi-map me-1"></i>{$t('viewOnMap')}
                     </a>
                   </div>
                 </div>
@@ -96,7 +96,7 @@
                 <div class="d-flex">
                   <i class="bi bi-telephone text-primary me-3 mt-1"></i>
                   <div>
-                    <p class="fw-medium mb-1">Teléfono</p>
+                    <p class="fw-medium mb-1">{$t('phone')}</p>
                     <p class="mb-0">{cinema.phone}</p>
                   </div>
                 </div>
@@ -116,7 +116,7 @@
                 <div class="d-flex">
                   <i class="bi bi-clock text-primary me-3 mt-1"></i>
                   <div>
-                    <p class="fw-medium mb-1">Horario</p>
+                    <p class="fw-medium mb-1">{$t('openingHours')}</p>
                     <p class="mb-0">{cinema.opening_hours}</p>
                   </div>
                 </div>
@@ -129,12 +129,12 @@
         <div class="col-lg-4">
           <div class="card h-100 border-0 shadow">
             <div class="card-header bg-light text-dark">
-              <h3 class="h5 mb-0">Sobre nosotros</h3>
+              <h3 class="h5 mb-0">{$t('aboutUs')}</h3>
             </div>
             <div class="card-body">
               <p class="mb-4">{cinema.description}</p>
               
-              <h4 class="h6 fw-bold mb-3">Características</h4>
+              <h4 class="h6 fw-bold mb-3">{$t('features')}</h4>
               <div class="d-flex flex-wrap gap-2 mb-4">
                 {#if cinema.has_3d}
                   <span class="badge bg-primary">
@@ -155,7 +155,7 @@
                 {/if}
               </div>
               
-              <h4 class="h6 fw-bold mb-3">Servicios</h4>
+              <h4 class="h6 fw-bold mb-3">{$t('services')}</h4>
               <div class="row g-2">
                 {#each cinema.features as feature}
                   <div class="col-6">
@@ -174,7 +174,7 @@
         <div class="col-lg-4">
           <div class="card h-100 border-0 shadow">
             <div class="card-header bg-light text-dark">
-              <h3 class="h5 mb-0">Acciones rápidas</h3>
+              <h3 class="h5 mb-0">{$t('quickActions')}</h3>
             </div>
             <div class="card-body">
               <div class="d-grid gap-3 mb-4">
@@ -183,7 +183,7 @@
                   class="btn btn-primary"
                 >
                   <i class="bi bi-film me-2"></i>
-                  Ver cartelera
+                  {$t('viewMovies')}
                 </a>
                 
                 <a 
@@ -191,7 +191,7 @@
                   class="btn btn-gradient"
                 >
                   <i class="bi bi-ticket-perforated me-2"></i>
-                  Comprar entradas
+                  {$t('buyTickets')}
                 </a>
                 
                 <a 
@@ -199,11 +199,11 @@
                   class="btn btn-outline-secondary"
                 >
                   <i class="bi bi-chat-dots me-2"></i>
-                  Contactar
+                  {$t('contact')}
                 </a>
               </div>
               
-              <h4 class="h6 fw-bold mb-3">Síguenos</h4>
+              <h4 class="h6 fw-bold mb-3">{$t('followUs')}</h4>
               <div class="d-flex gap-2">
                 <a href="#test" class="btn btn-outline-primary btn-sm rounded-circle" aria-label="Facebook">
                   <i class="bi bi-facebook"></i>
@@ -222,7 +222,7 @@
       
       <!-- Sección de salas -->
       <div class="mb-5">
-        <h3 class="h3 fw-bold mb-4">Nuestras salas</h3>
+        <h3 class="h3 fw-bold mb-4">{$t('ourRooms')}</h3>
         
         <div class="row g-4">
           {#each rooms as room}
@@ -230,7 +230,7 @@
               <div class="card border-0 shadow h-100">
                 <div class="card-body">
                   <h4 class="h5 fw-bold mb-2">{room.name}</h4>
-                  <p class="mb-3">Capacidad: {room.capacity} personas</p>
+                  <p class="mb-3">{$t('capacity')}: {room.capacity} personas</p>
                   
                   {#if room.features.length > 0}
                     <div class="d-flex flex-wrap gap-2">
@@ -255,7 +255,7 @@
           class="btn btn-lg btn-primary"
         >
           <i class="bi bi-film me-2"></i>
-          Ver películas en cartelera
+          {$t('viewNowShowing')}
         </a>
       </div>
     </div>

@@ -29,6 +29,26 @@ export type TranslationKey =
 	| 'unreadNotifications'
 	| 'required'
 
+	// Cinema page
+	| 'ourCinema'
+	| 'cinemaSubtitle'
+	| 'contactInfo'
+	| 'address'
+	| 'viewOnMap'
+	| 'phone'
+	| 'openingHours'
+	| 'aboutUs'
+	| 'features'
+	| 'services'
+	| 'quickActions'
+	| 'viewMovies'
+	| 'buyTickets'
+	| 'contact'
+	| 'followUs'
+	| 'ourRooms'
+	| 'capacity'
+	| 'viewNowShowing'
+
 	// Login page
 	| 'loginError'
 	| 'signIn'
