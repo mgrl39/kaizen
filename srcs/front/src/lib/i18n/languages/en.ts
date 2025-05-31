@@ -78,6 +78,7 @@ const en: TranslationDictionary = {
 	usernamePlaceholder: 'E.g. johnsmith',
 	passwordPlaceholder: '••••••••',
 	confirmPasswordPlaceholder: '••••••••',
+	required: 'required',
 
 	// Error pages
 	pageNotFound: "The page you are looking for doesn't exist or has been moved.",

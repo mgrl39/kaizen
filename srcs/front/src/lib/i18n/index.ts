@@ -26,6 +26,7 @@ export type TranslationKey =
 	| 'adminPanel'
 	| 'loading'
 	| 'unreadNotifications'
+	| 'required'
 	// Traducciones para la página principal
 	| 'featuredMoviesError'
 	| 'category_action'

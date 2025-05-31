@@ -21,7 +21,7 @@
   $: isFormValid = isEmailValid && isPasswordValid;
   
   async function handleSubmit() {
-    if (!isFormValid || isSubmitting) return;
+    if (isSubmitting) return;
     
     isSubmitting = true;
     errorMessage = '';
@@ -119,14 +119,14 @@
 <!-- Language selector -->
 <div class="position-fixed top-0 end-0 p-3">
   <div class="dropdown">
-    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
       {languages[$language].flag}
     </button>
     <ul class="dropdown-menu dropdown-menu-end">
       {#each Object.entries(languages) as [code, lang]}
         <li>
           <button 
-            class="dropdown-item" 
+            class="dropdown-item border-0" 
             class:active={$language === code}
             on:click={() => language.set(code)}
           >
@@ -161,7 +161,9 @@
             
             <form on:submit|preventDefault={handleSubmit}>
               <div class="mb-3">
-                <label for="email" class="form-label">{$t('email')}</label>
+                <label for="email" class="form-label">
+                  {$t('email')} <span class="text-danger">*</span>
+                </label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="bi bi-envelope"></i></span>
                   <input 
@@ -183,7 +185,9 @@
               </div>
               
               <div class="mb-4">
-                <label for="password" class="form-label">{$t('password')}</label>
+                <label for="password" class="form-label">
+                  {$t('password')} <span class="text-danger">*</span>
+                </label>
                 <div class="input-group">
                   <span class="input-group-text"><i class="bi bi-lock"></i></span>
                   <input 
@@ -218,14 +222,14 @@
               <div class="d-grid mt-4">
                 <button 
                   type="submit" 
-                  class="btn btn-lg {isFormValid ? 'btn-primary' : 'btn-secondary opacity-75'}" 
-                  disabled={!isFormValid || isSubmitting}
+                  class="btn btn-lg btn-primary" 
+                  disabled={isSubmitting}
                 >
                   {#if isSubmitting}
                     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
                     {$t('loading')}
                   {:else}
-                    <i class="bi {isFormValid ? 'bi-box-arrow-in-right' : 'bi-lock'} me-2"></i>
+                    <i class="bi bi-box-arrow-in-right me-2"></i>
                     {$t('signIn')}
                   {/if}
                 </button>

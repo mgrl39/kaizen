@@ -78,6 +78,7 @@ const es: TranslationDictionary = {
 	usernamePlaceholder: 'Ej. juanperez',
 	passwordPlaceholder: '••••••••',
 	confirmPasswordPlaceholder: '••••••••',
+	required: 'obligatorio',
 
 	// Páginas de error
 	pageNotFound: 'La página que buscas no existe o ha sido movida.',

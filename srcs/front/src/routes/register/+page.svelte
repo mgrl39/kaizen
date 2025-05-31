@@ -159,14 +159,14 @@
 <!-- Language selector -->
 <div class="position-fixed top-0 end-0 p-3">
   <div class="dropdown">
-    <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <button class="btn btn-link text-decoration-none" type="button" data-bs-toggle="dropdown" aria-expanded="false">
       {languages[$language].flag}
     </button>
     <ul class="dropdown-menu dropdown-menu-end">
       {#each Object.entries(languages) as [code, lang]}
         <li>
           <button 
-            class="dropdown-item" 
+            class="dropdown-item border-0" 
             class:active={$language === code}
             on:click={() => language.set(code)}
           >
