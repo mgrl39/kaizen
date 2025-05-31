@@ -84,7 +84,7 @@
 	<meta name="title" content={metadata.title}>
 	<meta name="description" content={metadata.description}>
 
-	<!-- Open Graph / Facebook -->
+	<!-- Open Graph / Facebook / WhatsApp -->
 	<meta property="og:type" content="website">
 	<meta property="og:url" content={metadata.url}>
 	<meta property="og:title" content={metadata.title}>
@@ -92,13 +92,24 @@
 	<meta property="og:site_name" content="Kaizen Cinema">
 	<meta property="og:locale" content="es_ES">
 	<meta property="og:image" content={`${defaultMetadata.url}/logonotitle.png`}>
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="Kaizen Cinema Logo">
+	<meta property="og:image:type" content="image/png">
 
 	<!-- Twitter -->
-	<meta property="twitter:card" content="summary">
-	<meta property="twitter:url" content={metadata.url}>
-	<meta property="twitter:title" content={metadata.title}>
-	<meta property="twitter:description" content={metadata.description}>
-	<meta property="twitter:image" content={`${defaultMetadata.url}/logonotitle.png`}>
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:url" content={metadata.url}>
+	<meta name="twitter:title" content={metadata.title}>
+	<meta name="twitter:description" content={metadata.description}>
+	<meta name="twitter:image" content={`${defaultMetadata.url}/logonotitle.png`}>
+	<meta name="twitter:image:alt" content="Kaizen Cinema Logo">
+
+	<!-- WhatsApp specific -->
+	<meta property="og:image:secure_url" content={`${defaultMetadata.url}/logonotitle.png`}>
+	<meta property="og:video:type" content="text/html">
+	<meta property="og:video:width" content="1200">
+	<meta property="og:video:height" content="630">
 
 	<!-- Favicon -->
 	<link rel="icon" href="/logonotitle.png" type="image/png">
@@ -106,6 +117,9 @@
 
 	<!-- Theme Color -->
 	<meta name="theme-color" content="#6d28d9">
+	<meta name="msapplication-TileColor" content="#6d28d9">
+	<meta name="msapplication-navbutton-color" content="#6d28d9">
+	<meta name="apple-mobile-web-app-status-bar-style" content="#6d28d9">
 
 	{#if isAdminRoute}
 		<script>
