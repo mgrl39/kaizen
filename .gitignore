@@ -4,9 +4,6 @@ Thumbs.db
 desktop.ini
 
 # Entorno
-.env
-.env.*
-!.env.example
 
 # Dependencias
 node_modules
@@ -79,8 +76,6 @@ build
 Thumbs.db
 
 # Env
-.env
-.env.*
 !.env.example
 !.env.test
 
