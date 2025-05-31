@@ -12,7 +12,7 @@
   let email = '';
   let password = '';
   let isSubmitting = false;
-  let errorMessage = '';
+  let showError = false;
   let showPassword = false;
   
   // Validación básica
@@ -24,7 +24,7 @@
     if (isSubmitting) return;
     
     isSubmitting = true;
-    errorMessage = '';
+    showError = false;
     
     try {
       const response = await fetch(`${API_URL}/login`, {
@@ -42,25 +42,21 @@
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // Guardar el token
         localStorage.setItem('token', data.token);
-
-        // Guardar estado de autenticación
         const authState = {
           isAuthenticated: true,
           userName: data.user.name || data.user.username || 'Usuario',
           loading: false
         };
         localStorage.setItem('authState', JSON.stringify(authState));
-
-        // Redirigir a inicio
         goto('/');
       } else {
-        errorMessage = data.message || 'Credenciales inválidas. Por favor intenta de nuevo.';
+        console.error('Error de login:', data);
+        showError = true;
       }
     } catch (error) {
-      console.error('Error de login:', error);
-      errorMessage = 'Error al conectar con el servidor. Por favor intenta más tarde.';
+      console.error('Error de conexión:', error);
+      showError = true;
     } finally {
       isSubmitting = false;
     }
@@ -152,10 +148,11 @@
         <!-- Tarjeta de login -->
         <div class="card border-0 shadow-sm">
           <div class="card-body p-4">
-            {#if errorMessage}
+            {#if showError}
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                {errorMessage}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                {$t('loginError')}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" on:click={() => showError = false}></button>
               </div>
             {/if}
             

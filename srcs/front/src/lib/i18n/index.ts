@@ -15,6 +15,7 @@ import en from './languages/en';
 
 // Definir tipo para las traducciones
 export type TranslationKey =
+	// Navbar and common
 	| 'cinemas'
 	| 'movies'
 	| 'profile'
@@ -27,71 +28,44 @@ export type TranslationKey =
 	| 'loading'
 	| 'unreadNotifications'
 	| 'required'
-	// Traducciones para la página principal
-	| 'featuredMoviesError'
-	| 'category_action'
-	| 'category_comedy'
-	| 'category_drama'
-	// FeaturedMovies component
-	| 'featuredMoviesTitle'
-	| 'noFeaturedMovies'
-	// HeroBanner component
-	| 'heroBannerTitle'
-	| 'heroBannerSubtitle'
-	| 'viewMovies'
-	| 'exploreCinemas'
+
+	// Login page
+	| 'loginError'
+	| 'signIn'
+	| 'welcomeBack'
+	| 'emailOrUsername'
+	| 'email'
+	| 'password'
+	| 'emailPlaceholder'
+	| 'passwordPlaceholder'
+	| 'showPassword'
+	| 'hidePassword'
+	| 'dontHaveAccount'
+	| 'signUpNow'
 
 	// Register page
 	| 'createAccount'
-	| 'registerSuccess'
-	| 'username'
+	| 'joinKaizenCinema'
 	| 'fullName'
-	| 'email'
-	| 'password'
+	| 'username'
 	| 'confirmPassword'
 	| 'birthdate'
 	| 'optional'
-	| 'processing'
-	| 'alreadyHaveAccount'
-	| 'login'
-	| 'joinKaizenCinema'
 	| 'registering'
+	| 'alreadyHaveAccount'
 	| 'fullNamePlaceholder'
 	| 'usernamePlaceholder'
-	| 'emailPlaceholder'
-	| 'passwordPlaceholder'
 	| 'confirmPasswordPlaceholder'
-
-	// Register validation errors
-	| 'usernameRequired'
-	| 'usernameMinLength'
-	| 'nameRequired'
-	| 'emailRequired'
-	| 'emailInvalid'
-	| 'passwordRequired'
-	| 'passwordMinLength'
-	| 'passwordsDontMatch'
-	| 'birthdateInvalid'
-	| 'formErrors'
 	| 'registerError'
-	| 'connectionError'
-	| 'unknownError'
-	| 'showFilms'
-
-	// Login page
-	| 'welcomeBack'
-	| 'emailOrUsername'
-	| 'loggingIn'
-	| 'noAccount'
-	| 'signIn'
-	| 'hidePassword'
-	| 'showPassword'
-	| 'secureLogin'
+	| 'registerSuccess'
 
 	// Categories
 	| 'exploreCategories'
 	| 'viewAll'
 	| 'noCategories'
+	| 'category_action'
+	| 'category_comedy'
+	| 'category_drama'
 
 	// Error pages
 	| 'pageNotFound'
@@ -101,9 +75,13 @@ export type TranslationKey =
 	| 'genericErrorTitle'
 	| 'backToHome'
 	| 'test'
+	| 'accessDeniedTitle'
+	| 'serverErrorTitle'
+	| 'genericErrorTitle'
+	| 'backToHome'
+	| 'test'
 	| 'emailAddress'
 	| 'rememberMe'
-	| 'dontHaveAccount'
 	| 'signUpNow';
 
 // Definir tipo para un diccionario de idioma

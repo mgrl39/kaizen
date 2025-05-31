@@ -13,9 +13,7 @@
     let birthdate: string = '';
     let loading = false;
     let showError = false;
-    let errorMessage = '';
     let showSuccess = false;
-    let successMessage = '';
 
     // Error handling
     type ErrorsType = {
@@ -34,73 +32,30 @@
     function validateForm() {
         errors = {};
         // Username validation
-        if (!username) errors.username = $t('usernameRequired');
-        else if (username.length < 3) errors.username = $t('usernameMinLength');
+        if (!username) return false;
+        if (username.length < 3) return false;
         // Name validation
-        if (!name) errors.name = $t('nameRequired');
+        if (!name) return false;
         // Email validation
-        if (!email) errors.email = $t('emailRequired');
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = $t('emailInvalid');
+        if (!email) return false;
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return false;
         // Password validation
-        if (!password) errors.password = $t('passwordRequired');
-        else if (password.length < 8) errors.password = $t('passwordMinLength');
+        if (!password) return false;
+        if (password.length < 8) return false;
         // Password confirmation
-        if (password !== passwordConfirmation) errors.passwordConfirmation = $t('passwordsDontMatch');
+        if (password !== passwordConfirmation) return false;
         // Birthdate validation is optional now
         if (birthdate) {
             const today : Date = new Date();
             const selectedDate : Date = new Date(birthdate);
-            if (selectedDate >= today) errors.birthdate = $t('birthdateInvalid');
+            if (selectedDate >= today) return false;
         }
-        return (Object.keys(errors).length === 0);
+        return true;
     }
 
-    async function registerUser(userData: any) {
-        try {
-            const response = await fetch(`${API_URL}/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(userData)
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                if (data.errors) {
-                    const formattedErrors: ErrorsType = {};
-                    for (const key in data.errors) {
-                        formattedErrors[key] = data.errors[key][0];
-                    }
-                    return {
-                        success: false,
-                        message: $t('formErrors'),
-                        errors: formattedErrors
-                    };
-                }
-                return {
-                    success: false,
-                    message: data.message || $t('registerError')
-                };
-            }
-            if (data.token) localStorage.setItem('token', data.token);
-            return {
-                success: true,
-                data
-            };
-        } catch (error) {
-            return {
-                success: false,
-                message: $t('connectionError')
-            };
-        }
-    }
-
-    // Form submission
     async function handleSubmit() {
         if (!validateForm()) {
+            showError = true;
             return;
         }
         
@@ -118,22 +73,28 @@
                 birthdate: birthdate || null
             };
             
-            const response = await registerUser(userData);
-            
-            if (response.success) {
+            const response = await fetch(`${API_URL}/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
                 showSuccess = true;
-                successMessage = $t('registerSuccess');
-                // Redirect to login page after 2 seconds
                 setTimeout(() => {
                     goto('/login');
                 }, 2000);
             } else {
-                if (response.errors) errors = response.errors;
-                else errorMessage = response.message || $t('registerError');
+                console.error('Error de registro:', data);
                 showError = true;
             }
-        } catch (error: any) {
-            errorMessage = $t('unknownError');
+        } catch (error) {
+            console.error('Error de conexión:', error);
             showError = true;
         } finally {
             loading = false;
@@ -195,7 +156,7 @@
             {#if showError}
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                {errorMessage}
+                {$t('registerError')}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" on:click={() => showError = false}></button>
               </div>
             {/if}
@@ -203,7 +164,7 @@
             {#if showSuccess}
               <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="bi bi-check-circle-fill me-2"></i>
-                {successMessage}
+                {$t('registerSuccess')}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" on:click={() => showSuccess = false}></button>
               </div>
             {/if}
