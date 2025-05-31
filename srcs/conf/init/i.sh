@@ -44,6 +44,7 @@ install_if_missing unzip unzip
 install_if_missing php php
 install_if_missing php-cli php
 install_if_missing php-mbstring php
+phpenmod mbstring
 install_if_missing php-xml php
 install_if_missing php-pgsql php
 
