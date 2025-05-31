@@ -35,14 +35,14 @@
       <div class="col-lg-4 mb-3">
         <div class="d-flex align-items-center mb-2">
           <h5 class="fw-bold mb-0 me-2">KAIZEN</h5>
-          <span class="badge bg-primary">CINEMA</span>
+          <span class="badge custom-badge">CINEMA</span>
         </div>
         <p class="text-muted mb-3">{$t('footerTagline')}</p>
         
         <!-- Botón de newsletter -->
         <div class="input-group">
           <input type="email" class="form-control" placeholder={$t('enterEmail')} aria-label="Email" aria-describedby="subscribe-btn">
-          <button class="btn btn-primary" type="button" id="subscribe-btn">
+          <button class="btn custom-btn" type="button" id="subscribe-btn">
             <i class="bi bi-envelope me-1"></i> {$t('subscribe')}
           </button>
         </div>
@@ -50,11 +50,11 @@
       
       <!-- Enlaces rápidos -->
       <div class="col-6 col-md-3 col-lg-2">
-        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('quickLinks')}</h6>
+        <h6 class="fw-bold text-uppercase text-custom-primary mb-3">{$t('quickLinks')}</h6>
         <ul class="list-unstyled">
           {#each links as link}
             <li class="mb-2">
-              <a href={link.url} class="text-decoration-none text-body-secondary hover-primary">
+              <a href={link.url} class="text-decoration-none text-body-secondary hover-custom">
                 {link.text}
               </a>
             </li>
@@ -64,11 +64,11 @@
       
       <!-- Enlaces legales -->
       <div class="col-6 col-md-3 col-lg-2">
-        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('legal')}</h6>
+        <h6 class="fw-bold text-uppercase text-custom-primary mb-3">{$t('legal')}</h6>
         <ul class="list-unstyled">
           {#each legalLinks as link}
             <li class="mb-2">
-              <a href={link.url} class="text-decoration-none text-body-secondary hover-primary">
+              <a href={link.url} class="text-decoration-none text-body-secondary hover-custom">
                 {link.text}
               </a>
             </li>
@@ -78,18 +78,18 @@
       
       <!-- Contacto -->
       <div class="col-md-6 col-lg-4">
-        <h6 class="fw-bold text-uppercase text-primary mb-3">{$t('contactUs')}</h6>
+        <h6 class="fw-bold text-uppercase text-custom-primary mb-3">{$t('contactUs')}</h6>
         <ul class="list-unstyled">
           <li class="mb-2 d-flex align-items-center">
-            <i class="bi bi-geo-alt me-2 text-primary"></i>
+            <i class="bi bi-geo-alt me-2 text-custom-primary"></i>
             <span>123 Calle Principal, Ciudad, País</span>
           </li>
           <li class="mb-2 d-flex align-items-center">
-            <i class="bi bi-telephone me-2 text-primary"></i>
+            <i class="bi bi-telephone me-2 text-custom-primary"></i>
             <span>+1 (234) 567-8900</span>
           </li>
           <li class="mb-2 d-flex align-items-center">
-            <i class="bi bi-envelope me-2 text-primary"></i>
+            <i class="bi bi-envelope me-2 text-custom-primary"></i>
             <span>info@kaizencinema.com</span>
           </li>
         </ul>
@@ -97,7 +97,7 @@
         <!-- Redes sociales -->
         <div class="d-flex mt-3">
           {#each socialLinks as social}
-            <a href={social.url} class="btn btn-sm btn-outline-secondary rounded-circle me-2" aria-label={social.label}>
+            <a href={social.url} class="btn btn-sm btn-outline-custom rounded-circle me-2" aria-label={social.label}>
               <i class="bi bi-{social.icon}"></i>
             </a>
           {/each}
@@ -108,17 +108,62 @@
     <!-- Sección inferior con copyright -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
       <p class="text-muted mb-3 mb-md-0">
-        © {currentYear} Kaizen Cinema. {$t('allRightsReserved')}
+        MIT License {currentYear} Kaizen Cinema.
       </p>
     </div>
   </div>
 </footer>
 
 <style>
-  /* Solo un estilo mínimo para el hover de los enlaces */
-  :global(.hover-primary:hover) {
-    color: var(--bs-primary) !important;
-    transition: color 0.2s;
+  /* Variables de color personalizadas */
+  :root {
+    --custom-primary: #6d28d9;
+    --custom-primary-hover: #5b21b6;
+    --custom-primary-light: rgba(109, 40, 217, 0.1);
+  }
+
+  /* Estilos personalizados */
+  .custom-badge {
+    background-color: var(--custom-primary) !important;
+    color: white;
+  }
+
+  .custom-btn {
+    background-color: var(--custom-primary);
+    color: white;
+    border: 1px solid var(--custom-primary);
+    transition: all 0.2s ease;
+  }
+
+  .custom-btn:hover {
+    background-color: var(--custom-primary-hover);
+    border-color: var(--custom-primary-hover);
+    color: white;
+  }
+
+  .text-custom-primary {
+    color: var(--custom-primary) !important;
+  }
+
+  .btn-outline-custom {
+    color: var(--custom-primary);
+    border-color: var(--custom-primary);
+    transition: all 0.2s ease;
+  }
+
+  .btn-outline-custom:hover {
+    background-color: var(--custom-primary);
+    border-color: var(--custom-primary);
+    color: white;
+  }
+
+  /* Hover personalizado para los enlaces */
+  :global(.hover-custom) {
+    transition: color 0.2s ease;
+  }
+
+  :global(.hover-custom:hover) {
+    color: var(--custom-primary) !important;
   }
   
   /* Estilo para el footer */
