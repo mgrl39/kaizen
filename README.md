@@ -1,5 +1,3 @@
-# Kaizen Cinema
-
 <div align="center">
   <img src="srcs/front/static/images/kaizen_logo_transparent.png" width="150px" align="right"/>
   <h1>Kaizen Cinema</h1>
