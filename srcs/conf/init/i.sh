@@ -79,4 +79,4 @@ else
     echo -e "${RED}✖ La extensión 'curl' NO está activa. Usa 'phpenmod curl && systemctl restart apache2' si usas Apache.${NC}"
 fi
 
-echo -e "${GREEN}✅ Sistema listo. Ahora ejecuta como usuario normal: './init_user.sh'${NC}"
+echo -e "${GREEN}✅ Sistema listo. Ahora ejecuta como usuario normal: './node.sh'${NC}"
