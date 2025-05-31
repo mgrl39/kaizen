@@ -67,6 +67,25 @@ const es: TranslationDictionary = {
 	capacity: 'Capacidad',
 	viewNowShowing: 'Ver películas en cartelera',
 
+	// Página de contacto
+	contactTitle: 'Contacto',
+	contactSubtitle: 'Estamos aquí para ayudarte.',
+	generalInfo: 'Información General',
+	generalInfoDesc: 'Para consultas sobre nuestros servicios, colaboraciones o información general.',
+	technicalSupport: 'Soporte Técnico',
+	technicalSupportDesc: 'Para reportar problemas técnicos, bugs o sugerir mejoras en la plataforma.',
+	sendEmail: 'Enviar email',
+	createIssue: 'Crear issue',
+	quickContactForm: 'Formulario de contacto rápido',
+	yourName: 'Tu nombre',
+	subject: 'Asunto',
+	howCanWeHelp: '¿En qué podemos ayudarte?',
+	sending: 'Enviando...',
+	send: 'Enviar',
+	thankYouMessage: '¡Gracias! Te responderemos pronto.',
+	newMessage: 'Nuevo mensaje',
+	errorSendingMessage: 'Error al enviar mensaje.',
+
 	// Categorías
 	exploreCategories: 'Explorar categorías',
 	viewAll: 'Ver todas',

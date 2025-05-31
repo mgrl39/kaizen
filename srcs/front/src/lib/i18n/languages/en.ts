@@ -83,6 +83,25 @@ const en: TranslationDictionary = {
 	ourRooms: 'Our Rooms',
 	capacity: 'Capacity',
 	viewNowShowing: 'View Now Showing Movies',
+
+	// Contact page
+	contactTitle: 'Contact',
+	contactSubtitle: 'We are here to help.',
+	generalInfo: 'General Information',
+	generalInfoDesc: 'For inquiries about our services, collaborations, or general information.',
+	technicalSupport: 'Technical Support',
+	technicalSupportDesc: 'To report technical issues, bugs, or suggest improvements to the platform.',
+	sendEmail: 'Send email',
+	createIssue: 'Create issue',
+	quickContactForm: 'Quick Contact Form',
+	yourName: 'Your name',
+	subject: 'Subject',
+	howCanWeHelp: 'How can we help you?',
+	sending: 'Sending...',
+	send: 'Send',
+	thankYouMessage: 'Thank you! We will respond soon.',
+	newMessage: 'New message',
+	errorSendingMessage: 'Error sending message.',
 };
 
 export default en;

@@ -1,10 +1,11 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { theme } from '$lib/theme';
+  import { t } from '$lib/i18n';
 
   // Page metadata
-  const pageTitle = "Contacto | Kaizen Cinema";
-  const pageDescription = "Contacta con el equipo de Kaizen Cinema para información general o reportar problemas técnicos.";
+  $: pageTitle = `${$t('contact')} | Kaizen Cinema`;
+  $: pageDescription = $t('contactSubtitle');
 
   // Form state
   let formSubmitted = false;
@@ -18,16 +19,16 @@
   const contactOptions = [
     {
       id: 'info',
-      title: 'Información General',
-      description: 'Para consultas sobre nuestros servicios, colaboraciones o información general.',
+      title: 'generalInfo',
+      description: 'generalInfoDesc',
       icon: 'info-circle',
       email: 'kaizencontact@doncom.me',
       color: 'primary'
     },
     {
       id: 'technical',
-      title: 'Soporte Técnico',
-      description: 'Para reportar problemas técnicos, bugs o sugerir mejoras en la plataforma.',
+      title: 'technicalSupport',
+      description: 'technicalSupportDesc',
       icon: 'code-slash',
       url: 'https://github.com/mgrl39/kaizen/issues/new?template=BLANK_ISSUE',
       color: 'success'
@@ -82,8 +83,8 @@
   <div class="row justify-content-center">
     <div class="col-12 col-lg-10">
       <!-- Header -->
-      <h1 class="display-5 fw-bold mb-2 text-center">Contacto</h1>
-      <p class="mb-3 text-center">Estamos aquí para ayudarte.</p>
+      <h1 class="display-5 fw-bold mb-2 text-center">{$t('contactTitle')}</h1>
+      <p class="mb-3 text-center">{$t('contactSubtitle')}</p>
 
       <!-- Contact Options -->
       <div class="row mb-3">
@@ -95,16 +96,16 @@
                   <div class="bg-{option.color} bg-opacity-10 p-2 rounded-circle me-3">
                     <i class="bi bi-{option.icon} text-{option.color} fs-4"></i>
                   </div>
-                  <h2 class="h5 mb-0">{option.title}</h2>
+                  <h2 class="h5 mb-0">{$t(option.title)}</h2>
                 </div>
-                <p class="small">{option.description}</p>
+                <p class="small">{$t(option.description)}</p>
                 {#if option.email}
                   <a href="mailto:{option.email}" class="btn btn-sm btn-{option.color}">
-                    <i class="bi bi-envelope me-1"></i> Enviar email
+                    <i class="bi bi-envelope me-1"></i> {$t('sendEmail')}
                   </a>
                 {:else}
                   <a href={option.url} target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-{option.color}">
-                    <i class="bi bi-github me-1"></i> Crear issue
+                    <i class="bi bi-github me-1"></i> {$t('createIssue')}
                   </a>
                 {/if}
               </div>
@@ -116,19 +117,19 @@
       <!-- Contact Form -->
       <div class="card shadow-sm mb-3">
         <div class="card-body p-3">
-          <h2 class="h5 mb-2">Formulario de contacto rápido</h2>
+          <h2 class="h5 mb-2">{$t('quickContactForm')}</h2>
 
           {#if formSubmitted}
             <div class="alert alert-success py-2">
-              <i class="bi bi-check-circle me-2"></i> ¡Gracias! Te responderemos pronto.
+              <i class="bi bi-check-circle me-2"></i> {$t('thankYouMessage')}
             </div>
             <button class="btn btn-sm btn-outline-primary" on:click={() => formSubmitted = false}>
-              <i class="bi bi-arrow-repeat me-1"></i> Nuevo mensaje
+              <i class="bi bi-arrow-repeat me-1"></i> {$t('newMessage')}
             </button>
           {:else}
             {#if formError}
               <div class="alert alert-danger py-2">
-                <i class="bi bi-exclamation-triangle me-2"></i> Error al enviar mensaje.
+                <i class="bi bi-exclamation-triangle me-2"></i> {$t('errorSendingMessage')}
               </div>
             {/if}
 
@@ -139,19 +140,19 @@
             >
               <div class="row">
                 <div class="col-md-6 mb-2">
-                  <input type="text" name="name" placeholder="Tu nombre" class="form-control form-control-sm" required />
+                  <input type="text" name="name" placeholder={$t('yourName')} class="form-control form-control-sm" required />
                 </div>
                 <div class="col-md-6 mb-2">
-                  <input type="email" name="email" placeholder="tu@email.com" class="form-control form-control-sm" required />
+                  <input type="email" name="email" placeholder={$t('emailPlaceholder')} class="form-control form-control-sm" required />
                 </div>
               </div>
-              <input type="text" name="subject" placeholder="Asunto" class="form-control form-control-sm mb-2" required />
-              <textarea name="message" placeholder="¿En qué podemos ayudarte?" rows="3" class="form-control form-control-sm mb-2" required></textarea>
+              <input type="text" name="subject" placeholder={$t('subject')} class="form-control form-control-sm mb-2" required />
+              <textarea name="message" placeholder={$t('howCanWeHelp')} rows="3" class="form-control form-control-sm mb-2" required></textarea>
               <button type="submit" class="btn btn-sm btn-primary" disabled={loading}>
                 {#if loading}
-                  <span class="spinner-border spinner-border-sm me-1"></span> Enviando...
+                  <span class="spinner-border spinner-border-sm me-1"></span> {$t('sending')}
                 {:else}
-                  <i class="bi bi-send me-1"></i> Enviar
+                  <i class="bi bi-send me-1"></i> {$t('send')}
                 {/if}
               </button>
             </form>
