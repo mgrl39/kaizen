@@ -15,13 +15,44 @@
   let loading = true;
   let error = null;
 
+  // Función para formatear los servicios
+  function formatFeatures(features) {
+    if (!features) return [];
+    
+    // Si es un string, intentamos parsearlo como JSON
+    if (typeof features === 'string') {
+      try {
+        features = JSON.parse(features);
+      } catch (e) {
+        console.error('Error parsing features:', e);
+        return [];
+      }
+    }
+    
+    // Si no es un array después de parsear, lo convertimos en array
+    if (!Array.isArray(features)) {
+      console.warn('Features is not an array:', features);
+      return [];
+    }
+    
+    return features.map(feature => {
+      if (Array.isArray(feature)) {
+        return feature.join('');
+      }
+      if (typeof feature === 'string') {
+        // Decodificar caracteres Unicode
+        return decodeURIComponent(JSON.parse(`"${feature}"`));
+      }
+      return String(feature);
+    });
+  }
+
   // Función para cargar los datos del cine
   async function loadCinemaData() {
     try {
       loading = true;
       error = null;
       
-      // Por ahora usamos el ID 1 ya que solo tenemos un cine
       const response = await fetch('/api/v1/cinemas/1');
       const result = await response.json();
       
@@ -29,8 +60,20 @@
         throw new Error(result.message);
       }
       
-      cinema = result.data;
-      rooms = result.data.rooms;
+      const cinemaData = result.data;
+      
+      // Formatear las características tanto del cine como de las salas
+      cinema = {
+        ...cinemaData,
+        features: formatFeatures(cinemaData.features)
+      };
+      
+      // Formatear las características de cada sala
+      rooms = cinemaData.rooms.map(room => ({
+        ...room,
+        features: formatFeatures(room.features)
+      }));
+      
     } catch (e) {
       error = e.message;
       console.error('Error cargando datos del cine:', e);
