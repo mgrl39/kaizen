@@ -65,6 +65,14 @@ const en: TranslationDictionary = {
 	category_comedy: 'Comedy',
 	category_drama: 'Drama',
 
+	// Featured Movies
+	featuredMoviesTitle: 'Featured Movies',
+	discoverMovies: 'Discover the best movies of the moment',
+	noFeaturedMovies: 'No featured movies available',
+	checkLater: 'Check back later for new movies',
+	showFilms: 'View movies',
+	browseAllMovies: 'Browse all movies',
+
 	// Error pages
 	pageNotFound: "The page you are looking for doesn't exist or has been moved.",
 	pageNotFoundTitle: 'Page not found',

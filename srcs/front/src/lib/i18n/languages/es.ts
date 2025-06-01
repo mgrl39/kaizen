@@ -104,6 +104,14 @@ const es: TranslationDictionary = {
 	category_comedy: 'Comedia',
 	category_drama: 'Drama',
 
+	// Películas destacadas
+	featuredMoviesTitle: 'Películas Destacadas',
+	discoverMovies: 'Descubre las mejores películas del momento',
+	noFeaturedMovies: 'No hay películas destacadas disponibles',
+	checkLater: 'Vuelve más tarde para ver nuevas películas',
+	showFilms: 'Ver películas',
+	browseAllMovies: 'Explorar todas las películas',
+
 	// Páginas de error
 	pageNotFound: 'La página que buscas no existe o ha sido movida.',
 	pageNotFoundTitle: 'Página no encontrada',
