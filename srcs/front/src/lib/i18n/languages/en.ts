@@ -126,6 +126,10 @@ const en: TranslationDictionary = {
 	allRightsReserved: 'All rights reserved',
 	paymentMethods: 'Payment Methods',
 
+	// New translations
+	experienceTheBest: 'Experience the best cinema with quality',
+	and: 'and',
+
 	// About page
 	aboutTitle: 'About Kaizen Cinema',
 	aboutSubtitle: 'Transforming the cinema experience since 2024',

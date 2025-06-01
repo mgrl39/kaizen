@@ -74,6 +74,8 @@ export type TranslationKey =
 	| 'email'
 	| 'allRightsReserved'
 	| 'paymentMethods'
+	| 'experienceTheBest'
+	| 'and'
 
 	// Contact page
 	| 'contact'

@@ -38,14 +38,12 @@
           <span class="badge custom-badge">CINEMA</span>
         </div>
         <p class="text-muted mb-3">{$t('footerTagline')}</p>
-        
-        <!-- Botón de newsletter -->
-        <div class="input-group">
-          <input type="email" class="form-control" placeholder={$t('enterEmail')} aria-label="Email" aria-describedby="subscribe-btn">
-          <button class="btn custom-btn" type="button" id="subscribe-btn">
-            <i class="bi bi-envelope me-1"></i> {$t('subscribe')}
-          </button>
-        </div>
+        <p class="text-muted mb-0">
+          <i class="bi bi-film me-2 text-custom-primary"></i>
+          {$t('experienceTheBest')} 
+          <span class="text-custom-primary fw-semibold">4K</span> {$t('and')} 
+          <span class="text-custom-primary fw-semibold">IMAX</span>
+        </p>
       </div>
       
       <!-- Enlaces rápidos -->

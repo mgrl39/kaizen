@@ -125,6 +125,8 @@ const es: TranslationDictionary = {
 	contactUs: 'Contáctanos',
 	allRightsReserved: 'Todos los derechos reservados',
 	paymentMethods: 'Métodos de pago',
+	experienceTheBest: 'Disfruta del mejor cine con calidad',
+	and: 'y',
 
 	// About page
 	aboutTitle: 'Sobre Kaizen Cinema',
