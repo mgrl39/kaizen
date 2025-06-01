@@ -265,20 +265,29 @@
       
       <!-- Sección de salas -->
       <div class="mb-5">
-        <h3 class="h3 fw-bold mb-4">{$t('ourRooms')}</h3>
+        <div class="section-header text-center mb-5">
+          <h3 class="h2 fw-bold mb-2 gradient-text">{$t('ourRooms')}</h3>
+          <div class="divider mx-auto"></div>
+        </div>
         
         <div class="row g-4">
-          {#each rooms as room}
+          {#each rooms as room, i}
             <div class="col-md-6 col-lg-4">
-              <div class="card border-0 shadow h-100">
-                <div class="card-body">
+              <div class="room-card card border-0 shadow h-100" style="--room-color: var(--room-color-{i % 5})">
+                <div class="card-body position-relative">
+                  <div class="room-icon-wrapper mb-3">
+                    <i class="bi bi-camera-reels"></i>
+                  </div>
                   <h4 class="h5 fw-bold mb-2">{room.name}</h4>
-                  <p class="mb-3">{$t('capacity')}: {room.capacity} personas</p>
+                  <p class="mb-3">
+                    <i class="bi bi-people me-2"></i>
+                    {$t('capacity')}: {room.capacity} personas
+                  </p>
                   
                   {#if room.features.length > 0}
                     <div class="d-flex flex-wrap gap-2">
                       {#each room.features as feature}
-                        <span class="badge bg-secondary">
+                        <span class="badge room-feature">
                           {feature}
                         </span>
                       {/each}
@@ -312,6 +321,96 @@
 {/if}
 
 <style>
+  /* Variables para colores de salas */
+  :root {
+    --room-color-0: #FF6B6B;
+    --room-color-1: #4ECDC4;
+    --room-color-2: #45B7D1;
+    --room-color-3: #96CEB4;
+    --room-color-4: #FFEEAD;
+  }
+
+  /* Estilos para la sección de salas */
+  .section-header .gradient-text {
+    background: linear-gradient(45deg, var(--bs-primary), var(--bs-indigo));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
+
+  .divider {
+    height: 4px;
+    width: 60px;
+    background: linear-gradient(90deg, var(--bs-primary), var(--bs-indigo));
+    border-radius: 2px;
+    margin-top: 1rem;
+  }
+
+  .room-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: linear-gradient(135deg, 
+      rgba(255,255,255,0.1) 0%,
+      rgba(255,255,255,0.05) 100%
+    );
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    overflow: hidden;
+  }
+
+  .room-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+      var(--room-color) 0%,
+      transparent 60%
+    );
+    opacity: 0.1;
+    transition: opacity 0.3s ease;
+  }
+
+  .room-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+  }
+
+  .room-card:hover::before {
+    opacity: 0.15;
+  }
+
+  .room-icon-wrapper {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    background: var(--room-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
+    transform: rotate(-5deg);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  }
+
+  .room-feature {
+    background: rgba(255,255,255,0.1);
+    color: var(--room-color);
+    border: 1px solid var(--room-color);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    transition: all 0.2s ease;
+  }
+
+  .room-feature:hover {
+    background: var(--room-color);
+    color: white;
+  }
+
   /* Estilo para botón con gradiente */
   .btn-gradient {
     background: linear-gradient(to right, var(--bs-primary), var(--bs-indigo));
