@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
   import { fade, fly } from 'svelte/transition';
+  import SharePopup from '$lib/components/SharePopup.svelte';
   
   export let data;
   
@@ -14,6 +15,7 @@
   let error = null;
   let screenings = [];
   let activeTab = 'info'; // 'info', 'screenings', 'reviews'
+  let showSharePopup = false;
   
   // Función para formatear la fecha
   function formatDate(dateString) {
@@ -98,23 +100,7 @@
   }
   
   function shareMovie() {
-    if (navigator.share) {
-      navigator.share({
-        title: movie.title,
-        text: `Echa un vistazo a ${movie.title}`,
-        url: window.location.href
-      })
-      .catch((error) => console.log('Error al compartir:', error));
-    } else {
-      // Fallback para navegadores que no soportan Web Share API
-      navigator.clipboard.writeText(window.location.href)
-        .then(() => {
-          showToast('Enlace copiado al portapapeles');
-        })
-        .catch(() => {
-          showToast('No se pudo copiar el enlace', 'error');
-        });
-    }
+    showSharePopup = true;
   }
   
   // Sistema de notificaciones toast
@@ -401,28 +387,30 @@
               <!-- Acciones -->
               <div class="d-flex flex-wrap gap-2 mt-4">
                 <button 
-                  class="btn btn-outline-light" 
+                  class="btn btn-outline-light d-flex align-items-center" 
                   on:click={addToFavorites}
                 >
-                  <i class="bi bi-heart me-1"></i>
-                  Añadir a favoritos
+                  <i class="bi bi-heart me-2"></i>
+                  <span>Añadir a favoritos</span>
                 </button>
                 
-                <button 
-                  class="btn btn-primary" 
-                  on:click={shareMovie}
-                >
-                  <i class="bi bi-share me-1"></i>
-                  Compartir
-                </button>
+                <div class="dropdown">
+                  <button 
+                    class="btn btn-primary d-flex align-items-center justify-content-center share-btn"
+                    type="button"
+                    on:click={shareMovie}
+                  >
+                    <i class="bi bi-share-fill"></i>
+                  </button>
+                </div>
                 
                 {#if screenings.length > 0}
                   <a 
                     href={`/booking/${screenings[0].id}`} 
-                    class="btn btn-success"
+                    class="btn btn-success d-flex align-items-center"
                   >
-                    <i class="bi bi-ticket-perforated me-1"></i>
-                    Comprar entradas
+                    <i class="bi bi-ticket-perforated me-2"></i>
+                    <span>Comprar entradas</span>
                   </a>
                 {/if}
               </div>
@@ -469,6 +457,14 @@
     </div>
   {/if}
 </div>
+
+<!-- Share Popup -->
+<SharePopup 
+  bind:show={showSharePopup}
+  title={movie?.title || ''}
+  url={window.location.href}
+  on:toast={({ detail }) => showToast('', detail.type, detail.icon)}
+/>
 
 <style>
   /* Estilos adicionales */
@@ -518,5 +514,22 @@
   /* Ajustes para tablas */
   .table-dark {
     background-color: rgba(33, 37, 41, 0.6);
+  }
+
+  .share-btn {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(var(--bs-primary-rgb), 0.3);
+  }
+
+  .share-btn i {
+    font-size: 1.2rem;
   }
 </style>
