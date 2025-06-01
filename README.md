@@ -23,14 +23,9 @@
 ```bash
 # Clonar el repositorio
 git clone https://github.com/mgrl39/kaizen.git
-cd kaizen
-
-# Iniciar con contenedores
-podman-compose up -d
-
-# O instalación manual
-cd srcs/back && composer install && php artisan migrate --seed
-cd srcs/front && npm install && npm run dev
+cd kaizen/srcs/conf && chmod u+x *.sh
+sudo bash i.sh
+bash node.sh
 ```
 
 ## ✨ Características
@@ -67,7 +62,7 @@ cd srcs/front && npm install && npm run dev
 | :--------: | :---------: | :------------: | :----------: |
 |  PHP 8.1+  |  Svelte 4   | GitHub Actions |     Git      |
 | Laravel 10 |  SvelteKit  |     CI/CD      |   VS Code    |
-| PostgreSQL | TailwindCSS |     Nginx      |   Swagger    |
+| PostgreSQL | Bootstrap 5 |    Podman      |   Swagger    |
 |  JWT Auth  | TypeScript  |   Focalboard   |   PHPUnit    |
 
 ## 📊 Módulos
@@ -86,6 +81,8 @@ cd srcs/front && npm install && npm run dev
 
 ```bash
 # Backend
+
+
 php artisan serve                # Iniciar servidor de desarrollo
 php artisan test                 # Ejecutar tests
 php artisan migrate:fresh --seed # Reiniciar base de datos
@@ -115,5 +112,5 @@ kaizen/
 </a>
 
 <p>Desarrollado con ❤️ por mgrl39</p>
-<p><small>Inspirado en Gadget - Sistema de webscraping y análisis de datos de cines</small></p>
+<p><small>Gadget - Sistema de webscraping y análisis de datos de cines</small></p>
 </div>
