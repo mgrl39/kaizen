@@ -8,7 +8,6 @@
   export let showHomeButton = true;
   export let variant = 'error'; // 'error', 'warning', 'info'
   
-  import { theme } from '$lib/theme';
   import { t } from '$lib/i18n';
   
   // Mapeo simplificado de variantes
@@ -21,7 +20,7 @@
   $: iconClass = icons[variant] || icons.error;
 </script>
 
-<div class="container py-5" data-bs-theme={$theme}>
+<div class="container py-5">
   <div class="row justify-content-center">
     <div class="col-md-8 text-center">
       <!-- Icono y código de estado -->

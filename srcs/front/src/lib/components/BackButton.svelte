@@ -24,7 +24,7 @@
 
   .back-button i {
     font-size: 1.5rem;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+    background: linear-gradient(135deg, var(--primary-color, #6366f1), var(--accent-color, #a855f7));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -35,7 +35,7 @@
   }
 
   /* Dark theme adjustments */
-  :global([data-bs-theme="dark"]) .back-button i {
+  :global(html[data-bs-theme="dark"]) .back-button i {
     opacity: 0.9;
   }
 </style> 

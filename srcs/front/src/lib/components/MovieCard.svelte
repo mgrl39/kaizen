@@ -1,10 +1,8 @@
 <script lang="ts">
   import type { Movie } from '$lib/types';
+  import { t } from '$lib/i18n';
   
   export let movie: Movie;
-  
-  import { theme } from '$lib/theme';
-  import { t } from '$lib/i18n';
   
   function truncateText(text: string, limit: number = 100): string {
     if (!text) return 'Sin descripción disponible';
@@ -18,7 +16,7 @@
   }
 </script>
 
-<div class="card h-100" data-bs-theme={$theme}>
+<div class="card h-100">
   <img src={movie.photo_url} class="card-img-top" alt={movie.title}>
   <div class="card-body">
     <h5 class="card-title">{movie.title}</h5>
@@ -82,10 +80,15 @@
   }
 
   .rating-badge {
-    background: linear-gradient(135deg, #6d28d9, #8b5cf6);
+    background: linear-gradient(135deg, var(--primary-color, #6d28d9), var(--accent-color, #8b5cf6));
     color: white;
     padding: 0.25rem 0.75rem;
     border-radius: 20px;
     font-size: 0.875rem;
+  }
+
+  :global(html[data-bs-theme="dark"]) .card {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-border-color);
   }
 </style>

@@ -3,7 +3,6 @@
   import { get } from 'svelte/store';
   import { language, languages } from '$lib/i18n';
   import { browser } from '$app/environment';
-  import { theme } from '$lib/theme';
 
   export let isOpen = false;
   export let toggleMenu: () => void;
@@ -36,13 +35,11 @@
       document.removeEventListener('click', handleClickOutside);
     };
   });
-
-  $: themeClass = $theme === 'dark' ? 'btn-outline-light' : 'btn-outline-dark';
 </script>
 
 <div class="dropdown" id="language-dropdown" bind:this={selectorRef}>
   <button 
-    class="btn btn-sm {themeClass}" 
+    class="btn btn-sm btn-outline-theme" 
     type="button" 
     on:click={toggleMenu}
     aria-expanded={isOpen}
@@ -68,3 +65,27 @@
     </ul>
   {/if}
 </div>
+
+<style>
+  .btn-outline-theme {
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+  }
+
+  .btn-outline-theme:hover {
+    background-color: var(--bs-tertiary-bg);
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+  }
+
+  :global(html[data-bs-theme="dark"]) .btn-outline-theme {
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+  }
+
+  :global(html[data-bs-theme="dark"]) .btn-outline-theme:hover {
+    background-color: var(--bs-tertiary-bg);
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+  }
+</style>

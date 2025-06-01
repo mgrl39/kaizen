@@ -50,7 +50,7 @@
 
 <style>
   .hero-banner {
-    background-color: #000;
+    background-color: var(--bs-dark);
   }
   
   .min-vh-25 {
