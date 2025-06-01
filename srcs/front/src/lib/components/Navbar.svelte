@@ -826,7 +826,7 @@
 
   /* Espaciador para contenido móvil */
   .mobile-spacer {
-    height: calc(var(--mobile-nav-height) + var(--mobile-bottom-nav-height));
+    height: 0px;
   }
 
   /* Spinner */
