@@ -14,7 +14,7 @@
   let loading = true;
   let error = null;
   let screenings = [];
-  let activeTab = 'info'; // 'info', 'screenings', 'reviews'
+  let activeTab = 'info'; // 'info', 'screenings'
   let showSharePopup = false;
   
   // Función para formatear la fecha
@@ -254,15 +254,6 @@
                     Proyecciones
                   </button>
                 </li>
-                <li class="nav-item">
-                  <button 
-                    class="nav-link {activeTab === 'reviews' ? 'active bg-dark bg-opacity-50 text-white' : 'text-light text-opacity-75'}" 
-                    on:click={() => activeTab = 'reviews'}
-                  >
-                    <i class="bi bi-chat-quote me-1"></i>
-                    Reseñas
-                  </button>
-                </li>
               </ul>
               
               <!-- Contenido de pestañas -->
@@ -341,46 +332,6 @@
                       No hay proyecciones disponibles para esta película.
                     </div>
                   {/if}
-                </div>
-              {:else if activeTab === 'reviews'}
-                <div in:fade={{ duration: 200 }}>
-                  <div class="alert alert-secondary">
-                    <i class="bi bi-chat-left-text me-2"></i>
-                    Las reseñas estarán disponibles próximamente.
-                  </div>
-                  
-                  <!-- Formulario para añadir reseña -->
-                  <div class="card bg-dark bg-opacity-50 mt-4">
-                    <div class="card-header">
-                      <h5 class="mb-0">Añadir reseña</h5>
-                    </div>
-                    <div class="card-body">
-                      <form>
-                        <div class="mb-3">
-                          <label for="rating" class="form-label">Valoración</label>
-                          <div class="d-flex">
-                            {#each Array(5) as _, i}
-                              <button type="button" class="btn btn-link text-warning p-0 me-2 fs-4">
-                                <i class="bi bi-star"></i>
-                              </button>
-                            {/each}
-                          </div>
-                        </div>
-                        <div class="mb-3">
-                          <label for="comment" class="form-label">Comentario</label>
-                          <textarea 
-                            id="comment" 
-                            class="form-control bg-dark text-white border-secondary" 
-                            rows="3" 
-                            placeholder="Escribe tu opinión sobre la película..."
-                          ></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                          Enviar reseña
-                        </button>
-                      </form>
-                    </div>
-                  </div>
                 </div>
               {/if}
               
@@ -463,7 +414,7 @@
   bind:show={showSharePopup}
   title={movie?.title || ''}
   url={window.location.href}
-  on:toast={({ detail }) => showToast('', detail.type, detail.icon)}
+  on:toast={({ detail }) => showToast(detail.message, detail.type)}
 />
 
 <style>

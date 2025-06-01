@@ -5,6 +5,19 @@
   export let url: string;
   export let title: string;
 
+  let showToast = false;
+  let toastMessage = '';
+  let toastType = '';
+
+  function displayToast(message: string, type: string) {
+    toastMessage = message;
+    toastType = type;
+    showToast = true;
+    setTimeout(() => {
+      showToast = false;
+    }, 2000);
+  }
+
   function shareTwitter() {
     const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`;
     window.open(shareUrl, '_blank', 'width=550,height=420');
@@ -21,17 +34,18 @@
   }
 
   function copyToClipboard() {
-    navigator.clipboard.writeText(url)
-      .then(() => {
-        dispatchEvent(new CustomEvent('toast', {
-          detail: { type: 'success', icon: '✓' }
-        }));
-      })
-      .catch(() => {
-        dispatchEvent(new CustomEvent('toast', {
-          detail: { type: 'error', icon: '✕' }
-        }));
-      });
+    try {
+      const tempInput = document.createElement('input');
+      tempInput.value = url;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      displayToast('✓', 'success');
+    } catch (err) {
+      console.error('Error al copiar:', err);
+      displayToast('✕', 'error');
+    }
   }
 
   function nativeShare() {
@@ -99,6 +113,17 @@
       </button>
     </div>
   </div>
+
+  <!-- Toast Notification -->
+  {#if showToast}
+    <div 
+      class="toast-notification {toastType}"
+      in:scale={{ duration: 200, start: 0.8 }}
+      out:fade={{ duration: 150 }}
+    >
+      {toastMessage}
+    </div>
+  {/if}
 {/if}
 
 <style>
@@ -167,6 +192,32 @@
 
   .share-btn.copy {
     background: var(--bs-gray-600);
+  }
+
+  .toast-notification {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 50%;
+    font-size: 24px;
+    z-index: 1052;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+  }
+
+  .toast-notification.success {
+    background: rgba(40, 167, 69, 0.9);
+  }
+
+  .toast-notification.error {
+    background: rgba(220, 53, 69, 0.9);
   }
 
   @media (max-width: 768px) {
