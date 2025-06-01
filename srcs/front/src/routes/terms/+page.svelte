@@ -49,27 +49,6 @@
           {/if}
         </div>
       </div>
-
-      <!-- Aceptación de términos -->
-      <div class="card border-0 bg-light mb-4">
-        <div class="card-body p-4 text-center">
-          <h3 class="h5 mb-3">{$t('acceptanceOfTerms', '¿Acepta estos términos y condiciones?')}</h3>
-          <p class="mb-4">
-            Al utilizar nuestro sitio web y servicios, usted acepta estos términos y condiciones en su totalidad.
-          </p>
-          <div class="d-flex justify-content-center gap-3">
-            <a href="/" class="btn btn-primary">
-              <i class="bi bi-check-circle me-2"></i>
-              {$t('acceptAndContinue', 'Aceptar y continuar')}
-            </a>
-            <button on:click={() => history.back()} class="btn btn-outline-secondary">
-              <i class="bi bi-arrow-left me-2"></i>
-              {$t('goBack', 'Volver atrás')}
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- Información adicional -->
       <div class="text-center">
         <p class="text-muted small">
