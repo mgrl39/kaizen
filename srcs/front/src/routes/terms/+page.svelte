@@ -26,8 +26,8 @@
 
 <div class="container py-5" data-bs-theme={$theme}>
   <div class="row justify-content-center">
-    <div class="col-lg-10">
-      <div class="text-center mb-5">
+    <div>
+      <div class="text-center">
         <h1 class="display-5 fw-bold">{$t('termsAndConditions', 'Términos y Condiciones')}</h1>
         <p class="text-muted">Última actualización: 20 de mayo de 2025</p>
       </div>

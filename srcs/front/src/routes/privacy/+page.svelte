@@ -33,7 +33,7 @@
 
 <div class="container py-5" data-bs-theme={currentTheme}>
   <div class="row justify-content-center">
-    <div class="col-12 col-lg-10">
+    <div>
       <div class="text-center mb-5">
         <h1 class="display-5 fw-bold">Política de Privacidad</h1>
         <p class="text-muted">Última actualización: {new Date().toLocaleDateString()}</p>
