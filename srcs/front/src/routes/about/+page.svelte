@@ -1,22 +1,3 @@
-<!-- Definición de tipos para Tawk.to -->
-<script lang="ts" context="module">
-  // Definición del tipo para Tawk_API
-  interface TawkAPI {
-    maximize: () => void;
-    hideWidget: () => void;
-    toggle: () => void;
-    [key: string]: any;
-  }
-  
-  // Añadir declaración para el objeto global
-  declare global {
-    interface Window {
-      Tawk_API?: TawkAPI;
-      Tawk_LoadStart?: Date;
-    }
-  }
-</script>
-
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { page } from '$app/stores';
@@ -56,142 +37,6 @@
     { id: 'clients', number: 50000, label: $t('satisfiedClients', 'Clientes Satisfechos'), suffix: "+" },
     { id: 'support', number: 24, label: $t('support247', 'Soporte 24/7') }
   ];
-  
-  // Variable para guardar estado
-  let tawkLoaded = false;
-  let tawkScript: HTMLScriptElement | null = null;
-  
-  // Función para manejar el click del chat
-  function handleChatClick(): void {
-    if (browser && window.Tawk_API) {
-      window.Tawk_API.maximize();
-    }
-  }
-  
-  // Función para limpiar Tawk completamente
-  function cleanupTawk(): void {
-    if (!browser) return;
-
-    // Eliminar el script
-    if (tawkScript && tawkScript.parentNode) {
-      tawkScript.parentNode.removeChild(tawkScript);
-    }
-
-    // Eliminar todos los elementos de Tawk del DOM
-    const tawkElements = document.querySelectorAll('[id^="tawk-"]');
-    tawkElements.forEach(element => {
-      if (element.parentNode) {
-        element.parentNode.removeChild(element);
-      }
-    });
-
-    // Limpiar las variables globales de Tawk
-    if (window.Tawk_API) {
-      window.Tawk_API = undefined;
-    }
-    if (window.Tawk_LoadStart) {
-      window.Tawk_LoadStart = undefined;
-    }
-
-    // Eliminar cualquier estilo de Tawk
-    const tawkStyles = document.querySelectorAll('style[id^="tawk-"]');
-    tawkStyles.forEach(style => {
-      if (style.parentNode) {
-        style.parentNode.removeChild(style);
-      }
-    });
-
-    tawkLoaded = false;
-  }
-  
-  // Función que carga el script de Tawk de manera global una sola vez
-  function loadTawk(): void {
-    if (!browser || tawkLoaded) return;
-    
-    window.Tawk_API = window.Tawk_API || {} as TawkAPI;
-    window.Tawk_LoadStart = new Date();
-    
-    tawkScript = document.createElement("script");
-    tawkScript.async = true;
-    tawkScript.src = 'https://embed.tawk.to/682d391da55be4190a7c5bab/1iroae6sn';
-    tawkScript.charset = 'UTF-8';
-    tawkScript.setAttribute('crossorigin', '*');
-    tawkScript.id = 'tawk-script';
-    document.head.appendChild(tawkScript);
-    
-    tawkLoaded = true;
-    
-    // Definir un manejador para ocultar el widget cuando navegamos fuera de /about
-    const handleNavigation = () => {
-      if (window.location.pathname !== '/about' && window.Tawk_API && window.Tawk_API.hideWidget) {
-        try {
-          window.Tawk_API.hideWidget();
-          
-          // Configurar un atributo CSS para ocultar todos los elementos de Tawk
-          const style = document.createElement('style');
-          style.id = 'tawk-hide-style';
-          style.innerHTML = '[id^="tawk-"] { display: none !important; visibility: hidden !important; }';
-          document.head.appendChild(style);
-        } catch (e) {
-          console.error('Error ocultando Tawk widget:', e);
-        }
-      } else if (window.location.pathname === '/about') {
-        // Estamos en /about, mostrar el widget si está oculto
-        const hideStyle = document.getElementById('tawk-hide-style');
-        if (hideStyle && hideStyle.parentNode) {
-          hideStyle.parentNode.removeChild(hideStyle);
-        }
-        
-        if (window.Tawk_API && window.Tawk_API.toggle) {
-          try {
-            // Intentar mostrar el widget
-            setTimeout(() => {
-              window.Tawk_API?.toggle();
-            }, 500);
-          } catch (e) {
-            console.error('Error mostrando Tawk widget:', e);
-          }
-        }
-      }
-    };
-    
-    // Observar cambios en la URL
-    let lastUrl = window.location.href;
-    
-    // Comprobar inmediatamente después de cargar
-    handleNavigation();
-    
-    // Observar cambios en la URL
-    const observer = new MutationObserver(() => {
-      if (lastUrl !== window.location.href) {
-        lastUrl = window.location.href;
-        setTimeout(handleNavigation, 100);
-      }
-    });
-    
-    observer.observe(document, { subtree: true, childList: true });
-    
-    // Interceptar cambios de historia
-    const originalPushState = history.pushState;
-    const originalReplaceState = history.replaceState;
-    
-    history.pushState = function(...args) {
-      const result = originalPushState.apply(this, args);
-      setTimeout(handleNavigation, 100);
-      return result;
-    };
-    
-    history.replaceState = function(...args) {
-      const result = originalReplaceState.apply(this, args);
-      setTimeout(handleNavigation, 100);
-      return result;
-    };
-    
-    // Manejar eventos popstate (navegación hacia atrás/adelante)
-    window.addEventListener('popstate', () => {
-      setTimeout(handleNavigation, 100);
-    });
-  }
   
   function formatNumber(num: number): string {
     return new Intl.NumberFormat('es-ES').format(num);
@@ -244,27 +89,6 @@
     if (statsSection) {
       observer.observe(statsSection);
     }
-    
-    // Cargar Tawk
-    loadTawk();
-    
-    // Verificar que estamos en la página About
-    if (window.location.pathname === '/about') {
-      // Si ya se cargó el widget, asegurarnos de que esté visible
-      const hideStyle = document.getElementById('tawk-hide-style');
-      if (hideStyle && hideStyle.parentNode) {
-        hideStyle.parentNode.removeChild(hideStyle);
-      }
-    } else {
-      // Si no estamos en /about, asegurarnos de que el widget esté oculto
-      if (window.Tawk_API && window.Tawk_API.hideWidget) {
-        window.Tawk_API.hideWidget();
-      }
-    }
-  });
-
-  onDestroy(() => {
-    cleanupTawk();
   });
 </script>
 
@@ -424,39 +248,7 @@
   </section>
 </div>
 
-<!-- Botón de Chat -->
-{#if browser && window.location.pathname === '/about'}
-<button 
-  class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-4 shadow-lg chat-button"
-  style="width: 60px; height: 60px; z-index: 1000;"
-  on:click={handleChatClick}
-  aria-label="Abrir chat de soporte"
->
-  <i class="bi bi-chat-dots fs-4"></i>
-</button>
-{/if}
-
 <style>
-  .chat-button {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .chat-button:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Estilo para ocultar elementos de Tawk cuando no estamos en /about */
-  :global(.not-about [id^="tawk-"]) {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    height: 0 !important;
-    width: 0 !important;
-    position: absolute !important;
-    left: -9999px !important;
-  }
-  
   /* Estilos para las cards de Misión y Visión */
   .border-start.border-5 {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
