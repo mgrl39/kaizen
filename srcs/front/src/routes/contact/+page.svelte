@@ -81,24 +81,24 @@
 
 <div class="container" data-bs-theme={currentTheme}>
   <div class="row justify-content-center">
-    <div class="col-12 col-lg-10">
+    <div>
       <!-- Header -->
       <h1 class="display-5 fw-bold mb-2 text-center">{$t('contactTitle')}</h1>
       <p class="mb-3 text-center">{$t('contactSubtitle')}</p>
 
       <!-- Contact Options -->
-      <div class="row mb-3">
+      <div class="row mb-4">
         {#each contactOptions as option}
           <div class="col-md-6 mb-3">
             <div class="card h-100 shadow-sm border-{option.color} border-top-0 border-end-0 border-bottom-0 border-3">
-              <div class="card-body p-3">
-                <div class="d-flex align-items-center mb-2">
-                  <div class="bg-{option.color} bg-opacity-10 p-2 rounded-circle me-3">
-                    <i class="bi bi-{option.icon} text-{option.color} fs-4"></i>
+              <div class="card-body p-4">
+                <div class="d-flex align-items-center mb-3">
+                  <div class="icon-wrapper bg-{option.color} bg-opacity-10 rounded-circle me-3">
+                    <i class="bi bi-{option.icon} text-{option.color}"></i>
                   </div>
                   <h2 class="h5 mb-0">{$t(option.title)}</h2>
                 </div>
-                <p class="small">{$t(option.description)}</p>
+                <p class="small mb-4">{$t(option.description)}</p>
                 {#if option.email}
                   <a href="mailto:{option.email}" class="btn btn-sm btn-{option.color}">
                     <i class="bi bi-envelope me-1"></i> {$t('sendEmail')}
@@ -178,5 +178,62 @@
   }
   :global([data-bs-theme="dark"]) .text-muted {
     color: var(--bs-gray-400) !important;
+  }
+
+  .icon-wrapper {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .icon-wrapper i {
+    font-size: 24px;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .card-body p {
+    flex-grow: 1;
+  }
+
+  .btn:focus {
+    box-shadow: none;
+  }
+
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 1rem !important;
+    }
+
+    .icon-wrapper {
+      width: 40px;
+      height: 40px;
+    }
+
+    .icon-wrapper i {
+      font-size: 20px;
+    }
+
+    .mb-3 {
+      margin-bottom: 0.75rem !important;
+    }
+
+    .mb-4 {
+      margin-bottom: 1rem !important;
+    }
+
+    h1.display-5 {
+      font-size: calc(1.2rem + 1.5vw);
+    }
+
+    .lead {
+      font-size: 1rem;
+    }
   }
 </style>
