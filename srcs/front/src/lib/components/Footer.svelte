@@ -86,11 +86,11 @@
           </li>
           <li class="mb-2 d-flex align-items-center">
             <i class="bi bi-telephone me-2 text-custom-primary"></i>
-            <span>+1 (234) 567-8900</span>
+            <span>+34 612 345 678</span>
           </li>
           <li class="mb-2 d-flex align-items-center">
             <i class="bi bi-envelope me-2 text-custom-primary"></i>
-            <span>info@kaizencinema.com</span>
+            <span>kaizen@doncom.me</span>
           </li>
         </ul>
         
