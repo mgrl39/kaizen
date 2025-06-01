@@ -6,15 +6,26 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script>
 			(function() {
-				function getTheme() {
-					const savedTheme = localStorage.getItem('theme');
-					if (savedTheme) return savedTheme;
+				const THEME_KEY = 'theme';
+				const DEFAULT_THEME = 'light';
+				const THEMES = ['light', 'dark'];
+
+				function getInitialTheme() {
+					const savedTheme = localStorage.getItem(THEME_KEY);
+					if (savedTheme && THEMES.includes(savedTheme)) {
+						return savedTheme;
+					}
 					return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 				}
-				
-				const theme = getTheme();
-				document.documentElement.setAttribute('data-bs-theme', theme);
-				document.documentElement.classList.add('theme-' + theme);
+
+				function applyTheme(theme) {
+					document.documentElement.setAttribute('data-bs-theme', theme);
+					document.documentElement.classList.remove(...THEMES.map(t => 'theme-' + t));
+					document.documentElement.classList.add('theme-' + theme);
+				}
+
+				const theme = getInitialTheme();
+				applyTheme(theme);
 			})();
 		</script>
 		<!-- Bootstrap CSS -->
