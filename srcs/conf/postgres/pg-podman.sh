@@ -8,7 +8,7 @@ NC='\033[0m' # No Color
 
 CONTAINER_NAME="kaizen_postgres"
 VOLUME_NAME="kaizen_pgdata"
-POSTGRES_PORT="5433"  # Cambiado a 5433 ya que 5432 está en uso
+POSTGRES_PORT="5432"  # Puerto por defecto de PostgreSQL
 
 # Verificar si Podman está instalado
 check_podman() {
