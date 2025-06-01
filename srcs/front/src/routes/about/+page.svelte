@@ -189,7 +189,7 @@
               <h3 class="h5 mb-1">{member.name}</h3>
               <p class="text-primary mb-3">{member.role}</p>
               <p class="text-muted mb-0">{member.bio}</p>
-              <a href="https://github.com/{member.name}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary mt-3">
+              <a href="https://github.com/{member.name}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-custom mt-3">
                 <i class="bi bi-github me-2"></i>Ver Perfil
               </a>
             </div>
@@ -256,22 +256,26 @@
   
   .border-start.border-5:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 20px rgba(147, 51, 234, 0.1);
   }
 
   /* Color primario personalizado */
   .border-custom-primary {
-    border-color: #6d28d9 !important;
+    border-color: #9333ea !important;
   }
 
   .text-custom-primary {
-    color: #6d28d9 !important;
+    color: #9333ea !important;
+  }
+
+  .text-primary {
+    color: #9333ea !important;
   }
 
   /* Gradiente personalizado */
   .bg-custom-gradient {
-    background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%);
-    box-shadow: 0 10px 20px rgba(109, 40, 217, 0.2);
+    background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);
+    box-shadow: 0 10px 20px rgba(147, 51, 234, 0.2);
   }
 
   /* Efecto hover para el botón */
@@ -281,5 +285,20 @@
 
   .hover-scale:hover {
     transform: scale(1.05);
+  }
+
+  /* Botón personalizado */
+  .btn-outline-custom {
+    background-color: #9333ea !important;
+    color: white !important;
+    border-color: #9333ea !important;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-custom:hover {
+    background-color: #7e22ce !important;
+    border-color: #7e22ce !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(147, 51, 234, 0.2);
   }
 </style>

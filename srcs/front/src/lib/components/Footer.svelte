@@ -80,7 +80,7 @@
         <ul class="list-unstyled">
           <li class="mb-2 d-flex align-items-center">
             <i class="bi bi-geo-alt me-2 text-custom-primary"></i>
-            <span>123 Calle Principal, Ciudad, País</span>
+            <span>Westfield La Maquinista</span>
           </li>
           <li class="mb-2 d-flex align-items-center">
             <i class="bi bi-telephone me-2 text-custom-primary"></i>

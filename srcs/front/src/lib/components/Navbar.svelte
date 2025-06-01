@@ -31,24 +31,24 @@
   
   // Definir estructura de navegación
   const navItems = [
-    { url: '/cinemas', icon: 'building', text: 'Cines' },
-    { url: '/movies', icon: 'film', text: 'Películas' }
+    { url: '/cinemas', icon: 'building', text: $t('cinemas') },
+    { url: '/movies', icon: 'film', text: $t('movies') }
   ];
   
   // Agregar elementos para la barra de navegación móvil
   const mobileNavItems = [
-    { url: '/', icon: 'house', text: 'Inicio' },
-    { url: '/cinemas', icon: 'building', text: 'Cines' },
-    { url: '/movies', icon: 'film', text: 'Películas' },
-    { url: isAuthenticated ? '/profile' : '/login', icon: isAuthenticated ? 'person-circle' : 'box-arrow-in-right', text: isAuthenticated ? 'Perfil' : 'Login' }
+    { url: '/', icon: 'house', text: $t('home') },
+    { url: '/cinemas', icon: 'building', text: $t('cinemas') },
+    { url: '/movies', icon: 'film', text: $t('movies') },
+    { url: isAuthenticated ? '/profile' : '/login', icon: isAuthenticated ? 'person-circle' : 'box-arrow-in-right', text: isAuthenticated ? $t('profile') : $t('login') }
   ];
   
   // Definir elementos del menú de usuario
   const userMenu = [
-    { url: '/profile', icon: 'person', text: 'Mi Perfil' },
-    { url: '/bookings', icon: 'ticket', text: 'Mis Reservas' },
+    { url: '/profile', icon: 'person', text: $t('profile') },
+    { url: '/bookings', icon: 'ticket', text: $t('bookings') },
     { divider: true, url: '', icon: '', text: '' },
-    { url: '#logout', icon: 'box-arrow-right', text: 'Cerrar Sesión', action: 'logout' }
+    { url: '#logout', icon: 'box-arrow-right', text: $t('logout'), action: 'logout' }
   ];
   
   // Idiomas disponibles
@@ -358,7 +358,7 @@
           type="button"
           data-bs-toggle="dropdown" 
           aria-expanded="false"
-          aria-label="Seleccionar idioma"
+          aria-label={$t('selectLanguage')}
         >
           <i class="bi bi-globe2"></i>
         </button>
@@ -438,10 +438,10 @@
         <div class="d-flex gap-2">
           <a href="/login" class="btn btn-gradient">
             <i class="bi bi-box-arrow-in-right me-1 d-lg-none"></i>
-            <span>Login</span>
+            <span>{$t('login')}</span>
           </a>
           <a href="/register" class="btn btn-outline-gradient d-none d-sm-inline-block">
-            <span>Registro</span>
+            <span>{$t('register')}</span>
           </a>
         </div>
       {/if}
@@ -480,7 +480,7 @@
           class="mobile-nav-item {isActive('/') ? 'active' : ''}"
         >
           <i class="bi bi-house"></i>
-          <span>Inicio</span>
+          <span>{$t('home')}</span>
         </a>
         
         <a 
@@ -488,7 +488,7 @@
           class="mobile-nav-item {isActive('/movies') ? 'active' : ''}"
         >
           <i class="bi bi-film"></i>
-          <span>Películas</span>
+          <span>{$t('movies')}</span>
         </a>
         
         <a 
@@ -496,7 +496,7 @@
           class="mobile-nav-item {isActive('/cinemas') ? 'active' : ''}"
         >
           <i class="bi bi-building"></i>
-          <span>Cines</span>
+          <span>{$t('cinemas')}</span>
         </a>
         
         <a 
@@ -504,7 +504,7 @@
           class="mobile-nav-item {isActive(isAuthenticated ? '/profile' : '/login') ? 'active' : ''}"
         >
           <i class="bi bi-{isAuthenticated ? 'person-circle' : 'box-arrow-in-right'}"></i>
-          <span>{isAuthenticated ? 'Perfil' : 'Login'}</span>
+          <span>{isAuthenticated ? $t('profile') : $t('login')}</span>
         </a>
       </div>
     </div>
@@ -910,25 +910,25 @@
         <div class="modal-header">
           <h5 class="modal-title">
             <i class="bi bi-shield-lock me-2"></i>
-            Acceso a Panel de Administrador
+            {$t('adminAccessTitle')}
           </h5>
-          <button type="button" class="btn-close" on:click={cancelAdminAccess} aria-label="Close"></button>
+          <button type="button" class="btn-close" on:click={cancelAdminAccess} aria-label={$t('close')}></button>
         </div>
         <div class="modal-body">
           <div class="alert alert-warning">
             <i class="bi bi-exclamation-triangle me-2"></i>
-            Está a punto de acceder al panel de administración. Esta área está restringida a personal autorizado.
+            {$t('adminAccessWarning')}
           </div>
-          <p>¿Desea continuar?</p>
+          <p>{$t('continueQuestion')}</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" on:click={cancelAdminAccess}>
             <i class="bi bi-x-circle me-1"></i>
-            Cancelar
+            {$t('cancel')}
           </button>
           <button type="button" class="btn btn-primary" on:click={confirmAdminAccess}>
             <i class="bi bi-check-circle me-1"></i>
-            Continuar
+            {$t('continue')}
           </button>
         </div>
       </div>
