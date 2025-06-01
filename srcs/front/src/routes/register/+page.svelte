@@ -3,6 +3,7 @@
     import { t, language, languages } from '$lib/i18n';
     import { API_URL } from '$lib/config';
     import { onMount } from 'svelte';
+    import BackButton from '$lib/components/BackButton.svelte';
 
     // Form data
     let username: string = '';
@@ -108,14 +109,7 @@
     });
 </script>
 
-<div class="position-fixed top-0 start-0 p-3">
-  <button 
-    class="btn btn-link text-decoration-none" 
-    on:click={() => goto('/')}
-  >
-    <i class="bi bi-arrow-left fs-4"></i>
-  </button>
-</div>
+<BackButton />
 
 <!-- Language selector -->
 <div class="position-fixed top-0 end-0 p-3">

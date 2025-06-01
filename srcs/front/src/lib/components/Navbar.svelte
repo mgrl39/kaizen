@@ -816,7 +816,7 @@
   }
 
   .mobile-spacer {
-    height: 48px;
+    height: 0px;
   }
 
   /* Estilos para el tema oscuro */

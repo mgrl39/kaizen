@@ -54,7 +54,7 @@
   }
   
   .min-vh-25 {
-    min-height: 20vh;
+    min-height: 12vh;
   }
   
   .inset-0 {
@@ -75,25 +75,47 @@
   /* Estilos responsivos para móviles */
   @media (max-width: 768px) {
     .mobile-title {
-      font-size: 1.75rem !important;
-      line-height: 1.2;
-      margin-bottom: 0.5rem !important;
+      font-size: 1.1rem !important;
+      line-height: 1;
+      margin-bottom: 0.15rem !important;
     }
     
     .mobile-subtitle {
-      font-size: 0.9rem !important;
-      line-height: 1.4;
-      margin-bottom: 1rem !important;
+      font-size: 0.75rem !important;
+      line-height: 1.1;
+      margin-bottom: 0.35rem !important;
     }
     
     .min-vh-25 {
-      min-height: 25vh;
-      padding: 1rem 0;
+      min-height: 8vh;
+      padding: 0.35rem 0;
     }
     
     :global(.btn-lg) {
-      padding: 0.4rem 0.8rem;
-      font-size: 0.9rem;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.75rem;
+    }
+  }
+
+  /* Ajustes adicionales para pantallas muy pequeñas */
+  @media (max-width: 480px) {
+    .min-vh-25 {
+      min-height: 6vh;
+      padding: 0.25rem 0;
+    }
+
+    .mobile-title {
+      font-size: 1rem !important;
+    }
+
+    .mobile-subtitle {
+      font-size: 0.7rem !important;
+      margin-bottom: 0.25rem !important;
+    }
+
+    :global(.btn-lg) {
+      padding: 0.15rem 0.4rem;
+      font-size: 0.7rem;
     }
   }
 </style>

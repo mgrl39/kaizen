@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
   import { goto } from '$app/navigation';
+  import BackButton from '$lib/components/BackButton.svelte';
   
   // Importar estilos globales necesarios
   import '$lib/styles/index.css';
@@ -103,14 +104,7 @@
   });
 </script>
 
-<div class="position-fixed top-0 start-0 p-3">
-  <button 
-    class="btn btn-link text-decoration-none" 
-    on:click={() => goto('/')}
-  >
-    <i class="bi bi-arrow-left fs-4"></i>
-  </button>
-</div>
+<BackButton />
 
 <!-- Language selector -->
 <div class="position-fixed top-0 end-0 p-3">
