@@ -46,7 +46,6 @@
   // Definir elementos del menú de usuario
   const userMenu = [
     { url: '/profile', icon: 'person', text: $t('profile') },
-    { url: '/bookings', icon: 'ticket', text: $t('bookings') },
     { divider: true, url: '', icon: '', text: '' },
     { url: '#logout', icon: 'box-arrow-right', text: $t('logout'), action: 'logout' }
   ];
