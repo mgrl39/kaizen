@@ -16,6 +16,16 @@ const es: TranslationDictionary = {
 	required: 'obligatorio',
 	emailAddress: 'Correo electrónico',
 	rememberMe: 'Recordarme',
+	guest: 'Invitado',
+	home: 'Inicio',
+	toggleTheme: 'Cambiar tema',
+	selectLanguage: 'Seleccionar idioma',
+	close: 'Cerrar',
+	cancel: 'Cancelar',
+	continue: 'Continuar',
+	adminAccessTitle: 'Acceso a Panel de Administrador',
+	adminAccessWarning: 'Está a punto de acceder al panel de administración. Esta área está restringida a personal autorizado.',
+	continueQuestion: '¿Desea continuar?',
 
 	// Página de login
 	loginError: 'Ha ocurrido un error. Por favor, inténtalo de nuevo.',

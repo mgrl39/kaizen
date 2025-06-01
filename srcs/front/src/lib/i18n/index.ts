@@ -28,6 +28,16 @@ export type TranslationKey =
 	| 'loading'
 	| 'unreadNotifications'
 	| 'required'
+	| 'guest'
+	| 'home'
+	| 'toggleTheme'
+	| 'selectLanguage'
+	| 'close'
+	| 'cancel'
+	| 'continue'
+	| 'adminAccessTitle'
+	| 'adminAccessWarning'
+	| 'continueQuestion'
 
 	// About page
 	| 'aboutTitle'
