@@ -46,7 +46,6 @@
   // Definir elementos del menú de usuario
   const userMenu = [
     { url: '/profile', icon: 'person', text: $t('profile') },
-    { url: '/bookings', icon: 'ticket', text: $t('bookings') },
     { divider: true, url: '', icon: '', text: '' },
     { url: '#logout', icon: 'box-arrow-right', text: $t('logout'), action: 'logout' }
   ];
@@ -517,131 +516,34 @@
 <style>
   /* Variables de colores personalizadas */
   :root {
-    --primary-color: #2563eb;
-    --primary-hover: #1d4ed8;
-    --primary-light: #3b82f6;
-    --secondary-color: #1e40af;
-    --accent-color: #10b981;
-    --accent-hover: #059669;
+    /* Colores principales */
+    --primary-color: #6366f1;
+    --primary-hover: #4f46e5;
+    --primary-light: #818cf8;
+    --secondary-color: #a855f7;
+    --secondary-hover: #9333ea;
+    
+    /* Dimensiones */
+    --navbar-height: 64px;
+    --mobile-nav-height: 56px;
+    --mobile-bottom-nav-height: 48px;
+    
+    /* Transiciones */
+    --transition-base: all 0.2s ease;
+    --transform-hover: translateY(-1px);
   }
 
-  /* Estilos para los dropdowns */
-  .dropdown-menu {
-    background-color: var(--bs-body-bg);
-    border: 1px solid var(--bs-border-color);
-    border-radius: 0.75rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  .dropdown-item {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-    color: var(--bs-body-color);
-  }
-
-  .dropdown-item:hover {
-    background-color: var(--bs-body-bg);
-    color: var(--primary-color);
-    transform: translateX(5px);
-  }
-
-  .dropdown-item.active {
-    background-color: var(--primary-color);
-    color: white;
-    transform: translateX(0);
-  }
-
-  .dropdown-item.active:hover {
-    background-color: var(--primary-hover);
-  }
-
-  .dropdown-divider {
-    border-top: 1px solid var(--bs-border-color);
-  }
-
-  .dropdown-header {
-    color: var(--bs-body-color);
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid var(--bs-border-color);
-  }
-
-  /* Estilos para los botones */
-  .btn-gradient {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
-    border: none;
-    color: white;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-  }
-
-  .btn-gradient:hover {
-    background: linear-gradient(135deg, var(--primary-hover) 0%, var(--primary-color) 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-  }
-
-  .btn-outline-gradient {
-    background: transparent;
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 0.375rem 1rem;
-    border-radius: 0.5rem;
-    transition: all 0.2s ease;
-  }
-
-  .btn-outline-gradient:hover {
-    background: var(--primary-color);
-    color: white;
-    transform: translateY(-1px);
-  }
-
-  .btn-outline-gradient:active {
-    background: var(--primary-hover);
-  }
-
-  /* Estilos para el spinner */
-  .spinner-border {
-    width: 1.25rem;
-    height: 1.25rem;
-    border-color: var(--primary-color) transparent transparent;
-  }
-
-  .spinner-border.text-primary {
-    border-color: var(--primary-color) transparent transparent;
-  }
-
-  /* Estilos para el tema oscuro */
-  :global([data-bs-theme="dark"]) .dropdown-menu {
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  :global([data-bs-theme="dark"]) .dropdown-item:hover {
-    color: var(--primary-color);
-  }
-
-  :global([data-bs-theme="dark"]) .dropdown-item.active {
-    color: white;
-  }
-
-  :global([data-bs-theme="dark"]) .dropdown-divider {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  :global([data-bs-theme="dark"]) .dropdown-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  /* Estilos para la barra de navegación */
+  /* Estilos base de la navbar */
   .navbar {
+    height: var(--navbar-height);
     background-color: var(--bs-body-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--bs-border-color);
+    transition: var(--transition-base);
   }
 
+  /* Logo y marca */
   .navbar-brand {
     font-weight: 700;
     letter-spacing: -0.5px;
@@ -652,7 +554,7 @@
 
   .brand-text {
     font-weight: 800;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -680,54 +582,24 @@
     opacity: 0.3;
   }
 
-  .bg-gradient {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    border: none;
-    color: white;
-  }
-
-  .badge.bg-gradient {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    border: none;
-    color: white;
-    font-weight: 500;
-    padding: 0.35em 0.65em;
-    font-size: 0.75em;
-  }
-
-  .btn-gradient {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    border: none;
-    color: white;
-    padding: 0.375rem 1rem;
-  }
-
-  .btn-gradient:hover {
-    background: linear-gradient(135deg, #4f46e5, #9333ea);
-    color: white;
-    transform: translateY(-1px);
-  }
-
-  .btn-icon {
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    font-size: 1.1rem;
-    transition: all 0.2s ease;
-  }
-
-  .btn-icon:hover {
-    transform: translateY(-1px);
-  }
-
+  /* Enlaces de navegación */
   .nav-link {
     position: relative;
-    transition: all 0.2s ease;
+    transition: var(--transition-base);
     padding: 0.5rem 1rem;
+    color: var(--bs-body-color);
+    opacity: 0.7;
+  }
+
+  .nav-link:hover {
+    opacity: 1;
+    color: var(--primary-color);
+  }
+
+  .nav-link.active {
+    opacity: 1;
+    color: var(--primary-color);
+    font-weight: 600;
   }
 
   .nav-link.active::after {
@@ -737,36 +609,130 @@
     left: 1rem;
     right: 1rem;
     height: 2px;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     border-radius: 2px;
   }
 
-  .nav-link:not(.active) {
-    opacity: 0.7;
+  /* Botones y controles */
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    transition: var(--transition-base);
   }
 
-  .nav-link:hover {
+  .btn-icon:hover {
+    transform: var(--transform-hover);
+  }
+
+  .btn-gradient {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    color: white;
+    padding: 0.375rem 1rem;
+    transition: var(--transition-base);
+  }
+
+  .btn-gradient:hover {
+    background: linear-gradient(135deg, var(--primary-hover), var(--secondary-hover));
+    transform: var(--transform-hover);
+  }
+
+  .btn-outline-gradient {
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.375rem 1rem;
+    position: relative;
+    transition: var(--transition-base);
+    z-index: 1;
+  }
+
+  .btn-outline-gradient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: inherit;
+    opacity: 0;
+    z-index: -1;
+    transition: var(--transition-base);
+  }
+
+  .btn-outline-gradient:hover {
+    color: white;
+    border-color: transparent;
+  }
+
+  .btn-outline-gradient:hover::before {
     opacity: 1;
+  }
+
+  /* Dropdowns */
+  .dropdown-menu {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: var(--transition-base);
+  }
+
+  .dropdown-item {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: var(--transition-base);
+    color: var(--bs-body-color);
+  }
+
+  .dropdown-item:hover {
+    background-color: var(--bs-body-bg);
+    color: var(--primary-color);
+    transform: translateX(5px);
+  }
+
+  .dropdown-item.active {
+    background-color: var(--primary-color);
+    color: white;
+    transform: none;
+  }
+
+  .dropdown-item.active:hover {
+    background-color: var(--primary-hover);
+  }
+
+  .dropdown-divider {
+    border-top: 1px solid var(--bs-border-color);
+  }
+
+  .dropdown-header {
+    color: var(--bs-body-color);
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--bs-border-color);
   }
 
   /* Estilos móviles */
   .mobile-header {
+    height: var(--mobile-nav-height);
     background-color: var(--bs-body-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--bs-border-color);
-    height: 56px;
-    display: flex;
-    align-items: center;
+    transition: var(--transition-base);
   }
 
   .mobile-nav {
+    height: var(--mobile-bottom-nav-height);
     background-color: var(--bs-body-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid var(--bs-border-color);
-    padding: 0;
-    height: 48px;
+    transition: var(--transition-base);
   }
 
   .mobile-nav-content {
@@ -784,7 +750,8 @@
     text-decoration: none;
     gap: 2px;
     position: relative;
-    transition: all 0.2s ease;
+    transition: var(--transition-base);
+    opacity: 0.7;
   }
 
   .mobile-nav-item i {
@@ -797,7 +764,8 @@
   }
 
   .mobile-nav-item.active {
-    color: #6366f1;
+    opacity: 1;
+    color: var(--primary-color);
   }
 
   .mobile-nav-item.active::after {
@@ -807,98 +775,68 @@
     left: 25%;
     right: 25%;
     height: 2px;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     border-radius: 2px;
   }
 
-  .mobile-nav-item:not(.active) {
-    opacity: 0.7;
+  /* Ajustes para tema oscuro */
+  :global([data-bs-theme="dark"]) {
+    .navbar,
+    .mobile-header,
+    .mobile-nav {
+      background-color: rgba(17, 24, 39, 0.8);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .dropdown-menu {
+      background-color: rgba(17, 24, 39, 0.95);
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                  0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    .dropdown-item {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .dropdown-item:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+
+    .btn-outline-gradient {
+      border-color: rgba(99, 102, 241, 0.5);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .btn-outline-gradient:hover {
+      border-color: transparent;
+      color: white;
+    }
+
+    .btn-outline-dark {
+      --bs-btn-color: rgba(255, 255, 255, 0.8);
+      --bs-btn-border-color: rgba(255, 255, 255, 0.2);
+      --bs-btn-hover-color: white;
+      --bs-btn-hover-border-color: rgba(255, 255, 255, 0.3);
+      --bs-btn-hover-bg: rgba(255, 255, 255, 0.1);
+    }
   }
 
+  /* Espaciador para contenido móvil */
   .mobile-spacer {
     height: 0px;
   }
 
-  /* Estilos para el tema oscuro */
-  :global([data-bs-theme="dark"]) .navbar,
-  :global([data-bs-theme="dark"]) .mobile-header,
-  :global([data-bs-theme="dark"]) .mobile-nav {
-    background-color: rgba(17, 24, 39, 0.8);
-    border-color: rgba(255, 255, 255, 0.1);
+  /* Spinner */
+  .spinner-border {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-color: var(--primary-color) transparent transparent;
   }
 
-  :global([data-bs-theme="dark"]) .dropdown-menu {
-    background-color: rgba(17, 24, 39, 0.95);
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
-                0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  }
-
-  :global([data-bs-theme="dark"]) .dropdown-item {
-    color: rgba(255, 255, 255, 0.8);
-  }
-
-  :global([data-bs-theme="dark"]) .dropdown-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-  }
-
-  :global([data-bs-theme="dark"]) .btn-outline-dark {
-    --bs-btn-color: rgba(255, 255, 255, 0.8);
-    --bs-btn-border-color: rgba(255, 255, 255, 0.2);
-    --bs-btn-hover-color: white;
-    --bs-btn-hover-border-color: rgba(255, 255, 255, 0.3);
-    --bs-btn-hover-bg: rgba(255, 255, 255, 0.1);
-  }
-
-  /* Variables para colores más oscuros */
-  :root {
-    --bs-primary-dark: #4f46e5;
-    --bs-indigo-dark: #9333ea;
-  }
-
-  .btn-outline-gradient {
-    background: transparent;
-    border: 1px solid #6366f1;
-    color: #6366f1;
-    padding: 0.375rem 1rem;
-    position: relative;
-    transition: all 0.2s ease;
-    z-index: 1;
-  }
-
-  .btn-outline-gradient::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    border-radius: inherit;
-    opacity: 0;
-    z-index: -1;
-    transition: opacity 0.2s ease;
-  }
-
-  .btn-outline-gradient:hover {
-    color: white;
-    border-color: transparent;
-  }
-
-  .btn-outline-gradient:hover::before {
-    opacity: 1;
-  }
-
-  /* Ajuste para tema oscuro */
-  :global([data-bs-theme="dark"]) .btn-outline-gradient {
-    border-color: rgba(99, 102, 241, 0.5);
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  :global([data-bs-theme="dark"]) .btn-outline-gradient:hover {
-    border-color: transparent;
-    color: white;
+  .spinner-border.text-primary {
+    border-color: var(--primary-color) transparent transparent;
   }
 </style>
 

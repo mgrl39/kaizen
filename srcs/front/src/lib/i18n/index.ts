@@ -153,6 +153,14 @@ export type TranslationKey =
 	| 'category_comedy'
 	| 'category_drama'
 
+	// Featured Movies
+	| 'featuredMoviesTitle'
+	| 'discoverMovies'
+	| 'noFeaturedMovies'
+	| 'checkLater'
+	| 'showFilms'
+	| 'browseAllMovies'
+
 	// Error pages
 	| 'pageNotFound'
 	| 'pageNotFoundTitle'

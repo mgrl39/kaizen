@@ -46,8 +46,8 @@
   
   onMount(async () => {
     try {
-      // Obtener películas desde la API real
-      const response = await fetch('http://localhost:8000/api/v1/movies');
+      // Usar la ruta relativa que será manejada por el proxy de Vite
+      const response = await fetch('/api/v1/movies');
       
       if (!response.ok) {
         throw new Error(`API respondió con estado: ${response.status}`);

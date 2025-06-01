@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
   import { fade, fly } from 'svelte/transition';
+  import SharePopup from '$lib/components/SharePopup.svelte';
   
   export let data;
   
@@ -13,7 +14,8 @@
   let loading = true;
   let error = null;
   let screenings = [];
-  let activeTab = 'info'; // 'info', 'screenings', 'reviews'
+  let activeTab = 'info'; // 'info', 'screenings'
+  let showSharePopup = false;
   
   // Función para formatear la fecha
   function formatDate(dateString) {
@@ -98,23 +100,7 @@
   }
   
   function shareMovie() {
-    if (navigator.share) {
-      navigator.share({
-        title: movie.title,
-        text: `Echa un vistazo a ${movie.title}`,
-        url: window.location.href
-      })
-      .catch((error) => console.log('Error al compartir:', error));
-    } else {
-      // Fallback para navegadores que no soportan Web Share API
-      navigator.clipboard.writeText(window.location.href)
-        .then(() => {
-          showToast('Enlace copiado al portapapeles');
-        })
-        .catch(() => {
-          showToast('No se pudo copiar el enlace', 'error');
-        });
-    }
+    showSharePopup = true;
   }
   
   // Sistema de notificaciones toast
@@ -268,15 +254,6 @@
                     Proyecciones
                   </button>
                 </li>
-                <li class="nav-item">
-                  <button 
-                    class="nav-link {activeTab === 'reviews' ? 'active bg-dark bg-opacity-50 text-white' : 'text-light text-opacity-75'}" 
-                    on:click={() => activeTab = 'reviews'}
-                  >
-                    <i class="bi bi-chat-quote me-1"></i>
-                    Reseñas
-                  </button>
-                </li>
               </ul>
               
               <!-- Contenido de pestañas -->
@@ -356,73 +333,35 @@
                     </div>
                   {/if}
                 </div>
-              {:else if activeTab === 'reviews'}
-                <div in:fade={{ duration: 200 }}>
-                  <div class="alert alert-secondary">
-                    <i class="bi bi-chat-left-text me-2"></i>
-                    Las reseñas estarán disponibles próximamente.
-                  </div>
-                  
-                  <!-- Formulario para añadir reseña -->
-                  <div class="card bg-dark bg-opacity-50 mt-4">
-                    <div class="card-header">
-                      <h5 class="mb-0">Añadir reseña</h5>
-                    </div>
-                    <div class="card-body">
-                      <form>
-                        <div class="mb-3">
-                          <label for="rating" class="form-label">Valoración</label>
-                          <div class="d-flex">
-                            {#each Array(5) as _, i}
-                              <button type="button" class="btn btn-link text-warning p-0 me-2 fs-4">
-                                <i class="bi bi-star"></i>
-                              </button>
-                            {/each}
-                          </div>
-                        </div>
-                        <div class="mb-3">
-                          <label for="comment" class="form-label">Comentario</label>
-                          <textarea 
-                            id="comment" 
-                            class="form-control bg-dark text-white border-secondary" 
-                            rows="3" 
-                            placeholder="Escribe tu opinión sobre la película..."
-                          ></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                          Enviar reseña
-                        </button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
               {/if}
               
               <!-- Acciones -->
               <div class="d-flex flex-wrap gap-2 mt-4">
                 <button 
-                  class="btn btn-outline-light" 
+                  class="btn btn-outline-light d-flex align-items-center" 
                   on:click={addToFavorites}
                 >
-                  <i class="bi bi-heart me-1"></i>
-                  Añadir a favoritos
+                  <i class="bi bi-heart me-2"></i>
+                  <span>Añadir a favoritos</span>
                 </button>
                 
-                <button 
-                  class="btn btn-primary" 
-                  on:click={shareMovie}
-                >
-                  <i class="bi bi-share me-1"></i>
-                  Compartir
-                </button>
+                <div class="dropdown">
+                  <button 
+                    class="btn btn-primary d-flex align-items-center justify-content-center share-btn"
+                    type="button"
+                    on:click={shareMovie}
+                  >
+                    <i class="bi bi-share-fill"></i>
+                  </button>
+                </div>
                 
                 {#if screenings.length > 0}
                   <a 
                     href={`/booking/${screenings[0].id}`} 
-                    class="btn btn-success"
+                    class="btn btn-success d-flex align-items-center"
                   >
-                    <i class="bi bi-ticket-perforated me-1"></i>
-                    Comprar entradas
+                    <i class="bi bi-ticket-perforated me-2"></i>
+                    <span>Comprar entradas</span>
                   </a>
                 {/if}
               </div>
@@ -469,6 +408,14 @@
     </div>
   {/if}
 </div>
+
+<!-- Share Popup -->
+<SharePopup 
+  bind:show={showSharePopup}
+  title={movie?.title || ''}
+  url={window.location.href}
+  on:toast={({ detail }) => showToast(detail.message, detail.type)}
+/>
 
 <style>
   /* Estilos adicionales */
@@ -518,5 +465,22 @@
   /* Ajustes para tablas */
   .table-dark {
     background-color: rgba(33, 37, 41, 0.6);
+  }
+
+  .share-btn {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+  }
+
+  .share-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(var(--bs-primary-rgb), 0.3);
+  }
+
+  .share-btn i {
+    font-size: 1.2rem;
   }
 </style>
