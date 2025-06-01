@@ -27,7 +27,7 @@
   ];
 </script>
 
-<footer class="footer py-5 mt-auto" data-bs-theme={$theme}>
+<footer class="footer py-5 mt-auto">
   <div class="container">
     <!-- Sección superior con logo y enlaces -->
     <div class="row g-4 pb-4 border-bottom mb-4">
@@ -115,9 +115,9 @@
 <style>
   /* Variables de color personalizadas */
   :root {
-    --custom-primary: #6d28d9;
-    --custom-primary-hover: #5b21b6;
-    --custom-primary-light: rgba(109, 40, 217, 0.1);
+    --custom-primary: var(--primary-color, #6d28d9);
+    --custom-primary-hover: var(--primary-hover, #5b21b6);
+    --custom-primary-light: var(--primary-light, rgba(109, 40, 217, 0.1));
   }
 
   /* Estilos personalizados */
@@ -168,5 +168,11 @@
   .footer {
     background-color: var(--bs-body-bg);
     border-top: 1px solid var(--bs-border-color);
+  }
+
+  /* Ajustes para tema oscuro */
+  :global(html[data-bs-theme="dark"]) .footer {
+    background-color: var(--bs-body-bg);
+    border-color: var(--bs-border-color);
   }
 </style>

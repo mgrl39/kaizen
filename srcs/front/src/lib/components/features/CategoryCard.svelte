@@ -1,6 +1,5 @@
 <script>
 	import { t } from '$lib/i18n';
-	import { theme } from '$lib/theme';
 
 	export let category = {};
 	
@@ -16,7 +15,7 @@
 	$: countText = category.count === 1 ? "1 película" : `${category.count} películas`;
 </script>
 
-<div class="card h-100 border-0 shadow-sm" data-bs-theme={$theme}>
+<div class="card h-100 border-0 shadow-sm">
 	{#if category.image}
 		<div class="position-relative">
 			<img 
@@ -50,3 +49,23 @@
 		</a>
 	</div>
 </div>
+
+<style>
+  .card {
+    background-color: var(--bs-body-bg);
+    border-color: var(--bs-border-color);
+  }
+
+  .card-img-top.bg-light {
+    background-color: var(--bs-tertiary-bg) !important;
+  }
+
+  :global(html[data-bs-theme="dark"]) .card {
+    background-color: var(--bs-dark);
+    border-color: var(--bs-border-color);
+  }
+
+  :global(html[data-bs-theme="dark"]) .card-img-top.bg-light {
+    background-color: var(--bs-tertiary-bg) !important;
+  }
+</style>

@@ -1,7 +1,6 @@
 <script lang="ts">
   import type { Movie } from '$lib/types';
   import { t } from '$lib/i18n';
-  import { theme } from '$lib/theme';
   import MovieCard from '../MovieCard.svelte';
   import { onMount } from 'svelte';
   
@@ -42,7 +41,7 @@
   });
 </script>
 
-<section class="featured-movies py-5" data-bs-theme={$theme}>
+<section class="featured-movies py-5">
   <div class="container">
     <!-- Encabezado de sección con diseño mejorado -->
     <div class="row mb-4">
@@ -198,11 +197,15 @@
     opacity: 0.85;
     transition: all 0.3s ease;
     padding: 0;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
   }
   
   .nav-btn:hover {
     opacity: 1;
     transform: translateY(-50%) scale(1.1);
+    background-color: var(--bs-tertiary-bg);
   }
   
   /* Indicadores */
@@ -222,11 +225,11 @@
   /* Estado vacío */
   .empty-state {
     border-radius: 1rem;
-    background-color: rgba(var(--bs-primary-rgb), 0.05);
+    background-color: var(--bs-tertiary-bg);
   }
   
   .empty-icon {
-    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    background-color: var(--bs-tertiary-bg);
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -237,24 +240,34 @@
   }
   
   /* Adaptaciones para modo oscuro */
-  :global([data-bs-theme="dark"]) .card-wrapper {
+  :global(html[data-bs-theme="dark"]) .card-wrapper {
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
   
-  :global([data-bs-theme="dark"]) .card-wrapper:hover {
+  :global(html[data-bs-theme="dark"]) .card-wrapper:hover {
     box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
   
-  :global([data-bs-theme="dark"]) .empty-state {
-    background-color: rgba(var(--bs-primary-rgb), 0.15);
+  :global(html[data-bs-theme="dark"]) .empty-state {
+    background-color: var(--bs-tertiary-bg);
   }
   
-  :global([data-bs-theme="dark"]) .empty-icon {
-    background-color: rgba(var(--bs-primary-rgb), 0.2);
+  :global(html[data-bs-theme="dark"]) .empty-icon {
+    background-color: var(--bs-tertiary-bg);
   }
   
-  :global([data-bs-theme="dark"]) .indicator-dot {
+  :global(html[data-bs-theme="dark"]) .indicator-dot {
     background-color: var(--bs-gray-600);
+  }
+  
+  :global(html[data-bs-theme="dark"]) .nav-btn {
+    background-color: var(--bs-dark);
+    color: var(--bs-body-color);
+    border-color: var(--bs-border-color);
+  }
+  
+  :global(html[data-bs-theme="dark"]) .nav-btn:hover {
+    background-color: var(--bs-tertiary-bg);
   }
   
   /* Media queries para mejorar responsividad */

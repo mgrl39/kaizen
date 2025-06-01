@@ -1,6 +1,5 @@
 <script>
   import { t } from '$lib/i18n';
-  import { theme } from '$lib/theme';
   import CategoryCard from './CategoryCard.svelte';
   
   export let categories = [];
@@ -9,7 +8,7 @@
   export let viewAllUrl = '/categories';
 </script>
 
-<section class="py-5 bg-body-tertiary" data-bs-theme={$theme}>
+<section class="py-5 bg-body-tertiary">
   <div class="container">
     <!-- Encabezado de sección -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -40,4 +39,14 @@
       </div>
     {/if}
   </div>
-</section> 
+</section>
+
+<style>
+  section {
+    background-color: var(--bs-tertiary-bg);
+  }
+
+  :global(html[data-bs-theme="dark"]) section {
+    background-color: var(--bs-tertiary-bg);
+  }
+</style> 
