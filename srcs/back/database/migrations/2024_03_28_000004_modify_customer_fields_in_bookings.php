@@ -12,9 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->string('customer_name')->nullable()->change();
-            $table->string('customer_email')->nullable()->change();
-            $table->string('customer_phone')->nullable()->change();
+            if (Schema::hasColumn('bookings', 'buyer_name')) {
+                $table->string('buyer_name')->nullable()->change();
+            }
+            if (Schema::hasColumn('bookings', 'buyer_email')) {
+                $table->string('buyer_email')->nullable()->change();
+            }
+            if (Schema::hasColumn('bookings', 'buyer_phone')) {
+                $table->string('buyer_phone')->nullable()->change();
+            }
         });
     }
 
@@ -24,9 +30,15 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('bookings', function (Blueprint $table) {
-            $table->string('customer_name')->nullable(false)->change();
-            $table->string('customer_email')->nullable(false)->change();
-            $table->string('customer_phone')->nullable(false)->change();
+            if (Schema::hasColumn('bookings', 'buyer_name')) {
+                $table->string('buyer_name')->nullable(false)->change();
+            }
+            if (Schema::hasColumn('bookings', 'buyer_email')) {
+                $table->string('buyer_email')->nullable(false)->change();
+            }
+            if (Schema::hasColumn('bookings', 'buyer_phone')) {
+                $table->string('buyer_phone')->nullable(false)->change();
+            }
         });
     }
 }; 

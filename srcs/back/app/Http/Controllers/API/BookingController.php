@@ -66,7 +66,7 @@ class BookingController extends Controller
             DB::beginTransaction();
 
             try {
-                // Crear la reserva
+                // Crear la reserva (eliminados los campos customer_*)
                 $booking = Booking::create([
                     'user_id' => Auth::id(), // Será null si no hay usuario autenticado
                     'function_id' => $function->id,
@@ -74,13 +74,10 @@ class BookingController extends Controller
                     'status' => Booking::STATUS_PENDING,
                     'booking_code' => uniqid('BK-'),
                     'payment_status' => Booking::PAYMENT_STATUS_PENDING,
-                    'payment_method' => 'pending', // Valor por defecto hasta que se procese el pago
+                    'payment_method' => 'pending',
                     'buyer_name' => $request->buyer['name'],
                     'buyer_email' => $request->buyer['email'],
-                    'buyer_phone' => $request->buyer['phone'] ?? null,
-                    'customer_name' => $request->buyer['name'],
-                    'customer_email' => $request->buyer['email'],
-                    'customer_phone' => $request->buyer['phone'] ?? null
+                    'buyer_phone' => $request->buyer['phone'] ?? null
                 ]);
 
                 // Asociar asientos
@@ -98,8 +95,8 @@ class BookingController extends Controller
                     'booking_id' => $booking->id,
                     'ticket_code' => uniqid('TK-'),
                     'buyer_email' => $request->buyer['email'],
-                    'download_token' => bin2hex(random_bytes(32)), // Token único para descargar
-                    'expires_at' => now()->addYears(1), // El ticket expira en 1 año
+                    'download_token' => bin2hex(random_bytes(32)),
+                    'expires_at' => now()->addYears(1)
                 ];
 
                 $ticket = $booking->ticket()->create($ticketData);

@@ -19,17 +19,14 @@ class Booking extends Model
     protected $fillable = [
         'user_id',
         'function_id',
-        'booking_code',
         'total_price',
         'status',
+        'booking_code',
         'payment_status',
         'payment_method',
         'buyer_name',
         'buyer_email',
-        'buyer_phone',
-        'customer_name',
-        'customer_email',
-        'customer_phone'
+        'buyer_phone'
     ];
 
     /**
@@ -65,6 +62,12 @@ class Booking extends Model
     public const PAYMENT_STATUS_COMPLETED = 'completed';
     public const PAYMENT_STATUS_FAILED = 'failed';
     public const PAYMENT_STATUS_REFUNDED = 'refunded';
+
+    protected $attributes = [
+        'status' => 'pending',
+        'payment_status' => 'pending',
+        'payment_method' => 'pending'
+    ];
 
     /**
      * Obtener el usuario que realizó esta reserva.

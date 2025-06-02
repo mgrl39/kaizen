@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('booking_id')->constrained()->onDelete('cascade');
+            $table->string('ticket_code')->unique();
+            $table->string('buyer_email');
+            $table->string('download_token')->unique();
+            $table->timestamp('expires_at');
             $table->timestamps();
         });
     }
