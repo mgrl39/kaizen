@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Functions extends Model
 {
@@ -18,7 +19,9 @@ class Functions extends Model
         'movie_id',
         'room_id',
         'date',
-        'time'
+        'time',
+        'is_3d',
+        'price'
     ];
 
     /**
@@ -28,13 +31,15 @@ class Functions extends Model
      */
     protected $casts = [
         'date' => 'date',
-        'time' => 'datetime:H:i'
+        'time' => 'datetime',
+        'is_3d' => 'boolean',
+        'price' => 'decimal:2'
     ];
 
     /**
      * Obtener la película asociada a esta función.
      */
-    public function movie()
+    public function movie(): BelongsTo
     {
         return $this->belongsTo(Movie::class);
     }
@@ -42,7 +47,7 @@ class Functions extends Model
     /**
      * Obtener la sala asociada a esta función.
      */
-    public function room()
+    public function room(): BelongsTo
     {
         return $this->belongsTo(Room::class);
     }

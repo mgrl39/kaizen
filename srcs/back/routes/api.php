@@ -13,13 +13,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\API\{
     ApiInfoController,
     AuthController,
+    BookingController,
     CinemaController,
     FunctionController,
     GenreController,
     MovieController,
     ProfileController,
     UserController,
-    ImageController
+    ImageController,
+    RoomController
 };
 use App\Http\Controllers\Admin\AdminController;
 use App\Services\ResponseService;
@@ -126,9 +128,16 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::group(['prefix' => 'movies', 'as' => 'movies.'], function () {
         Route::get('/', [MovieController::class, 'index'])->name('index');
         Route::get('/{movie}', [MovieController::class, 'show'])->name('show');
+        Route::get('/{movieId}/screenings', [App\Http\Controllers\Api\V1\FunctionController::class, 'getMovieScreenings'])->name('screenings');
         // Admin-only routes are protected below
     });
     
+    // Rooms
+    Route::group(['prefix' => 'rooms', 'as' => 'rooms.'], function () {
+        Route::get('/', [RoomController::class, 'index'])->name('index');
+        Route::get('/{room}', [RoomController::class, 'show'])->name('show');
+    });
+
     // Genres
     Route::group(['prefix' => 'genres', 'as' => 'genres.'], function () {
         Route::get('/', [GenreController::class, 'index'])->name('index');
@@ -154,6 +163,15 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         // Delete is moved to protected area below
     });
     
+    // Functions
+    Route::group(['prefix' => 'functions', 'as' => 'functions.'], function () {
+        Route::get('/', [FunctionController::class, 'index'])->name('index');
+        Route::get('/{id}', [FunctionController::class, 'show'])->name('show');
+        Route::get('/{id}/seats', [FunctionController::class, 'getSeats'])->name('seats');
+        Route::post('/generate', [FunctionController::class, 'generateSchedule'])->name('generate');
+        Route::post('/generate-multi', [FunctionController::class, 'generateMultiRoomSchedule'])->name('generate-multi');
+    });
+    
     /*
     |--------------------------------------------------------------------------
     | Protected Routes - Authentication Required
@@ -169,6 +187,15 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
             Route::get('/', [ProfileController::class, 'show'])->name('show');
             Route::put('/', [ProfileController::class, 'update'])->name('update');
             Route::put('/password', [ProfileController::class, 'changePassword'])->name('change-password');
+        });
+        
+        // Bookings
+        Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {
+            Route::get('/', [BookingController::class, 'index'])->name('index');
+            Route::post('/', [BookingController::class, 'store'])->name('store');
+            Route::get('/{booking}', [BookingController::class, 'show'])->name('show');
+            Route::post('/{booking}/confirm', [BookingController::class, 'confirm'])->name('confirm');
+            Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('cancel');
         });
         
         // User Management (Protected)

@@ -11,13 +11,15 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create(
-            'seats',
+            'bookings',
             function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('function_id')->constrained();
-                $table->integer('number');
-                $table->string('seat_row', 10);
-                $table->enum('status', ['available', 'reserved', 'occupied']);
+                $table->foreignId('user_id')->constrained()->onDelete('cascade');
+                $table->foreignId('function_id')->constrained()->onDelete('cascade');
+                $table->foreignId('seat_id')->constrained()->onDelete('cascade');
+                $table->string('code')->unique(); // código de reserva
+                $table->decimal('price', 10, 2); // precio final pagado
+                $table->boolean('paid')->default(false);
                 $table->timestamps();
             }
         );
@@ -28,7 +30,7 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('seats');
+        Schema::dropIfExists('bookings');
     }
 };
 

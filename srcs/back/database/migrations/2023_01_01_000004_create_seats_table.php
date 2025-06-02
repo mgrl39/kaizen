@@ -11,14 +11,17 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create(
-            'functions',
+            'seats',
             function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('movie_id')->constrained();
-                $table->foreignId('room_id')->constrained();
-                $table->date('date');
-                $table->time('time');
+                $table->foreignId('function_id')->constrained()->onDelete('cascade');
+                $table->string('row'); // A, B, C, etc.
+                $table->integer('number'); // 1, 2, 3, etc.
+                $table->enum('status', ['free', 'booked'])->default('free');
                 $table->timestamps();
+
+                // Un asiento único por función
+                $table->unique(['function_id', 'row', 'number']);
             }
         );
     }
@@ -28,7 +31,7 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('functions');
+        Schema::dropIfExists('seats');
     }
 };
 
