@@ -166,16 +166,13 @@
                 }
                 throw new Error(result.message || 'Error al realizar la reserva');
             }
-            
+
             if (!result.success) {
                 throw new Error(result.message || 'Error al realizar la reserva');
             }
 
-            // Redirigir a la página de confirmación
-            if (result.data?.booking?.id) {
-            goto(`/tickets/${result.data.booking.id}`);
-            } else {
-                throw new Error('No se recibió el ID de la reserva');
+            if (result.success && result.data?.booking?.uuid) {
+                goto(`/booking/confirmation/${result.data.booking.uuid}`);
             }
         } catch (e: any) {
             console.error('Error en la reserva:', e);
