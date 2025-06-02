@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Functions;
 use App\Models\Seat;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -92,13 +93,27 @@ class BookingController extends Controller
                     $seat->update(['status' => Seat::STATUS_RESERVED]);
                 }
 
+                // Generar el ticket
+                $ticketData = [
+                    'booking_id' => $booking->id,
+                    'ticket_code' => uniqid('TK-'),
+                    'buyer_email' => $request->buyer['email'],
+                    'download_token' => bin2hex(random_bytes(32)), // Token único para descargar
+                    'expires_at' => now()->addYears(1), // El ticket expira en 1 año
+                ];
+
+                $ticket = $booking->ticket()->create($ticketData);
+
                 DB::commit();
 
                 return response()->json([
                     'success' => true,
                     'message' => 'Reserva creada exitosamente',
                     'data' => [
-                        'booking' => $booking->load('seats', 'function.movie')
+                        'booking' => $booking->load('seats', 'function.movie'),
+                        'ticket' => [
+                            'download_url' => url("/api/v1/tickets/{$ticket->download_token}")
+                        ]
                     ]
                 ], 201);
 
@@ -276,5 +291,33 @@ class BookingController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    // Nuevo método para buscar tickets por email
+    public function findTickets(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email'
+        ]);
+
+        $tickets = Ticket::where('buyer_email', $request->email)
+            ->with(['booking.function.movie', 'booking.seats'])
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $tickets->map(function($ticket) {
+                return [
+                    'ticket_code' => $ticket->ticket_code,
+                    'movie' => $ticket->booking->function->movie->title,
+                    'date' => $ticket->booking->function->date,
+                    'time' => $ticket->booking->function->time,
+                    'seats' => $ticket->booking->seats->map(function($seat) {
+                        return "Fila {$seat->row} - Asiento {$seat->number}";
+                    }),
+                    'download_url' => url("/api/v1/tickets/{$ticket->download_token}")
+                ];
+            })
+        ]);
     }
 } 

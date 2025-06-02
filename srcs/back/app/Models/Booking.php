@@ -102,4 +102,9 @@ class Booking extends Model
         $random = strtoupper(substr(uniqid(), -4));
         return $prefix . $timestamp . $random;
     }
+
+    public function ticket()
+    {
+        return $this->hasOne(Ticket::class);
+    }
 }

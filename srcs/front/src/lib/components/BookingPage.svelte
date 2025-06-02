@@ -29,13 +29,15 @@
     let seatsPerRow = 0;
     let loading = true;
     let success = false;
+    let ticketUrl: string | null = null;
     
     // Definir los pasos del proceso
     const STEPS = {
         SEATS: 'seats',
         CONTACT: 'contact',
         PAYMENT: 'payment',
-        SUMMARY: 'summary'
+        SUMMARY: 'summary',
+        CONFIRMATION: 'confirmation'
     };
     
     let currentStep = STEPS.SEATS;
@@ -172,7 +174,15 @@
             }
 
             if (result.success && result.data?.booking?.uuid) {
-                goto(`/booking/confirmation/${result.data.booking.uuid}`);
+                // En lugar de redirigir inmediatamente, mostrar el ticket
+                success = true;
+                ticketUrl = result.data.ticket.download_url;
+                
+                // Opcional: guardar el email y el código del ticket en localStorage
+                localStorage.setItem('lastBookingEmail', buyer.email);
+                
+                // Mostrar el paso de confirmación con el enlace del ticket
+                currentStep = STEPS.CONFIRMATION;
             }
         } catch (e: any) {
             console.error('Error en la reserva:', e);
@@ -457,6 +467,48 @@
                             Confirmar y Pagar
                         {/if}
                     </button>
+                {:else if currentStep === STEPS.CONFIRMATION}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">¡Reserva Confirmada!</h5>
+                            
+                            <div class="alert alert-success">
+                                <i class="bi bi-check-circle me-2"></i>
+                                Tu reserva se ha completado con éxito
+                            </div>
+
+                            {#if ticketUrl}
+                                <div class="mt-4">
+                                    <p>Puedes descargar tu entrada ahora:</p>
+                                    <a href={ticketUrl} 
+                                       class="btn btn-primary"
+                                       target="_blank">
+                                        <i class="bi bi-download me-2"></i>
+                                        Descargar Entrada
+                                    </a>
+                                </div>
+                                
+                                <div class="mt-4">
+                                    <p class="text-muted">
+                                        <i class="bi bi-info-circle me-2"></i>
+                                        También hemos enviado un enlace a tu email ({buyer.email}) 
+                                        para que puedas descargar tu entrada más tarde.
+                                    </p>
+                                </div>
+                            {/if}
+
+                            <div class="mt-4 d-flex gap-3">
+                                <a href="/" class="btn btn-outline-secondary">
+                                    <i class="bi bi-house me-2"></i>
+                                    Volver al inicio
+                                </a>
+                                <a href="/movies" class="btn btn-primary">
+                                    <i class="bi bi-film me-2"></i>
+                                    Ver más películas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 {/if}
 
                 <!-- Navegación entre pasos -->

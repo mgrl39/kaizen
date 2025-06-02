@@ -21,7 +21,8 @@ use App\Http\Controllers\API\{
     ProfileController,
     UserController,
     ImageController,
-    RoomController
+    RoomController,
+    TicketController
 };
 use App\Http\Controllers\Admin\AdminController;
 use App\Services\ResponseService;
@@ -180,6 +181,10 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::post('/{booking}/confirm', [BookingController::class, 'confirm'])->name('confirm');
         Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('cancel');
     });
+
+    // Tickets
+    Route::get('tickets/{token}', [TicketController::class, 'download']);
+    Route::post('tickets/search', [BookingController::class, 'findTickets']);
 
     /*
     |--------------------------------------------------------------------------
