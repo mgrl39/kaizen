@@ -15,6 +15,7 @@
   let isSubmitting = false;
   let showError = false;
   let showPassword = false;
+  let errorMessage = '';
   
   // Validación básica
   $: isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -26,8 +27,10 @@
     
     isSubmitting = true;
     showError = false;
+    errorMessage = '';
     
     try {
+      console.log('Intentando login con:', email);
       const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
@@ -41,22 +44,45 @@
       });
 
       const data = await response.json();
+      console.log('Respuesta del servidor:', data);
 
       if (response.ok && data.success) {
-        localStorage.setItem('token', data.token);
-        const authState = {
-          isAuthenticated: true,
-          userName: data.user.name || data.user.username || 'Usuario',
-          loading: false
-        };
-        localStorage.setItem('authState', JSON.stringify(authState));
-        goto('/');
+        // Solo guardamos el token
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          
+          // Verificar si hay una redirección pendiente de booking
+          const savedBooking = sessionStorage.getItem('bookingRedirect');
+          if (savedBooking) {
+            try {
+              const bookingData = JSON.parse(savedBooking);
+              // Mantener la información de la reserva y redirigir
+              if (bookingData.returnUrl) {
+                goto(bookingData.returnUrl);
+                return;
+              }
+            } catch (e) {
+              console.error('Error al procesar redirección:', e);
+              // Si hay error, limpiar el sessionStorage
+              sessionStorage.removeItem('bookingRedirect');
+            }
+          }
+          
+          // Si no hay redirección, ir al home
+          goto('/');
+        } else {
+          console.error('No se recibió token en la respuesta');
+          errorMessage = 'Error: No se recibió el token de autenticación';
+          showError = true;
+        }
       } else {
         console.error('Error de login:', data);
+        errorMessage = data.message || 'Error al iniciar sesión';
         showError = true;
       }
     } catch (error) {
       console.error('Error de conexión:', error);
+      errorMessage = 'Error de conexión. Por favor, inténtalo de nuevo.';
       showError = true;
     } finally {
       isSubmitting = false;
@@ -67,7 +93,7 @@
     showPassword = !showPassword;
   }
   
-  // Verificar si ya hay sesión
+  // Verificar si ya hay sesión y si hay redirección pendiente
   onMount(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -81,24 +107,26 @@
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          const authState = {
-            isAuthenticated: true,
-            userName: data.user.name || data.user.username || 'Usuario',
-            loading: false
-          };
-          localStorage.setItem('authState', JSON.stringify(authState));
-          
+          // Si el token es válido, verificar si hay redirección pendiente
+          const savedBooking = sessionStorage.getItem('bookingRedirect');
+          if (savedBooking) {
+            try {
+              const { returnUrl } = JSON.parse(savedBooking);
+              if (returnUrl) {
+                goto(returnUrl);
+                return;
+              }
+            } catch (e) {
+              console.error('Error al procesar redirección:', e);
+            }
+          }
+          // Si no hay redirección, ir al home
           goto('/');
-        } else {
-          // Token inválido o expirado, limpiar estado
-          localStorage.removeItem('token');
-          localStorage.removeItem('authState');
         }
       })
       .catch(error => {
         console.error('Error al verificar sesión:', error);
         localStorage.removeItem('token');
-        localStorage.removeItem('authState');
       });
     }
   });
@@ -145,7 +173,7 @@
             {#if showError}
               <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                {$t('loginError')}
+                {errorMessage || $t('loginError')}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" on:click={() => showError = false}></button>
               </div>
             {/if}
@@ -214,7 +242,7 @@
                 <button 
                   type="submit" 
                   class="btn btn-lg btn-primary" 
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !isFormValid}
                 >
                   {#if isSubmitting}
                     <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>

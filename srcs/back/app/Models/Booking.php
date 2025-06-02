@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Booking extends Model
 {
@@ -15,12 +17,16 @@ class Booking extends Model
      * @var array<string>
      */
     protected $fillable = [
+        'user_id',
         'function_id',
         'booking_code',
         'total_price',
         'status',
         'payment_status',
         'payment_method',
+        'buyer_name',
+        'buyer_email',
+        'buyer_phone',
         'customer_name',
         'customer_email',
         'customer_phone'
@@ -63,7 +69,7 @@ class Booking extends Model
     /**
      * Obtener el usuario que realizó esta reserva.
      */
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -71,7 +77,7 @@ class Booking extends Model
     /**
      * Obtener la función asociada a esta reserva.
      */
-    public function function()
+    public function function(): BelongsTo
     {
         return $this->belongsTo(Functions::class);
     }
@@ -79,7 +85,7 @@ class Booking extends Model
     /**
      * Obtener los asientos asociados a esta reserva.
      */
-    public function seats()
+    public function seats(): BelongsToMany
     {
         return $this->belongsToMany(Seat::class, 'booking_seats')
             ->withPivot('price')

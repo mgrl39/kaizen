@@ -6,19 +6,30 @@
     export let seatsPerRow: number;
     export let selectedSeats: string[] = [];
     export let occupiedSeats: string[] = [];
+    export let seatsData: any[] = []; // Matriz de asientos del backend
     
     const dispatch = createEventDispatcher();
     
     // Matriz para almacenar el estado de los asientos
     $: seatMatrix = Array(rows).fill(null).map((_, rowIndex) => 
-        Array(seatsPerRow).fill(null).map((_, seatIndex) => ({
-            id: `${String.fromCharCode(65 + rowIndex)}${seatIndex + 1}`,
-            row: String.fromCharCode(65 + rowIndex),
-            number: seatIndex + 1,
-            isSelected: selectedSeats.includes(`${String.fromCharCode(65 + rowIndex)}${seatIndex + 1}`),
-            isOccupied: occupiedSeats.includes(`${String.fromCharCode(65 + rowIndex)}${seatIndex + 1}`),
-            isSelectable: false
-        }))
+        Array(seatsPerRow).fill(null).map((_, seatIndex) => {
+            // Encontrar el asiento en los datos del backend
+            const seatData = seatsData[rowIndex]?.[seatIndex];
+            
+            if (!seatData) {
+                console.error(`No se encontró datos para el asiento en fila ${rowIndex}, posición ${seatIndex}`);
+                return null;
+            }
+
+            return {
+                id: seatData.id.toString(), // Siempre usar el ID real como string
+                row: seatData.row,
+                number: seatData.number,
+                isSelected: selectedSeats.includes(seatData.id.toString()),
+                isOccupied: seatData.is_occupied,
+                isSelectable: false
+            };
+        })
     );
 
     // Función para verificar si un asiento está conectado a los asientos seleccionados
@@ -34,8 +45,8 @@
 
         return adjacentPositions.some(([r, s]) => {
             if (r < 0 || r >= rows || s < 0 || s >= seatsPerRow) return false;
-            const seatId = `${String.fromCharCode(65 + r)}${s + 1}`;
-            return selectedSeats.includes(seatId);
+            const adjacentSeat = seatMatrix[r][s];
+            return adjacentSeat && selectedSeats.includes(adjacentSeat.id);
         });
     }
 
@@ -43,14 +54,16 @@
     $: {
         seatMatrix.forEach((row, rowIndex) => {
             row.forEach((seat, seatIndex) => {
-                seat.isSelectable = !seat.isOccupied && 
-                    (!seat.isSelected && (selectedSeats.length === 0 || isConnectedToSelected(rowIndex, seatIndex)));
+                if (seat) {
+                    seat.isSelectable = !seat.isOccupied && 
+                        (!seat.isSelected && (selectedSeats.length === 0 || isConnectedToSelected(rowIndex, seatIndex)));
+                }
             });
         });
     }
 
     function handleSeatClick(seat: any) {
-        if (seat.isOccupied) return;
+        if (!seat || seat.isOccupied) return;
         
         const seatId = seat.id;
         let newSelectedSeats;
@@ -75,18 +88,22 @@
         {#each seatMatrix as row, rowIndex}
             <div class="seat-row">
                 <span class="row-label">{String.fromCharCode(65 + rowIndex)}</span>
-                {#each row as seat}
-                    <button
-                        class="seat"
-                        class:occupied={seat.isOccupied}
-                        class:selected={seat.isSelected}
-                        class:selectable={seat.isSelectable}
-                        disabled={seat.isOccupied || (!seat.isSelectable && !seat.isSelected)}
-                        on:click={() => handleSeatClick(seat)}
-                        title="Fila {seat.row} Asiento {seat.number}"
-                    >
-                        {seat.number}
-                    </button>
+                {#each row as seat, seatIndex}
+                    {#if seat}
+                        <button
+                            class="seat"
+                            class:occupied={seat.isOccupied}
+                            class:selected={seat.isSelected}
+                            class:selectable={seat.isSelectable}
+                            disabled={seat.isOccupied || (!seat.isSelectable && !seat.isSelected)}
+                            on:click={() => handleSeatClick(seat)}
+                            title="Fila {seat.row} Asiento {seat.number}"
+                        >
+                            {seat.number}
+                        </button>
+                    {:else}
+                        <button class="seat" disabled>-</button>
+                    {/if}
                 {/each}
             </div>
         {/each}

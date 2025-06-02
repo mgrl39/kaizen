@@ -1,97 +1,96 @@
 <!-- DigitalTicket.svelte -->
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { goto } from '$app/navigation';
-    import QRCode from 'qrcode';
     
-    export let bookingId: string;
-    
-    let loading = true;
-    let error = '';
-    let bookingData: any = null;
+    export let booking: any;
     let qrCode = '';
     
     onMount(async () => {
         try {
-            // Verificar autenticación
-            const authResponse = await fetch('/api/auth/check');
-            if (!authResponse.ok) {
-                goto('/login');
-                return;
-            }
-
-            // Cargar datos de la reserva
-            const response = await fetch(`/api/bookings/${bookingId}`);
-            if (!response.ok) {
-                if (response.status === 401) {
-                    goto('/login');
-                    return;
-                }
-                throw new Error('Error al cargar los datos de la reserva');
-            }
+            // Importar dinámicamente el módulo QRCode
+            const QRCode = await import('qrcode');
             
-            bookingData = await response.json();
-            
-            // Generar código QR
+            // Generar código QR con los datos de la reserva
             qrCode = await QRCode.toDataURL(JSON.stringify({
-                bookingId,
-                seats: bookingData.seats.map((s: any) => s.id),
-                function: bookingData.function.id
+                bookingId: booking.id,
+                bookingCode: booking.booking_code,
+                seats: booking.seats.map((s: any) => s.id),
+                functionId: booking.function.id
             }));
-            
-            loading = false;
         } catch (e) {
-            error = e.message;
-            loading = false;
+            console.error('Error al generar el código QR:', e);
         }
     });
+
+    // Formatear la fecha y hora
+    const formatDateTime = (dateString: string) => {
+        const date = new Date(dateString);
+        return new Intl.DateTimeFormat('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        }).format(date);
+    };
+
+    // Formatear el precio
+    const formatPrice = (price: number) => {
+        return new Intl.NumberFormat('es-ES', {
+            style: 'currency',
+            currency: 'EUR'
+        }).format(price);
+    };
 </script>
 
-{#if loading}
-    <div class="loading">Cargando entrada...</div>
-{:else if error}
-    <div class="error">{error}</div>
-{:else}
-    <div class="ticket-container">
-        <div class="ticket">
-            <div class="ticket-header">
-                <h1>Kaizen Cinema</h1>
-                <p class="booking-code">Código: {bookingData.booking_code}</p>
-            </div>
+<div class="ticket-container">
+    <div class="ticket">
+        <div class="ticket-header">
+            <h1>Kaizen Cinema</h1>
+            <p class="booking-code">Código: {booking.booking_code}</p>
+        </div>
 
-            <div class="movie-details">
-                <h2>{bookingData.function.movie.title}</h2>
-                <p>Sala: {bookingData.function.room.name}</p>
-                <p>Fecha: {new Date(bookingData.function.date).toLocaleDateString()}</p>
-                <p>Hora: {bookingData.function.time}</p>
-            </div>
+        <div class="movie-details">
+            <h2>{booking.function.movie.title}</h2>
+            <p>Sala: {booking.function.room.name}</p>
+            <p>Fecha y hora: {formatDateTime(booking.function.datetime)}</p>
+        </div>
 
-            <div class="seats-list">
-                <h3>Asientos:</h3>
-                <ul>
-                    {#each bookingData.seats as seat}
-                        <li>Fila {seat.row} - Asiento {seat.number}</li>
-                    {/each}
-                </ul>
-            </div>
+        <div class="seats-list">
+            <h3>Asientos:</h3>
+            <ul>
+                {#each booking.seats as seat}
+                    <li>{seat.name}</li>
+                {/each}
+            </ul>
+        </div>
 
+        {#if qrCode}
             <div class="qr-code">
                 <img src={qrCode} alt="Código QR de la entrada" />
             </div>
+        {/if}
 
-            <div class="ticket-footer">
-                <p>Total pagado: {bookingData.total_price}€</p>
-                <p class="small">Esta entrada es válida hasta el inicio de la función</p>
-            </div>
-        </div>
-
-        <div class="actions">
-            <button class="download-button" on:click={() => window.print()}>
-                Descargar entrada
-            </button>
+        <div class="ticket-footer">
+            <p class="total">Total pagado: {formatPrice(booking.total_price)}</p>
+            <p class="buyer">
+                <strong>Comprador:</strong><br>
+                {booking.buyer_name}<br>
+                {booking.buyer_email}<br>
+                {#if booking.buyer_phone}
+                    {booking.buyer_phone}
+                {/if}
+            </p>
+            <p class="small">Esta entrada es válida hasta el inicio de la función</p>
         </div>
     </div>
-{/if}
+
+    <div class="actions">
+        <button class="download-button" on:click={() => window.print()}>
+            Descargar entrada
+        </button>
+    </div>
+</div>
 
 <style>
     .ticket-container {
@@ -119,12 +118,14 @@
     .ticket-header h1 {
         margin: 0;
         color: #4CAF50;
+        font-size: 2rem;
     }
 
     .booking-code {
         font-family: monospace;
         font-size: 1.2rem;
         color: #666;
+        margin-top: 0.5rem;
     }
 
     .movie-details {
@@ -134,10 +135,21 @@
     .movie-details h2 {
         color: #333;
         margin: 0 0 1rem 0;
+        font-size: 1.5rem;
+    }
+
+    .movie-details p {
+        margin: 0.5rem 0;
+        color: #666;
     }
 
     .seats-list {
         margin-bottom: 2rem;
+    }
+
+    .seats-list h3 {
+        color: #333;
+        margin-bottom: 1rem;
     }
 
     .seats-list ul {
@@ -152,6 +164,7 @@
         background: #f5f5f5;
         padding: 0.5rem 1rem;
         border-radius: 4px;
+        font-weight: 500;
     }
 
     .qr-code {
@@ -161,6 +174,9 @@
 
     .qr-code img {
         max-width: 200px;
+        border: 1px solid #ddd;
+        padding: 1rem;
+        border-radius: 8px;
     }
 
     .ticket-footer {
@@ -170,9 +186,22 @@
         margin-top: 2rem;
     }
 
+    .ticket-footer .total {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #4CAF50;
+        margin-bottom: 1rem;
+    }
+
+    .ticket-footer .buyer {
+        margin: 1rem 0;
+        line-height: 1.5;
+    }
+
     .ticket-footer .small {
         font-size: 0.9rem;
         color: #666;
+        margin-top: 1rem;
     }
 
     .actions {
@@ -203,15 +232,10 @@
             box-shadow: none;
             border: none;
         }
-    }
 
-    .loading, .error {
-        text-align: center;
-        padding: 2rem;
-        font-size: 1.2rem;
-    }
-
-    .error {
-        color: #ff4444;
+        .ticket-container {
+            margin: 0;
+            padding: 0;
+        }
     }
 </style> 

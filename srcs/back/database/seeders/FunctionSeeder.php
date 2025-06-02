@@ -38,39 +38,39 @@ class FunctionSeeder extends Seeder
         $currentDate = $startDate->copy();
 
         while ($currentDate <= $endDate) {
-            foreach ($rooms as $room) {
+                foreach ($rooms as $room) {
                 // Solo 3 funciones por día en cada sala
                 $functionTimes = ['15:30', '18:00', '20:30'];
                 
                 foreach ($functionTimes as $index => $time) {
                     // Usar películas de forma rotativa
                     $movie = $movies[$index % $movies->count()];
-                    
-                    // Crear la función
-                    $function = Functions::create([
-                        'movie_id' => $movie->id,
-                        'room_id' => $room->id,
-                        'date' => $currentDate->format('Y-m-d'),
+
+                        // Crear la función
+                        $function = Functions::create([
+                            'movie_id' => $movie->id,
+                            'room_id' => $room->id,
+                            'date' => $currentDate->format('Y-m-d'),
                         'time' => $time,
                         'is_3d' => $room->cinema->has_3d && $room->name === 'Sala 2 - 3D'
-                    ]);
+                        ]);
 
-                    // Crear asientos para esta función
-                    $seatNumber = 1;
-                    for ($row = 0; $row < $room->rows; $row++) {
-                        for ($col = 0; $col < $room->seats_per_row; $col++) {
-                            $function->seats()->create([
-                                'number' => $seatNumber,
-                                'row' => chr(65 + $row),
-                                'status' => 'available',
-                                'price' => $room->price + ($function->is_3d ? 2 : 0)
-                            ]);
-                            $seatNumber++;
+                        // Crear asientos para esta función
+                        $seatNumber = 1;
+                        for ($row = 0; $row < $room->rows; $row++) {
+                            for ($col = 0; $col < $room->seats_per_row; $col++) {
+                                $function->seats()->create([
+                                    'number' => $seatNumber,
+                                    'row' => chr(65 + $row),
+                                    'status' => 'available',
+                                    'price' => $room->price + ($function->is_3d ? 2 : 0)
+                                ]);
+                                $seatNumber++;
+                            }
                         }
-                    }
                 }
             }
-            
+
             // Avanzar al siguiente día
             $currentDate->addDay();
         }

@@ -100,7 +100,7 @@
     @media (max-width: 768px) {
         .booking-page {
             padding: 1rem 0.5rem;
-        }
+    }
 
         .error-container, .loading-container {
             margin: 1rem;

@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('status');
             $table->string('booking_code')->unique();
             $table->string('payment_status');
-            $table->string('payment_method');
-            $table->string('customer_name');
-            $table->string('customer_email');
-            $table->string('customer_phone');
+            $table->string('payment_method')->nullable();
+            $table->string('buyer_name');
+            $table->string('buyer_email');
+            $table->string('buyer_phone')->nullable();
             $table->timestamps();
         });
     }

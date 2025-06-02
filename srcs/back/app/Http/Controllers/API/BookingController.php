@@ -15,7 +15,8 @@ class BookingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum');
+        // Solo requerir autenticación para ver y cancelar reservas
+        $this->middleware('auth:sanctum')->only(['index', 'show', 'cancel']);
     }
 
     /**
@@ -27,8 +28,11 @@ class BookingController extends Controller
             $validator = Validator::make($request->all(), [
                 'function_id' => 'required|exists:functions,id',
                 'seats' => 'required|array|min:1',
-                'seats.*' => 'required|integer',
-                'payment_method' => 'required|in:card,paypal'
+                'seats.*' => 'required|integer|exists:seats,id',
+                'buyer' => 'required|array',
+                'buyer.name' => 'required|string|max:255',
+                'buyer.email' => 'required|email|max:255',
+                'buyer.phone' => 'nullable|string|max:20'
             ]);
 
             if ($validator->fails()) {
@@ -63,13 +67,19 @@ class BookingController extends Controller
             try {
                 // Crear la reserva
                 $booking = Booking::create([
-                    'user_id' => Auth::id(),
+                    'user_id' => Auth::id(), // Será null si no hay usuario autenticado
                     'function_id' => $function->id,
                     'total_price' => $totalPrice,
                     'status' => Booking::STATUS_PENDING,
                     'booking_code' => uniqid('BK-'),
                     'payment_status' => Booking::PAYMENT_STATUS_PENDING,
-                    'payment_method' => $request->payment_method
+                    'payment_method' => 'pending', // Valor por defecto hasta que se procese el pago
+                    'buyer_name' => $request->buyer['name'],
+                    'buyer_email' => $request->buyer['email'],
+                    'buyer_phone' => $request->buyer['phone'] ?? null,
+                    'customer_name' => $request->buyer['name'],
+                    'customer_email' => $request->buyer['email'],
+                    'customer_phone' => $request->buyer['phone'] ?? null
                 ]);
 
                 // Asociar asientos
