@@ -198,6 +198,15 @@
   
   async function fetchProfile() {
     const token = localStorage.getItem('token');
+    const currentState = localStorage.getItem('authState');
+    let parsedState = null;
+    
+    try {
+      parsedState = currentState ? JSON.parse(currentState) : null;
+    } catch (e) {
+      console.error('Error parsing authState:', e);
+    }
+
     if (!token) {
       authState.set({
         isAuthenticated: false,
@@ -218,6 +227,7 @@
       });
       
       const data = await response.json();
+      console.log('Profile response:', response.status, data);
       
       if (response.ok && data.success) {
         const newState = {
@@ -231,26 +241,28 @@
         localStorage.setItem('authState', JSON.stringify(newState));
         return { success: true };
       } else {
-        authState.set({
-          isAuthenticated: false,
+        // Para cualquier error, mantener el estado anterior si existe
+        const fallbackState = parsedState || {
+          isAuthenticated: true, // Si tenemos token, asumimos autenticado
           isAdmin: false,
           userName: 'Usuario',
           loading: false
-        });
-        localStorage.removeItem('token');
-        localStorage.removeItem('authState');
+        };
+        
+        authState.set(fallbackState);
         return { success: false };
       }
     } catch (err) {
       console.error("Error al cargar perfil:", err);
-      authState.set({
-        isAuthenticated: false,
+      // En errores de conexión, mantener el estado anterior si existe
+      const fallbackState = parsedState || {
+        isAuthenticated: true, // Si tenemos token, asumimos autenticado
         isAdmin: false,
         userName: 'Usuario',
         loading: false
-      });
-      localStorage.removeItem('token');
-      localStorage.removeItem('authState');
+      };
+      
+      authState.set(fallbackState);
       return { success: false };
     }
   }
@@ -268,17 +280,21 @@
         loading: false
       });
       
-      localStorage.removeItem('token');
+      // Solo actualizar el estado de autenticación
       localStorage.removeItem('authState');
       
-      // Intentar hacer logout en el servidor, pero no esperar por ello
-      fetch(`${API_URL}/logout`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          Accept: 'application/json'
-        }
-      }).catch(e => console.error("Error en logout:", e));
+      // Notificar al servidor del logout pero no esperar respuesta
+      try {
+        await fetch(`${API_URL}/logout`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json'
+          }
+        });
+      } catch (e) {
+        console.error("Error en logout:", e);
+      }
       
       goto('/login');
     }

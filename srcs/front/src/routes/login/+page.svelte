@@ -39,45 +39,35 @@
         },
         body: JSON.stringify({
           identifier: email,
-          password
+          password: password
         })
       });
 
       const data = await response.json();
       console.log('Respuesta del servidor:', data);
 
-      if (response.ok && data.success) {
-        // Solo guardamos el token
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          
-          // Verificar si hay una redirección pendiente de booking
-          const savedBooking = sessionStorage.getItem('bookingRedirect');
-          if (savedBooking) {
-            try {
-              const bookingData = JSON.parse(savedBooking);
-              // Mantener la información de la reserva y redirigir
-              if (bookingData.returnUrl) {
-                goto(bookingData.returnUrl);
-                return;
-              }
-            } catch (e) {
-              console.error('Error al procesar redirección:', e);
-              // Si hay error, limpiar el sessionStorage
-              sessionStorage.removeItem('bookingRedirect');
-            }
-          }
-          
-          // Si no hay redirección, ir al home
-          goto('/');
-        } else {
-          console.error('No se recibió token en la respuesta');
-          errorMessage = 'Error: No se recibió el token de autenticación';
-          showError = true;
+      if (response.ok && data.success && data.token) {
+        // Guardar el token
+        localStorage.setItem('token', data.token);
+        
+        // También podemos guardar información del usuario si es necesario
+        if (data.user) {
+          localStorage.setItem('user', JSON.stringify(data.user));
         }
+        
+        // Verificar si hay una URL de redirección guardada
+        const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
+        if (redirectUrl) {
+          sessionStorage.removeItem('redirectAfterLogin');
+          goto(redirectUrl);
+          return;
+        }
+        
+        // Si no hay redirección, ir al home
+        goto('/');
       } else {
         console.error('Error de login:', data);
-        errorMessage = data.message || 'Error al iniciar sesión';
+        errorMessage = data.message || 'Credenciales inválidas';
         showError = true;
       }
     } catch (error) {

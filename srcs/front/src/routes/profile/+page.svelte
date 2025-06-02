@@ -4,6 +4,7 @@
   import { goto } from '$app/navigation';
   import type { Booking } from '$lib/types';
   import { t } from '$lib/i18n';
+  import DigitalTicket from '$lib/components/DigitalTicket.svelte';
 
   // Función para formatear fecha y hora
   function formatDateTime(dateString) {
@@ -45,20 +46,24 @@
   let bookings: Booking[] = [];
   let loadingBookings = true;
   let bookingsError: string | null = null;
-  let searchQuery = '';
-  let sortBy = 'date';
   let showCancelConfirmation = false;
   let bookingToCancel: Booking | null = null;
+  let selectedBooking: Booking | null = null;
+  let showTicketModal = false;
 
   // Imagen por defecto
   const DEFAULT_IMAGE_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
   async function fetchProfile() {
+    loading = true;
+    error = '';
+    
     const token = localStorage.getItem('token');
     if (!token) {
       goto('/login');
       return;
     }
+
     try {
       const response = await fetch(`${API_URL}/profile`, {
         headers: {
@@ -66,6 +71,7 @@
           'Accept': 'application/json'
         }
       });
+
       const data = await response.json();
       if (response.ok && data.success) {
         user = data.user;
@@ -73,14 +79,13 @@
         formData.name = data.user.name;
         formData.email = data.user.email;
       } else {
-        error = data.message || 'No autorizado';
-        localStorage.removeItem('token');
-        goto('/login');
+        error = data.message || 'Error al cargar el perfil';
+        if (response.status === 401) {
+          goto('/login');
+        }
       }
     } catch (e) {
       error = 'Error de conexión con el servidor';
-      localStorage.removeItem('token');
-      goto('/login');
     } finally {
       loading = false;
     }
@@ -172,7 +177,7 @@
       const data = await response.json();
       
       if (data && data.success && Array.isArray(data.data)) {
-        bookings = data.data;
+        bookings = data.data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
       } else {
         throw new Error('Formato de respuesta API inesperado');
       }
@@ -227,16 +232,24 @@
     bookingToCancel = null;
   }
 
+  // Función para mostrar el ticket digital
+  function showTicket(booking: Booking) {
+    selectedBooking = booking;
+    showTicketModal = true;
+  }
+
+  // Función para cerrar el modal del ticket
+  function closeTicketModal() {
+    showTicketModal = false;
+    selectedBooking = null;
+  }
+
   // Función para obtener URL de imagen
   function getImageUrl(photoUrl: string) {
     if (!photoUrl) return DEFAULT_IMAGE_BASE64;
     
     if (photoUrl.startsWith('http')) {
       return photoUrl;
-    }
-    
-    if (!photoUrl.includes('/')) {
-      return `${API_URL}/images/${photoUrl}`;
     }
     
     return `${API_URL}/images/${photoUrl}`;
@@ -249,25 +262,6 @@
       (event.target as HTMLImageElement).onerror = null;
     }
   }
-
-  // Reservas filtradas
-  $: filteredBookings = bookings
-    .filter(booking => {
-      const searchLower = searchQuery.toLowerCase();
-      return !searchQuery || 
-             booking.movie.title.toLowerCase().includes(searchLower) || 
-             booking.cinema.name.toLowerCase().includes(searchLower);
-    })
-    .sort((a, b) => {
-      if (sortBy === 'date') {
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      } else if (sortBy === 'movie') {
-        return a.movie.title.localeCompare(b.movie.title);
-      } else if (sortBy === 'cinema') {
-        return a.cinema.name.localeCompare(b.cinema.name);
-      }
-      return 0;
-    });
 
   onMount(() => {
     fetchProfile();
@@ -395,24 +389,6 @@
                 <i class="bi bi-ticket-perforated me-2"></i>
                 Mis Reservas
               </h4>
-              <div class="d-flex gap-2">
-                <div class="search-box">
-                  <input 
-                    type="text" 
-                    class="form-control form-control-sm" 
-                    placeholder="Buscar reserva..."
-                    bind:value={searchQuery}
-                  />
-                </div>
-                <select 
-                  class="form-select form-select-sm" 
-                  bind:value={sortBy}
-                >
-                  <option value="date">Fecha</option>
-                  <option value="movie">Película</option>
-                  <option value="cinema">Cine</option>
-                </select>
-              </div>
             </div>
 
             {#if loadingBookings}
@@ -437,7 +413,7 @@
               </div>
             {:else}
               <div class="bookings-grid">
-                {#each filteredBookings as booking}
+                {#each bookings as booking}
                   <div class="booking-card">
                     <img 
                       src={getImageUrl(booking.movie.photo_url)}

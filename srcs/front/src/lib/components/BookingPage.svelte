@@ -71,20 +71,28 @@
             // Cargar datos del usuario si está logueado
             const token = localStorage.getItem('token');
             if (token) {
-                const userResponse = await fetch(`${API_URL}/profile`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/json'
-                    }
-                });
+                try {
+                    const userResponse = await fetch(`${API_URL}/profile`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/json'
+                        }
+                    });
 
-                const userData = await userResponse.json();
-                if (userResponse.ok && userData.success) {
-                    buyer = {
-                        name: userData.user?.name || '',
-                        email: userData.user?.email || '',
-                        phone: userData.user?.phone || ''
-                    };
+                    const userData = await userResponse.json();
+                    if (userResponse.ok && userData.success) {
+                        buyer = {
+                            name: userData.user?.name || '',
+                            email: userData.user?.email || '',
+                            phone: userData.user?.phone || ''
+                        };
+                    } else {
+                        // Si hay error, solo loguearlo pero mantener el token
+                        console.warn('Error al cargar datos del usuario:', userData.message);
+                    }
+                } catch (e) {
+                    // En caso de error de red, solo loguearlo pero mantener el token
+                    console.warn('Error de conexión al cargar datos del usuario:', e);
                 }
             }
 
@@ -132,7 +140,16 @@
             
             const result = await response.json();
             
-            if (!response.ok || !result.success) {
+            if (!response.ok) {
+                if (response.status === 401 && result.message?.toLowerCase().includes('invalid token')) {
+                    // Solo en este caso específico redirigimos al login, pero sin borrar el token
+                    goto('/login');
+                    throw new Error('Por favor, inicia sesión para continuar');
+                }
+                throw new Error(result.message || 'Error al realizar la reserva');
+            }
+            
+            if (!result.success) {
                 throw new Error(result.message || 'Error al realizar la reserva');
             }
             

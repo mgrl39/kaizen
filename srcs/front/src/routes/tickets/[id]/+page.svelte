@@ -14,6 +14,9 @@
         try {
             const token = localStorage.getItem('token');
             if (!token) {
+                // Guardar la URL actual para redirigir después del login
+                const currentUrl = window.location.pathname;
+                sessionStorage.setItem('redirectAfterLogin', currentUrl);
                 error = 'Debe iniciar sesión para ver esta entrada';
                 goto('/login');
                 return;
@@ -47,9 +50,10 @@
             console.log('Respuesta de la API:', debugInfo);
             
             if (response.status === 401) {
-                // Token inválido, redirigir al login
-                localStorage.removeItem('token');
-                error = 'Sesión expirada. Por favor, inicie sesión nuevamente.';
+                // En lugar de eliminar el token, solo guardamos la URL y redirigimos
+                const currentUrl = window.location.pathname;
+                sessionStorage.setItem('redirectAfterLogin', currentUrl);
+                error = 'Por favor, inicia sesión para ver el ticket.';
                 goto('/login');
                 return;
             }
@@ -155,4 +159,4 @@
     button:hover {
         opacity: 0.8;
     }
-</style>
+</style> 
