@@ -30,6 +30,24 @@
     let loading = true;
     let success = false;
     
+    // Definir los pasos del proceso
+    const STEPS = {
+        SEATS: 'seats',
+        CONTACT: 'contact',
+        PAYMENT: 'payment',
+        SUMMARY: 'summary'
+    };
+    
+    let currentStep = STEPS.SEATS;
+    
+    // Añadir estado para la tarjeta
+    let cardInfo = {
+        number: '',
+        name: '',
+        expiry: '',
+        cvv: ''
+    };
+    
     // Cargar datos de la función y del usuario
     onMount(async () => {
         try {
@@ -69,15 +87,15 @@
             }
 
             // Cargar datos del usuario si está logueado
-            const token = localStorage.getItem('token');
-            if (token) {
-                try {
+        const token = localStorage.getItem('token');
+        if (token) {
+            try {
                     const userResponse = await fetch(`${API_URL}/profile`, {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Accept': 'application/json'
-                        }
-                    });
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    }
+                });
 
                     const userData = await userResponse.json();
                     if (userResponse.ok && userData.success) {
@@ -113,11 +131,11 @@
             if (!Array.isArray(selectedSeats) || selectedSeats.length === 0) {
                 throw new Error('Debes seleccionar al menos un asiento');
             }
-            
+
             if (!buyer.name || !buyer.email || !buyer.phone) {
                 throw new Error('Por favor, completa todos los datos de contacto');
             }
-            
+
             const token = localStorage.getItem('token');
             const headers: Record<string, string> = {
                 'Content-Type': 'application/json',
@@ -137,9 +155,9 @@
                     buyer
                 })
             });
-            
+
             const result = await response.json();
-            
+
             if (!response.ok) {
                 if (response.status === 401 && result.message?.toLowerCase().includes('invalid token')) {
                     // Solo en este caso específico redirigimos al login, pero sin borrar el token
@@ -152,10 +170,10 @@
             if (!result.success) {
                 throw new Error(result.message || 'Error al realizar la reserva');
             }
-            
+
             // Redirigir a la página de confirmación
             if (result.data?.booking?.id) {
-                goto(`/tickets/${result.data.booking.id}`);
+            goto(`/tickets/${result.data.booking.id}`);
             } else {
                 throw new Error('No se recibió el ID de la reserva');
             }
@@ -170,7 +188,7 @@
 
     function handleSeatsChange(event: CustomEvent<{seats: string[]}>) {
         if (event.detail && Array.isArray(event.detail.seats)) {
-            selectedSeats = event.detail.seats;
+        selectedSeats = event.detail.seats;
             error = '';
         }
     }
@@ -186,360 +204,362 @@
             return 'Hora no disponible';
         }
     }
+
+    function goToStep(step: string) {
+        if (step === STEPS.CONTACT && (!selectedSeats || selectedSeats.length === 0)) {
+            error = 'Debes seleccionar al menos un asiento';
+            return;
+        }
+        if (step === STEPS.PAYMENT && (!buyer.name || !buyer.email || !buyer.phone)) {
+            error = 'Debes completar todos los datos de contacto';
+            return;
+        }
+        currentStep = step;
+        error = '';
+    }
 </script>
 
 {#if loading}
-    <div class="loading">Cargando datos...</div>
+    <div class="d-flex justify-content-center py-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
 {:else if error}
-    <div class="error">{error}</div>
+    <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        {error}
+    </div>
 {:else if !functionData}
-    <div class="error">No se encontraron datos de la función</div>
-{:else}
-    <div class="booking-container">
-        <div class="movie-info">
-            <h1>{functionData.movie?.title || 'Sin título'}</h1>
-            <p>Sala: {functionData.room?.name || 'Sin sala'}</p>
-            <p>Fecha: {new Date(functionData.date).toLocaleDateString('es-ES')}</p>
-            <p>Hora: {formatTime(functionData.time)}</p>
-            {#if functionData.room?.is_3d}
-                <span class="badge-3d">3D</span>
-            {/if}
-        </div>
-
-        <div class="selection-method">
-            <button 
-                class:active={selectionMethod === 'map'} 
-                on:click={() => selectionMethod = 'map'}
-            >
-                Selección visual
-            </button>
-            <button 
-                class:active={selectionMethod === 'manual'} 
-                on:click={() => selectionMethod = 'manual'}
-            >
-                Selección manual
-            </button>
-        </div>
-
-        {#if selectionMethod === 'map' && Array.isArray(seatsData)}
-            <SeatMap
-                {rows}
-                {seatsPerRow}
-                {selectedSeats}
-                {occupiedSeats}
-                {seatsData}
-                on:seatsChange={handleSeatsChange}
-            />
-        {:else if selectionMethod === 'manual' && functionData.room}
-            <ManualSeatSelection
-                rows={functionData.room.rows || 0}
-                seatsPerRow={functionData.room.seats_per_row || 0}
-                {selectedSeats}
-                {occupiedSeats}
-                on:seatsChange={handleSeatsChange}
-            />
-        {/if}
-
-        {#if error}
-            <div class="error-message">
-                {error}
+    <div class="alert alert-warning" role="alert">
+        <i class="bi bi-exclamation-circle me-2"></i>
+        No se encontraron datos de la función
+    </div>
+    {:else}
+    <div class="container py-4">
+        <!-- Progress bar usando Bootstrap -->
+        <div class="progress mb-4" style="height: 4px;">
+            <div class="progress-bar bg-primary" role="progressbar" 
+                 style="width: {currentStep === STEPS.SEATS ? '25%' : 
+                              currentStep === STEPS.CONTACT ? '50%' : 
+                              currentStep === STEPS.PAYMENT ? '75%' : '100%'}" 
+                 aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
             </div>
-        {/if}
+        </div>
 
-        <div class="selected-seats">
-            <h3>Asientos seleccionados:</h3>
-            {#if !Array.isArray(selectedSeats) || selectedSeats.length === 0}
-                <p>No has seleccionado ningún asiento</p>
-            {:else}
-                <ul>
-                    {#each selectedSeats as seatId}
-                        <li>
-                            {#if Array.isArray(seatsData)}
-                                {#each seatsData as row}
-                                    {#each row as seat}
-                                        {#if seat?.id?.toString() === seatId}
-                                            Fila {seat.row} - Asiento {seat.number}
+        <!-- Steps indicators -->
+        <div class="row mb-4">
+            <div class="col-3 text-center">
+                <button class="btn btn-link p-0 {currentStep === STEPS.SEATS ? 'text-primary fw-bold' : 'text-muted'}"
+                        on:click={() => currentStep === STEPS.SEATS}>
+                    <i class="bi bi-1-circle{currentStep === STEPS.SEATS ? '-fill' : ''} d-block h4 mb-1"></i>
+                    Asientos
+                </button>
+            </div>
+            <div class="col-3 text-center">
+                <button class="btn btn-link p-0 {currentStep === STEPS.CONTACT ? 'text-primary fw-bold' : 'text-muted'}"
+                        on:click={() => goToStep(STEPS.CONTACT)}>
+                    <i class="bi bi-2-circle{currentStep === STEPS.CONTACT ? '-fill' : ''} d-block h4 mb-1"></i>
+                    Contacto
+                </button>
+            </div>
+            <div class="col-3 text-center">
+                <button class="btn btn-link p-0 {currentStep === STEPS.PAYMENT ? 'text-primary fw-bold' : 'text-muted'}"
+                        on:click={() => goToStep(STEPS.PAYMENT)}>
+                    <i class="bi bi-3-circle{currentStep === STEPS.PAYMENT ? '-fill' : ''} d-block h4 mb-1"></i>
+                    Pago
+                </button>
+            </div>
+            <div class="col-3 text-center">
+                <button class="btn btn-link p-0 {currentStep === STEPS.SUMMARY ? 'text-primary fw-bold' : 'text-muted'}"
+                        on:click={() => goToStep(STEPS.SUMMARY)}>
+                    <i class="bi bi-4-circle{currentStep === STEPS.SUMMARY ? '-fill' : ''} d-block h4 mb-1"></i>
+                    Resumen
+                </button>
+            </div>
+        </div>
+
+        <!-- Movie info -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">{functionData.movie?.title || 'Sin título'}</h4>
+                <div class="d-flex flex-wrap gap-3">
+                    <span class="text-muted"><i class="bi bi-building me-1"></i> Sala: {functionData.room?.name || 'Sin sala'}</span>
+                    <span class="text-muted"><i class="bi bi-calendar me-1"></i> {new Date(functionData.date).toLocaleDateString('es-ES')}</span>
+                    <span class="text-muted"><i class="bi bi-clock me-1"></i> {formatTime(functionData.time)}</span>
+                    {#if functionData.room?.is_3d}
+                        <span class="badge bg-primary">3D</span>
+    {/if}
+                </div>
+            </div>
+        </div>
+
+        <!-- Step content -->
+        {#if currentStep === STEPS.SEATS}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Selección de Asientos</h5>
+                    
+                    <div class="btn-group mb-4 w-100">
+                        <button class="btn {selectionMethod === 'map' ? 'btn-primary' : 'btn-outline-primary'}"
+                                on:click={() => selectionMethod = 'map'}>
+                            <i class="bi bi-grid me-2"></i> Selección visual
+                        </button>
+                        <button class="btn {selectionMethod === 'manual' ? 'btn-primary' : 'btn-outline-primary'}"
+                                on:click={() => selectionMethod = 'manual'}>
+                            <i class="bi bi-list me-2"></i> Selección manual
+                        </button>
+                    </div>
+
+                    {#if selectionMethod === 'map' && Array.isArray(seatsData)}
+                        <SeatMap {rows} {seatsPerRow} {selectedSeats} {occupiedSeats} {seatsData}
+                            on:seatsChange={handleSeatsChange} />
+                    {:else if selectionMethod === 'manual' && functionData.room}
+                        <ManualSeatSelection rows={functionData.room.rows || 0}
+                            seatsPerRow={functionData.room.seats_per_row || 0} {selectedSeats} {occupiedSeats}
+                            on:seatsChange={handleSeatsChange} />
+                    {/if}
+
+                    <div class="mt-4">
+                        <h6>Asientos seleccionados:</h6>
+                        {#if !selectedSeats || selectedSeats.length === 0}
+                            <p class="text-muted">No has seleccionado ningún asiento</p>
+                        {:else}
+                            <ul class="list-group">
+                                {#each selectedSeats as seatId}
+                                    <li class="list-group-item">
+                                        {#if Array.isArray(seatsData)}
+                                            {#each seatsData as row}
+                                                {#each row as seat}
+                                                    {#if seat?.id?.toString() === seatId}
+                                                        Fila {seat.row} - Asiento {seat.number}
+                                                    {/if}
+                                                {/each}
+                                            {/each}
                                         {/if}
-                                    {/each}
-                                {/each}
-                            {/if}
-                            <button 
-                                class="remove-seat"
-                                on:click={() => {
-                                    selectedSeats = selectedSeats.filter(id => id !== seatId);
-                                    handleSeatsChange({ detail: { seats: selectedSeats } } as CustomEvent<{seats: string[]}>);
-                                }}
-                            >
-                                ×
-                            </button>
-                        </li>
-                    {/each}
-                </ul>
+                    </li>
+                {/each}
+            </ul>
+        {/if}
+    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+                        <button class="btn btn-primary" 
+                                disabled={!selectedSeats || selectedSeats.length === 0}
+                                on:click={() => goToStep(STEPS.CONTACT)}>
+                            Continuar <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        {:else if currentStep === STEPS.CONTACT}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Datos de Contacto</h5>
+                    
+                    <form class="row g-3">
+                        <div class="col-12">
+                            <label for="name" class="form-label">Nombre completo *</label>
+                            <input type="text" class="form-control" id="name" 
+                                   bind:value={buyer.name} required
+                                   placeholder="Ej: Juan Pérez" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="email" 
+                                   bind:value={buyer.email} required
+                                   placeholder="Ej: juan@email.com" />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="phone" class="form-label">Teléfono *</label>
+                            <input type="tel" class="form-control" id="phone" 
+                                   bind:value={buyer.phone} required
+                                   placeholder="Ej: 666555444" />
+                        </div>
+                    </form>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline-secondary" 
+                                on:click={() => goToStep(STEPS.SEATS)}>
+                            <i class="bi bi-arrow-left me-2"></i> Volver
+                        </button>
+                        <button class="btn btn-primary" 
+                                disabled={!buyer.name || !buyer.email || !buyer.phone}
+                                on:click={() => goToStep(STEPS.PAYMENT)}>
+                            Continuar <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        {:else if currentStep === STEPS.PAYMENT}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Método de Pago</h5>
+
+                    <div class="card bg-primary text-white mb-4 payment-card">
+                        <div class="card-body">
+                            <div class="h5 mb-4">{cardInfo.number || '•••• •••• •••• ••••'}</div>
+                            <div class="d-flex justify-content-between">
+                                <div class="small text-uppercase">{cardInfo.name || 'TITULAR DE LA TARJETA'}</div>
+                                <div class="small">{cardInfo.expiry || 'MM/YY'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="row g-3">
+                        <div class="col-12">
+                            <label for="card-number" class="form-label">Número de tarjeta *</label>
+                            <input type="text" class="form-control" id="card-number"
+                                   bind:value={cardInfo.number}
+                                   placeholder="1234 5678 9012 3456"
+                                   maxlength="19"
+                                   on:input={(e) => {
+                                       e.target.value = e.target.value
+                                           .replace(/\s/g, '')
+                                           .replace(/(\d{4})/g, '$1 ')
+                                           .trim();
+                                   }} />
+                        </div>
+                        <div class="col-12">
+                            <label for="card-name" class="form-label">Titular de la tarjeta *</label>
+                            <input type="text" class="form-control" id="card-name"
+                                   bind:value={cardInfo.name}
+                                   placeholder="NOMBRE APELLIDOS" />
+                        </div>
+                        <div class="col-8">
+                            <label for="card-expiry" class="form-label">Fecha de caducidad *</label>
+                            <input type="text" class="form-control" id="card-expiry"
+                                   bind:value={cardInfo.expiry}
+                                   placeholder="MM/YY"
+                                   maxlength="5"
+                                   on:input={(e) => {
+                                       e.target.value = e.target.value
+                                           .replace(/\D/g, '')
+                                           .replace(/(\d{2})(\d)/, '$1/$2');
+                                   }} />
+                        </div>
+                        <div class="col-4">
+                            <label for="card-cvv" class="form-label">CVV *</label>
+                            <input type="text" class="form-control" id="card-cvv"
+                                   bind:value={cardInfo.cvv}
+                                   placeholder="123"
+                                   maxlength="3" />
+                        </div>
+                    </form>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline-secondary" 
+                                on:click={() => goToStep(STEPS.CONTACT)}>
+                            <i class="bi bi-arrow-left me-2"></i> Volver
+                        </button>
+                        <button class="btn btn-primary"
+                                disabled={!cardInfo.number || !cardInfo.name || !cardInfo.expiry || !cardInfo.cvv}
+                                on:click={() => goToStep(STEPS.SUMMARY)}>
+                            Continuar <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        {:else if currentStep === STEPS.SUMMARY}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title mb-4">Resumen de la Reserva</h5>
+
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-3 text-muted">Película</h6>
+                                    <p class="mb-1">{functionData.movie?.title}</p>
+                                    <p class="mb-1">Sala: {functionData.room?.name}</p>
+                                    <p class="mb-1">Fecha: {new Date(functionData.date).toLocaleDateString('es-ES')}</p>
+                                    <p class="mb-0">Hora: {formatTime(functionData.time)}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-3 text-muted">Asientos</h6>
+                                    <ul class="list-unstyled mb-0">
+                                        {#each selectedSeats as seatId}
+                                            <li>
+                                                {#if Array.isArray(seatsData)}
+                                                    {#each seatsData as row}
+                                                        {#each row as seat}
+                                                            {#if seat?.id?.toString() === seatId}
+                                                                Fila {seat.row} - Asiento {seat.number}
+                                                            {/if}
+                                                        {/each}
+                                                    {/each}
+                                                {/if}
+                                            </li>
+                                        {/each}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-3 text-muted">Datos de contacto</h6>
+                                    <p class="mb-1"><strong>Nombre:</strong> {buyer.name}</p>
+                                    <p class="mb-1"><strong>Email:</strong> {buyer.email}</p>
+                                    <p class="mb-0"><strong>Teléfono:</strong> {buyer.phone}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card h-100">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-3 text-muted">Método de pago</h6>
+                                    <p class="mb-0">Tarjeta terminada en {cardInfo.number.slice(-4)}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card bg-primary text-white mt-4">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="mb-0">Total</h6>
+                                <div class="h3 mb-0">
+                                    {(selectedSeats.length * (functionData.room?.price || 8)).toFixed(2)}€
+        </div>
+        </div>
+        </div>
+    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button class="btn btn-outline-secondary" 
+                                on:click={() => goToStep(STEPS.PAYMENT)}>
+                            <i class="bi bi-arrow-left me-2"></i> Volver
+                        </button>
+                        <button class="btn btn-primary btn-lg" 
+                                disabled={isSubmitting}
+                                on:click={handleBooking}>
+            {#if isSubmitting}
+                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Procesando...
+            {:else}
+                                <i class="bi bi-check-circle me-2"></i> Confirmar Reserva
             {/if}
-        </div>
-
-        <div class="buyer-form">
-            <h3>Datos de contacto</h3>
-            <div class="form-group">
-                <label for="name">Nombre completo *</label>
-                <input
-                    type="text"
-                    id="name"
-                    class="form-control"
-                    bind:value={buyer.name}
-                    required
-                />
+        </button>
+    </div>
+</div>
             </div>
-            <div class="form-group">
-                <label for="email">Email *</label>
-                <input
-                    type="email"
-                    id="email"
-                    class="form-control"
-                    bind:value={buyer.email}
-                    required
-                />
-            </div>
-            <div class="form-group">
-                <label for="phone">Teléfono *</label>
-                <input
-                    type="tel"
-                    id="phone"
-                    class="form-control"
-                    bind:value={buyer.phone}
-                    required
-                />
-            </div>
-        </div>
-
-        <div class="booking-actions">
-            <p class="total">
-                Total: {((Array.isArray(selectedSeats) ? selectedSeats.length : 0) * (functionData.room?.price || 8)).toFixed(2)}€
-            </p>
-            <button 
-                class="book-button"
-                disabled={!Array.isArray(selectedSeats) || selectedSeats.length === 0 || isSubmitting}
-                on:click={handleBooking}
-            >
-                {#if isSubmitting}
-                    Procesando...
-                {:else}
-                    Confirmar reserva ({selectedSeats.length} {selectedSeats.length === 1 ? 'asiento' : 'asientos'})
-                {/if}
-            </button>
-        </div>
+        {/if}
     </div>
 {/if}
 
 <style>
-    .booking-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 2rem;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-
-    .movie-info {
-        margin-bottom: 2rem;
-        padding: 1rem;
-        background: #f8f9fa;
-        border-radius: 4px;
-        position: relative;
-    }
-
-    .movie-info h1 {
-        margin: 0 0 1rem 0;
-        color: #333;
-    }
-
-    .badge-3d {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: #007bff;
-        color: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        font-size: 0.875rem;
-    }
-
-    .selection-method {
-        display: flex;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .selection-method button {
-        padding: 0.5rem 1rem;
-        border: 2px solid #4CAF50;
-        background: white;
-        color: #4CAF50;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .selection-method button.active {
-        background: #4CAF50;
-        color: white;
-    }
-
-    .error-message {
-        color: #dc3545;
-        padding: 1rem;
-        margin: 1rem 0;
-        background: #f8d7da;
-        border-radius: 4px;
-        text-align: center;
-    }
-
-    .selected-seats {
-        margin: 2rem 0;
-        padding: 1rem;
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-    }
-
-    .selected-seats ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    .selected-seats li {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.5rem;
-        background: #f8f9fa;
-        margin-bottom: 0.5rem;
-        border-radius: 4px;
-    }
-
-    .remove-seat {
-        background: none;
-        border: none;
-        color: #dc3545;
-        font-size: 1.2rem;
-        cursor: pointer;
-        padding: 0 0.5rem;
-    }
-
-    .buyer-form {
-        margin: 2rem 0;
-        padding: 1rem;
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-    }
-
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .form-group label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: #333;
-    }
-
-    .form-control {
-        width: 100%;
-        padding: 0.5rem;
-        border: 1px solid #dee2e6;
-        border-radius: 4px;
-        font-size: 1rem;
-    }
-
-    .booking-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
-        align-items: center;
-        margin-top: 2rem;
-        padding-top: 1rem;
-        border-top: 1px solid #dee2e6;
-    }
-
-    .total {
-        font-size: 1.2rem;
-        font-weight: bold;
-    }
-
-    .book-button {
-        padding: 0.75rem 2rem;
-        background: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 1.1rem;
-        transition: background 0.2s;
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .book-button:hover:not(:disabled) {
-        background: #45a049;
-    }
-
-    .book-button:disabled {
-        background: #cccccc;
-        cursor: not-allowed;
-    }
-
-    @media (max-width: 768px) {
-        .booking-container {
-            padding: 1rem;
-        }
-
-        .selection-method {
-            flex-direction: column;
-        }
-
-        .selection-method button {
-            width: 100%;
-        }
-    }
-
-    .loading {
-        text-align: center;
-        padding: 2rem;
-    }
-
-    .error {
-        color: #dc3545;
-        text-align: center;
-        padding: 1rem;
-        margin: 1rem;
-        background: #f8d7da;
-        border-radius: 4px;
-    }
-
-    .debug-info {
-        padding: 20px;
-        background: #f8f9fa;
-        border-radius: 4px;
-        margin: 20px;
-    }
-    
-    .debug-info pre {
-        background: #fff;
-        padding: 10px;
-        border-radius: 4px;
-        overflow-x: auto;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-    }
-    
-    .debug-info h2 {
-        color: #333;
-        margin-bottom: 20px;
-    }
-    
-    .debug-info h3 {
-        color: #666;
-        margin: 15px 0 10px 0;
+    .payment-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
     }
 </style> 
