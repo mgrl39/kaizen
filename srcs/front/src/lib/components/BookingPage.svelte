@@ -495,18 +495,18 @@
                                         para que puedas descargar tu entrada más tarde.
                                     </p>
                                 </div>
-                            {/if}
 
-                            <div class="mt-4 d-flex gap-3">
-                                <a href="/" class="btn btn-outline-secondary">
-                                    <i class="bi bi-house me-2"></i>
-                                    Volver al inicio
-                                </a>
-                                <a href="/movies" class="btn btn-primary">
-                                    <i class="bi bi-film me-2"></i>
-                                    Ver más películas
-                                </a>
-                            </div>
+                                <div class="mt-4 d-flex gap-3">
+                                    <a href="/" class="btn btn-outline-secondary">
+                                        <i class="bi bi-house me-2"></i>
+                                        Volver al inicio
+                                    </a>
+                                    <a href="/movies" class="btn btn-primary">
+                                        <i class="bi bi-film me-2"></i>
+                                        Ver más películas
+                                    </a>
+                                </div>
+                            {/if}
                         </div>
                     </div>
                 {/if}
@@ -533,10 +533,4 @@
             </div>
         </div>
     </div>
-{/if}
-
-<style>
-    .payment-card {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-    }
-</style> 
+{/if} 

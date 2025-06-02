@@ -82,19 +82,24 @@
     }
 </script>
 
-<div class="seat-map-container">
-    <div class="screen">PANTALLA</div>
-    <div class="seats-container">
+<div class="text-center mb-5">
+    <div class="bg-light text-center p-3 mb-4 rounded">
+        <span class="text-uppercase fw-bold">PANTALLA</span>
+    </div>
+    
+    <div class="seat-map">
         {#each seatMatrix as row, rowIndex}
-            <div class="seat-row">
-                <span class="row-label">{String.fromCharCode(65 + rowIndex)}</span>
+            <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
+                <span class="fw-bold text-secondary" style="width: 30px;">
+                    {String.fromCharCode(65 + rowIndex)}
+                </span>
                 {#each row as seat, seatIndex}
                     {#if seat}
                         <button
-                            class="seat"
-                            class:occupied={seat.isOccupied}
-                            class:selected={seat.isSelected}
-                            class:selectable={seat.isSelectable}
+                            class="btn btn-sm {seat.isOccupied ? 'btn-danger' : 
+                                             seat.isSelected ? 'btn-success' : 
+                                             seat.isSelectable ? 'btn-outline-success' : 'btn-outline-secondary'}"
+                            style="width: 40px; height: 40px;"
                             disabled={seat.isOccupied || (!seat.isSelectable && !seat.isSelected)}
                             on:click={() => handleSeatClick(seat)}
                             title="Fila {seat.row} Asiento {seat.number}"
@@ -102,7 +107,11 @@
                             {seat.number}
                         </button>
                     {:else}
-                        <button class="seat" disabled>-</button>
+                        <button class="btn btn-sm btn-outline-secondary opacity-50" 
+                                style="width: 40px; height: 40px;" 
+                                disabled>
+                            -
+                        </button>
                     {/if}
                 {/each}
             </div>
@@ -110,73 +119,21 @@
     </div>
 </div>
 
-<style>
-    .seat-map-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
-        padding: 2rem;
-    }
-
-    .screen {
-        width: 80%;
-        padding: 0.5rem;
-        background: #ddd;
-        text-align: center;
-        border-radius: 4px;
-        margin-bottom: 2rem;
-    }
-
-    .seats-container {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .seat-row {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-    }
-
-    .row-label {
-        width: 1.5rem;
-        text-align: center;
-        font-weight: bold;
-    }
-
-    .seat {
-        width: 2.5rem;
-        height: 2.5rem;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        background: white;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .seat:disabled {
-        cursor: not-allowed;
-    }
-
-    .seat.occupied {
-        background: #ff4444;
-        border-color: #cc0000;
-        color: white;
-    }
-
-    .seat.selected {
-        background: #44ff44;
-        border-color: #00cc00;
-        color: black;
-    }
-
-    .seat.selectable {
-        border-color: #44ff44;
-    }
-
-    .seat:not(.occupied):not(.selected):hover {
-        background: #eee;
-    }
-</style> 
+<!-- Leyenda -->
+<div class="d-flex justify-content-center gap-4 mt-3">
+    <div class="d-flex align-items-center">
+        <div class="btn btn-sm btn-outline-secondary me-2" style="width: 30px; height: 30px;">
+        </div>
+        <span class="text-secondary">Disponible</span>
+    </div>
+    <div class="d-flex align-items-center">
+        <div class="btn btn-sm btn-success me-2" style="width: 30px; height: 30px;">
+        </div>
+        <span class="text-secondary">Seleccionado</span>
+    </div>
+    <div class="d-flex align-items-center">
+        <div class="btn btn-sm btn-danger me-2" style="width: 30px; height: 30px;">
+        </div>
+        <span class="text-secondary">Ocupado</span>
+    </div>
+</div> 

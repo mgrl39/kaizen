@@ -65,85 +65,39 @@
     }
 </script>
 
-<div class="manual-selection">
-    <div class="inputs">
-        <div class="input-group">
-            <label for="row">Fila:</label>
-            <select id="row" bind:value={selectedRow}>
+<div class="card p-4 mb-4">
+    <div class="row g-3 align-items-end">
+        <div class="col-md-4">
+            <label for="row" class="form-label text-secondary">Fila:</label>
+            <select id="row" class="form-select" bind:value={selectedRow}>
                 {#each rowOptions as row}
                     <option value={row}>{row}</option>
                 {/each}
             </select>
         </div>
 
-        <div class="input-group">
-            <label for="number">Asiento:</label>
-            <select id="number" bind:value={selectedNumber}>
+        <div class="col-md-4">
+            <label for="number" class="form-label text-secondary">Asiento:</label>
+            <select id="number" class="form-select" bind:value={selectedNumber}>
                 {#each numberOptions as number}
                     <option value={number}>{number}</option>
                 {/each}
             </select>
         </div>
 
-        <button on:click={handleAdd} class="add-button">
-            Añadir asiento
-        </button>
+        <div class="col-md-4">
+            <button on:click={handleAdd} 
+                    class="btn btn-primary w-100">
+                <i class="bi bi-plus-circle me-2"></i>
+                Añadir asiento
+            </button>
+        </div>
     </div>
 
     {#if error}
-        <p class="error">{error}</p>
+        <div class="alert alert-danger mt-3">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            {error}
+        </div>
     {/if}
-</div>
-
-<style>
-    .manual-selection {
-        padding: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        margin: 1rem 0;
-    }
-
-    .inputs {
-        display: flex;
-        gap: 1rem;
-        align-items: flex-end;
-    }
-
-    .input-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    label {
-        font-size: 0.9rem;
-        color: #666;
-    }
-
-    select {
-        padding: 0.5rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        min-width: 80px;
-    }
-
-    .add-button {
-        padding: 0.5rem 1rem;
-        background: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-
-    .add-button:hover {
-        background: #45a049;
-    }
-
-    .error {
-        color: #ff4444;
-        margin-top: 0.5rem;
-        font-size: 0.9rem;
-    }
-</style> 
+</div> 
