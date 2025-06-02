@@ -11,7 +11,6 @@
 
     let functionData: any = null;
     let selectedSeats: string[] = [];
-    let selectionMethod: 'map' | 'manual' = 'map';
     let error = '';
     let isSubmitting = false;
     let rawSeatsData: any = null;
@@ -357,23 +356,28 @@
                 {#if currentStep === STEPS.SEATS}
                     <h5 class="card-title mb-4">Selección de Asientos</h5>
                     
+                    <!-- Mensaje de deprecación para selección manual -->
+                    <div class="alert alert-warning mb-4">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <strong>Aviso:</strong> La selección manual de asientos ha sido descontinuada. 
+                        Por favor, utiliza el mapa visual para seleccionar tus asientos.
+                    </div>
                     <div class="btn-group mb-4 w-100">
-                        <button class="btn {selectionMethod === 'map' ? 'btn-primary' : 'btn-outline-primary'}"
+                        <button class="btn btn-primary"
                                 on:click={() => selectionMethod = 'map'}>
                             <i class="bi bi-grid me-2"></i> Selección visual
                         </button>
-                        <button class="btn {selectionMethod === 'manual' ? 'btn-primary' : 'btn-outline-primary'}"
-                                on:click={() => selectionMethod = 'manual'}>
-                            <i class="bi bi-list me-2"></i> Selección manual
+                        <button class="btn btn-outline-secondary text-decoration-line-through"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="bottom"
+                                title="La selección manual ha sido descontinuada"
+                                disabled>
+                            <i class="bi bi-list me-2"></i> Selección manual (obsoleto)
                         </button>
                     </div>
 
-                    {#if selectionMethod === 'map' && Array.isArray(seatsData)}
+                    {#if Array.isArray(seatsData)}
                         <SeatMap {rows} {seatsPerRow} {selectedSeats} {occupiedSeats} {seatsData}
-                            on:seatsChange={handleSeatsChange} />
-                    {:else if selectionMethod === 'manual' && functionData.room}
-                        <ManualSeatSelection rows={functionData.room.rows || 0}
-                            seatsPerRow={functionData.room.seats_per_row || 0} {selectedSeats} {occupiedSeats}
                             on:seatsChange={handleSeatsChange} />
                     {/if}
                 {:else if currentStep === STEPS.CONTACT}
