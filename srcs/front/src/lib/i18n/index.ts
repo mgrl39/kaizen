@@ -176,7 +176,22 @@ export type TranslationKey =
 	| 'test'
 	| 'emailAddress'
 	| 'rememberMe'
-	| 'signUpNow';
+	| 'signUpNow'
+
+	// Helpdesk
+	| 'helpDesk'
+	| 'helpDeskDesc'
+	| 'previousSystem'
+	| 'tawkExplanation'
+	| 'supportOptions'
+	| 'emailSupport'
+	| 'emailSupportDesc'
+	| 'githubIssues'
+	| 'githubIssuesDesc'
+	| 'supportHours'
+	| 'supportHoursDesc'
+	| 'backToContact'
+	| 'getHelp';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

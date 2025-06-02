@@ -157,6 +157,21 @@ const en: TranslationDictionary = {
 	support247: '24/7 Support',
 	readyForKaizen: 'Ready for the Kaizen experience?',
 	viewMoviesButton: 'View Movies',
+
+	// Helpdesk
+	helpDesk: 'Help Desk',
+	helpDeskDesc: 'Direct support and personalized assistance for all your inquiries.',
+	previousSystem: 'Live Chat System',
+	tawkExplanation: 'We use Tawk.to to provide real-time support. An agent will be available to help you during our business hours.',
+	supportOptions: 'Support Options',
+	emailSupport: 'Email Support',
+	emailSupportDesc: 'Send us an email and we will respond within 24 hours.',
+	githubIssues: 'Report on GitHub',
+	githubIssuesDesc: 'Report technical issues or suggest improvements directly on our repository.',
+	supportHours: 'Support Hours',
+	supportHoursDesc: 'Monday to Friday: 9:00 AM - 6:00 PM (GMT+1)',
+	backToContact: 'Back to Contact',
+	getHelp: 'Get Help'
 };
 
 export default en;
