@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Functions;
 use App\Models\Room;
 use App\Models\Movie;
+use App\Models\Seat;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -121,7 +122,7 @@ class FunctionController extends Controller
         try {
             $request->validate([
                 'room_id' => 'required|exists:rooms,id',
-                'date' => 'required|date|after_or_equal:today',
+                'date' => 'required|date',
                 'movie_ids' => 'required|array',
                 'movie_ids.*' => 'exists:movies,id'
             ]);
@@ -180,8 +181,23 @@ class FunctionController extends Controller
                     'room_id' => $room->id,
                     'date' => $date->format('Y-m-d'),
                     'time' => $currentTime->format('H:i:s'),
-                    'is_3d' => $room->cinema->has_3d && $movieIndex % 2 == 0 // Alternar 3D si está disponible
+                    'is_3d' => $room->cinema->has_3d && $movieIndex % 2 == 0, // Alternar 3D si está disponible
+                    'price' => $room->cinema->has_3d && $movieIndex % 2 == 0 ? 12.00 : 8.00 // Precio base + extra por 3D
                 ]);
+
+                // Crear asientos para esta función
+                $seatNumber = 1;
+                for ($row = 0; $row < $room->rows; $row++) {
+                    for ($col = 0; $col < $room->seats_per_row; $col++) {
+                        $function->seats()->create([
+                            'number' => $seatNumber,
+                            'row' => chr(65 + $row),
+                            'status' => Seat::STATUS_AVAILABLE,
+                            'price' => $room->price + ($function->is_3d ? 2 : 0)
+                        ]);
+                        $seatNumber++;
+                    }
+                }
 
                 $scheduledFunctions[] = [
                     'id' => $function->id,
@@ -319,34 +335,30 @@ class FunctionController extends Controller
         try {
             $function = Functions::findOrFail($id);
             
-            // Obtener la sala para saber su configuración
-            $room = $function->room;
-            
             // Obtener los asientos ocupados
-            $occupiedSeats = $function->seats()
-                ->where('status', 'occupied')
-                ->pluck('number')
-                ->toArray();
+            $seats = $function->seats()
+                ->select('id', 'number', 'row', 'status')
+                ->get()
+                ->groupBy('row');
             
             // Generar matriz de asientos
-            $seats = [];
-            for ($row = 0; $row < $room->rows; $row++) {
-                $rowSeats = [];
-                for ($seatNum = 1; $seatNum <= $room->seats_per_row; $seatNum++) {
-                    $seatNumber = ($row * $room->seats_per_row) + $seatNum;
-                    $rowSeats[] = [
-                        'id' => $seatNumber,
-                        'number' => $seatNumber,
-                        'row' => chr(65 + $row), // Convertir 0,1,2... a A,B,C...
-                        'is_occupied' => in_array($seatNumber, $occupiedSeats)
+            $seatsMatrix = [];
+            foreach ($seats as $row => $rowSeats) {
+                $rowSeatsArray = [];
+                foreach ($rowSeats as $seat) {
+                    $rowSeatsArray[] = [
+                        'id' => $seat->id,
+                        'number' => $seat->number,
+                        'row' => $seat->row,
+                        'is_occupied' => $seat->status !== Seat::STATUS_AVAILABLE
                     ];
                 }
-                $seats[] = $rowSeats;
+                $seatsMatrix[] = $rowSeatsArray;
             }
             
             return response()->json([
                 'success' => true,
-                'data' => $seats,
+                'data' => $seatsMatrix,
                 'message' => 'Asientos obtenidos correctamente'
             ]);
             

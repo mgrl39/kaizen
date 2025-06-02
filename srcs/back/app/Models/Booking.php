@@ -15,13 +15,15 @@ class Booking extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'user_id',
         'function_id',
+        'booking_code',
         'total_price',
         'status',
-        'booking_code',
         'payment_status',
-        'payment_method'
+        'payment_method',
+        'customer_name',
+        'customer_email',
+        'customer_phone'
     ];
 
     /**
@@ -71,7 +73,7 @@ class Booking extends Model
      */
     public function function()
     {
-        return $this->belongsTo(Functions::class, 'function_id');
+        return $this->belongsTo(Functions::class);
     }
 
     /**
@@ -79,9 +81,9 @@ class Booking extends Model
      */
     public function seats()
     {
-        return $this->belongsToMany(Seat::class, 'booking_seat')
-            ->withTimestamps()
-            ->withPivot(['price']);
+        return $this->belongsToMany(Seat::class, 'booking_seats')
+            ->withPivot('price')
+            ->withTimestamps();
     }
 
     /**

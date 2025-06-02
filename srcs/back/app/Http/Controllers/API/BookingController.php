@@ -22,8 +22,15 @@ class BookingController extends Controller
             $validator = Validator::make($request->all(), [
                 'function_id' => 'required|exists:functions,id',
                 'seats' => 'required|array|min:1',
-                'seats.*' => 'required|exists:seats,id',
-                'payment_method' => 'required|in:card,paypal'
+                'seats.*' => 'required|integer',
+                'payment_method' => 'required|in:card,paypal',
+                'customer.name' => 'required|string|max:255',
+                'customer.email' => 'required|email|max:255',
+                'customer.phone' => 'required|string|max:20',
+                'card_details' => 'required_if:payment_method,card',
+                'card_details.card_number' => 'required_if:payment_method,card|string|max:16',
+                'card_details.expiry_date' => 'required_if:payment_method,card|string|max:5',
+                'card_details.cvv' => 'required_if:payment_method,card|string|max:4'
             ]);
 
             if ($validator->fails()) {
@@ -40,7 +47,7 @@ class BookingController extends Controller
             // Verificar que los asientos están disponibles
             $seats = Seat::whereIn('id', $request->seats)
                 ->where('function_id', $function->id)
-                ->where('status', 'available')
+                ->where('status', Seat::STATUS_AVAILABLE)
                 ->get();
 
             if ($seats->count() !== count($request->seats)) {
@@ -58,13 +65,15 @@ class BookingController extends Controller
             try {
                 // Crear la reserva
                 $booking = Booking::create([
-                    'user_id' => Auth::id(),
                     'function_id' => $function->id,
                     'total_price' => $totalPrice,
                     'status' => Booking::STATUS_PENDING,
-                    'booking_code' => Booking::generateBookingCode(),
+                    'booking_code' => uniqid('BK-'),
                     'payment_status' => Booking::PAYMENT_STATUS_PENDING,
-                    'payment_method' => $request->payment_method
+                    'payment_method' => $request->payment_method,
+                    'customer_name' => $request->customer['name'],
+                    'customer_email' => $request->customer['email'],
+                    'customer_phone' => $request->customer['phone']
                 ]);
 
                 // Asociar asientos
@@ -74,7 +83,7 @@ class BookingController extends Controller
                     ]);
                     
                     // Actualizar estado del asiento
-                    $seat->update(['status' => 'reserved']);
+                    $seat->update(['status' => Seat::STATUS_RESERVED]);
                 }
 
                 DB::commit();
@@ -121,7 +130,7 @@ class BookingController extends Controller
 
             // Actualizar estado de los asientos
             foreach ($booking->seats as $seat) {
-                $seat->update(['status' => 'occupied']);
+                $seat->update(['status' => Seat::STATUS_OCCUPIED]);
             }
 
             return response()->json([
@@ -165,7 +174,7 @@ class BookingController extends Controller
 
                 // Liberar asientos
                 foreach ($booking->seats as $seat) {
-                    $seat->update(['status' => 'available']);
+                    $seat->update(['status' => Seat::STATUS_AVAILABLE]);
                 }
 
                 DB::commit();

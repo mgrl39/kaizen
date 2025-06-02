@@ -132,14 +132,12 @@
                         email: formData.email,
                         phone: formData.phone
                     },
-                    payment: {
-                        method: paymentMethod,
-                        ...paymentMethod === 'card' && {
-                            card_number: formData.cardNumber,
-                            expiry_date: formData.expiryDate,
-                            cvv: formData.cvv
-                        }
-                    }
+                    payment_method: paymentMethod,
+                    card_details: paymentMethod === 'card' ? {
+                        card_number: formData.cardNumber,
+                        expiry_date: formData.expiryDate,
+                        cvv: formData.cvv
+                    } : null
                 })
             });
 

@@ -91,13 +91,27 @@ class FunctionSeeder extends Seeder
                         }
 
                         // Crear la función
-                        Functions::create([
+                        $function = Functions::create([
                             'movie_id' => $movie->id,
                             'room_id' => $room->id,
                             'date' => $currentDate->format('Y-m-d'),
                             'time' => $currentTime->format('H:i:s'),
                             'is_3d' => $room->cinema->has_3d && $movieIndex % 2 == 0
                         ]);
+
+                        // Crear asientos para esta función
+                        $seatNumber = 1;
+                        for ($row = 0; $row < $room->rows; $row++) {
+                            for ($col = 0; $col < $room->seats_per_row; $col++) {
+                                $function->seats()->create([
+                                    'number' => $seatNumber,
+                                    'row' => chr(65 + $row),
+                                    'status' => 'available',
+                                    'price' => $room->price + ($function->is_3d ? 2 : 0)
+                                ]);
+                                $seatNumber++;
+                            }
+                        }
 
                         // Avanzar al siguiente horario (duración + tiempo de limpieza)
                         $currentTime->addMinutes($movie->duration + self::CLEANING_TIME);
