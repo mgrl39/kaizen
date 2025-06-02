@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum');
+    }
+
     /**
      * Crear una nueva reserva
      */
@@ -23,14 +28,7 @@ class BookingController extends Controller
                 'function_id' => 'required|exists:functions,id',
                 'seats' => 'required|array|min:1',
                 'seats.*' => 'required|integer',
-                'payment_method' => 'required|in:card,paypal',
-                'customer.name' => 'required|string|max:255',
-                'customer.email' => 'required|email|max:255',
-                'customer.phone' => 'required|string|max:20',
-                'card_details' => 'required_if:payment_method,card',
-                'card_details.card_number' => 'required_if:payment_method,card|string|max:16',
-                'card_details.expiry_date' => 'required_if:payment_method,card|string|max:5',
-                'card_details.cvv' => 'required_if:payment_method,card|string|max:4'
+                'payment_method' => 'required|in:card,paypal'
             ]);
 
             if ($validator->fails()) {
@@ -65,15 +63,13 @@ class BookingController extends Controller
             try {
                 // Crear la reserva
                 $booking = Booking::create([
+                    'user_id' => Auth::id(),
                     'function_id' => $function->id,
                     'total_price' => $totalPrice,
                     'status' => Booking::STATUS_PENDING,
                     'booking_code' => uniqid('BK-'),
                     'payment_status' => Booking::PAYMENT_STATUS_PENDING,
-                    'payment_method' => $request->payment_method,
-                    'customer_name' => $request->customer['name'],
-                    'customer_email' => $request->customer['email'],
-                    'customer_phone' => $request->customer['phone']
+                    'payment_method' => $request->payment_method
                 ]);
 
                 // Asociar asientos
@@ -116,6 +112,14 @@ class BookingController extends Controller
     public function confirm(Request $request, Booking $booking)
     {
         try {
+            // Verificar que la reserva pertenece al usuario
+            if ($booking->user_id !== Auth::id()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No autorizado'
+                ], 403);
+            }
+
             if ($booking->status !== Booking::STATUS_PENDING) {
                 return response()->json([
                     'success' => false,
@@ -156,6 +160,14 @@ class BookingController extends Controller
     public function cancel(Booking $booking)
     {
         try {
+            // Verificar que la reserva pertenece al usuario
+            if ($booking->user_id !== Auth::id()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'No autorizado'
+                ], 403);
+            }
+
             if (!in_array($booking->status, [Booking::STATUS_PENDING, Booking::STATUS_CONFIRMED])) {
                 return response()->json([
                     'success' => false,

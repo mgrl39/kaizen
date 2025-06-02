@@ -21,22 +21,20 @@ class RoomSeeder extends Seeder
         
         // Crear un cine por defecto si no existe
         $cinema = Cinema::firstOrCreate(
-            ['name' => 'Kaizen Cinema Principal'],
+            ['name' => 'Kaizen Cinema Mini'],
             [
                 'location' => 'Madrid',
-                'address' => 'Calle Principal 123',
+                'address' => 'Calle del Cine 42',
                 'phone' => '+34 912 345 678',
                 'email' => 'info@kaizencinema.com',
-                'description' => 'El primer y principal cine de la cadena Kaizen Cinema.',
+                'description' => 'Un acogedor cine de barrio con la mejor experiencia.',
                 'has_3d' => true,
-                'has_imax' => true,
-                'has_vip' => true,
-                'opening_hours' => '10:00-00:00',
+                'has_imax' => false,
+                'has_vip' => false,
+                'opening_hours' => '15:00-23:00',
                 'features' => json_encode([
                     'Parking gratuito',
                     'Cafetería',
-                    'Zona VIP',
-                    'Sala IMAX',
                     'Proyección 3D'
                 ])
             ]
@@ -45,34 +43,18 @@ class RoomSeeder extends Seeder
         // Crear las salas
         $rooms = [
             [
-                'name' => 'Sala 1 - IMAX',
-                'type' => 'imax',
-                'rows' => 15,
-                'seats_per_row' => 20,
-                'price' => 12.00,
-                'cinema_id' => $cinema->id
-            ],
-            [
-                'name' => 'Sala 2 - VIP',
-                'type' => 'vip',
-                'rows' => 8,
-                'seats_per_row' => 12,
-                'price' => 15.00,
-                'cinema_id' => $cinema->id
-            ],
-            [
-                'name' => 'Sala 3 - Standard',
+                'name' => 'Sala 1',
                 'type' => 'standard',
-                'rows' => 12,
-                'seats_per_row' => 15,
+                'rows' => 6,
+                'seats_per_row' => 8,
                 'price' => 8.00,
                 'cinema_id' => $cinema->id
             ],
             [
-                'name' => 'Sala 4 - 3D',
+                'name' => 'Sala 2 - 3D',
                 'type' => 'standard',
-                'rows' => 10,
-                'seats_per_row' => 15,
+                'rows' => 5,
+                'seats_per_row' => 7,
                 'price' => 10.00,
                 'cinema_id' => $cinema->id
             ]
