@@ -214,6 +214,37 @@
         currentStep = step;
         error = '';
     }
+
+    function getPreviousStep(currentStep) {
+        switch (currentStep) {
+            case STEPS.CONTACT: return STEPS.SEATS;
+            case STEPS.PAYMENT: return STEPS.CONTACT;
+            case STEPS.SUMMARY: return STEPS.PAYMENT;
+            default: return STEPS.SEATS;
+        }
+    }
+
+    function getNextStep(currentStep) {
+        switch (currentStep) {
+            case STEPS.SEATS: return STEPS.CONTACT;
+            case STEPS.CONTACT: return STEPS.PAYMENT;
+            case STEPS.PAYMENT: return STEPS.SUMMARY;
+            default: return STEPS.SUMMARY;
+        }
+    }
+
+    function canProceed(step) {
+        switch (step) {
+            case STEPS.SEATS:
+                return selectedSeats.length > 0;
+            case STEPS.CONTACT:
+                return buyer.name && buyer.email && buyer.phone;
+            case STEPS.PAYMENT:
+                return cardInfo.number && cardInfo.name && cardInfo.expiry && cardInfo.cvv;
+            default:
+                return true;
+        }
+    }
 </script>
 
 {#if loading}
@@ -244,57 +275,76 @@
             </div>
         </div>
 
-        <!-- Steps indicators -->
-        <div class="row mb-4">
-            <div class="col-3 text-center">
-                <button class="btn btn-link p-0 {currentStep === STEPS.SEATS ? 'text-primary fw-bold' : 'text-muted'}"
-                        on:click={() => currentStep === STEPS.SEATS}>
-                    <i class="bi bi-1-circle{currentStep === STEPS.SEATS ? '-fill' : ''} d-block h4 mb-1"></i>
-                    Asientos
-                </button>
-            </div>
-            <div class="col-3 text-center">
-                <button class="btn btn-link p-0 {currentStep === STEPS.CONTACT ? 'text-primary fw-bold' : 'text-muted'}"
-                        on:click={() => goToStep(STEPS.CONTACT)}>
-                    <i class="bi bi-2-circle{currentStep === STEPS.CONTACT ? '-fill' : ''} d-block h4 mb-1"></i>
-                    Contacto
-                </button>
-            </div>
-            <div class="col-3 text-center">
-                <button class="btn btn-link p-0 {currentStep === STEPS.PAYMENT ? 'text-primary fw-bold' : 'text-muted'}"
-                        on:click={() => goToStep(STEPS.PAYMENT)}>
-                    <i class="bi bi-3-circle{currentStep === STEPS.PAYMENT ? '-fill' : ''} d-block h4 mb-1"></i>
-                    Pago
-                </button>
-            </div>
-            <div class="col-3 text-center">
-                <button class="btn btn-link p-0 {currentStep === STEPS.SUMMARY ? 'text-primary fw-bold' : 'text-muted'}"
-                        on:click={() => goToStep(STEPS.SUMMARY)}>
-                    <i class="bi bi-4-circle{currentStep === STEPS.SUMMARY ? '-fill' : ''} d-block h4 mb-1"></i>
-                    Resumen
-                </button>
-            </div>
-        </div>
-
-        <!-- Movie info -->
+        <!-- Movie info siempre visible -->
         <div class="card mb-4">
             <div class="card-body">
                 <h4 class="card-title">{functionData.movie?.title || 'Sin título'}</h4>
                 <div class="d-flex flex-wrap gap-3">
-                    <span class="text-muted"><i class="bi bi-building me-1"></i> Sala: {functionData.room?.name || 'Sin sala'}</span>
-                    <span class="text-muted"><i class="bi bi-calendar me-1"></i> {new Date(functionData.date).toLocaleDateString('es-ES')}</span>
-                    <span class="text-muted"><i class="bi bi-clock me-1"></i> {formatTime(functionData.time)}</span>
+                    <span class="text-muted">
+                        <i class="bi bi-building me-1"></i> 
+                        Sala: {functionData.room?.name || 'Sin sala'}
+                    </span>
+                    <span class="text-muted">
+                        <i class="bi bi-calendar me-1"></i> 
+                        {new Date(functionData.date).toLocaleDateString('es-ES')}
+                    </span>
+                    <span class="text-muted">
+                        <i class="bi bi-clock me-1"></i> 
+                        {formatTime(functionData.time)}
+                    </span>
                     {#if functionData.room?.is_3d}
                         <span class="badge bg-primary">3D</span>
-    {/if}
+                    {/if}
                 </div>
             </div>
         </div>
 
-        <!-- Step content -->
-        {#if currentStep === STEPS.SEATS}
-            <div class="card">
-                <div class="card-body">
+        <!-- Resumen de la selección actual -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="mb-3">Resumen de la reserva</h5>
+                <div class="row">
+                    <!-- Asientos seleccionados -->
+                    <div class="col-md-6">
+                        <h6>Asientos seleccionados:</h6>
+                        {#if selectedSeats.length === 0}
+                            <p class="text-muted">No has seleccionado asientos</p>
+                        {:else}
+                            <ul class="list-unstyled">
+                                {#each selectedSeats as seatId}
+                                    <li>
+                                        {#if Array.isArray(seatsData)}
+                                            {#each seatsData as row}
+                                                {#each row as seat}
+                                                    {#if seat?.id?.toString() === seatId}
+                                                        <span class="badge bg-success me-2">
+                                                            Fila {seat.row} - Asiento {seat.number}
+                                                        </span>
+                                                    {/if}
+                                                {/each}
+                                            {/each}
+                                        {/if}
+                                    </li>
+                                {/each}
+                            </ul>
+                        {/if}
+                    </div>
+                    
+                    <!-- Precio total -->
+                    <div class="col-md-6">
+                        <h6>Total:</h6>
+                        <h4 class="text-primary">
+                            {(selectedSeats.length * (functionData.room?.price || 8)).toFixed(2)}€
+                        </h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenido del paso actual -->
+        <div class="card">
+            <div class="card-body">
+                {#if currentStep === STEPS.SEATS}
                     <h5 class="card-title mb-4">Selección de Asientos</h5>
                     
                     <div class="btn-group mb-4 w-100">
@@ -316,43 +366,7 @@
                             seatsPerRow={functionData.room.seats_per_row || 0} {selectedSeats} {occupiedSeats}
                             on:seatsChange={handleSeatsChange} />
                     {/if}
-
-                    <div class="mt-4">
-                        <h6>Asientos seleccionados:</h6>
-                        {#if !selectedSeats || selectedSeats.length === 0}
-                            <p class="text-muted">No has seleccionado ningún asiento</p>
-                        {:else}
-                            <ul class="list-group">
-                                {#each selectedSeats as seatId}
-                                    <li class="list-group-item">
-                                        {#if Array.isArray(seatsData)}
-                                            {#each seatsData as row}
-                                                {#each row as seat}
-                                                    {#if seat?.id?.toString() === seatId}
-                                                        Fila {seat.row} - Asiento {seat.number}
-                                                    {/if}
-                                                {/each}
-                                            {/each}
-                                        {/if}
-                    </li>
-                {/each}
-            </ul>
-        {/if}
-    </div>
-
-                    <div class="d-flex justify-content-end mt-4">
-                        <button class="btn btn-primary" 
-                                disabled={!selectedSeats || selectedSeats.length === 0}
-                                on:click={() => goToStep(STEPS.CONTACT)}>
-                            Continuar <i class="bi bi-arrow-right ms-2"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        {:else if currentStep === STEPS.CONTACT}
-            <div class="card">
-                <div class="card-body">
+                {:else if currentStep === STEPS.CONTACT}
                     <h5 class="card-title mb-4">Datos de Contacto</h5>
                     
                     <form class="row g-3">
@@ -375,24 +389,7 @@
                                    placeholder="Ej: 666555444" />
                         </div>
                     </form>
-
-                    <div class="d-flex justify-content-between mt-4">
-                        <button class="btn btn-outline-secondary" 
-                                on:click={() => goToStep(STEPS.SEATS)}>
-                            <i class="bi bi-arrow-left me-2"></i> Volver
-                        </button>
-                        <button class="btn btn-primary" 
-                                disabled={!buyer.name || !buyer.email || !buyer.phone}
-                                on:click={() => goToStep(STEPS.PAYMENT)}>
-                            Continuar <i class="bi bi-arrow-right ms-2"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        {:else if currentStep === STEPS.PAYMENT}
-            <div class="card">
-                <div class="card-body">
+                {:else if currentStep === STEPS.PAYMENT}
                     <h5 class="card-title mb-4">Método de Pago</h5>
 
                     <div class="card bg-primary text-white mb-4 payment-card">
@@ -445,113 +442,44 @@
                                    maxlength="3" />
                         </div>
                     </form>
+                {:else if currentStep === STEPS.SUMMARY}
+                    <h5 class="card-title mb-4">Confirmar Reserva</h5>
+                    <!-- Botón de confirmación final -->
+                    <button 
+                        class="btn btn-primary btn-lg w-100" 
+                        disabled={isSubmitting}
+                        on:click={handleBooking}
+                    >
+                        {#if isSubmitting}
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                            Procesando...
+                        {:else}
+                            Confirmar y Pagar
+                        {/if}
+                    </button>
+                {/if}
 
-                    <div class="d-flex justify-content-between mt-4">
+                <!-- Navegación entre pasos -->
+                <div class="d-flex justify-content-between mt-4">
+                    {#if currentStep !== STEPS.SEATS}
                         <button class="btn btn-outline-secondary" 
-                                on:click={() => goToStep(STEPS.CONTACT)}>
+                                on:click={() => goToStep(getPreviousStep(currentStep))}>
                             <i class="bi bi-arrow-left me-2"></i> Volver
                         </button>
-                        <button class="btn btn-primary"
-                                disabled={!cardInfo.number || !cardInfo.name || !cardInfo.expiry || !cardInfo.cvv}
-                                on:click={() => goToStep(STEPS.SUMMARY)}>
+                    {:else}
+                        <div></div>
+                    {/if}
+
+                    {#if currentStep !== STEPS.SUMMARY}
+                        <button class="btn btn-primary" 
+                                disabled={!canProceed(currentStep)}
+                                on:click={() => goToStep(getNextStep(currentStep))}>
                             Continuar <i class="bi bi-arrow-right ms-2"></i>
                         </button>
-                    </div>
+                    {/if}
                 </div>
             </div>
-
-        {:else if currentStep === STEPS.SUMMARY}
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">Resumen de la Reserva</h5>
-
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-3 text-muted">Película</h6>
-                                    <p class="mb-1">{functionData.movie?.title}</p>
-                                    <p class="mb-1">Sala: {functionData.room?.name}</p>
-                                    <p class="mb-1">Fecha: {new Date(functionData.date).toLocaleDateString('es-ES')}</p>
-                                    <p class="mb-0">Hora: {formatTime(functionData.time)}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-3 text-muted">Asientos</h6>
-                                    <ul class="list-unstyled mb-0">
-                                        {#each selectedSeats as seatId}
-                                            <li>
-                                                {#if Array.isArray(seatsData)}
-                                                    {#each seatsData as row}
-                                                        {#each row as seat}
-                                                            {#if seat?.id?.toString() === seatId}
-                                                                Fila {seat.row} - Asiento {seat.number}
-                                                            {/if}
-                                                        {/each}
-                                                    {/each}
-                                                {/if}
-                                            </li>
-                                        {/each}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-3 text-muted">Datos de contacto</h6>
-                                    <p class="mb-1"><strong>Nombre:</strong> {buyer.name}</p>
-                                    <p class="mb-1"><strong>Email:</strong> {buyer.email}</p>
-                                    <p class="mb-0"><strong>Teléfono:</strong> {buyer.phone}</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-3 text-muted">Método de pago</h6>
-                                    <p class="mb-0">Tarjeta terminada en {cardInfo.number.slice(-4)}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card bg-primary text-white mt-4">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0">Total</h6>
-                                <div class="h3 mb-0">
-                                    {(selectedSeats.length * (functionData.room?.price || 8)).toFixed(2)}€
         </div>
-        </div>
-        </div>
-    </div>
-
-                    <div class="d-flex justify-content-between mt-4">
-                        <button class="btn btn-outline-secondary" 
-                                on:click={() => goToStep(STEPS.PAYMENT)}>
-                            <i class="bi bi-arrow-left me-2"></i> Volver
-                        </button>
-                        <button class="btn btn-primary btn-lg" 
-                                disabled={isSubmitting}
-                                on:click={handleBooking}>
-            {#if isSubmitting}
-                                <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                Procesando...
-            {:else}
-                                <i class="bi bi-check-circle me-2"></i> Confirmar Reserva
-            {/if}
-        </button>
-    </div>
-</div>
-            </div>
-        {/if}
     </div>
 {/if}
 
