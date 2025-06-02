@@ -20,6 +20,15 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
+     * The Artisan commands provided by your application.
+     *
+     * @var array
+     */
+    protected $commands = [
+        Commands\GenerateFunctions::class,
+    ];
+
+    /**
      * @brief Define la programación de tareas de la aplicación
      *
      * Este método permite programar comandos Artisan y tareas para que se ejecuten

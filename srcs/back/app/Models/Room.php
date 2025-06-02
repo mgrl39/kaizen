@@ -4,30 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends Model
 {
     use HasFactory;
 
     /**
-     * Los atributos que son asignables en masa.
+     * The attributes that are mass assignable.
      *
      * @var array<string>
      */
     protected $fillable = [
-        'cinema_id',
         'name',
-        'capacity',
-        'features'
+        'type',
+        'rows',
+        'seats_per_row',
+        'price',
+        'cinema_id'
     ];
 
     /**
-     * Los atributos que deben ser convertidos a tipos nativos.
+     * The attributes that should be cast.
      *
-     * @var array
+     * @var array<string, string>
      */
     protected $casts = [
-        'features' => 'json'
+        'rows' => 'integer',
+        'seats_per_row' => 'integer',
+        'price' => 'decimal:2'
     ];
 
     /**
@@ -39,11 +44,11 @@ class Room extends Model
     }
 
     /**
-     * Obtener las funciones programadas en esta sala.
+     * Get the movie functions for the room.
      */
-    public function functions()
+    public function movieFunctions()
     {
-        return $this->hasMany(Functions::class);
+        return $this->hasMany(MovieFunction::class);
     }
 
     /**

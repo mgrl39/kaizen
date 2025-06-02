@@ -14,10 +14,11 @@ return new class () extends Migration {
             'rooms',
             function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('cinema_id')->constrained()->onDelete('cascade');
-                $table->string('name');
-                $table->integer('capacity');
-                $table->json('features')->nullable();
+                $table->string('name'); // "Sala 1 IMAX", "Sala 2 VIP", etc.
+                $table->string('type'); // "imax", "vip", "standard", etc.
+                $table->integer('rows'); // número de filas (A-Z)
+                $table->integer('seats_per_row'); // asientos por fila
+                $table->decimal('price', 10, 2); // precio base de la sala
                 $table->timestamps();
             }
         );

@@ -9,81 +9,72 @@
   $: searchQuery = $page.url.searchParams.get('search') || '';
   $: locationFilter = $page.url.searchParams.get('location') || '';
 
-  // Estado para almacenar los datos del cine
-  let cinema = null;
+  // Estado para almacenar los datos
   let rooms = [];
   let loading = true;
   let error = null;
 
-  // Función para formatear los servicios
-  function formatFeatures(features) {
-    if (!features) return [];
-    
-    // Si es un string, intentamos parsearlo como JSON
-    if (typeof features === 'string') {
-      try {
-        features = JSON.parse(features);
-      } catch (e) {
-        console.error('Error parsing features:', e);
-        return [];
-      }
-    }
-    
-    // Si no es un array después de parsear, lo convertimos en array
-    if (!Array.isArray(features)) {
-      console.warn('Features is not an array:', features);
-      return [];
-    }
-    
-    return features.map(feature => {
-      if (Array.isArray(feature)) {
-        return feature.join('');
-      }
-      if (typeof feature === 'string') {
-        // Decodificar caracteres Unicode
-        return decodeURIComponent(JSON.parse(`"${feature}"`));
-      }
-      return String(feature);
-    });
-  }
+  // Datos estáticos del cine (ya que solo tenemos uno)
+  const cinema = {
+    name: "Kaizen Cinema",
+    description: "Tu cine de confianza con la mejor tecnología y comodidad.",
+    address: "Calle Principal 123, Ciudad",
+    phone: "+34 123 456 789",
+    email: "info@kaizencinema.com",
+    opening_hours: "Lunes a Domingo: 11:00 - 00:00",
+    features: [
+      "Parking gratuito",
+      "Cafetería",
+      "Snack bar",
+      "Zona de juegos",
+      "Acceso para discapacitados"
+    ],
+    has_3d: true,
+    has_imax: true,
+    has_vip: true,
+    image_url: "/images/cinema-hero.jpg"
+  };
 
-  // Función para cargar los datos del cine
-  async function loadCinemaData() {
+  // Función para cargar las salas
+  async function loadRooms() {
     try {
       loading = true;
       error = null;
       
-      const response = await fetch('/api/v1/cinemas/1');
+      const response = await fetch('/api/v1/rooms');
       const result = await response.json();
       
       if (!result.success) {
         throw new Error(result.message);
       }
       
-      const cinemaData = result.data;
-      
-      // Formatear las características tanto del cine como de las salas
-      cinema = {
-        ...cinemaData,
-        features: formatFeatures(cinemaData.features)
-      };
-      
-      // Formatear las características de cada sala
-      rooms = cinemaData.rooms.map(room => ({
+      // Formatear las salas con sus características basadas en el tipo
+      rooms = result.data.map(room => ({
         ...room,
-        features: formatFeatures(room.features)
+        features: getRoomFeatures(room.type),
+        capacity: room.rows * room.seats_per_row
       }));
       
     } catch (e) {
       error = e.message;
-      console.error('Error cargando datos del cine:', e);
+      console.error('Error cargando datos de las salas:', e);
     } finally {
       loading = false;
     }
   }
 
+  // Función para obtener las características de una sala según su tipo
+  function getRoomFeatures(type) {
+    const features = {
+      'imax': ['Pantalla IMAX', 'Sonido Dolby Atmos', 'Butacas premium'],
+      'vip': ['Asientos reclinables', 'Servicio a la butaca', 'Menú exclusivo'],
+      'standard': ['Sonido envolvente', 'Butacas cómodas']
+    };
+    return features[type] || [];
+  }
+
   onMount(() => {
-    loadCinemaData();
+    loadRooms();
   });
 </script>
 
@@ -97,9 +88,9 @@
   <div class="alert alert-danger m-3" role="alert">
     Error: {error}
   </div>
-{:else if cinema}
+{:else}
   <div data-bs-theme={$theme}>
-    <!-- Hero Banner con imagen específica para la página de cines -->
+    <!-- Hero Banner -->
     <HeroBanner 
       title={$t('ourCinema')}
       subtitle={$t('cinemaSubtitle')}
@@ -313,12 +304,6 @@
           </a>
         </div>
       </div>
-    </div>
-  </div>
-{:else}
-  <div class="d-flex justify-content-center py-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Cargando...</span>
     </div>
   </div>
 {/if}

@@ -98,8 +98,12 @@ class CinemaController extends Controller
                     return [
                         'id' => $room->id,
                         'name' => $room->name,
-                        'capacity' => $room->capacity,
-                        'features' => $room->features
+                        'total_seats' => $room->rows * $room->seats_per_row,
+                        'features' => [
+                            'type' => $room->type,
+                            'rows' => $room->rows,
+                            'seats_per_row' => $room->seats_per_row
+                        ]
                     ];
                 })
             ];

@@ -17,23 +17,29 @@ class Seat extends Model
     protected $fillable = [
         'function_id',
         'number',
-        'seat_row',
-        'status'
+        'row',
+        'status',
+        'price'
     ];
 
     /**
-     * Los valores permitidos para el estado del asiento.
+     * Los atributos que deben convertirse a tipos nativos.
      *
      * @var array
      */
-    public const STATUSES = [
-        'available' => 'Disponible',
-        'reserved' => 'Reservado',
-        'occupied' => 'Ocupado'
+    protected $casts = [
+        'price' => 'decimal:2'
     ];
 
     /**
-     * Obtener la función asociada a este asiento.
+     * Los estados posibles de un asiento
+     */
+    public const STATUS_AVAILABLE = 'available';
+    public const STATUS_RESERVED = 'reserved';
+    public const STATUS_OCCUPIED = 'occupied';
+
+    /**
+     * Obtener la función a la que pertenece este asiento.
      */
     public function function()
     {
@@ -45,6 +51,8 @@ class Seat extends Model
      */
     public function bookings()
     {
-        return $this->belongsToMany(Booking::class, 'booking_seat');
+        return $this->belongsToMany(Booking::class, 'booking_seats')
+            ->withTimestamps()
+            ->withPivot(['price']);
     }
 }

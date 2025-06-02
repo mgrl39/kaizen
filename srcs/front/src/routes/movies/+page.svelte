@@ -188,7 +188,7 @@
   <div class="row mb-5">
     <div class="col-12">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h3 mb-0">Explorar Películas</h2>
+        <h2 class="h3 mb-0 text-primary">Explorar Películas</h2>
         <button class="btn btn-outline-primary" on:click={resetFilters}>
           <i class="bi bi-arrow-counterclockwise me-2"></i>
           Resetear Filtros
@@ -254,7 +254,7 @@
   
   <!-- Resultados -->
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">
+    <h2 class="mb-0 text-primary">
       <i class="bi bi-film me-2"></i>
       {searchQuery ? 'Resultados' : 'Todas las películas'}
       {#if filteredMovies.length > 0}
@@ -262,7 +262,7 @@
       {/if}
     </h2>
     {#if searchQuery && filteredMovies.length === 0}
-      <button class="btn btn-link text-primary text-decoration-none" on:click={() => searchQuery = ''}>
+      <button class="btn btn-link text-decoration-none" on:click={() => searchQuery = ''}>
         <i class="bi bi-arrow-left me-1"></i>
         Ver todas
       </button>
@@ -300,13 +300,13 @@
                   loading="lazy"
                 />
                 {#if movie.rating}
-                  <span class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark">
+                  <span class="position-absolute top-0 end-0 m-2 badge bg-warning">
                     <i class="bi bi-star-fill me-1"></i>{movie.rating}
                   </span>
                 {/if}
               </div>
               <div class="card-body">
-                <h5 class="card-title text-truncate">{movie.title}</h5>
+                <h5 class="card-title text-truncate text-primary">{movie.title}</h5>
                 <div class="d-flex align-items-center mb-2 text-muted">
                   <small>
                     {movie.release_year || (movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A')}
@@ -391,6 +391,14 @@
 </div>
 
 <style>
+  /* Variables de color personalizadas */
+  :root {
+    --movie-primary: #9333ea;
+    --movie-primary-hover: #7e22ce;
+    --movie-primary-light: rgba(147, 51, 234, 0.1);
+    --movie-gradient: linear-gradient(135deg, #9333ea, #7e22ce);
+  }
+
   .movie-poster {
     height: 300px;
     object-fit: cover;
@@ -402,15 +410,74 @@
   
   .hover-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 20px rgba(147, 51, 234, 0.2);
   }
-  
-  /* Asegúrate de que los enlaces no tengan el subrayado predeterminado */
-  a {
-    text-decoration: none;
+
+  /* Estilos personalizados para elementos de UI */
+  :global(.badge.bg-primary) {
+    background: var(--movie-gradient) !important;
+    border: none;
   }
-  
-  /* Estilos para modo oscuro - solo cambios de color */
+
+  :global(.badge.bg-secondary) {
+    background-color: var(--movie-primary-light) !important;
+    color: var(--movie-primary);
+  }
+
+  :global(.badge.bg-warning) {
+    background-color: var(--movie-primary-light) !important;
+    color: var(--movie-primary);
+    border: 1px solid var(--movie-primary);
+  }
+
+  :global(.btn-outline-primary) {
+    color: var(--movie-primary);
+    border-color: var(--movie-primary);
+  }
+
+  :global(.btn-outline-primary:hover) {
+    background-color: var(--movie-primary);
+    border-color: var(--movie-primary);
+    color: white;
+  }
+
+  :global(.text-primary) {
+    color: var(--movie-primary) !important;
+  }
+
+  :global(.btn-link) {
+    color: var(--movie-primary);
+  }
+
+  :global(.btn-link:hover) {
+    color: var(--movie-primary-hover);
+  }
+
+  :global(.form-control:focus),
+  :global(.form-select:focus) {
+    border-color: var(--movie-primary);
+    box-shadow: 0 0 0 0.25rem rgba(147, 51, 234, 0.25);
+  }
+
+  :global(.page-link) {
+    color: var(--movie-primary);
+  }
+
+  :global(.page-link:hover) {
+    color: var(--movie-primary-hover);
+    background-color: var(--movie-primary-light);
+  }
+
+  :global(.page-item.active .page-link) {
+    background: var(--movie-gradient);
+    border-color: var(--movie-primary);
+  }
+
+  :global(.spinner-border) {
+    color: var(--movie-primary);
+  }
+
+  /* Estilos para el tema oscuro */
   :global([data-bs-theme="dark"]) {
     /* Colores de fondo */
     --bg-card: rgba(17, 24, 39, 0.8);
@@ -423,60 +490,36 @@
     
     /* Colores de borde */
     --border-color: rgba(255, 255, 255, 0.1);
-    --border-focus: #6366f1;
     
-    /* Color de acento */
-    --accent-color: #6366f1;
-  }
+    /* Ajustes específicos */
+    .card,
+    .movie-card {
+      background-color: var(--bg-card);
+      border-color: var(--border-color);
+    }
 
-  /* Aplicar colores en modo oscuro */
-  :global([data-bs-theme="dark"]) .card,
-  :global([data-bs-theme="dark"]) .movie-card {
-    background-color: var(--bg-card);
-    border-color: var(--border-color);
-  }
+    .form-control,
+    .form-select {
+      background-color: var(--bg-input);
+      border-color: var(--border-color);
+      color: var(--text-primary);
+    }
 
-  :global([data-bs-theme="dark"]) .form-control,
-  :global([data-bs-theme="dark"]) .form-select {
-    background-color: var(--bg-input);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-  }
+    .form-floating label {
+      color: var(--text-secondary);
+    }
 
-  :global([data-bs-theme="dark"]) .form-floating label {
-    color: var(--text-secondary);
-  }
+    .badge.bg-secondary {
+      background-color: rgba(147, 51, 234, 0.2) !important;
+      color: #d8b4fe;
+    }
 
-  :global([data-bs-theme="dark"]) .form-control:focus,
-  :global([data-bs-theme="dark"]) .form-select:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.25);
-  }
+    .text-muted {
+      color: var(--text-muted) !important;
+    }
 
-  :global([data-bs-theme="dark"]) .btn-outline-primary {
-    color: var(--accent-color);
-    border-color: var(--accent-color);
-  }
-
-  :global([data-bs-theme="dark"]) .btn-outline-primary:hover {
-    background-color: var(--accent-color);
-    color: var(--text-primary);
-  }
-
-  :global([data-bs-theme="dark"]) .badge.bg-primary {
-    background-color: var(--accent-color) !important;
-  }
-
-  :global([data-bs-theme="dark"]) .badge.bg-secondary {
-    background-color: rgba(255, 255, 255, 0.1) !important;
-    color: var(--text-primary);
-  }
-
-  :global([data-bs-theme="dark"]) .text-muted {
-    color: var(--text-muted) !important;
-  }
-
-  :global([data-bs-theme="dark"]) .card-footer {
-    border-top-color: var(--border-color);
+    .card-footer {
+      border-top-color: var(--border-color);
+    }
   }
 </style>

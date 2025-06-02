@@ -11,12 +11,18 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::create(
-            'booking_seats',
+            'functions',
             function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('booking_id')->constrained();
-                $table->foreignId('seat_id')->constrained();
+                $table->foreignId('movie_id')->constrained()->onDelete('cascade');
+                $table->foreignId('room_id')->constrained()->onDelete('cascade');
+                $table->date('date');
+                $table->time('time');
+                $table->boolean('is_3d')->default(false);
                 $table->timestamps();
+
+                // Una sala solo puede tener una película a la misma hora
+                $table->unique(['room_id', 'date', 'time']);
             }
         );
     }
@@ -26,7 +32,7 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('booking_seats');
+        Schema::dropIfExists('functions');
     }
 };
 

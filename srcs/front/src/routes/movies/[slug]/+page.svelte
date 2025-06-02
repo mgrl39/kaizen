@@ -41,6 +41,30 @@
     return `${hours}h ${mins}m`;
   }
   
+  // Función para agrupar proyecciones por fecha
+  function groupScreeningsByDate(screenings) {
+    return screenings.reduce((groups, screening) => {
+      const date = screening.date;
+      if (!groups[date]) {
+        groups[date] = [];
+      }
+      groups[date].push(screening);
+      return groups;
+    }, {});
+  }
+
+  // Función para formatear hora
+  function formatTime(timeString) {
+    if (!timeString) return 'N/A';
+    try {
+      const [hours, minutes] = timeString.split(':');
+      return `${hours}:${minutes}`;
+    } catch (e) {
+      console.error('Error formateando hora:', e);
+      return timeString;
+    }
+  }
+  
   // Cargar datos de la película
   async function loadMovieData() {
     try {
@@ -290,42 +314,57 @@
               {:else if activeTab === 'screenings'}
                 <div in:fade={{ duration: 200 }}>
                   {#if screenings.length > 0}
-                    <div class="table-responsive">
-                      <table class="table table-dark table-hover">
-                        <thead>
-                          <tr>
-                            <th>Fecha</th>
-                            <th>Hora</th>
-                            <th>Sala</th>
-                            <th>Cine</th>
-                            <th>Precio</th>
-                            <th>Acciones</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {#each screenings as screening}
-                            <tr>
-                              <td>{formatDate(screening.date)}</td>
-                              <td>{screening.time}</td>
-                              <td>{screening.room?.name || 'N/A'}</td>
-                              <td>{screening.room?.cinema?.name || 'N/A'}</td>
-                              <td>
-                                {#if screening.price}
-                                  {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(screening.price)}
-                                {:else}
-                                  N/A
-                                {/if}
-                              </td>
-                              <td>
-                                <a href={`/booking/${screening.id}`} class="btn btn-sm btn-primary">
-                                  Reservar
-                                </a>
-                              </td>
-                            </tr>
+                    {#each Object.entries(groupScreeningsByDate(screenings)) as [date, dateScreenings]}
+                      <div class="mb-4">
+                        <h5 class="mb-3 d-flex align-items-center">
+                          <i class="bi bi-calendar-date me-2"></i>
+                          {formatDate(date)}
+                        </h5>
+                        <div class="row g-3">
+                          {#each dateScreenings as screening}
+                            <div class="col-md-6 col-lg-4">
+                              <div class="card bg-dark bg-opacity-50 h-100 border-secondary hover-card">
+                                <div class="card-body">
+                                  <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <div>
+                                      <h6 class="mb-1">
+                                        <i class="bi bi-clock me-2"></i>
+                                        {formatTime(screening.time)}
+                                      </h6>
+                                      <p class="mb-0 text-muted small">
+                                        {screening.room?.cinema?.name || 'N/A'} - Sala {screening.room?.name || 'N/A'}
+                                      </p>
+                                    </div>
+                                    {#if screening.is_3d}
+                                      <span class="badge bg-info">3D</span>
+                                    {/if}
+                                  </div>
+                                  
+                                  <div class="d-flex justify-content-between align-items-center">
+                                    <div class="price-tag">
+                                      {#if screening.price}
+                                        <span class="fs-5 fw-bold">
+                                          {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(screening.price)}
+                                        </span>
+                                      {:else}
+                                        <span class="text-muted">Precio no disponible</span>
+                                      {/if}
+                                    </div>
+                                    <a 
+                                      href={`/booking/${screening.id}`} 
+                                      class="btn btn-primary"
+                                    >
+                                      <i class="bi bi-ticket-perforated me-2"></i>
+                                      Reservar
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           {/each}
-                        </tbody>
-                      </table>
-                    </div>
+                        </div>
+                      </div>
+                    {/each}
                   {:else}
                     <div class="alert alert-info">
                       <i class="bi bi-info-circle-fill me-2"></i>
@@ -482,5 +521,21 @@
 
   .share-btn i {
     font-size: 1.2rem;
+  }
+
+  /* Estilos para las tarjetas de proyecciones */
+  .hover-card {
+    transition: all 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .hover-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--bs-primary);
+    box-shadow: 0 4px 12px rgba(var(--bs-primary-rgb), 0.2);
+  }
+
+  .price-tag {
+    color: var(--bs-success);
   }
 </style>
