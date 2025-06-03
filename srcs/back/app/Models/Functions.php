@@ -31,7 +31,6 @@ class Functions extends Model
      */
     protected $casts = [
         'date' => 'date',
-        'time' => 'datetime',
         'is_3d' => 'boolean',
         'price' => 'decimal:2'
     ];
@@ -58,5 +57,25 @@ class Functions extends Model
     public function seats()
     {
         return $this->hasMany(Seat::class, 'function_id');
+    }
+
+    /**
+     * Obtener la hora en formato HH:mm
+     */
+    public function getTimeAttribute($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Establecer la hora en formato HH:mm
+     */
+    public function setTimeAttribute($value)
+    {
+        if ($value instanceof \DateTime) {
+            $this->attributes['time'] = $value->format('H:i');
+        } else {
+            $this->attributes['time'] = $value;
+        }
     }
 }

@@ -194,7 +194,7 @@ class GenerateFunctions extends Command
                                     'movie_id' => $movie->id,
                                     'room_id' => $room->id,
                                     'date' => $currentDate->format('Y-m-d'),
-                                    'time' => $currentTime->format('H:i:s'),
+                                    'time' => $currentTime->format('H:i'),
                                     'is_3d' => $cinema->has_3d && $movieIndex % 2 == 0
                                 ]);
 

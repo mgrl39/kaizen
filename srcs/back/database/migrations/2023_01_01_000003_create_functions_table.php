@@ -17,7 +17,7 @@ return new class () extends Migration {
                 $table->foreignId('movie_id')->constrained()->onDelete('cascade');
                 $table->foreignId('room_id')->constrained()->onDelete('cascade');
                 $table->date('date');
-                $table->time('time');
+                $table->string('time', 5); // HH:mm format
                 $table->boolean('is_3d')->default(false);
                 $table->timestamps();
 
