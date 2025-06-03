@@ -18,6 +18,7 @@
   let error = null;
   let screenings = [];
   let showSharePopup = false;
+  let selectedDate = null;
   
   function formatDate(dateString) {
     if (!dateString) return 'N/A';
@@ -26,6 +27,19 @@
         year: 'numeric',
         month: 'long',
         day: 'numeric'
+      }).format(new Date(dateString));
+    } catch (e) {
+      return 'N/A';
+    }
+  }
+
+  function formatShortDate(dateString) {
+    if (!dateString) return 'N/A';
+    try {
+      return new Intl.DateTimeFormat('es-ES', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short'
       }).format(new Date(dateString));
     } catch (e) {
       return 'N/A';
@@ -56,6 +70,17 @@
       groups[date].push(screening);
       return groups;
     }, {});
+  }
+
+  function getAvailabilityColor(available, total) {
+    const percentage = (available / total) * 100;
+    if (percentage > 60) return 'success';
+    if (percentage > 30) return 'warning';
+    return 'danger';
+  }
+
+  function formatAvailability(available, total) {
+    return `${available}/${total} asientos`;
   }
   
   async function loadMovieData() {
@@ -91,6 +116,10 @@
       const result = await response.json();
       if (response.ok && result.success) {
         screenings = result.data;
+        const dates = Object.keys(groupScreeningsByDate(screenings));
+        if (dates.length > 0) {
+          selectedDate = dates[0];
+        }
       }
     } catch (e) {
       console.error('Error loading screenings:', e);
@@ -102,6 +131,9 @@
   }
   
   onMount(loadMovieData);
+
+  $: groupedScreenings = groupScreeningsByDate(screenings);
+  $: availableDates = Object.keys(groupedScreenings);
 </script>
 
 <div class="movie-page">
@@ -186,31 +218,62 @@
 
       {#if screenings.length > 0}
         <div class="screenings-section">
-          {#each Object.entries(groupScreeningsByDate(screenings)) as [date, dateScreenings]}
-            <div class="date-screenings">
-              <h3>{formatDate(date)}</h3>
-              <div class="screening-list">
-                {#each dateScreenings as screening}
-                  <a href={`/booking/${screening.id}`} class="screening-item">
+          <div class="dates-nav">
+            {#each availableDates as date}
+              <button 
+                class="date-btn {selectedDate === date ? 'active' : ''}"
+                on:click={() => selectedDate = date}
+              >
+                <span class="date-short">{formatShortDate(date)}</span>
+                <span class="screening-count">{groupedScreenings[date].length} sesiones</span>
+              </button>
+            {/each}
+          </div>
+
+          {#if selectedDate && groupedScreenings[selectedDate]}
+            <div class="screenings-grid">
+              {#each groupedScreenings[selectedDate] as screening}
+                <a 
+                  href={`/booking/${screening.id}`} 
+                  class="screening-card"
+                >
+                  <div class="screening-header">
                     <span class="time">
                       <i class="bi bi-clock"></i>
                       {formatTime(screening.time)}
                     </span>
-                    <span class="room">{screening.room?.cinema?.name} · Sala {screening.room?.name}</span>
-                    <span class="price">
+                    {#if screening.is_3d}
+                      <span class="tag-3d">3D</span>
+                    {/if}
+                  </div>
+
+                  <div class="screening-info">
+                    <div class="cinema-info">
+                      <span class="cinema-name">{screening.room?.cinema?.name}</span>
+                      <span class="room-name">Sala {screening.room?.name}</span>
+                    </div>
+
+                    <div class="seats-info {getAvailabilityColor(screening.available_seats || 0, screening.total_seats || 0)}">
+                      <i class="bi bi-person-fill"></i>
+                      <span>{formatAvailability(screening.available_seats || 0, screening.total_seats || 0)}</span>
+                    </div>
+
+                    <div class="price-tag">
                       {screening.price 
                         ? new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(screening.price)
                         : 'N/A'
                       }
-                    </span>
-                    {#if screening.is_3d}
-                      <span class="tag-3d">3D</span>
-                    {/if}
-                  </a>
-                {/each}
-              </div>
+                    </div>
+                  </div>
+
+                  <button class="book-btn">
+                    <i class="bi bi-ticket-perforated"></i>
+                    Reservar
+                  </button>
+                </a>
+              {/each}
             </div>
-          {/each}
+          {/if}
         </div>
       {:else}
         <p class="no-screenings">No hay sesiones disponibles</p>
@@ -391,61 +454,84 @@
 
   .screenings-section {
     background: rgba(255,255,255,0.03);
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 1rem;
   }
 
-  .date-screenings {
-    margin-bottom: 1.5rem;
-  }
-
-  .date-screenings:last-child {
-    margin-bottom: 0;
-  }
-
-  h3 {
-    font-size: 1rem;
-    color: #aaa;
-    margin: 0 0 0.75rem 0;
-  }
-
-  .screening-list {
-    display: grid;
+  .dates-nav {
+    display: flex;
     gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
 
-  .screening-item {
-    display: grid;
-    grid-template-columns: auto 1fr auto auto;
+  .date-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    color: #aaa;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    min-width: 100px;
+  }
+
+  .date-btn.active {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .date-short {
+    font-weight: 500;
+    text-transform: capitalize;
+  }
+
+  .screening-count {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .screenings-grid {
+    display: grid;
     gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+
+  .screening-card {
     background: rgba(255,255,255,0.05);
-    padding: 0.75rem;
-    border-radius: 4px;
+    border-radius: 8px;
+    padding: 1rem;
     text-decoration: none;
     color: #fff;
-    transition: background-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: all 0.2s;
   }
 
-  .screening-item:hover {
-    background: rgba(255,255,255,0.1);
+  .screening-card:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-2px);
+  }
+
+  .screening-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .time {
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 600;
     display: flex;
     align-items: center;
     gap: 0.4rem;
-  }
-
-  .room {
-    color: #aaa;
-    font-size: 0.9rem;
-  }
-
-  .price {
-    font-weight: 500;
-    color: #4CAF50;
   }
 
   .tag-3d {
@@ -453,6 +539,76 @@
     padding: 0.2rem 0.5rem;
     border-radius: 4px;
     font-size: 0.8rem;
+  }
+
+  .screening-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cinema-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .cinema-name {
+    font-weight: 500;
+  }
+
+  .room-name {
+    font-size: 0.9rem;
+    color: #aaa;
+  }
+
+  .seats-info {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+  }
+
+  .seats-info.success {
+    background: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+  }
+
+  .seats-info.warning {
+    background: rgba(255, 152, 0, 0.1);
+    color: #FF9800;
+  }
+
+  .seats-info.danger {
+    background: rgba(244, 67, 54, 0.1);
+    color: #F44336;
+  }
+
+  .price-tag {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4CAF50;
+  }
+
+  .book-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+  }
+
+  .book-btn:hover {
+    background: #45a049;
   }
 
   .no-screenings {
@@ -475,13 +631,19 @@
       margin: 0 auto;
     }
 
-    .screening-item {
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
+    .screenings-grid {
+      grid-template-columns: 1fr;
     }
 
-    .cast-grid {
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    .dates-nav {
+      margin: -1rem -1rem 1rem -1rem;
+      padding: 1rem;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .date-btn {
+      min-width: 90px;
+      padding: 0.4rem 0.75rem;
     }
   }
 </style>
