@@ -9,6 +9,12 @@
   // Imagen por defecto en base64 (un placeholder gris simple)
   const DEFAULT_IMAGE_BASE64 = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
   
+  // Función para obtener la URL correcta de la imagen
+  function getImageUrl(photoUrl) {
+    if (!photoUrl) return DEFAULT_IMAGE_BASE64;
+    return `/images/movies/${photoUrl}`;
+  }
+  
   // Estado
   let movie = null;
   let loading = true;
@@ -180,7 +186,7 @@
       {#if movie.photo_url}
         <div class="position-absolute inset-0 bg-gradient-to-b from-black/80 via-black/95 to-black"></div>
         <img 
-          src={movie.photo_url} 
+          src={getImageUrl(movie.photo_url)} 
           alt="" 
           class="w-100 h-100 object-cover opacity-20"
           style="object-position: center 20%;"
@@ -214,7 +220,7 @@
           <div class="col-md-4 col-lg-3">
             <div class="position-relative h-100">
               <img 
-                src={movie.photo_url || DEFAULT_IMAGE_BASE64} 
+                src={getImageUrl(movie.photo_url) || DEFAULT_IMAGE_BASE64} 
                 alt={movie.title}
                 class="w-100 h-100 object-cover"
                 style="min-height: 300px;"
@@ -307,6 +313,24 @@
                       <div class="col-md-4 mb-3">
                         <h6 class="text-muted">Añadida el</h6>
                         <p>{formatDate(movie.created_at)}</p>
+                      </div>
+                    {/if}
+
+                    {#if movie.directors}
+                      <div class="col-md-4 mb-3">
+                        <h6 class="text-muted">Director</h6>
+                        <p>{movie.directors}</p>
+                      </div>
+                    {/if}
+
+                    {#if movie.actors && movie.actors.length > 0}
+                      <div class="col-12 mb-3">
+                        <h6 class="text-muted">Reparto</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                          {#each movie.actors as actor}
+                            <span class="badge bg-secondary">{actor}</span>
+                          {/each}
+                        </div>
                       </div>
                     {/if}
                   </div>

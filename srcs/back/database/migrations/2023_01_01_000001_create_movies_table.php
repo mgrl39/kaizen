@@ -20,6 +20,8 @@ return new class () extends Migration {
                 $table->string('rating')->nullable();
                 $table->date('release_date')->nullable();
                 $table->string('photo_url')->nullable();
+                $table->string('original_image_path')->nullable();
+                $table->string('directors')->nullable();
                 $table->string('slug')->unique();
                 $table->boolean('is_active')->default(true);
                 $table->timestamps();

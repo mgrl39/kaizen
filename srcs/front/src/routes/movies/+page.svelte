@@ -15,21 +15,7 @@
   // Función para obtener la URL correcta de la imagen
   function getImageUrl(photoUrl) {
     if (!photoUrl) return DEFAULT_IMAGE_BASE64;
-    
-    // Si es una URL completa, extraer solo el nombre del archivo
-    if (photoUrl.startsWith('http')) {
-      const parts = photoUrl.split('/');
-      const filename = parts[parts.length - 1];
-      return `/images/${filename}`;
-    }
-    
-    // Si ya es solo el nombre del archivo
-    if (!photoUrl.includes('/')) {
-      return `/images/${photoUrl}`;
-    }
-    
-    // Si es una ruta parcial, asegurarse de que empiece desde /images
-    return photoUrl.startsWith('/images') ? photoUrl : `/images/${photoUrl}`;
+    return `/images/movies/${photoUrl}`;
   }
   
   // Función para manejar errores de carga de imagen

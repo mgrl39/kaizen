@@ -94,7 +94,15 @@ class ImportMoviesFromJson extends Command
         $movie->duration = $duration;
         $movie->rating = $movieData['clasificacion'] ?? '';
         $movie->release_date = $releaseDate;
-        $movie->photo_url = $movieData['poster_local'] ?? $movieData['imagen_local'] ?? '';
+        
+        // Guardar directores
+        $movie->directors = $movieData['directores'] ?? '';
+        
+        // Manejar las rutas de imágenes
+        $originalImagePath = $movieData['poster_local'] ?? $movieData['imagen_local'] ?? '';
+        $movie->original_image_path = $originalImagePath;
+        $movie->photo_url = basename($originalImagePath);
+        
         $movie->slug = Str::slug($movieData['titulo']);
         $movie->save();
         
@@ -115,15 +123,17 @@ class ImportMoviesFromJson extends Command
         $movie->synopsis = $movieData['sinopsis'] ?? $movie->synopsis;
         $movie->duration = $this->convertDurationToMinutes($movieData['duracion'] ?? '') ?: $movie->duration;
         $movie->rating = $movieData['clasificacion'] ?? $movie->rating;
+        $movie->directors = $movieData['directores'] ?? $movie->directors;
         
         if (!empty($movieData['fecha_estreno'])) {
             $movie->release_date = $this->parseReleaseDate($movieData['fecha_estreno']);
         }
         
-        if (!empty($movieData['poster_local'])) {
-            $movie->photo_url = $movieData['poster_local'];
-        } elseif (!empty($movieData['imagen_local']) && empty($movie->photo_url)) {
-            $movie->photo_url = $movieData['imagen_local'];
+        // Actualizar rutas de imágenes
+        $originalImagePath = $movieData['poster_local'] ?? $movieData['imagen_local'] ?? null;
+        if ($originalImagePath) {
+            $movie->original_image_path = $originalImagePath;
+            $movie->photo_url = basename($originalImagePath);
         }
         
         $movie->save();
