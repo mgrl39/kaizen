@@ -31,9 +31,19 @@
   let pagination = {
     current_page: 1,
     total: 0,
-    per_page: 12,
+    per_page: 24,
     last_page: 0
   };
+
+  // Función para formatear la duración
+  function formatDuration(minutes: number): string {
+    if (!minutes) return '';
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+    if (hours === 0) return `${mins}min`;
+    if (mins === 0) return `${hours}h`;
+    return `${hours}h ${mins}min`;
+  }
 
   onMount(async () => {
     try {
@@ -100,7 +110,7 @@
       {error}
     </div>
   {:else}
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center">
       {#each movies as movie}
         <div class="col">
           <div class="card h-100 movie-card hover-card">
@@ -113,20 +123,15 @@
                   on:error={handleImageError}
                   loading="lazy"
                 />
-                {#if movie.rating}
-                  <span class="position-absolute top-0 end-0 m-2 badge bg-warning">
-                    <i class="bi bi-star-fill me-1"></i>{movie.rating}
-                  </span>
-                {/if}
               </div>
               <div class="card-body">
                 <h5 class="card-title text-truncate text-primary">{movie.title}</h5>
-                <div class="d-flex align-items-center mb-2 text-muted">
+                <div class="d-flex align-items-center text-muted">
                   <small>
                     {movie.release_year || (movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A')}
                     {#if movie.duration}
                       <span class="mx-1">•</span>
-                      <i class="bi bi-clock me-1"></i>{movie.duration} min
+                      <i class="bi bi-clock me-1"></i>{formatDuration(movie.duration)}
                     {/if}
                   </small>
                 </div>
@@ -184,8 +189,19 @@
   }
 
   .movie-poster {
-    height: 300px;
+    width: 160px;
+    height: 240px;
     object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    border-radius: 4px;
+  }
+  
+  .movie-card {
+    width: fit-content;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
   }
   
   .hover-card {
@@ -197,21 +213,47 @@
     box-shadow: 0 10px 20px rgba(147, 51, 234, 0.2);
   }
 
+  /* Ajustar el ancho de las columnas para las tarjetas */
+  :global(.row) {
+    margin: 0 -0.5rem;
+  }
+
+  :global(.col) {
+    padding: 0.5rem;
+  }
+
+  :global(.card-body) {
+    width: 160px;
+    padding: 0.75rem 0.5rem;
+  }
+
+  :global(.card-title) {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  :global(.text-muted small) {
+    font-size: 0.85rem;
+  }
+
+  /* Ajustar el contenedor para centrar el último row */
+  :global(.container) {
+    max-width: 1400px;
+    padding: 0 1rem;
+  }
+
+  @media (min-width: 992px) {
+    :global(.container) {
+      padding: 0 2rem;
+    }
+  }
+
   /* Estilos personalizados para elementos de UI */
-  :global(.badge.bg-primary) {
-    background: var(--movie-gradient) !important;
-    border: none;
-  }
-
-  :global(.badge.bg-secondary) {
-    background-color: var(--movie-primary-light) !important;
-    color: var(--movie-primary);
-  }
-
+  :global(.badge.bg-primary),
+  :global(.badge.bg-secondary),
   :global(.badge.bg-warning) {
-    background-color: var(--movie-primary-light) !important;
-    color: var(--movie-primary);
-    border: 1px solid var(--movie-primary);
+    display: none;
   }
 
   :global(.text-primary) {
