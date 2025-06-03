@@ -31,15 +31,17 @@
   
   // Definir estructura de navegación
   const navItems = [
-    { url: '/cinemas', icon: 'building', text: $t('cinemas') },
-    { url: '/movies', icon: 'film', text: $t('movies') }
+    { url: '/cinemas', icon: 'building', text: $t('ourCinema') },
+    { url: '/movies', icon: 'film', text: $t('movies') },
+    { url: '/actors', icon: 'person-badge', text: $t('actors') }
   ];
   
   // Agregar elementos para la barra de navegación móvil
   const mobileNavItems = [
     { url: '/', icon: 'house', text: $t('home') },
-    { url: '/cinemas', icon: 'building', text: $t('cinemas') },
+    { url: '/cinemas', icon: 'building', text: $t('ourCinema') },
     { url: '/movies', icon: 'film', text: $t('movies') },
+    { url: '/actors', icon: 'person-badge', text: $t('actors') },
     { url: isAuthenticated ? '/profile' : '/login', icon: isAuthenticated ? 'person-circle' : 'box-arrow-in-right', text: isAuthenticated ? $t('profile') : $t('login') }
   ];
   
@@ -511,7 +513,15 @@
           class="mobile-nav-item {isActive('/cinemas') ? 'active' : ''}"
         >
           <i class="bi bi-building"></i>
-          <span>{$t('cinemas')}</span>
+          <span>{$t('ourCinema')}</span>
+        </a>
+        
+        <a 
+          href="/actors" 
+          class="mobile-nav-item {isActive('/actors') ? 'active' : ''}"
+        >
+          <i class="bi bi-person-badge"></i>
+          <span>{$t('actors')}</span>
         </a>
         
         <a 

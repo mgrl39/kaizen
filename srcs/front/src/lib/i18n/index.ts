@@ -144,6 +144,7 @@ export type TranslationKey =
 	| 'confirmPasswordPlaceholder'
 	| 'registerError'
 	| 'registerSuccess'
+	| 'actors'
 
 	// Categories
 	| 'exploreCategories'

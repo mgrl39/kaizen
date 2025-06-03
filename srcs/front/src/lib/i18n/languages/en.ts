@@ -2,7 +2,7 @@ import type { TranslationDictionary } from '../index';
 
 const en: TranslationDictionary = {
 	// Navbar and common
-	cinemas: 'Cinemas',
+	cinemas: 'Our Cinema',
 	movies: 'Movies',
 	profile: 'My Profile',
 	bookings: 'My Bookings',
@@ -26,6 +26,7 @@ const en: TranslationDictionary = {
 	adminAccessTitle: 'Admin Panel Access',
 	adminAccessWarning: 'You are about to access the admin panel. This area is restricted to authorized personnel.',
 	continueQuestion: 'Do you want to continue?',
+	actors: 'Actors',
 
 	// Login page
 	loginError: 'An error occurred. Please try again.',
