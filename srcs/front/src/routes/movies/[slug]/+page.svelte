@@ -158,22 +158,19 @@
 <div class="container-fluid p-0">
   {#if loading}
     <div class="min-vh-50 d-flex align-items-center justify-content-center py-5" in:fade>
-      <div class="spinner-border text-light me-3" role="status"></div>
-      <span class="text-light">Cargando información de la película...</span>
+      <div class="spinner-border text-primary me-3" role="status"></div>
+      <span>Cargando información de la película...</span>
     </div>
   {:else if error}
     <div class="min-vh-50 d-flex align-items-center justify-content-center py-5" in:fade>
-      <div class="card bg-dark text-white border-danger w-100 max-w-md">
+      <div class="card border-danger w-100 max-w-md">
         <div class="card-header bg-danger bg-opacity-25 text-danger">
           <i class="bi bi-exclamation-triangle-fill me-2"></i>
           Error
         </div>
         <div class="card-body text-center">
           <p class="mb-4">{error}</p>
-          <button 
-            class="btn btn-outline-light" 
-            on:click={goBack}
-          >
+          <button class="btn btn-outline-primary" on:click={goBack}>
             <i class="bi bi-arrow-left me-2"></i>
             Volver
           </button>
@@ -181,254 +178,235 @@
       </div>
     </div>
   {:else if movie}
-    <!-- Fondo con efecto parallax -->
-    <div class="position-fixed top-0 start-0 w-100 h-100 -z-10">
-      {#if movie.photo_url}
-        <div class="position-absolute inset-0 bg-gradient-to-b from-black/80 via-black/95 to-black"></div>
-        <img 
-          src={getImageUrl(movie.photo_url)} 
-          alt="" 
-          class="w-100 h-100 object-cover opacity-20"
-          style="object-position: center 20%;"
-          on:error={(e) => {
-            if (e.target) {
-              e.target.src = DEFAULT_IMAGE_BASE64;
-              e.target.onerror = null;
-            }
-          }}
-        />
-      {:else}
-        <div class="position-absolute inset-0 bg-black"></div>
-      {/if}
-    </div>
-    
-    <!-- Contenido principal -->
-    <div class="container py-4" in:fade={{ duration: 300, delay: 150 }}>
-      <!-- Botón de regreso -->
-      <button 
-        class="btn btn-sm btn-outline-light mb-4 opacity-75 hover:opacity-100" 
-        on:click={goBack}
-      >
-        <i class="bi bi-arrow-left me-1"></i>
-        Volver a cartelera
-      </button>
-      
-      <!-- Información de la película -->
-      <div class="row">
-        <!-- Columna izquierda con poster y acciones -->
-        <div class="col-md-3">
-          <div class="card bg-dark border-0 mb-4">
-            <div class="position-relative">
-              <img 
-                src={getImageUrl(movie.photo_url) || DEFAULT_IMAGE_BASE64} 
-                alt={movie.title}
-                class="card-img-top movie-poster"
-                on:error={(e) => {
-                  if (e.target) {
-                    e.target.src = DEFAULT_IMAGE_BASE64;
-                    e.target.onerror = null;
-                  }
-                }}
-              />
-              {#if movie.rating}
-                <span class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark">
-                  {movie.rating}
-                </span>
-              {/if}
-            </div>
-            
-            <!-- Acciones -->
-            <div class="card-body">
-              <div class="d-grid gap-2">
-                {#if screenings.length > 0}
-                  <a 
-                    href={`/booking/${screenings[0].id}`} 
-                    class="btn btn-success d-flex align-items-center justify-content-center"
-                  >
-                    <i class="bi bi-ticket-perforated me-2"></i>
-                    <span>Comprar entradas</span>
-                  </a>
+    <div class="movie-header position-relative mb-4">
+      <div class="movie-backdrop"></div>
+      <div class="container py-4">
+        <button class="btn btn-outline-light mb-4" on:click={goBack}>
+          <i class="bi bi-arrow-left me-2"></i>
+          Volver a cartelera
+        </button>
+        
+        <div class="row">
+          <!-- Poster Column -->
+          <div class="col-md-3">
+            <div class="card bg-white bg-opacity-10 border-0 mb-4">
+              <div class="position-relative">
+                <img 
+                  src={getImageUrl(movie.photo_url)}
+                  alt={movie.title}
+                  class="movie-poster card-img-top"
+                  on:error={(e) => e.target.src = DEFAULT_IMAGE_BASE64}
+                />
+                {#if movie.rating}
+                  <span class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark">
+                    {movie.rating}
+                  </span>
                 {/if}
-                
-                <button 
-                  class="btn btn-outline-light d-flex align-items-center justify-content-center" 
-                  on:click={addToFavorites}
-                >
-                  <i class="bi bi-heart me-2"></i>
-                  <span>Añadir a favoritos</span>
-                </button>
-                
-                <button 
-                  class="btn btn-primary d-flex align-items-center justify-content-center"
-                  type="button"
-                  on:click={shareMovie}
-                >
-                  <i class="bi bi-share-fill me-2"></i>
-                  <span>Compartir</span>
-                </button>
+              </div>
+              
+              <div class="card-body">
+                <div class="d-grid gap-2">
+                  {#if screenings.length > 0}
+                    <a 
+                      href={`/booking/${screenings[0].id}`}
+                      class="btn btn-success"
+                    >
+                      <i class="bi bi-ticket-perforated me-2"></i>
+                      Comprar entradas
+                    </a>
+                  {/if}
+                  
+                  <button 
+                    class="btn btn-outline-light"
+                    on:click={addToFavorites}
+                  >
+                    <i class="bi bi-heart me-2"></i>
+                    Añadir a favoritos
+                  </button>
+                  
+                  <button 
+                    class="btn btn-primary"
+                    on:click={shareMovie}
+                  >
+                    <i class="bi bi-share-fill me-2"></i>
+                    Compartir
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        
-        <!-- Columna derecha con información -->
-        <div class="col-md-9">
-          <div class="card bg-dark border-0">
-            <div class="card-body">
-              <h1 class="display-6 fw-bold mb-2">{movie.title}</h1>
-              
-              <div class="d-flex flex-wrap align-items-center text-muted mb-4">
-                {#if movie.release_date}
-                  <span class="me-3">
-                    <i class="bi bi-calendar3 me-1"></i>
-                    {formatDate(movie.release_date)}
-                  </span>
-                {/if}
+          
+          <!-- Content Column -->
+          <div class="col-md-9">
+            <div class="card bg-white bg-opacity-10 border-0">
+              <div class="card-body">
+                <h1 class="display-6 fw-bold text-white mb-3">{movie.title}</h1>
                 
-                {#if movie.duration}
-                  <span class="me-3">
-                    <i class="bi bi-clock me-1"></i>
-                    {formatDuration(movie.duration)}
-                  </span>
-                {/if}
-                
-                {#if movie.directors}
-                  <span>
-                    <i class="bi bi-camera-reels me-1"></i>
-                    {movie.directors}
-                  </span>
-                {/if}
-              </div>
-              
-              <!-- Pestañas -->
-              <ul class="nav nav-tabs mb-4">
-                <li class="nav-item">
-                  <button 
-                    class="nav-link {activeTab === 'info' ? 'active' : ''}" 
-                    on:click={() => activeTab = 'info'}
-                  >
-                    <i class="bi bi-info-circle me-1"></i>
-                    Información
-                  </button>
-                </li>
-                <li class="nav-item">
-                  <button 
-                    class="nav-link {activeTab === 'screenings' ? 'active' : ''}" 
-                    on:click={() => activeTab = 'screenings'}
-                  >
-                    <i class="bi bi-calendar2-week me-1"></i>
-                    Proyecciones
-                  </button>
-                </li>
-              </ul>
-              
-              <!-- Contenido de pestañas -->
-              {#if activeTab === 'info'}
-                <div class="tab-content" in:fade={{ duration: 200 }}>
-                  <div class="mb-4">
-                    <h5 class="mb-3">Sinopsis</h5>
-                    <p class="card-text">{movie.synopsis || 'No hay sinopsis disponible para esta película.'}</p>
-                  </div>
-                  
-                  {#if movie.genres && movie.genres.length > 0}
-                    <div class="mb-4">
-                      <h5 class="mb-3">Géneros</h5>
-                      <div class="d-flex flex-wrap gap-2">
-                        {#each movie.genres as genre}
-                          <span class="badge bg-primary">{genre.name}</span>
-                        {/each}
-                      </div>
-                    </div>
+                <div class="d-flex flex-wrap gap-3 text-white text-opacity-75 mb-4">
+                  {#if movie.release_date}
+                    <span>
+                      <i class="bi bi-calendar3 me-2"></i>
+                      {formatDate(movie.release_date)}
+                    </span>
                   {/if}
                   
-                  {#if movie.actors && movie.actors.length > 0}
-                    <div class="mb-4">
-                      <h5 class="mb-3">Reparto</h5>
-                      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
-                        {#each movie.actors as actor}
-                          <div class="col">
-                            <a 
-                              href="/actors/{actor.slug}" 
-                              class="text-decoration-none"
-                            >
-                              <div class="card bg-dark actor-card">
-                                <div class="card-body text-center p-3">
-                                  <div class="actor-initials mb-2">
-                                    {actor.name.split(' ').map(word => word[0]).join('').toUpperCase()}
-                                  </div>
-                                  <h4 class="card-title h6 text-white mb-0">
-                                    {actor.name}
-                                  </h4>
-                                </div>
-                              </div>
-                            </a>
-                          </div>
-                        {/each}
-                      </div>
-                    </div>
+                  {#if movie.duration}
+                    <span>
+                      <i class="bi bi-clock me-2"></i>
+                      {formatDuration(movie.duration)}
+                    </span>
+                  {/if}
+                  
+                  {#if movie.directors}
+                    <span>
+                      <i class="bi bi-camera-reels me-2"></i>
+                      {movie.directors}
+                    </span>
                   {/if}
                 </div>
-              {:else if activeTab === 'screenings'}
-                <div class="tab-content" in:fade={{ duration: 200 }}>
-                  {#if screenings.length > 0}
-                    {#each Object.entries(groupScreeningsByDate(screenings)) as [date, dateScreenings]}
+                
+                <!-- Tabs Navigation -->
+                <ul class="nav nav-tabs nav-tabs-custom mb-4">
+                  <li class="nav-item">
+                    <button 
+                      class="nav-link {activeTab === 'info' ? 'active' : ''}"
+                      on:click={() => activeTab = 'info'}
+                    >
+                      <i class="bi bi-info-circle me-2"></i>
+                      Información
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button 
+                      class="nav-link {activeTab === 'screenings' ? 'active' : ''}"
+                      on:click={() => activeTab = 'screenings'}
+                    >
+                      <i class="bi bi-calendar2-week me-2"></i>
+                      Proyecciones
+                    </button>
+                  </li>
+                </ul>
+                
+                <!-- Tab Content -->
+                {#if activeTab === 'info'}
+                  <div class="tab-content" in:fade={{ duration: 200 }}>
+                    <!-- Synopsis -->
+                    <div class="mb-4">
+                      <h5 class="text-white mb-3">Sinopsis</h5>
+                      <p class="text-white text-opacity-75">
+                        {movie.synopsis || 'No hay sinopsis disponible para esta película.'}
+                      </p>
+                    </div>
+                    
+                    <!-- Genres -->
+                    {#if movie.genres && movie.genres.length > 0}
                       <div class="mb-4">
-                        <h5 class="mb-3">
-                          <i class="bi bi-calendar-date me-2"></i>
-                          {formatDate(date)}
-                        </h5>
-                        <div class="row g-3">
-                          {#each dateScreenings as screening}
-                            <div class="col-md-6 col-lg-4">
-                              <div class="card bg-dark screening-card h-100">
-                                <div class="card-body">
-                                  <div class="d-flex justify-content-between align-items-start mb-3">
-                                    <div>
-                                      <h6 class="mb-1">
-                                        <i class="bi bi-clock me-2"></i>
-                                        {formatTime(screening.time)}
-                                      </h6>
-                                      <p class="mb-0 text-muted small">
-                                        {screening.room?.cinema?.name || 'N/A'} - Sala {screening.room?.name || 'N/A'}
-                                      </p>
+                        <h5 class="text-white mb-3">Géneros</h5>
+                        <div class="d-flex flex-wrap gap-2">
+                          {#each movie.genres as genre}
+                            <span class="badge bg-primary">{genre.name}</span>
+                          {/each}
+                        </div>
+                      </div>
+                    {/if}
+                    
+                    <!-- Cast -->
+                    {#if movie.actors && movie.actors.length > 0}
+                      <div class="mb-4">
+                        <h5 class="text-white mb-3">Reparto</h5>
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+                          {#each movie.actors as actor}
+                            <div class="col">
+                              <a 
+                                href="/actors/{actor.slug}"
+                                class="text-decoration-none"
+                              >
+                                <div class="actor-card">
+                                  <div class="text-center p-3">
+                                    <div class="actor-initials mb-2">
+                                      {actor.name.split(' ').map(word => word[0]).join('').toUpperCase()}
                                     </div>
-                                    {#if screening.is_3d}
-                                      <span class="badge bg-info">3D</span>
-                                    {/if}
-                                  </div>
-                                  
-                                  <div class="d-flex justify-content-between align-items-center">
-                                    <div class="price-tag">
-                                      {#if screening.price}
-                                        <span class="fs-5 fw-bold">
-                                          {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(screening.price)}
-                                        </span>
-                                      {:else}
-                                        <span class="text-muted">Precio no disponible</span>
-                                      {/if}
-                                    </div>
-                                    <a 
-                                      href={`/booking/${screening.id}`} 
-                                      class="btn btn-primary btn-sm"
-                                    >
-                                      Reservar
-                                    </a>
+                                    <h6 class="text-white mb-0">
+                                      {actor.name}
+                                    </h6>
                                   </div>
                                 </div>
-                              </div>
+                              </a>
                             </div>
                           {/each}
                         </div>
                       </div>
-                    {/each}
-                  {:else}
-                    <div class="alert alert-info">
-                      <i class="bi bi-info-circle-fill me-2"></i>
-                      No hay proyecciones disponibles para esta película.
-                    </div>
-                  {/if}
-                </div>
-              {/if}
+                    {/if}
+                  </div>
+                
+                <!-- Screenings Tab -->
+                {:else if activeTab === 'screenings'}
+                  <div class="tab-content" in:fade={{ duration: 200 }}>
+                    {#if screenings.length > 0}
+                      {#each Object.entries(groupScreeningsByDate(screenings)) as [date, dateScreenings]}
+                        <div class="mb-4">
+                          <h5 class="text-white mb-3">
+                            <i class="bi bi-calendar-date me-2"></i>
+                            {formatDate(date)}
+                          </h5>
+                          <div class="row g-3">
+                            {#each dateScreenings as screening}
+                              <div class="col-md-6 col-lg-4">
+                                <div class="screening-card h-100">
+                                  <div class="p-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                      <div>
+                                        <h6 class="text-white mb-1">
+                                          <i class="bi bi-clock me-2"></i>
+                                          {formatTime(screening.time)}
+                                        </h6>
+                                        <p class="text-white text-opacity-75 small mb-0">
+                                          {screening.room?.cinema?.name || 'N/A'} - Sala {screening.room?.name || 'N/A'}
+                                        </p>
+                                      </div>
+                                      {#if screening.is_3d}
+                                        <span class="badge bg-info">3D</span>
+                                      {/if}
+                                    </div>
+                                    
+                                    <div class="d-flex justify-content-between align-items-center">
+                                      <div class="price-tag">
+                                        {#if screening.price}
+                                          <span class="fs-5 fw-bold text-success">
+                                            {new Intl.NumberFormat('es-ES', { 
+                                              style: 'currency', 
+                                              currency: 'EUR' 
+                                            }).format(screening.price)}
+                                          </span>
+                                        {:else}
+                                          <span class="text-white text-opacity-50">
+                                            Precio no disponible
+                                          </span>
+                                        {/if}
+                                      </div>
+                                      <a 
+                                        href={`/booking/${screening.id}`}
+                                        class="btn btn-primary btn-sm"
+                                      >
+                                        Reservar
+                                      </a>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            {/each}
+                          </div>
+                        </div>
+                      {/each}
+                    {:else}
+                      <div class="alert alert-info">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        No hay proyecciones disponibles para esta película.
+                      </div>
+                    {/if}
+                  </div>
+                {/if}
+              </div>
             </div>
           </div>
         </div>
@@ -436,13 +414,10 @@
     </div>
   {:else}
     <div class="min-vh-50 d-flex align-items-center justify-content-center py-5" in:fade>
-      <div class="card bg-dark text-white border-secondary w-100 max-w-md">
+      <div class="card border-secondary w-100 max-w-md">
         <div class="card-body text-center">
           <p class="mb-4">No se encontró la película solicitada.</p>
-          <button 
-            class="btn btn-outline-light" 
-            on:click={goBack}
-          >
+          <button class="btn btn-outline-primary" on:click={goBack}>
             <i class="bi bi-arrow-left me-2"></i>
             Volver
           </button>
@@ -463,7 +438,11 @@
         <div class="toast-header bg-dark text-white border-bottom border-secondary">
           <i class="bi bi-{toast.type === 'error' ? 'exclamation-circle-fill text-danger' : 'check-circle-fill text-success'} me-2"></i>
           <strong class="me-auto">Kaizen Cinema</strong>
-          <button type="button" class="btn-close btn-close-white" on:click={() => toast.visible = false}></button>
+          <button 
+            type="button" 
+            class="btn-close btn-close-white" 
+            on:click={() => toast.visible = false}
+          ></button>
         </div>
         <div class="toast-body">
           {toast.message}
@@ -482,7 +461,7 @@
 />
 
 <style>
-  /* Estilos adicionales */
+  /* Layout */
   .min-vh-50 {
     min-height: 50vh;
   }
@@ -491,19 +470,29 @@
     max-width: 500px;
   }
   
-  .object-cover {
-    object-fit: cover;
+  /* Movie Header & Backdrop */
+  .movie-header {
+    background-color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
   }
   
-  .backdrop-blur-md {
-    backdrop-filter: blur(12px);
+  .movie-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(26,26,26,0.8) 0%, #1a1a1a 100%);
+    z-index: 1;
   }
   
-  .-z-10 {
-    z-index: -10;
+  .movie-header .container {
+    position: relative;
+    z-index: 2;
   }
   
-  /* Estilos para el poster */
+  /* Movie Poster */
   .movie-poster {
     width: 100%;
     max-width: 300px;
@@ -513,49 +502,52 @@
     border-radius: 8px;
     margin: 0 auto;
     display: block;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   }
   
-  /* Estilos para las pestañas */
-  .nav-tabs {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  /* Custom Tabs */
+  .nav-tabs-custom {
+    border-bottom: 1px solid rgba(255,255,255,0.1);
   }
   
-  .nav-tabs .nav-link {
-    color: rgba(255, 255, 255, 0.75);
+  .nav-tabs-custom .nav-link {
+    color: rgba(255,255,255,0.75);
     border: none;
     border-bottom: 2px solid transparent;
     padding: 0.5rem 1rem;
     margin-right: 1rem;
     background: none;
+    transition: all 0.3s ease;
   }
   
-  .nav-tabs .nav-link:hover {
+  .nav-tabs-custom .nav-link:hover {
     color: white;
-    border-bottom-color: rgba(255, 255, 255, 0.5);
+    border-bottom-color: rgba(255,255,255,0.5);
   }
   
-  .nav-tabs .nav-link.active {
+  .nav-tabs-custom .nav-link.active {
     color: white;
     background: none;
     border-bottom: 2px solid var(--bs-primary);
   }
   
-  /* Estilos para las tarjetas de actores */
+  /* Actor Cards */
   .actor-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .actor-card:hover {
     transform: translateY(-5px);
-    border-color: var(--bs-primary);
+    background: rgba(255,255,255,0.15);
   }
   
   .actor-initials {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255,255,255,0.1);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -565,27 +557,29 @@
     margin: 0 auto;
   }
   
-  /* Estilos para las tarjetas de proyecciones */
+  /* Screening Cards */
   .screening-card {
+    background: rgba(255,255,255,0.1);
+    border-radius: 8px;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .screening-card:hover {
     transform: translateY(-5px);
-    border-color: var(--bs-primary);
+    background: rgba(255,255,255,0.15);
   }
   
-  .price-tag {
-    color: var(--bs-success);
+  /* Buttons & Interactive Elements */
+  .btn {
+    transition: all 0.3s ease;
   }
   
-  /* Ajustes generales */
-  .card {
-    background: rgba(33, 37, 41, 0.95);
+  .btn:hover {
+    transform: translateY(-2px);
   }
   
-  .tab-content {
-    min-height: 200px;
+  /* Toast Notifications */
+  .toast {
+    backdrop-filter: blur(10px);
   }
 </style>
