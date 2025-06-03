@@ -35,6 +35,35 @@
     image_url: "/images/cinema-hero.jpg"
   };
 
+  // Función para obtener las características de una sala según su tipo
+  function getRoomFeatures(type, features) {
+    const baseFeatures = {
+      'standard': ['Sonido envolvente', 'Butacas cómodas'],
+      'imax': ['Pantalla IMAX gigante', 'Sonido Dolby Atmos', 'Experiencia inmersiva'],
+      'vip': ['Asientos reclinables de lujo', 'Servicio personalizado', 'Menú exclusivo'],
+      '3d': ['Tecnología 3D avanzada', 'Gafas 3D premium']
+    };
+
+    let roomFeatures = [...(baseFeatures[type] || [])];
+    
+    // Añadir características adicionales basadas en features
+    if (features) {
+      if (features.is_3d) roomFeatures.push('Compatible con 3D');
+      if (features.is_imax) roomFeatures.push('Certificado IMAX');
+      if (features.is_vip) roomFeatures.push('Experiencia VIP');
+    }
+
+    return roomFeatures;
+  }
+
+  // Función para formatear el precio
+  function formatPrice(price) {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(price);
+  }
+
   // Función para cargar las salas
   async function loadRooms() {
     try {
@@ -48,11 +77,12 @@
         throw new Error(result.message);
       }
       
-      // Formatear las salas con sus características basadas en el tipo
+      // Formatear las salas con sus características
       rooms = result.data.map(room => ({
         ...room,
-        features: getRoomFeatures(room.type),
-        capacity: room.rows * room.seats_per_row
+        features: getRoomFeatures(room.type, room.features),
+        formattedPrice: formatPrice(room.price),
+        capacity: room.layout.total_seats
       }));
       
     } catch (e) {
@@ -61,16 +91,6 @@
     } finally {
       loading = false;
     }
-  }
-
-  // Función para obtener las características de una sala según su tipo
-  function getRoomFeatures(type) {
-    const features = {
-      'imax': ['Pantalla IMAX', 'Sonido Dolby Atmos', 'Butacas premium'],
-      'vip': ['Asientos reclinables', 'Servicio a la butaca', 'Menú exclusivo'],
-      'standard': ['Sonido envolvente', 'Butacas cómodas']
-    };
-    return features[type] || [];
   }
 
   onMount(() => {
@@ -272,12 +292,22 @@
                     <i class="bi bi-camera-reels"></i>
                   </div>
                   <h3 class="room-title">{room.name}</h3>
+                  <div class="room-price">
+                    {room.formattedPrice}
+                    <span class="price-label">precio base</span>
+                  </div>
                 </div>
                 
                 <div class="room-content">
-                  <div class="room-capacity">
-                    <i class="bi bi-people"></i>
-                    <span>{room.capacity} {$t('capacity')}</span>
+                  <div class="room-info">
+                    <div class="room-capacity">
+                      <i class="bi bi-people"></i>
+                      <span>{room.capacity} {$t('capacity')}</span>
+                    </div>
+                    <div class="room-layout">
+                      <i class="bi bi-grid"></i>
+                      <span>{room.layout.rows} filas × {room.layout.seats_per_row} asientos</span>
+                    </div>
                   </div>
                   
                   {#if room.features.length > 0}
@@ -679,7 +709,32 @@
     gap: 1rem;
   }
 
-  .room-capacity {
+  .room-price {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--room-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price-label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  .room-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .room-capacity,
+  .room-layout {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -692,9 +747,8 @@
 
   .room-features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 0.5rem;
-    margin-top: auto;
   }
 
   .room-feature {
