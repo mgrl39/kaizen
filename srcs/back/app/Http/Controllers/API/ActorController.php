@@ -11,16 +11,28 @@ use Illuminate\Support\Facades\Cache;
 class ActorController extends Controller
 {
     /**
-     * Obtener todos los actores
+     * Obtener todos los actores paginados
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $actors = Actor::select('id', 'name', 'biography', 'photo_url', 'slug')->get();
+            $perPage = $request->input('per_page', 24); // Por defecto 24 actores por página
+            $perPage = min($perPage, 100); // Limitar a máximo 100 por página
+
+            $actors = Actor::select('id', 'name', 'biography', 'photo_url', 'slug')
+                ->withCount('movies') // Añadir el conteo de películas
+                ->orderBy('name', 'asc')
+                ->paginate($perPage);
 
             return response()->json([
                 'success' => true,
-                'data' => $actors,
+                'data' => $actors->items(),
+                'meta' => [
+                    'current_page' => $actors->currentPage(),
+                    'last_page' => $actors->lastPage(),
+                    'per_page' => $actors->perPage(),
+                    'total' => $actors->total()
+                ],
                 'message' => 'Actores cargados correctamente'
             ]);
         } catch (\Exception $e) {
@@ -33,12 +45,16 @@ class ActorController extends Controller
     }
 
     /**
-     * Obtener un actor específico
+     * Obtener un actor específico con sus películas
      */
     public function show($slug)
     {
         try {
-            $actor = Actor::where('slug', $slug)->firstOrFail();
+            $actor = Actor::where('slug', $slug)
+                ->with(['movies' => function($query) {
+                    $query->select('movies.id', 'title', 'photo_url', 'slug');
+                }])
+                ->firstOrFail();
 
             return response()->json([
                 'success' => true,
