@@ -192,7 +192,11 @@ export type TranslationKey =
 	| 'supportHours'
 	| 'supportHoursDesc'
 	| 'backToContact'
-	| 'getHelp';
+	| 'getHelp'
+	| 'chatWithSupport'
+	| 'chatWithSupportDesc'
+	| 'chatMinimized'
+	| 'chatMaximized';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

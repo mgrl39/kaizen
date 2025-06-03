@@ -170,7 +170,11 @@ const es: TranslationDictionary = {
 	supportHours: 'Horario de Atención',
 	supportHoursDesc: 'Lunes a Viernes: 9:00 - 18:00 (GMT+1)',
 	backToContact: 'Volver a Contacto',
-	getHelp: 'Obtener Ayuda'
+	getHelp: 'Obtener Ayuda',
+	chatWithSupport: 'Chat de Soporte',
+	chatWithSupportDesc: '¿Necesitas ayuda? Nuestro equipo de expertos está disponible 24/7 para resolver todas tus dudas. Ya sea sobre reservas, películas, problemas técnicos o cualquier otra consulta - estamos aquí para ayudarte en tiempo real. ¡Haz clic en el botón de chat y conéctate al instante con nuestro equipo!',
+	chatMinimized: 'Chat minimizado',
+	chatMaximized: 'Chat maximizado'
 };
 
 export default es;

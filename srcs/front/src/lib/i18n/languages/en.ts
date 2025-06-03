@@ -172,7 +172,11 @@ const en: TranslationDictionary = {
 	supportHours: 'Support Hours',
 	supportHoursDesc: 'Monday to Friday: 9:00 AM - 6:00 PM (GMT+1)',
 	backToContact: 'Back to Contact',
-	getHelp: 'Get Help'
+	getHelp: 'Get Help',
+	chatWithSupport: 'Support Chat',
+	chatWithSupportDesc: 'Need assistance? Our expert team is available 24/7 to address all your questions. Whether it\'s about bookings, movies, technical issues, or any other inquiry - we\'re here to help you in real-time. Click the chat button and connect instantly with our team!',
+	chatMinimized: 'Chat minimized',
+	chatMaximized: 'Chat maximized'
 };
 
 export default en;
