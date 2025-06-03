@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use App\Models\Movie;
 use App\Models\Genre;
 use App\Models\Actor;
+use App\Models\Director;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -98,6 +99,12 @@ class ImportMoviesFromJson extends Command
         // Guardar directores
         $movie->directors = $movieData['directores'] ?? '';
         
+        // Sincronizar directores
+        if (!empty($movieData['directores'])) {
+            $directorNames = explode(', ', $movieData['directores']);
+            $this->syncDirectors($movie, $directorNames);
+        }
+        
         // Manejar las rutas de imágenes
         $originalImagePath = $movieData['poster_local'] ?? $movieData['imagen_local'] ?? '';
         $movie->original_image_path = $originalImagePath;
@@ -183,6 +190,18 @@ class ImportMoviesFromJson extends Command
         }
         
         $movie->actors()->sync($actorIds);
+    }
+    
+    private function syncDirectors(Movie $movie, array $directorNames)
+    {
+        $directorIds = [];
+        
+        foreach ($directorNames as $name) {
+            $director = Director::firstOrCreate(['name' => $name]);
+            $directorIds[] = $director->id;
+        }
+        
+        $movie->directors()->sync($directorIds);
     }
     
     private function convertDurationToMinutes($durationText)

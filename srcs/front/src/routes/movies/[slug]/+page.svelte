@@ -206,7 +206,7 @@
     <div class="container py-4" in:fade={{ duration: 300, delay: 150 }}>
       <!-- Botón de regreso -->
       <button 
-        class="btn btn-sm btn-outline-light mb-3 opacity-75 hover:opacity-100" 
+        class="btn btn-sm btn-outline-light mb-4 opacity-75 hover:opacity-100" 
         on:click={goBack}
       >
         <i class="bi bi-arrow-left me-1"></i>
@@ -214,16 +214,15 @@
       </button>
       
       <!-- Información de la película -->
-      <div class="card bg-dark bg-opacity-50 border-0 backdrop-blur-md overflow-hidden">
-        <div class="row g-0">
-          <!-- Poster -->
-          <div class="col-md-4 col-lg-3">
-            <div class="position-relative h-100">
+      <div class="row">
+        <!-- Columna izquierda con poster y acciones -->
+        <div class="col-md-3">
+          <div class="card bg-dark border-0 mb-4">
+            <div class="position-relative">
               <img 
                 src={getImageUrl(movie.photo_url) || DEFAULT_IMAGE_BASE64} 
                 alt={movie.title}
-                class="w-100 h-100 object-cover"
-                style="min-height: 300px;"
+                class="card-img-top movie-poster"
                 on:error={(e) => {
                   if (e.target) {
                     e.target.src = DEFAULT_IMAGE_BASE64;
@@ -232,43 +231,80 @@
                 }}
               />
               {#if movie.rating}
-                <span class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark fs-6">
-                  <i class="bi bi-star-fill me-1"></i>
+                <span class="position-absolute top-0 end-0 m-2 badge bg-warning text-dark">
                   {movie.rating}
                 </span>
               {/if}
             </div>
+            
+            <!-- Acciones -->
+            <div class="card-body">
+              <div class="d-grid gap-2">
+                {#if screenings.length > 0}
+                  <a 
+                    href={`/booking/${screenings[0].id}`} 
+                    class="btn btn-success d-flex align-items-center justify-content-center"
+                  >
+                    <i class="bi bi-ticket-perforated me-2"></i>
+                    <span>Comprar entradas</span>
+                  </a>
+                {/if}
+                
+                <button 
+                  class="btn btn-outline-light d-flex align-items-center justify-content-center" 
+                  on:click={addToFavorites}
+                >
+                  <i class="bi bi-heart me-2"></i>
+                  <span>Añadir a favoritos</span>
+                </button>
+                
+                <button 
+                  class="btn btn-primary d-flex align-items-center justify-content-center"
+                  type="button"
+                  on:click={shareMovie}
+                >
+                  <i class="bi bi-share-fill me-2"></i>
+                  <span>Compartir</span>
+                </button>
+              </div>
+            </div>
           </div>
-          
-          <!-- Información -->
-          <div class="col-md-8 col-lg-9">
-            <div class="card-body p-4">
-              <div class="d-flex flex-wrap justify-content-between align-items-start mb-3">
-                <div>
-                  <h1 class="card-title display-6 fw-bold mb-1">{movie.title}</h1>
-                  <div class="d-flex flex-wrap align-items-center text-muted mb-3">
-                    {#if movie.release_date}
-                      <span class="me-3">
-                        <i class="bi bi-calendar3 me-1"></i>
-                        {formatDate(movie.release_date)}
-                      </span>
-                    {/if}
-                    
-                    {#if movie.duration}
-                      <span class="me-3">
-                        <i class="bi bi-clock me-1"></i>
-                        {formatDuration(movie.duration)}
-                      </span>
-                    {/if}
-                  </div>
-                </div>
+        </div>
+        
+        <!-- Columna derecha con información -->
+        <div class="col-md-9">
+          <div class="card bg-dark border-0">
+            <div class="card-body">
+              <h1 class="display-6 fw-bold mb-2">{movie.title}</h1>
+              
+              <div class="d-flex flex-wrap align-items-center text-muted mb-4">
+                {#if movie.release_date}
+                  <span class="me-3">
+                    <i class="bi bi-calendar3 me-1"></i>
+                    {formatDate(movie.release_date)}
+                  </span>
+                {/if}
+                
+                {#if movie.duration}
+                  <span class="me-3">
+                    <i class="bi bi-clock me-1"></i>
+                    {formatDuration(movie.duration)}
+                  </span>
+                {/if}
+                
+                {#if movie.directors}
+                  <span>
+                    <i class="bi bi-camera-reels me-1"></i>
+                    {movie.directors}
+                  </span>
+                {/if}
               </div>
               
               <!-- Pestañas -->
               <ul class="nav nav-tabs mb-4">
                 <li class="nav-item">
                   <button 
-                    class="nav-link {activeTab === 'info' ? 'active bg-dark bg-opacity-50 text-white' : 'text-light text-opacity-75'}" 
+                    class="nav-link {activeTab === 'info' ? 'active' : ''}" 
                     on:click={() => activeTab = 'info'}
                   >
                     <i class="bi bi-info-circle me-1"></i>
@@ -277,7 +313,7 @@
                 </li>
                 <li class="nav-item">
                   <button 
-                    class="nav-link {activeTab === 'screenings' ? 'active bg-dark bg-opacity-50 text-white' : 'text-light text-opacity-75'}" 
+                    class="nav-link {activeTab === 'screenings' ? 'active' : ''}" 
                     on:click={() => activeTab = 'screenings'}
                   >
                     <i class="bi bi-calendar2-week me-1"></i>
@@ -288,66 +324,63 @@
               
               <!-- Contenido de pestañas -->
               {#if activeTab === 'info'}
-                <div in:fade={{ duration: 200 }}>
-                  <h5 class="mb-3">Sinopsis</h5>
-                  <p class="card-text">{movie.synopsis || 'No hay sinopsis disponible para esta película.'}</p>
+                <div class="tab-content" in:fade={{ duration: 200 }}>
+                  <div class="mb-4">
+                    <h5 class="mb-3">Sinopsis</h5>
+                    <p class="card-text">{movie.synopsis || 'No hay sinopsis disponible para esta película.'}</p>
+                  </div>
                   
                   {#if movie.genres && movie.genres.length > 0}
-                    <h5 class="mt-4 mb-2">Géneros</h5>
-                    <div class="d-flex flex-wrap gap-2 mb-3">
-                      {#each movie.genres as genre}
-                        <span class="badge bg-primary">{genre}</span>
-                      {/each}
+                    <div class="mb-4">
+                      <h5 class="mb-3">Géneros</h5>
+                      <div class="d-flex flex-wrap gap-2">
+                        {#each movie.genres as genre}
+                          <span class="badge bg-primary">{genre.name}</span>
+                        {/each}
+                      </div>
                     </div>
                   {/if}
                   
-                  <div class="row mt-4">
-                    {#if movie.id}
-                      <div class="col-md-4 mb-3">
-                        <h6 class="text-muted">ID</h6>
-                        <p>{movie.id}</p>
+                  {#if movie.actors && movie.actors.length > 0}
+                    <div class="mb-4">
+                      <h5 class="mb-3">Reparto</h5>
+                      <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+                        {#each movie.actors as actor}
+                          <div class="col">
+                            <a 
+                              href="/actors/{actor.slug}" 
+                              class="text-decoration-none"
+                            >
+                              <div class="card bg-dark actor-card">
+                                <div class="card-body text-center p-3">
+                                  <div class="actor-initials mb-2">
+                                    {actor.name.split(' ').map(word => word[0]).join('').toUpperCase()}
+                                  </div>
+                                  <h4 class="card-title h6 text-white mb-0">
+                                    {actor.name}
+                                  </h4>
+                                </div>
+                              </div>
+                            </a>
+                          </div>
+                        {/each}
                       </div>
-                    {/if}
-                    
-                    {#if movie.created_at}
-                      <div class="col-md-4 mb-3">
-                        <h6 class="text-muted">Añadida el</h6>
-                        <p>{formatDate(movie.created_at)}</p>
-                      </div>
-                    {/if}
-
-                    {#if movie.directors}
-                      <div class="col-md-4 mb-3">
-                        <h6 class="text-muted">Director</h6>
-                        <p>{movie.directors}</p>
-                      </div>
-                    {/if}
-
-                    {#if movie.actors && movie.actors.length > 0}
-                      <div class="col-12 mb-3">
-                        <h6 class="text-muted">Reparto</h6>
-                        <div class="d-flex flex-wrap gap-2">
-                          {#each movie.actors as actor}
-                            <span class="badge bg-secondary">{actor}</span>
-                          {/each}
-                        </div>
-                      </div>
-                    {/if}
-                  </div>
+                    </div>
+                  {/if}
                 </div>
               {:else if activeTab === 'screenings'}
-                <div in:fade={{ duration: 200 }}>
+                <div class="tab-content" in:fade={{ duration: 200 }}>
                   {#if screenings.length > 0}
                     {#each Object.entries(groupScreeningsByDate(screenings)) as [date, dateScreenings]}
                       <div class="mb-4">
-                        <h5 class="mb-3 d-flex align-items-center">
+                        <h5 class="mb-3">
                           <i class="bi bi-calendar-date me-2"></i>
                           {formatDate(date)}
                         </h5>
                         <div class="row g-3">
                           {#each dateScreenings as screening}
                             <div class="col-md-6 col-lg-4">
-                              <div class="card bg-dark bg-opacity-50 h-100 border-secondary hover-card">
+                              <div class="card bg-dark screening-card h-100">
                                 <div class="card-body">
                                   <div class="d-flex justify-content-between align-items-start mb-3">
                                     <div>
@@ -376,9 +409,8 @@
                                     </div>
                                     <a 
                                       href={`/booking/${screening.id}`} 
-                                      class="btn btn-primary"
+                                      class="btn btn-primary btn-sm"
                                     >
-                                      <i class="bi bi-ticket-perforated me-2"></i>
                                       Reservar
                                     </a>
                                   </div>
@@ -397,37 +429,6 @@
                   {/if}
                 </div>
               {/if}
-              
-              <!-- Acciones -->
-              <div class="d-flex flex-wrap gap-2 mt-4">
-                <button 
-                  class="btn btn-outline-light d-flex align-items-center" 
-                  on:click={addToFavorites}
-                >
-                  <i class="bi bi-heart me-2"></i>
-                  <span>Añadir a favoritos</span>
-                </button>
-                
-                <div class="dropdown">
-                  <button 
-                    class="btn btn-primary d-flex align-items-center justify-content-center share-btn"
-                    type="button"
-                    on:click={shareMovie}
-                  >
-                    <i class="bi bi-share-fill"></i>
-                  </button>
-                </div>
-                
-                {#if screenings.length > 0}
-                  <a 
-                    href={`/booking/${screenings[0].id}`} 
-                    class="btn btn-success d-flex align-items-center"
-                  >
-                    <i class="bi bi-ticket-perforated me-2"></i>
-                    <span>Comprar entradas</span>
-                  </a>
-                {/if}
-              </div>
             </div>
           </div>
         </div>
@@ -502,64 +503,89 @@
     z-index: -10;
   }
   
-  /* Mejoras para las pestañas */
+  /* Estilos para el poster */
+  .movie-poster {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 0 auto;
+    display: block;
+  }
+  
+  /* Estilos para las pestañas */
   .nav-tabs {
-    border-bottom-color: rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
   
   .nav-tabs .nav-link {
+    color: rgba(255, 255, 255, 0.75);
     border: none;
     border-bottom: 2px solid transparent;
-    border-radius: 0;
     padding: 0.5rem 1rem;
-    margin-right: 0.5rem;
-    transition: all 0.2s ease;
+    margin-right: 1rem;
+    background: none;
   }
   
-  .nav-tabs .nav-link:hover:not(.active) {
-    border-color: rgba(255, 255, 255, 0.3);
-    background-color: rgba(255, 255, 255, 0.05);
+  .nav-tabs .nav-link:hover {
+    color: white;
+    border-bottom-color: rgba(255, 255, 255, 0.5);
   }
   
   .nav-tabs .nav-link.active {
-    border-bottom: 2px solid #0d6efd;
+    color: white;
+    background: none;
+    border-bottom: 2px solid var(--bs-primary);
   }
   
-  /* Ajustes para tablas */
-  .table-dark {
-    background-color: rgba(33, 37, 41, 0.6);
-  }
-
-  .share-btn {
-    width: 42px;
-    height: 42px;
-    padding: 0;
-    border-radius: 50%;
-    transition: all 0.2s ease;
-  }
-
-  .share-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(var(--bs-primary-rgb), 0.3);
-  }
-
-  .share-btn i {
-    font-size: 1.2rem;
-  }
-
-  /* Estilos para las tarjetas de proyecciones */
-  .hover-card {
-    transition: all 0.2s ease;
+  /* Estilos para las tarjetas de actores */
+  .actor-card {
+    transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
-
-  .hover-card:hover {
-    transform: translateY(-2px);
+  
+  .actor-card:hover {
+    transform: translateY(-5px);
     border-color: var(--bs-primary);
-    box-shadow: 0 4px 12px rgba(var(--bs-primary-rgb), 0.2);
   }
-
+  
+  .actor-initials {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    margin: 0 auto;
+  }
+  
+  /* Estilos para las tarjetas de proyecciones */
+  .screening-card {
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .screening-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--bs-primary);
+  }
+  
   .price-tag {
     color: var(--bs-success);
+  }
+  
+  /* Ajustes generales */
+  .card {
+    background: rgba(33, 37, 41, 0.95);
+  }
+  
+  .tab-content {
+    min-height: 200px;
   }
 </style>

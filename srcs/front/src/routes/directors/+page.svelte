@@ -5,7 +5,7 @@
     import { theme } from '$lib/theme';
     import HeroBanner from '$lib/components/HeroBanner.svelte';
 
-    let actors = [];
+    let directors = [];
     let loading = true;
     let error = null;
     let currentPage = 1;
@@ -13,14 +13,14 @@
     let total = 0;
     let perPage = 30;
 
-    async function fetchActors(page = 1) {
+    async function fetchDirectors(page = 1) {
         loading = true;
         try {
-            const response = await fetch(`${API_URL}/actors?page=${page}&per_page=${perPage}`);
+            const response = await fetch(`${API_URL}/directors?page=${page}&per_page=${perPage}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data = await response.json();
             if (data.success) {
-                actors = data.data;
+                directors = data.data;
                 currentPage = data.meta.current_page;
                 lastPage = data.meta.last_page;
                 total = data.meta.total;
@@ -28,8 +28,8 @@
                 throw new Error(data.message);
             }
         } catch (e) {
-            console.error('Error fetching actors:', e);
-            error = 'Error al cargar los actores. Por favor, inténtalo de nuevo más tarde.';
+            console.error('Error fetching directors:', e);
+            error = 'Error al cargar los directores. Por favor, inténtalo de nuevo más tarde.';
         } finally {
             loading = false;
         }
@@ -37,13 +37,13 @@
 
     function handlePageChange(newPage) {
         if (newPage >= 1 && newPage <= lastPage && newPage !== currentPage) {
-            fetchActors(newPage);
+            fetchDirectors(newPage);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 
     onMount(() => {
-        fetchActors();
+        fetchDirectors();
     });
 
     function getInitials(name) {
@@ -64,19 +64,19 @@
 </script>
 
 <svelte:head>
-    <title>Actores | Kaizen Cinema</title>
+    <title>Directores | Kaizen Cinema</title>
 </svelte:head>
 
 <div data-bs-theme={$theme}>
     <HeroBanner 
-        title="Nuestros Actores"
-        subtitle={total > 0 ? `${total} actores y actrices` : 'Descubre nuestros actores'}
-        imageUrl="/images/actors-hero.jpg"
+        title="Nuestros Directores"
+        subtitle={total > 0 ? `${total} directores de cine` : 'Descubre nuestros directores'}
+        imageUrl="/images/directors-hero.jpg"
         overlayOpacity="60"
     />
 
     <div class="container py-5">
-        {#if loading && actors.length === 0}
+        {#if loading && directors.length === 0}
             <div class="d-flex justify-content-center py-5" transition:fade>
                 <div class="spinner-grow text-light" role="status">
                     <span class="visually-hidden">Cargando...</span>
@@ -86,33 +86,33 @@
             <div class="alert alert-danger" role="alert" transition:fade>
                 {error}
             </div>
-        {:else if actors.length === 0}
+        {:else if directors.length === 0}
             <div class="text-center py-5" transition:fade>
                 <div class="display-1 text-muted mb-4">
-                    <i class="bi bi-people"></i>
+                    <i class="bi bi-camera-reels"></i>
                 </div>
                 <p class="lead text-muted">
-                    No hay actores registrados
+                    No hay directores registrados
                 </p>
             </div>
         {:else}
             <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-4" transition:fade>
-                {#each actors as actor, i}
+                {#each directors as director, i}
                     <div class="col" in:fly={{y: 20, delay: i * 50}}>
                         <a 
-                            href="/actors/{actor.slug}" 
+                            href="/directors/{director.slug}" 
                             class="text-decoration-none"
                         >
-                            <div class="card bg-dark actor-card {getPattern(actor.name)}">
+                            <div class="card bg-dark director-card {getPattern(director.name)}">
                                 <div class="card-body text-center py-4">
-                                    <div class="actor-initials mb-3">
-                                        {getInitials(actor.name)}
+                                    <div class="director-initials mb-3">
+                                        {getInitials(director.name)}
                                     </div>
                                     <h3 class="card-title h5 text-white mb-2">
-                                        {actor.name}
+                                        {director.name}
                                     </h3>
                                     <p class="text-white-50 mb-0">
-                                        {actor.movies_count} {actor.movies_count === 1 ? 'película' : 'películas'}
+                                        {director.movies_count} {director.movies_count === 1 ? 'película' : 'películas'}
                                     </p>
                                 </div>
                             </div>
@@ -160,17 +160,17 @@
 </div>
 
 <style>
-    .actor-card {
+    .director-card {
         transition: all 0.3s ease;
         border: none;
         height: 100%;
     }
 
-    .actor-card:hover {
+    .director-card:hover {
         transform: translateY(-5px);
     }
 
-    .actor-initials {
+    .director-initials {
         width: 80px;
         height: 80px;
         border-radius: 50%;

@@ -121,15 +121,34 @@ class MovieController extends Controller
         try {
             // Intentar buscar primero por ID si es numérico
             if (is_numeric($identifier)) {
-                $movie = Movie::findOrFail($identifier);
+                $movie = Movie::with(['actors', 'genres'])->findOrFail($identifier);
             } else {
                 // Si no es numérico, buscar por slug
-                $movie = Movie::where('slug', $identifier)->firstOrFail();
+                $movie = Movie::with(['actors', 'genres'])->where('slug', $identifier)->firstOrFail();
             }
+            
+            // Formatear la respuesta
+            $formattedMovie = [
+                'id' => $movie->id,
+                'title' => $movie->title,
+                'synopsis' => $movie->synopsis,
+                'duration' => $movie->duration,
+                'rating' => $movie->rating,
+                'release_date' => $movie->release_date,
+                'photo_url' => $movie->photo_url,
+                'original_image_path' => $movie->original_image_path,
+                'directors' => $movie->directors,
+                'slug' => $movie->slug,
+                'is_active' => $movie->is_active,
+                'created_at' => $movie->created_at,
+                'updated_at' => $movie->updated_at,
+                'actors' => $movie->actors,
+                'genres' => $movie->genres
+            ];
             
             return response()->json([
                 'success' => true,
-                'data' => $movie,
+                'data' => $formattedMovie,
                 'message' => 'Película obtenida correctamente'
             ]);
         } catch (\Exception $e) {

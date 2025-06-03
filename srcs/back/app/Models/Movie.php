@@ -161,6 +161,14 @@ class Movie extends Model
     }
 
     /**
+     * Obtener los directores asociados con esta película.
+     */
+    public function directors()
+    {
+        return $this->belongsToMany(Director::class, 'movie_director');
+    }
+
+    /**
      * Obtener las funciones programadas para esta película.
      */
     public function functions()
