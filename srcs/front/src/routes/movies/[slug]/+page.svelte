@@ -71,17 +71,6 @@
       return groups;
     }, {});
   }
-
-  function getAvailabilityColor(available, total) {
-    const percentage = (available / total) * 100;
-    if (percentage > 60) return 'success';
-    if (percentage > 30) return 'warning';
-    return 'danger';
-  }
-
-  function formatAvailability(available, total) {
-    return `${available}/${total} asientos`;
-  }
   
   async function loadMovieData() {
     try {
@@ -250,12 +239,8 @@
                   <div class="screening-info">
                     <div class="cinema-info">
                       <span class="cinema-name">{screening.room?.cinema?.name}</span>
-                      <span class="room-name">Sala {screening.room?.name}</span>
-                    </div>
-
-                    <div class="seats-info {getAvailabilityColor(screening.available_seats || 0, screening.total_seats || 0)}">
-                      <i class="bi bi-person-fill"></i>
-                      <span>{formatAvailability(screening.available_seats || 0, screening.total_seats || 0)}</span>
+                      <span class="room-name">{screening.room?.name}</span>
+                      <span class="location">{screening.room?.cinema?.location}</span>
                     </div>
 
                     <div class="price-tag">
@@ -562,34 +547,16 @@
     color: #aaa;
   }
 
-  .seats-info {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-  }
-
-  .seats-info.success {
-    background: rgba(76, 175, 80, 0.1);
-    color: #4CAF50;
-  }
-
-  .seats-info.warning {
-    background: rgba(255, 152, 0, 0.1);
-    color: #FF9800;
-  }
-
-  .seats-info.danger {
-    background: rgba(244, 67, 54, 0.1);
-    color: #F44336;
+  .location {
+    font-size: 0.85rem;
+    color: #888;
   }
 
   .price-tag {
     font-size: 1.1rem;
     font-weight: 600;
     color: #4CAF50;
+    margin-top: 0.5rem;
   }
 
   .book-btn {
