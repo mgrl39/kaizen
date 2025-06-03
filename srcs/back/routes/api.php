@@ -22,7 +22,8 @@ use App\Http\Controllers\API\{
     UserController,
     ImageController,
     RoomController,
-    TicketController
+    TicketController,
+    ActorController
 };
 use App\Http\Controllers\Admin\AdminController;
 use App\Services\ResponseService;
@@ -144,6 +145,13 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::get('/', [GenreController::class, 'index'])->name('index');
         Route::get('/{genre}', [GenreController::class, 'show'])->name('show');
         Route::get('/{genre}/movies', [GenreController::class, 'movies'])->name('movies');
+    });
+    
+    // Actors
+    Route::group(['prefix' => 'actors', 'as' => 'actors.'], function () {
+        Route::get('/', [ActorController::class, 'index'])->name('index');
+        Route::get('/{slug}', [ActorController::class, 'show'])->name('show');
+        Route::get('/{id}/movies', [ActorController::class, 'movies'])->name('movies');
     });
     
     // Cinemas
