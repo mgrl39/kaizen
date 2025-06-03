@@ -26,6 +26,10 @@ export default defineConfig({
 			'/api': {
 				target: backendUrl,
 				changeOrigin: true
+			},
+			'/images': {
+				target: backendUrl,
+				changeOrigin: true
 			}
 		}
 	}
