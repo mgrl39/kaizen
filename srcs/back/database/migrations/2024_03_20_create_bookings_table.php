@@ -11,18 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::dropIfExists('bookings');
+        
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('function_id')->constrained('functions')->cascadeOnDelete();
+            $table->uuid('uuid')->unique();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('function_id')->constrained('functions')->onDelete('cascade');
+            $table->json('seats');
             $table->decimal('total_price', 10, 2);
-            $table->string('status');
-            $table->string('booking_code')->unique();
-            $table->string('payment_status');
-            $table->string('payment_method')->nullable();
+            $table->string('booking_code');
             $table->string('buyer_name');
             $table->string('buyer_email');
-            $table->string('buyer_phone')->nullable();
+            $table->string('buyer_phone');
+            $table->string('status')->default('confirmed');
+            $table->string('payment_status')->default('pending');
+            $table->string('payment_method')->nullable();
             $table->timestamps();
         });
     }

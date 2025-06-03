@@ -198,6 +198,11 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('cancel');
     });
 
+    // Rutas de reservas
+    Route::post('/bookings', [BookingController::class, 'store']);
+    Route::get('/bookings/{uuid}', [BookingController::class, 'show']);
+    Route::get('/bookings/{uuid}/ticket', [BookingController::class, 'ticket'])->name('bookings.ticket');
+
     // Tickets
     Route::get('tickets/{token}', [TicketController::class, 'download']);
     Route::post('tickets/search', [BookingController::class, 'findTickets']);

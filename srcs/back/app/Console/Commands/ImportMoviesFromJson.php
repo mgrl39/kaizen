@@ -95,15 +95,7 @@ class ImportMoviesFromJson extends Command
         $movie->duration = $duration;
         $movie->rating = $movieData['clasificacion'] ?? '';
         $movie->release_date = $releaseDate;
-        
-        // Guardar directores
         $movie->directors = $movieData['directores'] ?? '';
-        
-        // Sincronizar directores
-        if (!empty($movieData['directores'])) {
-            $directorNames = explode(', ', $movieData['directores']);
-            $this->syncDirectors($movie, $directorNames);
-        }
         
         // Manejar las rutas de imágenes
         $originalImagePath = $movieData['poster_local'] ?? $movieData['imagen_local'] ?? '';
@@ -111,7 +103,15 @@ class ImportMoviesFromJson extends Command
         $movie->photo_url = basename($originalImagePath);
         
         $movie->slug = Str::slug($movieData['titulo']);
+        
+        // Guardar la película primero
         $movie->save();
+        
+        // Sincronizar relaciones después de guardar
+        if (!empty($movieData['directores'])) {
+            $directorNames = explode(', ', $movieData['directores']);
+            $this->syncDirectors($movie, $directorNames);
+        }
         
         // Sincronizar géneros
         $this->syncGenres($movie, $movieData['generos'] ?? []);
