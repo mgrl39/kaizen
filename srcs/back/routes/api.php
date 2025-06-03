@@ -152,7 +152,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::group(['prefix' => 'actors', 'as' => 'actors.'], function () {
         Route::get('/', [ActorController::class, 'index'])->name('index');
         Route::get('/{slug}', [ActorController::class, 'show'])->name('show');
-        Route::get('/{id}/movies', [ActorController::class, 'movies'])->name('movies');
+        Route::get('/{slug}/movies', [ActorController::class, 'movies'])->name('movies');
     });
     
     // Directors

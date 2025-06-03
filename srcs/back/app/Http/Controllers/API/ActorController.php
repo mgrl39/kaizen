@@ -78,17 +78,17 @@ class ActorController extends Controller
     /**
      * Obtener películas de un actor
      */
-    public function movies($id)
+    public function movies($slug)
     {
         try {
             // Intentar obtener del caché primero
-            $cacheKey = 'actor.movies.' . $id;
-            $data = Cache::remember($cacheKey, 3600, function () use ($id) {
-                $actor = Actor::select('id', 'name')
+            $cacheKey = 'actor.movies.' . $slug;
+            $data = Cache::remember($cacheKey, 3600, function () use ($slug) {
+                $actor = Actor::where('slug', $slug)
                             ->with(['movies' => function($query) {
                                 $query->select('movies.id', 'title', 'photo_url', 'slug');
                             }])
-                            ->findOrFail($id);
+                            ->firstOrFail();
 
                 return [
                     'actor' => $actor->name,
