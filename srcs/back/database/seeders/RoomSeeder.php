@@ -29,13 +29,15 @@ class RoomSeeder extends Seeder
                 'email' => 'info@kaizencinema.com',
                 'description' => 'Un acogedor cine de barrio con la mejor experiencia.',
                 'has_3d' => true,
-                'has_imax' => false,
-                'has_vip' => false,
-                'opening_hours' => '15:00-23:00',
+                'has_imax' => true,
+                'has_vip' => true,
+                'opening_hours' => '00:00-23:59',
                 'features' => json_encode([
                     'Parking gratuito',
                     'Cafetería',
-                    'Proyección 3D'
+                    'Proyección 3D',
+                    'Salas IMAX',
+                    'Salas VIP'
                 ])
             ]
         );
@@ -43,19 +45,35 @@ class RoomSeeder extends Seeder
         // Crear las salas
         $rooms = [
             [
-                'name' => 'Sala 1',
+                'name' => 'Sala 1 - Standard',
                 'type' => 'standard',
-                'rows' => 6,
-                'seats_per_row' => 8,
+                'rows' => 8,
+                'seats_per_row' => 12,
                 'price' => 8.00,
                 'cinema_id' => $cinema->id
             ],
             [
                 'name' => 'Sala 2 - 3D',
-                'type' => 'standard',
-                'rows' => 5,
-                'seats_per_row' => 7,
+                'type' => '3d',
+                'rows' => 7,
+                'seats_per_row' => 10,
                 'price' => 10.00,
+                'cinema_id' => $cinema->id
+            ],
+            [
+                'name' => 'Sala 3 - IMAX',
+                'type' => 'imax',
+                'rows' => 10,
+                'seats_per_row' => 15,
+                'price' => 12.00,
+                'cinema_id' => $cinema->id
+            ],
+            [
+                'name' => 'Sala 4 - VIP',
+                'type' => 'vip',
+                'rows' => 5,
+                'seats_per_row' => 8,
+                'price' => 15.00,
                 'cinema_id' => $cinema->id
             ]
         ];
@@ -64,6 +82,10 @@ class RoomSeeder extends Seeder
             Room::create($room);
         }
         
-        $this->command->info('Se han creado las salas del cine.');
+        $this->command->info('Se han creado las salas del cine:');
+        foreach ($rooms as $room) {
+            $totalSeats = $room['rows'] * $room['seats_per_row'];
+            $this->command->info("- {$room['name']}: {$room['rows']} filas × {$room['seats_per_row']} asientos = {$totalSeats} asientos totales - Precio: {$room['price']}€");
+        }
     }
 } 
