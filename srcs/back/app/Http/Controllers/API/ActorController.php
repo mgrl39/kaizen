@@ -16,13 +16,18 @@ class ActorController extends Controller
     public function index(Request $request)
     {
         try {
-            $perPage = $request->input('per_page', 24); // Por defecto 24 actores por página
-            $perPage = min($perPage, 100); // Limitar a máximo 100 por página
+            $search = $request->input('search', '');
+            $perPage = $request->input('per_page', 50);
+            $perPage = min($perPage, 100);
 
-            $actors = Actor::select('id', 'name', 'biography', 'photo_url', 'slug')
-                ->withCount('movies') // Añadir el conteo de películas
-                ->orderBy('name', 'asc')
-                ->paginate($perPage);
+            $query = Actor::select('id', 'name');
+
+            if ($search) {
+                $query->where('name', 'ilike', "%{$search}%");
+            }
+
+            $actors = $query->orderBy('name', 'asc')
+                          ->paginate($perPage);
 
             return response()->json([
                 'success' => true,

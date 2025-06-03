@@ -1,6 +1,7 @@
 <script>
     import { onMount } from 'svelte';
     import { API_URL } from '$lib/config';
+    import { fade } from 'svelte/transition';
 
     let actors = [];
     let loading = true;
@@ -8,16 +9,14 @@
     let currentPage = 1;
     let lastPage = 1;
     let total = 0;
-    let perPage = 24;
+    let perPage = 50;
+    let searchTerm = '';
+    let searchTimeout;
 
-    function handleImageError(event) {
-        event.target.src = '/images/default-actor.png';
-    }
-
-    async function fetchActors(page = 1) {
+    async function fetchActors(page = 1, search = '') {
         loading = true;
         try {
-            const response = await fetch(`${API_URL}/actors?page=${page}&per_page=${perPage}`);
+            const response = await fetch(`${API_URL}/actors?page=${page}&per_page=${perPage}&search=${encodeURIComponent(search)}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -40,161 +39,148 @@
 
     function handlePageChange(newPage) {
         if (newPage >= 1 && newPage <= lastPage && newPage !== currentPage) {
-            fetchActors(newPage);
+            fetchActors(newPage, searchTerm);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+    }
+
+    function handleSearch() {
+        if (searchTimeout) clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => {
+            fetchActors(1, searchTerm);
+        }, 300);
+    }
+
+    $: {
+        handleSearch();
     }
 
     onMount(() => {
         fetchActors();
     });
+
+    // Función para obtener iniciales del nombre
+    function getInitials(name) {
+        return name
+            .split(' ')
+            .map(word => word[0])
+            .join('')
+            .toUpperCase();
+    }
+
+    // Función para obtener color basado en el nombre
+    function getColorClass(name) {
+        const colors = ['bg-primary', 'bg-success', 'bg-info', 'bg-warning', 'bg-danger', 'bg-secondary'];
+        const index = name.length % colors.length;
+        return colors[index];
+    }
 </script>
 
 <svelte:head>
     <title>Actores | Kaizen Cinema</title>
 </svelte:head>
 
-<div class="container-fluid py-4">
-    <div class="row mb-4">
-        <div class="col">
-            <h1 class="display-4 fw-bold">
+<div class="container py-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h1 class="display-5 fw-bold mb-0">
                 Actores 
                 {#if total > 0}
-                    <small class="fs-6 text-muted">({total} {total === 1 ? 'actor' : 'actores'})</small>
+                    <small class="text-muted fs-6">({total})</small>
                 {/if}
             </h1>
+        </div>
+        <div class="col-md-6">
+            <div class="input-group input-group-lg">
+                <span class="input-group-text border-0 bg-light">
+                    <i class="bi bi-search"></i>
+                </span>
+                <input 
+                    type="text" 
+                    class="form-control form-control-lg border-0 bg-light"
+                    placeholder="Buscar actor..." 
+                    bind:value={searchTerm}
+                >
+            </div>
         </div>
     </div>
 
     {#if loading && actors.length === 0}
-        <div class="row justify-content-center align-items-center" style="height: 300px;">
-            <div class="col-auto">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Cargando...</span>
-                </div>
+        <div class="d-flex justify-content-center py-5" transition:fade>
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
             </div>
         </div>
     {:else if error}
-        <div class="row">
-            <div class="col">
-                <div class="alert alert-danger" role="alert">
-                    {error}
-                </div>
-            </div>
+        <div class="alert alert-danger" role="alert" transition:fade>
+            {error}
         </div>
     {:else if actors.length === 0}
-        <div class="row justify-content-center py-5">
-            <div class="col-auto">
-                <p class="fs-4 text-muted">No hay actores registrados</p>
+        <div class="text-center py-5" transition:fade>
+            <div class="display-1 text-muted mb-4">
+                <i class="bi bi-person-x"></i>
             </div>
+            <p class="lead text-muted">
+                {searchTerm ? 'No se encontraron actores que coincidan con la búsqueda' : 'No hay actores registrados'}
+            </p>
         </div>
     {:else}
-        <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 row-cols-xl-8 g-3">
+        <div class="row g-4" transition:fade>
             {#each actors as actor}
-                <div class="col">
-                    <div class="card h-100 shadow-sm hover-shadow">
-                        <div class="card-img-top position-relative" style="padding-bottom: 150%;">
-                            {#if actor.photo_url}
-                                <img 
-                                    src={actor.photo_url} 
-                                    alt={actor.name} 
-                                    class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
-                                    loading="lazy"
-                                    on:error={handleImageError}
-                                />
-                            {:else}
-                                <div class="position-absolute top-0 start-0 w-100 h-100 bg-light d-flex align-items-center justify-content-center">
-                                    <svg class="text-secondary" style="width: 2.5rem; height: 2.5rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                                    </svg>
-                                </div>
-                            {/if}
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                    <div class="card h-100 border-0 shadow-sm hover-card">
+                        <div class="card-body p-3 text-center">
+                            <div class="avatar-circle mb-3 mx-auto {getColorClass(actor.name)}">
+                                {getInitials(actor.name)}
+                            </div>
+                            <h6 class="card-title mb-0 text-truncate">
+                                {actor.name}
+                            </h6>
                         </div>
-                        <div class="card-body p-2">
-                            <h6 class="card-title mb-1 text-truncate">{actor.name}</h6>
-                            {#if actor.movies_count !== undefined}
-                                <p class="card-text mb-0">
-                                    <small class="badge bg-primary">
-                                        {actor.movies_count} película{actor.movies_count === 1 ? '' : 's'}
-                                    </small>
-                                </p>
-                            {/if}
-                        </div>
-                        <a href="/actors/{actor.slug}" class="stretched-link"></a>
                     </div>
                 </div>
             {/each}
         </div>
 
-        <!-- Paginación -->
         {#if lastPage > 1}
             <div class="row mt-4">
                 <div class="col d-flex justify-content-center">
                     <nav aria-label="Navegación de páginas">
-                        <ul class="pagination">
-                            <!-- Botón Anterior -->
+                        <ul class="pagination pagination-lg">
                             <li class="page-item {currentPage === 1 ? 'disabled' : ''}">
                                 <button 
-                                    class="page-link" 
+                                    class="page-link border-0" 
                                     on:click={() => handlePageChange(currentPage - 1)}
                                     disabled={currentPage === 1}
                                 >
-                                    Anterior
+                                    <i class="bi bi-chevron-left"></i>
                                 </button>
                             </li>
                             
-                            <!-- Primera página -->
-                            {#if currentPage > 2}
-                                <li class="page-item">
-                                    <button class="page-link" on:click={() => handlePageChange(1)}>1</button>
-                                </li>
-                                {#if currentPage > 3}
+                            {#each Array.from({length: lastPage}, (_, i) => i + 1) as page}
+                                {#if page === 1 || page === lastPage || (page >= currentPage - 1 && page <= currentPage + 1)}
+                                    <li class="page-item {currentPage === page ? 'active' : ''}">
+                                        <button 
+                                            class="page-link border-0" 
+                                            on:click={() => handlePageChange(page)}
+                                        >
+                                            {page}
+                                        </button>
+                                    </li>
+                                {:else if page === currentPage - 2 || page === currentPage + 2}
                                     <li class="page-item disabled">
-                                        <span class="page-link">...</span>
+                                        <span class="page-link border-0">...</span>
                                     </li>
                                 {/if}
-                            {/if}
-                            
-                            <!-- Páginas alrededor de la actual -->
-                            {#each Array.from({length: Math.min(3, lastPage)}, (_, i) => {
-                                const page = Math.max(1, Math.min(currentPage - 1 + i, lastPage));
-                                return page;
-                            }) as page}
-                                <li class="page-item {currentPage === page ? 'active' : ''}">
-                                    <button 
-                                        class="page-link" 
-                                        on:click={() => handlePageChange(page)}
-                                    >
-                                        {page}
-                                    </button>
-                                </li>
                             {/each}
                             
-                            <!-- Última página -->
-                            {#if currentPage < lastPage - 1}
-                                {#if currentPage < lastPage - 2}
-                                    <li class="page-item disabled">
-                                        <span class="page-link">...</span>
-                                    </li>
-                                {/if}
-                                <li class="page-item">
-                                    <button 
-                                        class="page-link" 
-                                        on:click={() => handlePageChange(lastPage)}
-                                    >
-                                        {lastPage}
-                                    </button>
-                                </li>
-                            {/if}
-                            
-                            <!-- Botón Siguiente -->
                             <li class="page-item {currentPage === lastPage ? 'disabled' : ''}">
                                 <button 
-                                    class="page-link" 
+                                    class="page-link border-0" 
                                     on:click={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage === lastPage}
                                 >
-                                    Siguiente
+                                    <i class="bi bi-chevron-right"></i>
                                 </button>
                             </li>
                         </ul>
@@ -206,34 +192,49 @@
 </div>
 
 <style>
-    .text-truncate-2 {
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+    .avatar-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        font-weight: bold;
     }
 
-    .hover-shadow {
-        transition: box-shadow 0.3s ease-in-out;
+    .hover-card {
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
     }
 
-    .hover-shadow:hover {
+    .hover-card:hover {
+        transform: translateY(-5px);
         box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
-    }
-
-    .object-fit-cover {
-        object-fit: cover;
     }
 
     :global(.page-link) {
         cursor: pointer;
+        border-radius: 50% !important;
+        margin: 0 2px;
+        width: 45px;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .card {
-        border: none;
+    :global(.pagination .active .page-link) {
+        background-color: var(--bs-primary);
+        color: white;
     }
 
-    .card-body {
-        background-color: rgba(255, 255, 255, 0.9);
+    .input-group-text, .form-control {
+        box-shadow: 0 2px 5px rgba(0,0,0,.05);
+    }
+
+    .form-control:focus {
+        background-color: white !important;
+        box-shadow: 0 2px 10px rgba(0,0,0,.1);
     }
 </style> 
