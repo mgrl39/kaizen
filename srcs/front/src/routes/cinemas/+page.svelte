@@ -18,9 +18,9 @@
   const cinema = {
     name: "Kaizen Cinema",
     description: "Tu cine de confianza con la mejor tecnología y comodidad.",
-    address: "Calle Principal 123, Ciudad",
+    address: "Westfield La Maquinista",
     phone: "+34 123 456 789",
-    email: "info@kaizencinema.com",
+    email: "kaizen@doncom.me",
     opening_hours: "Lunes a Domingo: 11:00 - 00:00",
     features: [
       "Parking gratuito",
