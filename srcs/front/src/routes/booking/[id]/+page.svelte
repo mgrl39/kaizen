@@ -376,31 +376,17 @@
 
   // Función para verificar si todo está listo
   function checkIfReady() {
-    if (stylesLoaded && dataLoaded) {
+    if (dataLoaded) {
       loading = false;
     }
   }
 
   onMount(async () => {
     try {
-      // Asegurar que los estilos estén cargados
-      await new Promise(resolve => {
-        // Verificar si el documento ya está completamente cargado
-        if (document.readyState === 'complete') {
-          resolve(true);
-        } else {
-          window.addEventListener('load', () => resolve(true));
-        }
-      });
-      
-      stylesLoaded = true;
-      checkIfReady();
-
-      // Cargar datos
+      // Cargar datos inmediatamente
       await loadFunctionData();
       dataLoaded = true;
       checkIfReady();
-
     } catch (e: any) {
       error = e.message;
       loading = false;
@@ -781,7 +767,7 @@
                       </div>
                       Procesando...
                     {:else}
-                      Confirmar y pagar
+                      Confirmar y pagar (DOBLE)
                       <i class="bi bi-check2-circle ms-2"></i>
                     {/if}
                   </button>
@@ -805,6 +791,20 @@
 {/if}
 
 <style>
+  /* Critical styles loaded first */
+  :global(*) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Ensure theme styles are applied immediately */
+  :global([data-bs-theme="dark"]) {
+    --app-card-bg: rgba(17, 24, 39, 0.8);
+    --app-border: rgba(255, 255, 255, 0.1);
+    --app-text: #e0e0e0;
+  }
+
   /* Loading screen styles */
   .loading-screen {
     position: fixed;
@@ -812,39 +812,35 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--app-bg);
+    background: var(--app-bg, #121212);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
   }
 
-  /* Ensure critical styles are loaded first */
-  :global(*) {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  .booking-page {
-    opacity: 0;
-    animation: fadeIn 0.3s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
+  /* Base page styles */
   .booking-page {
     width: 100%;
     min-height: 100vh;
-    background: var(--app-bg);
-    color: var(--bs-body-color);
+    background: var(--app-bg, #121212);
+    color: var(--bs-body-color, #e0e0e0);
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Card styles with improved specificity */
+  :global(.card) {
+    background-color: var(--app-card-bg, rgba(17, 24, 39, 0.8)) !important;
+    border: 1px solid var(--app-border, rgba(255, 255, 255, 0.1)) !important;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  :global(.card:hover) {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
   }
 
   .booking-content {

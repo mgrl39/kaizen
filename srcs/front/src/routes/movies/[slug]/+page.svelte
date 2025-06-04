@@ -225,6 +225,8 @@
                 <a 
                   href={`/booking/${screening.id}`} 
                   class="screening-card"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <div class="screening-header">
                     <span class="time">
