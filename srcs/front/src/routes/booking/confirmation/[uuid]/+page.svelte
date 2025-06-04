@@ -142,9 +142,14 @@
         border-radius: 1.5rem;
         margin: 2rem auto;
         max-width: 1200px;
-        background: white;
+        background: white !important;
         transition: transform 0.3s ease;
         overflow: hidden;
+    }
+
+    .confirmation-card :global(.card-body) {
+        background: white !important;
+        color: var(--text-color, #1e293b) !important;
     }
 
     /* Success icon styles */
@@ -159,7 +164,7 @@
 
     /* Section styles */
     .detail-section {
-        background-color: var(--background-light);
+        background-color: var(--background-light) !important;
         border-radius: 1rem;
         padding: 2rem;
         margin-bottom: 1.5rem;
@@ -176,7 +181,7 @@
 
     /* QR container styles */
     .qr-container {
-        background-color: white;
+        background-color: white !important;
         padding: 2rem;
         border-radius: 1.5rem;
         box-shadow: var(--shadow-md);
