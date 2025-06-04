@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Http;
 
 class MaintenanceController extends Controller
 {
+    public function __construct()
+    {
+        // No middleware for now
+    }
+
     public function index()
     {
         return view('admin.maintenance');
@@ -17,6 +22,15 @@ class MaintenanceController extends Controller
 
     public function executeCommand(Request $request)
     {
+        // Permitir CORS para desarrollo
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: POST, GET, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, X-Requested-With');
+        
+        if ($request->isMethod('OPTIONS')) {
+            return response()->json(['status' => 'ok']);
+        }
+
         $command = $request->input('command');
         $output = '';
         $error = null;

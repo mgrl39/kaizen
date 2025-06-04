@@ -419,15 +419,24 @@
                         return;
 
                     default:
-                        url = '/admin/maintenance/execute';
+                        url = 'http://10.2.238.141:8000/admin/maintenance/execute';
                         const response = await fetch(url, {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                'Accept': 'application/json',
+                                'X-Requested-With': 'XMLHttpRequest'
                             },
+                            credentials: 'omit',
                             body: JSON.stringify({ command, ...additionalData })
                         });
+                        
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            console.error('Error response:', errorText);
+                            throw new Error(`Error del servidor: ${response.status}`);
+                        }
+                        
                         data = await response.json();
                 }
                 
@@ -438,6 +447,7 @@
                 }
             } catch (error) {
                 outputBox.textContent = 'Error: ' + error.message;
+                console.error('Error completo:', error);
             }
         }
 
