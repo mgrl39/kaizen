@@ -64,9 +64,9 @@ Estos Términos y Condiciones se regirán e interpretarán de acuerdo con las le
 
 Si tiene alguna pregunta sobre estos Términos y Condiciones, póngase en contacto con nosotros:
 
-- **Correo electrónico**: legal@kaizencinema.com  
-- **Teléfono**: +34 912 345 678  
-- **Dirección postal**: Kaizen Cinema, Calle Principal 123, 28001 Madrid, España
+- **Correo electrónico**: kaizen@doncom.me
+- **Teléfono**: +34 612 345 678
+- **Dirección postal**: Westfield La Maquinista
 
 ---
 

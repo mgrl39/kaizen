@@ -11,7 +11,7 @@
     let currentPage = 1;
     let lastPage = 1;
     let total = 0;
-    let perPage = 30;
+    let perPage = 24;
 
     async function fetchActors(page = 1) {
         loading = true;
@@ -111,9 +111,6 @@
                                     <h3 class="card-title h5 text-white mb-2">
                                         {actor.name}
                                     </h3>
-                                    <p class="text-white-50 mb-0">
-                                        {actor.movies_count} {actor.movies_count === 1 ? 'película' : 'películas'}
-                                    </p>
                                 </div>
                             </div>
                         </a>

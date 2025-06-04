@@ -18,22 +18,51 @@
   const cinema = {
     name: "Kaizen Cinema",
     description: "Tu cine de confianza con la mejor tecnología y comodidad.",
-    address: "Calle Principal 123, Ciudad",
+    address: "Westfield La Maquinista",
     phone: "+34 123 456 789",
-    email: "info@kaizencinema.com",
+    email: "kaizen@doncom.me",
     opening_hours: "Lunes a Domingo: 11:00 - 00:00",
     features: [
-      "Parking gratuito",
-      "Cafetería",
-      "Snack bar",
-      "Zona de juegos",
-      "Acceso para discapacitados"
+      $t('freeParking'),
+      $t('cafeteria'),
+      $t('snackBar'),
+      $t('gameZone'),
+      $t('accessibleFacilities')
     ],
     has_3d: true,
     has_imax: true,
     has_vip: true,
     image_url: "/images/cinema-hero.jpg"
   };
+
+  // Función para obtener las características de una sala según su tipo
+  function getRoomFeatures(type, features) {
+    const baseFeatures = {
+      'standard': [$t('surroundSound'), $t('comfortableSeats')],
+      'imax': [$t('imaxScreen'), $t('dolbyAtmosSound'), $t('immersiveExperience')],
+      'vip': [$t('luxurySeats'), $t('personalizedService'), $t('exclusiveMenu')],
+      '3d': [$t('advanced3d'), $t('premium3dGlasses')]
+    };
+
+    let roomFeatures = [...(baseFeatures[type] || [])];
+    
+    // Añadir características adicionales basadas en features
+    if (features) {
+      if (features.is_3d) roomFeatures.push($t('compatible3d'));
+      if (features.is_imax) roomFeatures.push($t('imaxCertified'));
+      if (features.is_vip) roomFeatures.push($t('vipExperience'));
+    }
+
+    return roomFeatures;
+  }
+
+  // Función para formatear el precio
+  function formatPrice(price) {
+    return new Intl.NumberFormat('es-ES', {
+      style: 'currency',
+      currency: 'EUR'
+    }).format(price);
+  }
 
   // Función para cargar las salas
   async function loadRooms() {
@@ -48,11 +77,12 @@
         throw new Error(result.message);
       }
       
-      // Formatear las salas con sus características basadas en el tipo
+      // Formatear las salas con sus características
       rooms = result.data.map(room => ({
         ...room,
-        features: getRoomFeatures(room.type),
-        capacity: room.rows * room.seats_per_row
+        features: getRoomFeatures(room.type, room.features),
+        formattedPrice: formatPrice(room.price),
+        capacity: room.layout.total_seats
       }));
       
     } catch (e) {
@@ -61,16 +91,6 @@
     } finally {
       loading = false;
     }
-  }
-
-  // Función para obtener las características de una sala según su tipo
-  function getRoomFeatures(type) {
-    const features = {
-      'imax': ['Pantalla IMAX', 'Sonido Dolby Atmos', 'Butacas premium'],
-      'vip': ['Asientos reclinables', 'Servicio a la butaca', 'Menú exclusivo'],
-      'standard': ['Sonido envolvente', 'Butacas cómodas']
-    };
-    return features[type] || [];
   }
 
   onMount(() => {
@@ -92,9 +112,9 @@
   <div data-bs-theme={$theme}>
     <!-- Hero Banner -->
     <HeroBanner 
-      title={$t('ourCinema')}
-      subtitle={$t('cinemaSubtitle')}
-      imageUrl={cinema.image_url}
+      title={$t('bannerCinemaTitle')}
+      subtitle={$t('bannerCinemaSubtitle')}
+      imageUrl="/images/banners/f16awk8g.png"
       overlayOpacity="60"
     />
 
@@ -225,12 +245,6 @@
                   <i class="bi bi-film"></i>
                   <span>{$t('viewMovies')}</span>
                 </a>
-                
-                <a href="/bookings/new" class="action-button tickets">
-                  <i class="bi bi-ticket-perforated"></i>
-                  <span>{$t('buyTickets')}</span>
-                </a>
-                
                 <a href="/contact" class="action-button contact">
                   <i class="bi bi-chat-dots"></i>
                   <span>{$t('contact')}</span>
@@ -272,12 +286,22 @@
                     <i class="bi bi-camera-reels"></i>
                   </div>
                   <h3 class="room-title">{room.name}</h3>
+                  <div class="room-price">
+                    {room.formattedPrice}
+                    <span class="price-label">precio base</span>
+                  </div>
                 </div>
                 
                 <div class="room-content">
-                  <div class="room-capacity">
-                    <i class="bi bi-people"></i>
-                    <span>{room.capacity} {$t('capacity')}</span>
+                  <div class="room-info">
+                    <div class="room-capacity">
+                      <i class="bi bi-people"></i>
+                      <span>{room.capacity} {$t('capacity')}</span>
+                    </div>
+                    <div class="room-layout">
+                      <i class="bi bi-grid"></i>
+                      <span>{room.layout.rows} filas × {room.layout.seats_per_row} asientos</span>
+                    </div>
                   </div>
                   
                   {#if room.features.length > 0}
@@ -679,7 +703,32 @@
     gap: 1rem;
   }
 
-  .room-capacity {
+  .room-price {
+    margin-top: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--room-color);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price-label {
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.7;
+    text-transform: uppercase;
+  }
+
+  .room-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .room-capacity,
+  .room-layout {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -692,9 +741,8 @@
 
   .room-features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 0.5rem;
-    margin-top: auto;
   }
 
   .room-feature {

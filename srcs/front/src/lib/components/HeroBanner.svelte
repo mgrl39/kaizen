@@ -66,6 +66,8 @@
   
   .object-cover {
     object-fit: cover;
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
   }
   
   .text-shadow-lg {

@@ -3,6 +3,7 @@
   import type { Movie } from '$lib/types';
   import HeroBanner from '$lib/components/HeroBanner.svelte';
   import { API_URL } from '$lib/config';
+  import { t } from '$lib/i18n';
 
   // Estado para las películas
   let movies: Movie[] = [];
@@ -47,18 +48,18 @@
   onMount(async () => {
     try {
       const response = await fetch(`${API_URL}/movies?page=1&per_page=${pagination.per_page}`);
-      if (!response.ok) throw new Error(`API respondió con estado: ${response.status}`);
+      if (!response.ok) throw new Error($t('errorLoadingMovies') + ` ${response.status}`);
       
       const data = await response.json();
       if (data && data.success && Array.isArray(data.data)) {
         movies = data.data;
         pagination = data.pagination;
       } else {
-        throw new Error('Formato de respuesta API inesperado');
+        throw new Error($t('unexpectedApiResponse'));
       }
       loading = false;
     } catch (err) {
-      error = `Error cargando películas: ` + (err instanceof Error ? err.message : String(err));
+      error = (err instanceof Error ? err.message : String(err));
       loading = false;
     }
   });
@@ -70,28 +71,30 @@
     loading = true;
     try {
       const response = await fetch(`${API_URL}/movies?page=${page}&per_page=${pagination.per_page}`);
-      if (!response.ok) throw new Error(`API respondió con estado: ${response.status}`);
+      if (!response.ok) throw new Error($t('errorLoadingMovies') + ` ${response.status}`);
       
       const data = await response.json();
       if (data && data.success && Array.isArray(data.data)) {
         movies = data.data;
         pagination = data.pagination;
       } else {
-        throw new Error('Formato de respuesta API inesperado');
+        throw new Error($t('unexpectedApiResponse'));
       }
     } catch (err) {
-      error = `Error: ` + (err instanceof Error ? err.message : String(err));
+      error = (err instanceof Error ? err.message : String(err));
     } finally {
       loading = false;
     }
   }
+
+  $: moviesSubtitle = $t('bannerMoviesSubtitle').replace('{total}', pagination.total.toString());
 </script>
 
 <!-- Hero Banner con imagen de fondo para la cartelera -->
 <HeroBanner 
-  title="Cartelera"
-  subtitle="Disfruta de nuestra colección de {pagination.total} películas"
-  imageUrl="https://source.unsplash.com/random/1920x1080/?movies,cinema,popcorn"
+  title={$t('bannerMoviesTitle')}
+  subtitle={moviesSubtitle}
+  imageUrl="/images/banners/h1lzyx2t.png"
   on:error={handleImageError}
 />
 
@@ -100,7 +103,7 @@
   {#if loading}
     <div class="d-flex justify-content-center py-5">
       <div class="spinner-border" role="status">
-        <span class="visually-hidden">Cargando...</span>
+        <span class="visually-hidden">{$t('loading')}</span>
       </div>
     </div>
   {:else if error}
@@ -149,7 +152,7 @@
             <button 
               class="page-link" 
               on:click={() => goToPage(pagination.current_page - 1)}
-              aria-label="Anterior"
+              aria-label={$t('previous')}
             >
               <span aria-hidden="true">&laquo;</span>
             </button>
@@ -167,7 +170,7 @@
             <button 
               class="page-link" 
               on:click={() => goToPage(pagination.current_page + 1)}
-              aria-label="Siguiente"
+              aria-label={$t('next')}
             >
               <span aria-hidden="true">&raquo;</span>
             </button>

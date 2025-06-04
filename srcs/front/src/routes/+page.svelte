@@ -12,42 +12,42 @@
 <div data-bs-theme={$theme}>
   <HeroBanner 
     title="Kaizen Cinema"
-    subtitle={$t('hero.subtitle', 'Vive la magia del cine en la mejor pantalla')}
-    imageUrl="https://source.unsplash.com/random/1920x1080/?cinema,theater,movies"
-    buttonText={$t('hero.cta', 'Ver Cartelera')}
+    subtitle={$t('heroSubtitle')}
+    imageUrl="/images/banners/k57fgmdt.png"
+    buttonText={$t('heroCta')}
     buttonUrl="/movies"
   />
 
   <!-- Servicios -->
   <section class="mb-5 py-5">
-    <h2 class="h1 text-center mb-5">Nuestros Servicios</h2>
+    <h2 class="h1 text-center mb-5">{$t('servicesTitle')}</h2>
     <div class="row g-4">
       <div class="col-md-3 mb-4">
         <div class="text-center feature-card p-4">
           <i class="bi bi-badge-4k-fill text-primary display-4 mb-3"></i>
-          <h3 class="h5">Proyección 4K</h3>
-          <p class="text-muted">La mejor calidad de imagen</p>
+          <h3 class="h5">{$t('servicesProjection4kTitle')}</h3>
+          <p class="text-muted">{$t('servicesProjection4kDesc')}</p>
         </div>
       </div>
       <div class="col-md-3 mb-4">
         <div class="text-center feature-card p-4">
           <i class="bi bi-soundwave text-primary display-4 mb-3"></i>
-          <h3 class="h5">Dolby Atmos</h3>
-          <p class="text-muted">Sonido envolvente premium</p>
+          <h3 class="h5">{$t('servicesDolbyAtmosTitle')}</h3>
+          <p class="text-muted">{$t('servicesDolbyAtmosDesc')}</p>
         </div>
       </div>
       <div class="col-md-3 mb-4">
         <div class="text-center feature-card p-4">
           <i class="bi bi-cup-hot-fill text-primary display-4 mb-3"></i>
-          <h3 class="h5">Bar Premium</h3>
-          <p class="text-muted">Snacks y bebidas de calidad</p>
+          <h3 class="h5">{$t('servicesPremiumBarTitle')}</h3>
+          <p class="text-muted">{$t('servicesPremiumBarDesc')}</p>
         </div>
       </div>
       <div class="col-md-3 mb-4">
         <div class="text-center feature-card p-4">
           <i class="bi bi-car-front-fill text-primary display-4 mb-3"></i>
-          <h3 class="h5">Parking Gratis</h3>
-          <p class="text-muted">3h con tu entrada de cine</p>
+          <h3 class="h5">{$t('servicesFreeParking')}</h3>
+          <p class="text-muted">{$t('servicesFreeDesc')}</p>
         </div>
       </div>
     </div>

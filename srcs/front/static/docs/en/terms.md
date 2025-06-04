@@ -64,12 +64,6 @@ These Terms and Conditions shall be governed by and construed in accordance with
 
 If you have any questions about these Terms and Conditions, please contact us:
 
-* **Email**: [legal@kaizencinema.com](mailto:legal@kaizencinema.com)
-* **Phone**: +34 912 345 678
-* **Postal Address**: Kaizen Cinema, Calle Principal 123, 28001 Madrid, Spain
-
----
-
-> 🛡️ These terms are designed to protect both our users and our company.
-
-[Privacy Policy](/privacy) • [Contact](/contact) • [FAQ](/faq)
+* **Email**: [kaizen@doncom.me](mailto:kaizen@doncom.me)
+* **Phone**: +34 612 345 678
+* **Postal Address**: Westfield La Maquinista

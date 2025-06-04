@@ -85,10 +85,4 @@ Podemos actualizar esta Política de Privacidad periódicamente. Te notificaremo
 
 ## 9. Contacto
 
-Si tienes preguntas o inquietudes sobre esta Política de Privacidad o nuestras prácticas de datos, contáctanos en:
-
-**Kaizen Cinema**  
-Calle Innovación, 42  
-28001 Madrid, España  
-[privacy@kaizencinema.com](mailto:privacy@kaizencinema.com)  
-[+34 911 234 567](tel:+34911234567)
+Si tienes preguntas o inquietudes sobre esta Política de Privacidad o nuestras prácticas de datos, contáctanos en la seccion de contacto de la web.

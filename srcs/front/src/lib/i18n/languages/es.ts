@@ -157,6 +157,19 @@ const es: TranslationDictionary = {
 	readyForKaizen: '¿Listo para vivir la experiencia Kaizen?',
 	viewMoviesButton: 'Ver Películas',
 
+	// Home page
+	heroSubtitle: 'Vive la magia del cine en la mejor pantalla',
+	heroCta: 'Ver Cartelera',
+	servicesTitle: 'Nuestros Servicios',
+	servicesProjection4kTitle: 'Proyección 4K',
+	servicesProjection4kDesc: 'La mejor calidad de imagen',
+	servicesDolbyAtmosTitle: 'Dolby Atmos',
+	servicesDolbyAtmosDesc: 'Sonido envolvente premium',
+	servicesPremiumBarTitle: 'Bar Premium',
+	servicesPremiumBarDesc: 'Snacks y bebidas de calidad',
+	servicesFreeParking: 'Parking Gratis',
+	servicesFreeDesc: '3h con tu entrada de cine',
+
 	// Helpdesk
 	helpDesk: 'Mesa de Ayuda',
 	helpDeskDesc: 'Soporte directo y asistencia personalizada para todas tus consultas.',
@@ -170,7 +183,44 @@ const es: TranslationDictionary = {
 	supportHours: 'Horario de Atención',
 	supportHoursDesc: 'Lunes a Viernes: 9:00 - 18:00 (GMT+1)',
 	backToContact: 'Volver a Contacto',
-	getHelp: 'Obtener Ayuda'
+	getHelp: 'Obtener Ayuda',
+	chatWithSupport: 'Chat de Soporte',
+	chatWithSupportDesc: '¿Necesitas ayuda? Nuestro equipo de expertos está disponible 24/7 para resolver todas tus dudas. Ya sea sobre reservas, películas, problemas técnicos o cualquier otra consulta - estamos aquí para ayudarte en tiempo real. ¡Haz clic en el botón de chat y conéctate al instante con nuestro equipo!',
+	chatMinimized: 'Chat minimizado',
+	chatMaximized: 'Chat maximizado',
+
+	// Banner titles and subtitles
+	bannerMoviesTitle: 'Cartelera',
+	bannerMoviesSubtitle: 'Disfruta de nuestra colección de {total} películas',
+	bannerActorSubtitle: '{count} {count, plural, one {película} other {películas}}',
+	bannerCinemaTitle: 'Nuestro Cine',
+	bannerCinemaSubtitle: 'Descubre el mejor lugar para disfrutar del séptimo arte',
+
+	// Cinema features
+	freeParking: 'Parking gratuito',
+	cafeteria: 'Cafetería',
+	snackBar: 'Snack bar',
+	gameZone: 'Zona de juegos',
+	accessibleFacilities: 'Acceso para discapacitados',
+	errorLoadingMovies: 'Error cargando películas:',
+	unexpectedApiResponse: 'Formato de respuesta API inesperado',
+	previous: 'Anterior',
+	next: 'Siguiente',
+
+	// Room features
+	surroundSound: 'Sonido envolvente',
+	comfortableSeats: 'Butacas cómodas',
+	imaxScreen: 'Pantalla IMAX gigante',
+	dolbyAtmosSound: 'Sonido Dolby Atmos',
+	immersiveExperience: 'Experiencia inmersiva',
+	luxurySeats: 'Asientos reclinables de lujo',
+	personalizedService: 'Servicio personalizado',
+	exclusiveMenu: 'Menú exclusivo',
+	advanced3d: 'Tecnología 3D avanzada',
+	premium3dGlasses: 'Gafas 3D premium',
+	compatible3d: 'Compatible con 3D',
+	imaxCertified: 'Certificado IMAX',
+	vipExperience: 'Experiencia VIP',
 };
 
 export default es;

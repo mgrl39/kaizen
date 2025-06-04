@@ -71,17 +71,6 @@
       return groups;
     }, {});
   }
-
-  function getAvailabilityColor(available, total) {
-    const percentage = (available / total) * 100;
-    if (percentage > 60) return 'success';
-    if (percentage > 30) return 'warning';
-    return 'danger';
-  }
-
-  function formatAvailability(available, total) {
-    return `${available}/${total} asientos`;
-  }
   
   async function loadMovieData() {
     try {
@@ -250,12 +239,8 @@
                   <div class="screening-info">
                     <div class="cinema-info">
                       <span class="cinema-name">{screening.room?.cinema?.name}</span>
-                      <span class="room-name">Sala {screening.room?.name}</span>
-                    </div>
-
-                    <div class="seats-info {getAvailabilityColor(screening.available_seats || 0, screening.total_seats || 0)}">
-                      <i class="bi bi-person-fill"></i>
-                      <span>{formatAvailability(screening.available_seats || 0, screening.total_seats || 0)}</span>
+                      <span class="room-name">{screening.room?.name}</span>
+                      <span class="location">{screening.room?.cinema?.location}</span>
                     </div>
 
                     <div class="price-tag">
@@ -295,11 +280,11 @@
 
 <style>
   .movie-page {
-    max-width: 1000px;
+    width: 100%;
     margin: 0 auto;
     min-height: 100vh;
-    background: #0a0a0a;
-    color: #fff;
+    background: var(--app-bg);
+    color: var(--bs-body-color);
   }
 
   .center-content {
@@ -322,6 +307,8 @@
   }
 
   .movie-content {
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 1rem;
   }
 
@@ -360,6 +347,11 @@
     grid-template-columns: minmax(100px, 180px) 1fr;
     gap: 1.5rem;
     margin-bottom: 1.5rem;
+    background: var(--app-card-bg);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--app-border);
+    backdrop-filter: blur(10px);
   }
 
   .poster {
@@ -443,19 +435,20 @@
   }
 
   .synopsis-section {
-    background: rgba(255,255,255,0.03);
-    padding: 1rem;
-    border-radius: 4px;
+    background: var(--app-card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
     margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #ddd;
+    border: 1px solid var(--app-border);
+    backdrop-filter: blur(10px);
   }
 
   .screenings-section {
-    background: rgba(255,255,255,0.03);
-    border-radius: 8px;
-    padding: 1rem;
+    background: var(--app-card-bg);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--app-border);
+    backdrop-filter: blur(10px);
   }
 
   .dates-nav {
@@ -464,27 +457,34 @@
     overflow-x: auto;
     padding-bottom: 1rem;
     margin-bottom: 1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid var(--app-border);
   }
 
   .date-btn {
     background: none;
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 6px;
+    border: 1px solid var(--app-border);
+    border-radius: 0.75rem;
     padding: 0.5rem 1rem;
-    color: #aaa;
+    color: var(--bs-body-color);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-width: 100px;
+    opacity: 0.7;
+  }
+
+  .date-btn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
   }
 
   .date-btn.active {
-    background: rgba(255,255,255,0.1);
-    color: #fff;
-    border-color: rgba(255,255,255,0.3);
+    background: var(--primary-color);
+    color: white;
+    border-color: transparent;
+    opacity: 1;
   }
 
   .date-short {
@@ -504,20 +504,21 @@
   }
 
   .screening-card {
-    background: rgba(255,255,255,0.05);
-    border-radius: 8px;
+    background: var(--app-card-bg);
+    border: 1px solid var(--app-border);
+    border-radius: 1rem;
     padding: 1rem;
     text-decoration: none;
-    color: #fff;
+    color: var(--bs-body-color);
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
   }
 
   .screening-card:hover {
-    background: rgba(255,255,255,0.08);
     transform: translateY(-2px);
+    border-color: var(--primary-color);
   }
 
   .screening-header {
@@ -562,41 +563,23 @@
     color: #aaa;
   }
 
-  .seats-info {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-  }
-
-  .seats-info.success {
-    background: rgba(76, 175, 80, 0.1);
-    color: #4CAF50;
-  }
-
-  .seats-info.warning {
-    background: rgba(255, 152, 0, 0.1);
-    color: #FF9800;
-  }
-
-  .seats-info.danger {
-    background: rgba(244, 67, 54, 0.1);
-    color: #F44336;
+  .location {
+    font-size: 0.85rem;
+    color: #888;
   }
 
   .price-tag {
     font-size: 1.1rem;
     font-weight: 600;
-    color: #4CAF50;
+    color: var(--primary-color);
+    margin-top: 0.5rem;
   }
 
   .book-btn {
-    background: #4CAF50;
+    background: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 0.75rem;
     padding: 0.75rem;
     font-weight: 500;
     cursor: pointer;
@@ -604,11 +587,12 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
   }
 
   .book-btn:hover {
-    background: #45a049;
+    background: var(--primary-hover);
+    transform: translateY(-2px);
   }
 
   .no-screenings {
@@ -624,6 +608,7 @@
   @media (max-width: 640px) {
     .movie-grid {
       grid-template-columns: 1fr;
+      padding: 1rem;
     }
 
     .poster {
@@ -638,7 +623,8 @@
     .dates-nav {
       margin: -1rem -1rem 1rem -1rem;
       padding: 1rem;
-      background: rgba(0,0,0,0.2);
+      background: var(--app-card-bg);
+      border-bottom: 1px solid var(--app-border);
     }
 
     .date-btn {

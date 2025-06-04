@@ -5,6 +5,7 @@
     import { theme } from '$lib/theme';
     import MovieCard from '$lib/components/MovieCard.svelte';
     import HeroBanner from '$lib/components/HeroBanner.svelte';
+    import { t } from '$lib/i18n';
 
     export let data;
     const { slug } = data;
@@ -96,8 +97,8 @@
     {:else if actor}
         <HeroBanner 
             title={actor.name}
-            subtitle={`${actor.movies?.length || 0} ${actor.movies?.length === 1 ? 'película' : 'películas'}`}
-            imageUrl="/images/actor-detail-hero.jpg"
+            subtitle={$t('bannerActorSubtitle', { count: actor.movies?.length || 0 })}
+            imageUrl="https://source.unsplash.com/random/1920x1080/?cinema,theater"
             overlayOpacity="60"
         />
 

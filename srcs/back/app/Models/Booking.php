@@ -17,16 +17,13 @@ class Booking extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'user_id',
+        'uuid',
         'function_id',
-        'total_price',
-        'status',
-        'booking_code',
-        'payment_status',
-        'payment_method',
+        'seats',
         'buyer_name',
         'buyer_email',
-        'buyer_phone'
+        'buyer_phone',
+        'status'
     ];
 
     /**
@@ -35,7 +32,7 @@ class Booking extends Model
      * @var array
      */
     protected $casts = [
-        'total_price' => 'decimal:2',
+        'seats' => 'array',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
@@ -82,7 +79,7 @@ class Booking extends Model
      */
     public function function(): BelongsTo
     {
-        return $this->belongsTo(Functions::class);
+        return $this->belongsTo(Functions::class, 'function_id');
     }
 
     /**

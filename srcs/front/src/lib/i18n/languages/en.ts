@@ -172,7 +172,78 @@ const en: TranslationDictionary = {
 	supportHours: 'Support Hours',
 	supportHoursDesc: 'Monday to Friday: 9:00 AM - 6:00 PM (GMT+1)',
 	backToContact: 'Back to Contact',
-	getHelp: 'Get Help'
+	getHelp: 'Get Help',
+	chatWithSupport: 'Support Chat',
+	chatWithSupportDesc: 'Need assistance? Our expert team is available 24/7 to address all your questions. Whether it\'s about bookings, movies, technical issues, or any other inquiry - we\'re here to help you in real-time. Click the chat button and connect instantly with our team!',
+	chatMinimized: 'Chat minimized',
+	chatMaximized: 'Chat maximized',
+
+	// Home page
+	heroSubtitle: 'Experience the magic of cinema on the best screen',
+	heroCta: 'View Movies',
+	servicesTitle: 'Our Services',
+	servicesProjection4kTitle: '4K Projection',
+	servicesProjection4kDesc: 'The best image quality',
+	servicesDolbyAtmosTitle: 'Dolby Atmos',
+	servicesDolbyAtmosDesc: 'Premium surround sound',
+	servicesPremiumBarTitle: 'Premium Bar',
+	servicesPremiumBarDesc: 'Quality snacks and drinks',
+	servicesFreeParking: 'Free Parking',
+	servicesFreeDesc: '3h with your movie ticket',
+
+	// Services
+	services: {
+		title: 'Our Services',
+		projection4k: {
+			title: '4K Projection',
+			desc: 'The best image quality'
+		},
+		dolbyAtmos: {
+			title: 'Dolby Atmos',
+			desc: 'Premium surround sound'
+		},
+		premiumBar: {
+			title: 'Premium Bar',
+			desc: 'Quality snacks and drinks'
+		},
+		freeParking: {
+			title: 'Free Parking',
+			desc: '3h with your movie ticket'
+		}
+	},
+
+	// Banner titles and subtitles
+	bannerMoviesTitle: 'Now Showing',
+	bannerMoviesSubtitle: 'Enjoy our collection of {total} movies',
+	bannerActorSubtitle: '{count} {count, plural, one {movie} other {movies}}',
+	bannerCinemaTitle: 'Our Cinema',
+	bannerCinemaSubtitle: 'Discover the best place to enjoy the seventh art',
+
+	// Cinema features
+	freeParking: 'Free Parking',
+	cafeteria: 'Cafeteria',
+	snackBar: 'Snack Bar',
+	gameZone: 'Game Zone',
+	accessibleFacilities: 'Accessible Facilities',
+	errorLoadingMovies: 'Error loading movies:',
+	unexpectedApiResponse: 'Unexpected API response format',
+	previous: 'Previous',
+	next: 'Next',
+
+	// Room features
+	surroundSound: 'Surround Sound',
+	comfortableSeats: 'Comfortable Seats',
+	imaxScreen: 'Giant IMAX Screen',
+	dolbyAtmosSound: 'Dolby Atmos Sound',
+	immersiveExperience: 'Immersive Experience',
+	luxurySeats: 'Luxury Reclining Seats',
+	personalizedService: 'Personalized Service',
+	exclusiveMenu: 'Exclusive Menu',
+	advanced3d: 'Advanced 3D Technology',
+	premium3dGlasses: 'Premium 3D Glasses',
+	compatible3d: '3D Compatible',
+	imaxCertified: 'IMAX Certified',
+	vipExperience: 'VIP Experience',
 };
 
 export default en;

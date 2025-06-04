@@ -114,20 +114,23 @@
       </div>
 
       <!-- Contact Form -->
-      <div class="card shadow-sm mb-3">
-        <div class="card-body p-3">
-          <h2 class="h5 mb-2">{$t('quickContactForm')}</h2>
+      <div class="contact-card mb-4" data-color="indigo">
+        <div class="contact-card-content p-4">
+          <div class="icon-wrapper mb-4">
+            <i class="bi bi-envelope"></i>
+          </div>
+          <h2 class="h4 mb-3">{$t('quickContactForm')}</h2>
 
           {#if formSubmitted}
-            <div class="alert alert-success py-2">
+            <div class="alert alert-success py-3 rounded-lg bg-green-100 border-green-200">
               <i class="bi bi-check-circle me-2"></i> {$t('thankYouMessage')}
             </div>
-            <button class="btn btn-sm btn-outline-primary" on:click={() => formSubmitted = false}>
-              <i class="bi bi-arrow-repeat me-1"></i> {$t('newMessage')}
+            <button class="btn-custom mt-3" on:click={() => formSubmitted = false}>
+              <i class="bi bi-arrow-repeat me-2"></i> {$t('newMessage')}
             </button>
           {:else}
             {#if formError}
-              <div class="alert alert-danger py-2">
+              <div class="alert alert-danger py-3 rounded-lg bg-red-100 border-red-200">
                 <i class="bi bi-exclamation-triangle me-2"></i> {$t('errorSendingMessage')}
               </div>
             {/if}
@@ -136,22 +139,47 @@
               action="https://formspree.io/f/xqaqjozd" 
               method="POST" 
               on:submit={handleSubmit}
+              class="space-y-4"
             >
-              <div class="row">
-                <div class="col-md-6 mb-2">
-                  <input type="text" name="name" placeholder={$t('yourName')} class="form-control form-control-sm" required />
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    placeholder={$t('yourName')} 
+                    class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all duration-300"
+                    required 
+                  />
                 </div>
-                <div class="col-md-6 mb-2">
-                  <input type="email" name="email" placeholder={$t('emailPlaceholder')} class="form-control form-control-sm" required />
+                <div>
+                  <input 
+                    type="email" 
+                    name="email" 
+                    placeholder={$t('emailPlaceholder')} 
+                    class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all duration-300"
+                    required 
+                  />
                 </div>
               </div>
-              <input type="text" name="subject" placeholder={$t('subject')} class="form-control form-control-sm mb-2" required />
-              <textarea name="message" placeholder={$t('howCanWeHelp')} rows="3" class="form-control form-control-sm mb-2" required></textarea>
-              <button type="submit" class="btn btn-sm btn-primary" disabled={loading}>
+              <input 
+                type="text" 
+                name="subject" 
+                placeholder={$t('subject')} 
+                class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all duration-300"
+                required 
+              />
+              <textarea 
+                name="message" 
+                placeholder={$t('howCanWeHelp')} 
+                rows="3" 
+                class="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:border-white/40 focus:ring-2 focus:ring-white/20 transition-all duration-300"
+                required
+              ></textarea>
+              <button type="submit" class="btn-custom" disabled={loading}>
                 {#if loading}
-                  <span class="spinner-border spinner-border-sm me-1"></span> {$t('sending')}
+                  <span class="inline-block animate-spin mr-2">⌛</span> {$t('sending')}
                 {:else}
-                  <i class="bi bi-send me-1"></i> {$t('send')}
+                  <i class="bi bi-send me-2"></i> {$t('send')}
                 {/if}
               </button>
             </form>
@@ -432,5 +460,94 @@
 
   :global([data-bs-theme="dark"]) .text-body-secondary {
     color: rgba(255, 255, 255, 0.7) !important;
+  }
+
+  /* Estilos adicionales para el formulario */
+  :global([data-bs-theme="dark"]) input,
+  :global([data-bs-theme="dark"]) textarea {
+    color: white !important;
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  :global([data-bs-theme="dark"]) input::placeholder,
+  :global([data-bs-theme="dark"]) textarea::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  :global([data-bs-theme="dark"]) input:focus,
+  :global([data-bs-theme="dark"]) textarea:focus {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.1) !important;
+  }
+
+  /* Estilos para los alerts */
+  .alert {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .alert-success {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: rgba(34, 197, 94, 0.2);
+    color: #16a34a;
+  }
+
+  .alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: rgba(239, 68, 68, 0.2);
+    color: #dc2626;
+  }
+
+  :global([data-bs-theme="dark"]) .alert-success {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: rgba(34, 197, 94, 0.3);
+    color: #4ade80;
+  }
+
+  :global([data-bs-theme="dark"]) .alert-danger {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #f87171;
+  }
+
+  /* Ajustes adicionales para el formulario */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  input, textarea {
+    transition: all 0.3s ease;
+    font-size: 0.95rem;
+  }
+
+  input:hover, textarea:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 1rem;
+  }
+
+  .grid {
+    display: grid;
+  }
+
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+
+  @media (min-width: 768px) {
+    .md\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .gap-4 {
+    gap: 1rem;
   }
 </style>

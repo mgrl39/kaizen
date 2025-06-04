@@ -192,7 +192,58 @@ export type TranslationKey =
 	| 'supportHours'
 	| 'supportHoursDesc'
 	| 'backToContact'
-	| 'getHelp';
+	| 'getHelp'
+	| 'chatWithSupport'
+	| 'chatWithSupportDesc'
+	| 'chatMinimized'
+	| 'chatMaximized'
+	
+	// Home page
+	| 'heroSubtitle'
+	| 'heroCta'
+	| 'servicesTitle'
+	| 'servicesProjection4kTitle'
+	| 'servicesProjection4kDesc'
+	| 'servicesDolbyAtmosTitle'
+	| 'servicesDolbyAtmosDesc'
+	| 'servicesPremiumBarTitle'
+	| 'servicesPremiumBarDesc'
+	| 'servicesFreeParking'
+	| 'servicesFreeDesc'
+
+	// Banner titles and subtitles
+	| 'bannerMoviesTitle'
+	| 'bannerMoviesSubtitle'
+	| 'bannerActorSubtitle'
+	| 'bannerCinemaTitle'
+	| 'bannerCinemaSubtitle'
+	
+	// Cinema features
+	| 'freeParking'
+	| 'cafeteria'
+	| 'snackBar'
+	| 'gameZone'
+	| 'accessibleFacilities'
+	| 'loading'
+	| 'errorLoadingMovies'
+	| 'unexpectedApiResponse'
+	| 'previous'
+	| 'next'
+
+	// Room features
+	| 'surroundSound'
+	| 'comfortableSeats'
+	| 'imaxScreen'
+	| 'dolbyAtmosSound'
+	| 'immersiveExperience'
+	| 'luxurySeats'
+	| 'personalizedService'
+	| 'exclusiveMenu'
+	| 'advanced3d'
+	| 'premium3dGlasses'
+	| 'compatible3d'
+	| 'imaxCertified'
+	| 'vipExperience';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

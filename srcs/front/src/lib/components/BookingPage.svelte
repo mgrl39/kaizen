@@ -473,7 +473,7 @@
                     </button>
                 {:else if currentStep === STEPS.CONFIRMATION}
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body text-center">
                             <h5 class="card-title mb-4">¡Reserva Confirmada!</h5>
                             
                             <div class="alert alert-success">
@@ -483,24 +483,27 @@
 
                             {#if ticketUrl}
                                 <div class="mt-4">
-                                    <p>Puedes descargar tu entrada ahora:</p>
+                                    <div class="qr-container mb-4">
+                                        <img src={ticketUrl} alt="QR Code" class="img-fluid" style="max-width: 200px;" />
+                                    </div>
+                                    <p class="mb-3">Muestra este código QR en la entrada del cine</p>
                                     <a href={ticketUrl} 
-                                       class="btn btn-primary"
-                                       target="_blank">
+                                       class="btn btn-primary mb-3"
+                                       download>
                                         <i class="bi bi-download me-2"></i>
-                                        Descargar Entrada
+                                        Descargar QR
                                     </a>
                                 </div>
                                 
                                 <div class="mt-4">
                                     <p class="text-muted">
                                         <i class="bi bi-info-circle me-2"></i>
-                                        También hemos enviado un enlace a tu email ({buyer.email}) 
-                                        para que puedas descargar tu entrada más tarde.
+                                        También hemos enviado el código QR a tu email ({buyer.email}) 
+                                        para que puedas acceder a él más tarde.
                                     </p>
                                 </div>
 
-                                <div class="mt-4 d-flex gap-3">
+                                <div class="mt-4 d-flex justify-content-center gap-3">
                                     <a href="/" class="btn btn-outline-secondary">
                                         <i class="bi bi-house me-2"></i>
                                         Volver al inicio

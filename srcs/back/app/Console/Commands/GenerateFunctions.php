@@ -158,15 +158,15 @@ class GenerateFunctions extends Command
                         }
 
                         foreach ($rooms as $index => $room) {
-                            // Obtener el subconjunto de películas para esta sala
-                            $start = $index * $moviesPerRoom;
-                            $roomMovies = $movies->slice($start, $moviesPerRoom);
-                            $roomMovieIds = $roomMovies->pluck('id')->toArray();
+                            // Distribuir las películas de manera uniforme entre las salas
+                            $roomMovies = $movies->filter(function ($movie, $movieIndex) use ($index, $rooms) {
+                                return $movieIndex % $rooms->count() === $index;
+                            })->values();
 
                             if ($roomMovies->isEmpty()) continue;
 
                             // Obtener el índice de la última película
-                            $movieIndex = $this->getLastMovieIndex($room, $currentDate->format('Y-m-d'), $roomMovieIds);
+                            $movieIndex = $this->getLastMovieIndex($room, $currentDate->format('Y-m-d'), $roomMovies->pluck('id')->toArray());
                             
                             // Generar horarios para el día
                             $currentTime = Carbon::parse($currentDate->format('Y-m-d') . ' ' . self::OPENING_TIME);
@@ -194,7 +194,7 @@ class GenerateFunctions extends Command
                                     'movie_id' => $movie->id,
                                     'room_id' => $room->id,
                                     'date' => $currentDate->format('Y-m-d'),
-                                    'time' => $currentTime->format('H:i:s'),
+                                    'time' => $currentTime->format('H:i'),
                                     'is_3d' => $cinema->has_3d && $movieIndex % 2 == 0
                                 ]);
 
