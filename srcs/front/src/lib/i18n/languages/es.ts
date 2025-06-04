@@ -157,6 +157,19 @@ const es: TranslationDictionary = {
 	readyForKaizen: '¿Listo para vivir la experiencia Kaizen?',
 	viewMoviesButton: 'Ver Películas',
 
+	// Home page
+	heroSubtitle: 'Vive la magia del cine en la mejor pantalla',
+	heroCta: 'Ver Cartelera',
+	servicesTitle: 'Nuestros Servicios',
+	servicesProjection4kTitle: 'Proyección 4K',
+	servicesProjection4kDesc: 'La mejor calidad de imagen',
+	servicesDolbyAtmosTitle: 'Dolby Atmos',
+	servicesDolbyAtmosDesc: 'Sonido envolvente premium',
+	servicesPremiumBarTitle: 'Bar Premium',
+	servicesPremiumBarDesc: 'Snacks y bebidas de calidad',
+	servicesFreeParking: 'Parking Gratis',
+	servicesFreeDesc: '3h con tu entrada de cine',
+
 	// Helpdesk
 	helpDesk: 'Mesa de Ayuda',
 	helpDeskDesc: 'Soporte directo y asistencia personalizada para todas tus consultas.',

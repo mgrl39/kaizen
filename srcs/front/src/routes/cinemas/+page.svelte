@@ -114,7 +114,7 @@
     <HeroBanner 
       title={$t('ourCinema')}
       subtitle={$t('cinemaSubtitle')}
-      imageUrl={cinema.image_url}
+      imageUrl="/images/banners/f16awk8g.png"
       overlayOpacity="60"
     />
 

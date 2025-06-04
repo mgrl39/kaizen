@@ -196,7 +196,20 @@ export type TranslationKey =
 	| 'chatWithSupport'
 	| 'chatWithSupportDesc'
 	| 'chatMinimized'
-	| 'chatMaximized';
+	| 'chatMaximized'
+	
+	// Home page
+	| 'heroSubtitle'
+	| 'heroCta'
+	| 'servicesTitle'
+	| 'servicesProjection4kTitle'
+	| 'servicesProjection4kDesc'
+	| 'servicesDolbyAtmosTitle'
+	| 'servicesDolbyAtmosDesc'
+	| 'servicesPremiumBarTitle'
+	| 'servicesPremiumBarDesc'
+	| 'servicesFreeParking'
+	| 'servicesFreeDesc';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

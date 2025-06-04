@@ -91,7 +91,7 @@
 <HeroBanner 
   title="Cartelera"
   subtitle="Disfruta de nuestra colección de {pagination.total} películas"
-  imageUrl="https://source.unsplash.com/random/1920x1080/?movies,cinema,popcorn"
+  imageUrl="/images/banners/h1lzyx2t.png"
   on:error={handleImageError}
 />
 

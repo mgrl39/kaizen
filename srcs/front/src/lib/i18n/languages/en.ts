@@ -176,7 +176,41 @@ const en: TranslationDictionary = {
 	chatWithSupport: 'Support Chat',
 	chatWithSupportDesc: 'Need assistance? Our expert team is available 24/7 to address all your questions. Whether it\'s about bookings, movies, technical issues, or any other inquiry - we\'re here to help you in real-time. Click the chat button and connect instantly with our team!',
 	chatMinimized: 'Chat minimized',
-	chatMaximized: 'Chat maximized'
+	chatMaximized: 'Chat maximized',
+
+	// Home page
+	heroSubtitle: 'Experience the magic of cinema on the best screen',
+	heroCta: 'View Movies',
+	servicesTitle: 'Our Services',
+	servicesProjection4kTitle: '4K Projection',
+	servicesProjection4kDesc: 'The best image quality',
+	servicesDolbyAtmosTitle: 'Dolby Atmos',
+	servicesDolbyAtmosDesc: 'Premium surround sound',
+	servicesPremiumBarTitle: 'Premium Bar',
+	servicesPremiumBarDesc: 'Quality snacks and drinks',
+	servicesFreeParking: 'Free Parking',
+	servicesFreeDesc: '3h with your movie ticket',
+
+	// Services
+	services: {
+		title: 'Our Services',
+		projection4k: {
+			title: '4K Projection',
+			desc: 'The best image quality'
+		},
+		dolbyAtmos: {
+			title: 'Dolby Atmos',
+			desc: 'Premium surround sound'
+		},
+		premiumBar: {
+			title: 'Premium Bar',
+			desc: 'Quality snacks and drinks'
+		},
+		freeParking: {
+			title: 'Free Parking',
+			desc: '3h with your movie ticket'
+		}
+	}
 };
 
 export default en;
