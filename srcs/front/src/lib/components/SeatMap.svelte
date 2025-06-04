@@ -17,17 +17,16 @@
             const seatData = seatsData[rowIndex]?.[seatIndex];
             
             if (!seatData) {
-                console.error(`No se encontró datos para el asiento en fila ${rowIndex}, posición ${seatIndex}`);
                 return null;
             }
 
             return {
                 id: seatData.id.toString(), // Siempre usar el ID real como string
-                row: seatData.row,
+                row: rowIndex + 1, // Fila basada en el índice + 1
                 number: seatData.number,
                 isSelected: selectedSeats.includes(seatData.id.toString()),
                 isOccupied: seatData.is_occupied,
-                isSelectable: false
+                isSelectable: !seatData.is_occupied // Inicialmente seleccionable si no está ocupado
             };
         })
     );
@@ -102,7 +101,7 @@
                             style="width: 40px; height: 40px;"
                             disabled={seat.isOccupied || (!seat.isSelectable && !seat.isSelected)}
                             on:click={() => handleSeatClick(seat)}
-                            title="Fila {seat.row} Asiento {seat.number}"
+                            title="Fila {String.fromCharCode(65 + rowIndex)} Asiento {seat.number}"
                         >
                             {seat.number}
                         </button>

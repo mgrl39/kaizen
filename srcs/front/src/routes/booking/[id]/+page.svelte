@@ -7,12 +7,12 @@
   import { API_URL } from '$lib/config';
   import { goto } from '$app/navigation';
 
-  let selectedSeats: number[] = [];
+  let selectedSeats: string[] = [];
   let totalPrice = 0;
   let loading = true;
   let error = null;
   let functionData: any = null;
-  let seatLayout: any[] = [];
+  let seatLayout: any[][] = [];
   let isSubmitting = false;
 
   // Datos del comprador
@@ -66,44 +66,34 @@
         throw new Error(seatsResult.message || 'Error cargando datos de asientos');
       }
 
-      // Si el backend devuelve un array vacío, generar el layout basado en las dimensiones de la sala
-      if (!seatsResult.data?.layout && functionData.room) {
-        const { rows, seats_per_row } = functionData.room;
-        seatLayout = Array(rows).fill(null).map((_, rowIndex) => 
-          Array(seats_per_row).fill(null).map((_, seatIndex) => {
-            const row = String.fromCharCode(65 + rowIndex); // A, B, C...
-            const number = seatIndex + 1;
-            // Buscar el asiento en los datos del backend
-            const backendSeat = seatsResult.data?.flat()?.find(s => 
-              s.row === rowIndex && s.number === number
-            );
-            return {
-              id: backendSeat?.id || null, // Usar el ID del backend o null si no existe
-              row,
-              number,
-              status: backendSeat ? (backendSeat.is_occupied ? 'occupied' : 'available') : 'unavailable'
+      // Obtener las dimensiones reales de la sala
+      const roomRows = functionData.room.rows;
+      const roomSeatsPerRow = functionData.room.seats_per_row;
+
+      // Crear una matriz vacía con las dimensiones correctas
+      seatLayout = Array(roomRows).fill(null).map(() => Array(roomSeatsPerRow).fill(null));
+
+      // Distribuir los asientos en la matriz según las dimensiones de la sala
+      const flatSeats = seatsResult.data.flat();
+      let seatIndex = 0;
+
+      for (let row = 0; row < roomRows; row++) {
+        for (let col = 0; col < roomSeatsPerRow; col++) {
+          const seat = flatSeats[seatIndex];
+          if (seat) {
+            seatLayout[row][col] = {
+              ...seat,
+              row: row, // Usar el índice de fila actual
+              number: col + 1 // Números de asiento del 1 al 8 en cada fila
             };
-          })
-        );
-      } else {
-        // Si el backend devuelve datos, convertirlos al formato que necesitamos
-        const flatSeats = seatsResult.data.flat();
-        const { rows, seats_per_row } = functionData.room;
-        seatLayout = Array(rows).fill(null).map((_, rowIndex) => 
-          Array(seats_per_row).fill(null).map((_, seatIndex) => {
-            const number = seatIndex + 1;
-            const backendSeat = flatSeats.find(s => 
-              s.row === rowIndex && s.number === number
-            );
-            return {
-              id: backendSeat?.id,
-              row: String.fromCharCode(65 + rowIndex),
-              number,
-              status: backendSeat ? (backendSeat.is_occupied ? 'occupied' : 'available') : 'unavailable'
-            };
-          })
-        );
+          }
+          seatIndex++;
+        }
       }
+
+      // Debug para verificar la estructura de datos
+      console.log('Room dimensions:', { rows: roomRows, seatsPerRow: roomSeatsPerRow });
+      console.log('Organized seat layout:', seatLayout);
 
       loading = false;
     } catch (e: any) {
@@ -201,13 +191,15 @@
   }
 
   function toggleSeat(seat: any) {
-    if (seat.status === 'occupied' || seat.status === 'unavailable' || !seat.id) return;
+    if (!seat || seat.is_occupied) return;
     
-    const index = selectedSeats.findIndex(s => s === seat.id);
-    if (index === -1) {
-      selectedSeats = [...selectedSeats, seat.id];
+    const seatId = seat.id.toString();
+    if (selectedSeats.includes(seatId)) {
+      // Deseleccionar asiento
+      selectedSeats = selectedSeats.filter(id => id !== seatId);
     } else {
-      selectedSeats = selectedSeats.filter(s => s !== seat.id);
+      // Seleccionar nuevo asiento
+      selectedSeats = [...selectedSeats, seatId];
     }
     
     // Calcular precio total usando el precio de la función o de la sala
@@ -215,12 +207,12 @@
     totalPrice = selectedSeats.length * (functionData?.is_3d ? price + 2 : price);
   }
 
-  function isSeatSelected(seat: any) {
-    return selectedSeats.includes(seat.id);
+  function isSeatSelected(seatId: number): boolean {
+    return selectedSeats.includes(seatId.toString());
   }
 
   function getSeatStatus(seat: any) {
-    if (isSeatSelected(seat)) return 'selected';
+    if (isSeatSelected(seat.id)) return 'selected';
     return seat.status;
   }
 
@@ -321,20 +313,33 @@
           <div class="screen">Pantalla</div>
           
           <div class="seats-container">
-            {#each seatLayout as row, rowIndex}
-              <div class="seat-row">
-                <div class="row-label">{String.fromCharCode(65 + rowIndex)}</div>
-                {#each row as seat}
-                  <button 
-                    class="seat {getSeatStatus(seat)}"
-                    disabled={seat.status === 'occupied' || seat.status === 'unavailable'}
-                    on:click={() => toggleSeat(seat)}
-                  >
-                    <span class="seat-number">{seat.number}</span>
-                  </button>
-                {/each}
+            {#if Array.isArray(seatLayout) && seatLayout.length > 0}
+              {#each seatLayout as row, rowIndex}
+                <div class="seat-row">
+                  <div class="row-label">{String.fromCharCode(65 + rowIndex)}</div>
+                  {#each row as seat, seatIndex}
+                    {#if seat}
+                      <button 
+                        class="seat {seat.is_occupied ? 'occupied' : isSeatSelected(seat.id) ? 'selected' : 'available'}"
+                        disabled={seat.is_occupied}
+                        on:click={() => toggleSeat(seat)}
+                        title="Fila {String.fromCharCode(65 + rowIndex)} Asiento {seat.number}"
+                      >
+                        <span class="seat-number">{seat.number}</span>
+                      </button>
+                    {:else}
+                      <button class="seat unavailable" disabled>
+                        <span class="seat-number">-</span>
+                      </button>
+                    {/if}
+                  {/each}
+                </div>
+              {/each}
+            {:else}
+              <div class="alert alert-warning">
+                No se encontraron asientos disponibles
               </div>
-            {/each}
+            {/if}
           </div>
 
           <div class="seats-legend">
@@ -649,58 +654,65 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    align-items: center;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 1rem;
   }
 
   .seat-row {
     display: flex;
-    gap: 0.5rem;
     align-items: center;
+    gap: 0.5rem;
+    min-height: 40px;
+    white-space: nowrap;
   }
 
   .row-label {
     width: 30px;
     text-align: center;
-    font-weight: 500;
-    opacity: 0.7;
+    font-weight: bold;
   }
 
   .seat {
-    width: 35px;
-    height: 35px;
-    border: none;
-    border-radius: 0.5rem;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: var(--app-card-bg);
+    width: 40px;
+    height: 40px;
     border: 1px solid var(--app-border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: var(--app-card-bg);
+    transition: all 0.2s ease;
   }
 
-  .seat:hover:not(:disabled) {
+  .seat:not(:disabled):hover {
     transform: translateY(-2px);
-  }
-
-  .seat.available:hover {
     border-color: var(--primary-color);
   }
 
   .seat.selected {
     background: var(--primary-color);
     color: white;
-    border-color: transparent;
+    border-color: var(--primary-color);
   }
 
   .seat.occupied {
-    background: var(--app-border);
+    background: var(--danger);
+    color: white;
     cursor: not-allowed;
-    opacity: 0.5;
+    opacity: 0.7;
   }
 
   .seat-number {
     font-size: 0.8rem;
     font-weight: 500;
+  }
+
+  .seat.unavailable {
+    background: var(--app-border);
+    opacity: 0.3;
+    cursor: not-allowed;
   }
 
   /* Legend Styles */

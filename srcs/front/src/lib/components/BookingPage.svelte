@@ -73,18 +73,21 @@
                 throw new Error(seatsResult.message || 'Error cargando datos de asientos');
             }
             
-            // Procesar los datos de asientos
-            seatsData = seatsResult.data;
+            // Procesar los datos de asientos directamente desde el backend
+            rawSeatsData = seatsResult.data;
             
-            // Calcular filas y asientos por fila
-            if (Array.isArray(seatsData) && seatsData.length > 0) {
-                rows = seatsData.length; // Número de filas
-                seatsPerRow = seatsData[0].length; // Asientos por fila
+            // Calcular filas y asientos por fila basado en los datos del backend
+            if (Array.isArray(rawSeatsData) && rawSeatsData.length > 0) {
+                rows = rawSeatsData.length; // Número de filas
+                seatsPerRow = rawSeatsData[0].length; // Asientos por fila
                 
-                // Extraer asientos ocupados
-                occupiedSeats = seatsData.flat()
+                // Extraer asientos ocupados - convertir IDs a string
+                occupiedSeats = rawSeatsData.flat()
                     .filter(seat => seat && seat.is_occupied)
                     .map(seat => seat.id.toString());
+
+                // Pasar los datos sin procesar al componente SeatMap
+                seatsData = rawSeatsData;
             }
 
             // Cargar datos del usuario si está logueado
