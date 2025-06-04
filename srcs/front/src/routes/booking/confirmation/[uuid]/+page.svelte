@@ -8,12 +8,30 @@
     let loading = true;
     let error = '';
     let downloadStatus = '';
-    let printStatus = '';
+    let ticketRef;
     
     // Función para obtener la URL base del API sin el prefijo /api/v1
     function getBaseUrl() {
         return API_URL.replace('/api/v1', '');
     }
+    
+    onMount(() => {
+        // Precarga las imágenes para evitar problemas de CORS
+        if (typeof window !== 'undefined') {
+            const preloadImage = (src) => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.crossOrigin = "anonymous";
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
+                    img.src = src;
+                });
+            };
+
+            // Precarga el logo
+            preloadImage("http://10.2.238.141:5173/favicon.png");
+        }
+    });
     
     $: {
         if (data?.uuid) {
@@ -38,6 +56,13 @@
             }
             
             booking = result.data.booking;
+
+            // Precarga el QR si existe
+            if (booking?.ticket?.qr_path) {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = `${API_URL}/qr/${booking.ticket.qr_path.split('/').pop()}`;
+            }
         } catch (e: any) {
             console.error('Error al cargar la reserva:', e);
             error = e.message;
@@ -47,41 +72,49 @@
     }
 
     async function handleDownload() {
-        if (!booking?.ticket?.download_url) {
-            downloadStatus = 'Error: URL de descarga no disponible';
-            return;
-        }
-
         try {
-            downloadStatus = 'Descargando...';
-            const response = await fetch(booking.ticket.download_url);
-            if (!response.ok) throw new Error('Error al descargar el ticket');
+            downloadStatus = 'Generando entrada...';
             
-            const blob = await response.blob();
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `ticket-${booking.booking_code}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
+            // Hacer visible el ticket temporalmente
+            ticketRef.style.display = 'grid';
+            
+            // Esperar a que todo se renderice
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            // Generar la imagen
+            const canvas = await html2canvas(ticketRef, {
+                scale: 2,
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: '#1a1a1a'
+            });
+
+            // Crear un enlace de descarga
+            const link = document.createElement('a');
+            link.download = `entrada-${booking.booking_code}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            // Ocultar el ticket
+            ticketRef.style.display = 'none';
             
             downloadStatus = 'Descarga completada';
             setTimeout(() => downloadStatus = '', 3000);
         } catch (e) {
             console.error('Error al descargar:', e);
-            downloadStatus = 'Error en la descarga';
+            downloadStatus = 'Error en la descarga: ' + e.message;
+            ticketRef.style.display = 'none';
         }
     }
 
-    function handlePrint() {
-        printStatus = 'Preparando impresión...';
-        setTimeout(() => {
-            window.print();
-            printStatus = 'Listo para imprimir';
-            setTimeout(() => printStatus = '', 3000);
-        }, 100);
+    function formatDate(dateStr) {
+        const date = new Date(dateStr);
+        return new Intl.DateTimeFormat('es-ES', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }).format(date);
     }
 </script>
 
@@ -190,14 +223,13 @@
     /* Action buttons container */
     .action-buttons {
         display: flex;
-        gap: 1rem;
         justify-content: center;
         margin-top: 2rem;
     }
 
     /* Button styles */
     .action-button {
-        min-width: 200px;
+        min-width: 220px;
         transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         margin: 0.75rem 0;
         border-radius: 0.75rem;
@@ -208,7 +240,11 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 0.5rem;
+        gap: 0.75rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        box-shadow: var(--shadow-md);
     }
 
     .action-button i {
@@ -217,19 +253,14 @@
 
     .action-button:hover {
         transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
+        box-shadow: var(--shadow-lg);
+        background-color: #4338CA;
     }
 
-    .action-button.download {
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-    }
-
-    .action-button.print {
-        background-color: white;
-        color: var(--primary-color);
-        border: 2px solid var(--primary-color);
+    .action-button:disabled {
+        background-color: #6B7280;
+        cursor: not-allowed;
+        transform: none;
     }
 
     /* Booking details styles */
@@ -391,6 +422,143 @@
             padding: 0.5rem 0;
         }
     }
+
+    /* Movie Ticket styles */
+    .movie-ticket {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+        color: white;
+        border-radius: 1rem;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 2rem;
+        width: 100%;
+        max-width: 900px;
+        margin: 0 auto;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        display: none; /* Ocultar por defecto */
+    }
+
+    .movie-ticket.show-for-print {
+        display: grid; /* Mostrar solo cuando se va a imprimir */
+    }
+
+    .ticket-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .ticket-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 1rem;
+    }
+
+    .cinema-logo {
+        width: 60px;
+        height: 60px;
+        object-fit: contain;
+    }
+
+    .movie-title {
+        font-size: 2rem;
+        font-weight: 700;
+        margin: 0;
+        background: linear-gradient(90deg, #fff 0%, #e2e2e2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .ticket-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .ticket-info-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .ticket-info-label {
+        color: #9ca3af;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .ticket-info-value {
+        font-size: 1.125rem;
+        font-weight: 600;
+    }
+
+    .ticket-qr {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .ticket-qr img {
+        width: 180px;
+        height: 180px;
+        object-fit: contain;
+    }
+
+    .ticket-code {
+        color: #1a1a1a;
+        font-family: monospace;
+        font-size: 1.125rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+    }
+
+    .ticket-decoration {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.1;
+        background: 
+            radial-gradient(circle at 0% 0%, #ffffff22 0%, transparent 50%),
+            radial-gradient(circle at 100% 100%, #ffffff22 0%, transparent 50%);
+    }
+
+    @media print {
+        .movie-ticket {
+            box-shadow: none;
+            break-inside: avoid;
+        }
+
+        .ticket-qr img {
+            width: 150px;
+            height: 150px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .movie-ticket {
+            grid-template-columns: 1fr;
+            padding: 1.5rem;
+        }
+
+        .movie-title {
+            font-size: 1.5rem;
+        }
+
+        .ticket-details {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
 <div class="container py-4 px-3">
@@ -469,26 +637,74 @@
                                 Muestra este código en la entrada del cine
                             </p>
                             
-                            <div class="action-buttons no-print">
-                                <button class="action-button download" 
-                                        on:click={handleDownload}
-                                        disabled={!booking.ticket?.download_url}>
+                            <div class="action-buttons">
+                                <button class="action-button" 
+                                        on:click={handleDownload}>
                                     <i class="bi bi-download"></i>
                                     Descargar Entrada
                                 </button>
-                                <button class="action-button print" 
-                                        on:click={handlePrint}>
-                                    <i class="bi bi-printer"></i>
-                                    Imprimir
-                                </button>
                             </div>
-                            <div class="status-message text-muted">
-                                {downloadStatus || printStatus}
+                            <div class="status-message text-muted text-center">
+                                {downloadStatus}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Movie Ticket -->
+        <div class="movie-ticket" style="display: none;" bind:this={ticketRef}>
+            <div class="ticket-decoration"></div>
+            
+            <div class="ticket-content">
+                <div class="ticket-header">
+                    <img src="http://10.2.238.141:5173/favicon.png" 
+                         alt="Kaizen Cinema" 
+                         class="cinema-logo" 
+                         crossorigin="anonymous">
+                    <h1 class="movie-title">{booking.function.movie.title}</h1>
+                </div>
+
+                <div class="ticket-details">
+                    <div class="ticket-info-group">
+                        <span class="ticket-info-label">Fecha</span>
+                        <span class="ticket-info-value">{formatDate(booking.function.date)}</span>
+                    </div>
+                    <div class="ticket-info-group">
+                        <span class="ticket-info-label">Hora</span>
+                        <span class="ticket-info-value">{booking.function.time}</span>
+                    </div>
+                    <div class="ticket-info-group">
+                        <span class="ticket-info-label">Sala</span>
+                        <span class="ticket-info-value">{booking.function.room_id}</span>
+                    </div>
+                    <div class="ticket-info-group">
+                        <span class="ticket-info-label">Asientos</span>
+                        <span class="ticket-info-value">
+                            {booking.seats.map(s => `Fila ${String.fromCharCode(65 + s.row)} - ${s.number}`).join(', ')}
+                        </span>
+                    </div>
+                    <div class="ticket-info-group">
+                        <span class="ticket-info-label">Precio</span>
+                        <span class="ticket-info-value">{booking.total_price}€</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ticket-qr">
+                {#if booking.ticket?.qr_path}
+                    <img src={`${API_URL}/qr/${booking.ticket.qr_path.split('/').pop()}`} 
+                         alt="QR Code"
+                         crossorigin="anonymous">
+                {/if}
+                <span class="ticket-code">{booking.booking_code}</span>
+            </div>
+        </div>
     {/if}
-</div> 
+</div>
+
+<svelte:head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</svelte:head> 
