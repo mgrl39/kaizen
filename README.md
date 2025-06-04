@@ -32,28 +32,20 @@ bash node.sh
 
 **🎬 Gestión de Películas**
 
-- Catálogo completo con información detallada
-- Clasificación por géneros y metadata avanzada
-- Integración con APIs externas de información cinematográfica
-
-**🏢 Administración de Cines**
-
-- Gestión de múltiples complejos y configuración de salas
-- Tipos de pantallas (IMAX, 3D, etc.)
-- Mapas de asientos personalizables y estadísticas
+- Catálogo completo con información
+- Integración con API propia de información cinematográfica
 
 **🎟️ Sistema de Reservas**
 
 - Selección visual de asientos con procesamiento de pagos
-- Generación de tickets digitales y notificaciones
-- Historial de compras y sistema de fidelización
+- Generación de tickets digitales
 
 ## 🏗️ Arquitectura
 
 - **Backend API RESTful**: Desarrollado con Laravel 10, proporciona endpoints seguros y documentados
-- **Frontend SPA**: Interfaz de usuario reactiva construida con Svelte 4
-- **Base de datos**: PostgreSQL optimizado para consultas complejas y alta concurrencia
-- **Autenticación**: Sistema JWT con roles y permisos granulares
+- **Frontend SPA**: Interfaz de usuario construida con Svelte 4
+- **Base de datos**: PostgreSQL
+- **Autenticación**: Sistema JWT
 - **CI/CD**: Integración y despliegue continuo con GitHub Actions
 
 ## 🧰 Tecnologías
@@ -69,10 +61,8 @@ bash node.sh
 
 - **Panel de Administración**: Gestión completa del sistema para operadores
 - **Catálogo de Películas**: Visualización y filtrado avanzado
-- **Programación de Sesiones**: Calendario visual para proyecciones
 - **Sistema de Reservas**: Proceso intuitivo de selección y compra
-- **Gestión de Usuarios**: Perfiles, preferencias e historial
-- **Reportes y Estadísticas**: Análisis de ventas y ocupación
+- **Gestión de Usuarios**: Perfiles
 - **API Pública**: Documentada para integraciones externas
 
 ## 🔧 Desarrollo
@@ -81,8 +71,6 @@ bash node.sh
 
 ```bash
 # Backend
-
-
 php artisan serve                # Iniciar servidor de desarrollo
 php artisan test                 # Ejecutar tests
 php artisan migrate:fresh --seed # Reiniciar base de datos
@@ -111,6 +99,5 @@ kaizen/
   <img src="https://img.shields.io/badge/Patrocinar-mgrl39-ea4aaa?style=for-the-badge&logo=github-sponsors" alt="Patrocinar en GitHub" />
 </a>
 
-<p>Desarrollado con ❤️ por mgrl39</p>
-<p><small>Gadget - Sistema de webscraping y análisis de datos de cines</small></p>
+<p><small>Visita: Gadget - Sistema de webscraping y análisis de datos de cines</small></p>
 </div>
