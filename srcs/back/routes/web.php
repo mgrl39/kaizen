@@ -30,6 +30,10 @@ Route::prefix('admin')->group(function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
         Route::post('logout', [AdminController::class, 'logout'])->name('admin.logout');
     });
+
+    // Maintenance Routes
+    Route::get('/maintenance', [App\Http\Controllers\Admin\MaintenanceController::class, 'index']);
+    Route::post('/maintenance/execute', [App\Http\Controllers\Admin\MaintenanceController::class, 'executeCommand']);
 });
 
 // Root route - redirect to API
