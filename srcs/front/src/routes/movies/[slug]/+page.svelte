@@ -281,12 +281,19 @@
 />
 
 <style>
+  /* Estilos específicos de la página de películas */
+  :global(.movie-page) {
+    --movie-card-bg: var(--app-card-bg, rgba(17, 24, 39, 0.8));
+    --movie-border: var(--app-border, rgba(255, 255, 255, 0.1));
+    --movie-text: var(--bs-body-color, #e0e0e0);
+  }
+
   .movie-page {
     width: 100%;
     margin: 0 auto;
     min-height: 100vh;
     background: var(--app-bg);
-    color: var(--bs-body-color);
+    color: var(--movie-text);
   }
 
   .center-content {
@@ -349,10 +356,10 @@
     grid-template-columns: minmax(100px, 180px) 1fr;
     gap: 1.5rem;
     margin-bottom: 1.5rem;
-    background: var(--app-card-bg);
+    background: var(--movie-card-bg);
     border-radius: 1rem;
     padding: 1.5rem;
-    border: 1px solid var(--app-border);
+    border: 1px solid var(--movie-border);
     backdrop-filter: blur(10px);
   }
 
@@ -506,12 +513,12 @@
   }
 
   .screening-card {
-    background: var(--app-card-bg);
-    border: 1px solid var(--app-border);
+    background: var(--movie-card-bg);
+    border: 1px solid var(--movie-border);
     border-radius: 1rem;
     padding: 1rem;
     text-decoration: none;
-    color: var(--bs-body-color);
+    color: var(--movie-text);
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -633,5 +640,16 @@
       min-width: 90px;
       padding: 0.4rem 0.75rem;
     }
+  }
+
+  /* Asegurar que los estilos de la tarjeta no afecten a otros componentes */
+  :global(.movie-page .card) {
+    background: var(--movie-card-bg);
+    border: 1px solid var(--movie-border);
+  }
+
+  :global(.movie-page .card:hover) {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
   }
 </style>
