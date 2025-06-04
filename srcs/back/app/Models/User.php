@@ -26,8 +26,7 @@ class User extends Authenticatable implements JWTSubject
         'username',
         'name',
         'email',
-        'password',
-        'birthdate'
+        'password'
     ];
 
     /**
@@ -46,8 +45,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'birthdate' => 'date',
+        'email_verified_at' => 'datetime'
     ];
 
     // Relationships

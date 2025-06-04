@@ -125,24 +125,40 @@
     
     async function handleBooking() {
         if (isSubmitting) return;
+        
+        // Validar que estemos en el paso correcto
+        if (currentStep !== STEPS.SUMMARY) {
+            error = 'Por favor, complete todos los pasos antes de confirmar la reserva';
+            return;
+        }
+
         isSubmitting = true;
         error = '';
 
         try {
+            // Validación de asientos
             if (!Array.isArray(selectedSeats) || selectedSeats.length === 0) {
                 throw new Error('Debes seleccionar al menos un asiento');
             }
 
-            if (!buyer.name || !buyer.email || !buyer.phone) {
-                throw new Error('Por favor, completa todos los datos de contacto');
+            // Validación de datos del comprador
+            if (!buyer.name.trim()) {
+                throw new Error('El nombre es obligatorio');
+            }
+            if (!buyer.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyer.email)) {
+                throw new Error('El email no es válido');
+            }
+            if (!buyer.phone.trim()) {
+                throw new Error('El teléfono es obligatorio');
             }
 
-            const token = localStorage.getItem('token');
-            const headers: Record<string, string> = {
+            const headers = {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             };
             
+            // Solo añadir el token si existe (opcional)
+            const token = localStorage.getItem('token');
             if (token) {
                 headers['Authorization'] = `Bearer ${token}`;
             }
@@ -151,19 +167,35 @@
                 method: 'POST',
                 headers,
                 body: JSON.stringify({
-                    function_id: functionId,
+                    function_id: functionData.id,
                     seats: selectedSeats,
-                    buyer
+                    buyer: {
+                        name: buyer.name.trim(),
+                        email: buyer.email.trim(),
+                        phone: buyer.phone.trim()
+                    }
                 })
             });
 
             const result = await response.json();
 
             if (!response.ok) {
-                if (response.status === 401 && result.message?.toLowerCase().includes('invalid token')) {
-                    // Solo en este caso específico redirigimos al login, pero sin borrar el token
-                    goto('/login');
-                    throw new Error('Por favor, inicia sesión para continuar');
+                if (result.errors) {
+                    // Manejar errores de validación específicos
+                    const errorMessages = [];
+                    if (result.errors['buyer.name']) {
+                        errorMessages.push('El nombre es obligatorio');
+                    }
+                    if (result.errors['buyer.email']) {
+                        errorMessages.push('El email es obligatorio y debe ser válido');
+                    }
+                    if (result.errors['buyer.phone']) {
+                        errorMessages.push('El teléfono es obligatorio');
+                    }
+                    if (result.errors['seats.0']) {
+                        errorMessages.push('El asiento seleccionado no es válido');
+                    }
+                    throw new Error(errorMessages.join('. '));
                 }
                 throw new Error(result.message || 'Error al realizar la reserva');
             }
@@ -173,20 +205,18 @@
             }
 
             if (result.success && result.data?.booking?.uuid) {
-                // En lugar de redirigir inmediatamente, mostrar el ticket
                 success = true;
-                ticketUrl = result.data.ticket.download_url;
-                
-                // Opcional: guardar el email y el código del ticket en localStorage
-                localStorage.setItem('lastBookingEmail', buyer.email);
-                
-                // Mostrar el paso de confirmación con el enlace del ticket
+                ticketUrl = result.data.ticket_url || result.data.qr_url;
                 currentStep = STEPS.CONFIRMATION;
             }
         } catch (e: any) {
             console.error('Error en la reserva:', e);
             error = e.message;
             success = false;
+            // Si hay un error de validación, volver al paso de contacto
+            if (e.message.includes('obligatorio') || e.message.includes('válido')) {
+                currentStep = STEPS.CONTACT;
+            }
         } finally {
             isSubmitting = false;
         }
@@ -212,16 +242,33 @@
     }
 
     function goToStep(step: string) {
-        if (step === STEPS.CONTACT && (!selectedSeats || selectedSeats.length === 0)) {
-            error = 'Debes seleccionar al menos un asiento';
-            return;
+        error = ''; // Limpiar errores anteriores
+        
+        // Validaciones según el paso al que queremos ir
+        if (step === STEPS.CONTACT) {
+            if (!selectedSeats || selectedSeats.length === 0) {
+                error = 'Debes seleccionar al menos un asiento';
+                return;
+            }
         }
-        if (step === STEPS.PAYMENT && (!buyer.name || !buyer.email || !buyer.phone)) {
-            error = 'Debes completar todos los datos de contacto';
-            return;
+        else if (step === STEPS.PAYMENT) {
+            if (!buyer.name || !buyer.email || !buyer.phone) {
+                error = 'Debes completar todos los datos de contacto';
+                return;
+            }
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyer.email)) {
+                error = 'El email no es válido';
+                return;
+            }
         }
+        else if (step === STEPS.SUMMARY) {
+            if (!cardInfo.number || !cardInfo.name || !cardInfo.expiry || !cardInfo.cvv) {
+                error = 'Debes completar todos los datos de pago';
+                return;
+            }
+        }
+
         currentStep = step;
-        error = '';
     }
 
     function getPreviousStep(currentStep) {
@@ -247,7 +294,10 @@
             case STEPS.SEATS:
                 return selectedSeats.length > 0;
             case STEPS.CONTACT:
-                return buyer.name && buyer.email && buyer.phone;
+                return buyer.name.trim() && 
+                       buyer.email.trim() && 
+                       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyer.email) &&
+                       buyer.phone.trim();
             case STEPS.PAYMENT:
                 return cardInfo.number && cardInfo.name && cardInfo.expiry && cardInfo.cvv;
             default:
@@ -383,24 +433,70 @@
                 {:else if currentStep === STEPS.CONTACT}
                     <h5 class="card-title mb-4">Datos de Contacto</h5>
                     
-                    <form class="row g-3">
+                    <form class="row g-3" on:submit|preventDefault>
                         <div class="col-12">
-                            <label for="name" class="form-label">Nombre completo *</label>
-                            <input type="text" class="form-control" id="name" 
-                                   bind:value={buyer.name} required
-                                   placeholder="Ej: Juan Pérez" />
+                            <label for="name" class="form-label">
+                                Nombre completo <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                class="form-control {!buyer.name.trim() && 'is-invalid'}" 
+                                id="name" 
+                                bind:value={buyer.name} 
+                                required
+                                placeholder="Ej: Juan Pérez" 
+                            />
+                            {#if !buyer.name.trim()}
+                                <div class="invalid-feedback">
+                                    El nombre es obligatorio
+                                </div>
+                            {/if}
                         </div>
                         <div class="col-md-6">
-                            <label for="email" class="form-label">Email *</label>
-                            <input type="email" class="form-control" id="email" 
-                                   bind:value={buyer.email} required
-                                   placeholder="Ej: juan@email.com" />
+                            <label for="email" class="form-label">
+                                Email <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="email" 
+                                class="form-control {(!buyer.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyer.email)) && 'is-invalid'}" 
+                                id="email" 
+                                bind:value={buyer.email} 
+                                required
+                                placeholder="Ej: juan@email.com" 
+                            />
+                            {#if !buyer.email.trim()}
+                                <div class="invalid-feedback">
+                                    El email es obligatorio
+                                </div>
+                            {:else if !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyer.email)}
+                                <div class="invalid-feedback">
+                                    El email no es válido
+                                </div>
+                            {/if}
                         </div>
                         <div class="col-md-6">
-                            <label for="phone" class="form-label">Teléfono *</label>
-                            <input type="tel" class="form-control" id="phone" 
-                                   bind:value={buyer.phone} required
-                                   placeholder="Ej: 666555444" />
+                            <label for="phone" class="form-label">
+                                Teléfono <span class="text-danger">*</span>
+                            </label>
+                            <input 
+                                type="tel" 
+                                class="form-control {!buyer.phone.trim() && 'is-invalid'}" 
+                                id="phone" 
+                                bind:value={buyer.phone} 
+                                required
+                                placeholder="Ej: 666555444" 
+                            />
+                            {#if !buyer.phone.trim()}
+                                <div class="invalid-feedback">
+                                    El teléfono es obligatorio
+                                </div>
+                            {/if}
+                        </div>
+                        <div class="col-12">
+                            <small class="text-muted">
+                                <i class="bi bi-info-circle me-1"></i>
+                                Los campos marcados con <span class="text-danger">*</span> son obligatorios
+                            </small>
                         </div>
                     </form>
                 {:else if currentStep === STEPS.PAYMENT}
@@ -457,8 +553,56 @@
                         </div>
                     </form>
                 {:else if currentStep === STEPS.SUMMARY}
-                    <h5 class="card-title mb-4">Confirmar Reserva</h5>
-                    <!-- Botón de confirmación final -->
+                    <h5 class="card-title mb-4">Resumen de la Reserva</h5>
+                    
+                    <!-- Resumen de asientos -->
+                    <div class="mb-4">
+                        <h6>Asientos seleccionados:</h6>
+                        <div class="d-flex flex-wrap gap-2">
+                            {#each selectedSeats as seatId}
+                                {#if Array.isArray(seatsData)}
+                                    {#each seatsData as row}
+                                        {#each row as seat}
+                                            {#if seat?.id?.toString() === seatId}
+                                                <span class="badge bg-success">
+                                                    Fila {seat.row} - Asiento {seat.number}
+                                                </span>
+                                            {/if}
+                                        {/each}
+                                    {/each}
+                                {/if}
+                            {/each}
+                        </div>
+                    </div>
+
+                    <!-- Resumen de datos de contacto -->
+                    <div class="mb-4">
+                        <h6>Datos de contacto:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Nombre:</strong> {buyer.name}</li>
+                            <li><strong>Email:</strong> {buyer.email}</li>
+                            <li><strong>Teléfono:</strong> {buyer.phone}</li>
+                        </ul>
+                    </div>
+
+                    <!-- Resumen de pago -->
+                    <div class="mb-4">
+                        <h6>Datos de pago:</h6>
+                        <ul class="list-unstyled">
+                            <li><strong>Tarjeta:</strong> •••• {cardInfo.number.slice(-4)}</li>
+                            <li><strong>Titular:</strong> {cardInfo.name}</li>
+                        </ul>
+                    </div>
+
+                    <!-- Total a pagar -->
+                    <div class="mb-4">
+                        <h6>Total a pagar:</h6>
+                        <h4 class="text-primary">
+                            {(selectedSeats.length * (functionData.room?.price || 8)).toFixed(2)}€
+                        </h4>
+                    </div>
+
+                    <!-- Botón de confirmación -->
                     <button 
                         class="btn btn-primary btn-lg w-100" 
                         disabled={isSubmitting}
@@ -466,7 +610,7 @@
                     >
                         {#if isSubmitting}
                             <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-                            Procesando...
+                            Procesando pago...
                         {:else}
                             Confirmar y Pagar
                         {/if}

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
@@ -70,9 +71,11 @@ class BookingController extends Controller
                 $booking = Booking::create([
                     'user_id' => Auth::id(), // Será null si no hay usuario autenticado
                     'function_id' => $function->id,
+                    'uuid' => Str::uuid(),
+                    'booking_code' => Booking::generateBookingCode(),
                     'total_price' => $totalPrice,
+                    'seats' => $request->seats,
                     'status' => Booking::STATUS_PENDING,
-                    'booking_code' => uniqid('BK-'),
                     'payment_status' => Booking::PAYMENT_STATUS_PENDING,
                     'payment_method' => 'pending',
                     'buyer_name' => $request->buyer['name'],

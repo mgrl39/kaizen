@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Storage;
 
 class BookingController extends Controller
 {
+    public function __construct()
+    {
+        // Solo aplicar autenticación a las rutas que lo requieren
+        $this->middleware('api.auth')->only(['userHistory', 'cancel']);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -23,45 +29,76 @@ class BookingController extends Controller
             'buyer.phone' => 'required|string'
         ]);
 
-        // Obtener la función y calcular el precio total
-        $function = Functions::with('room')->findOrFail($validated['function_id']);
-        $totalPrice = count($validated['seats']) * $function->room->price;
-        if ($function->room->type === '3d') {
+        // Obtener la función y verificar asientos disponibles
+        $function = Functions::with(['room', 'seats'])->findOrFail($validated['function_id']);
+        
+        // Verificar que los asientos existen y están disponibles
+        $seats = $function->seats()->whereIn('id', $validated['seats'])->get();
+        
+        if ($seats->count() !== count($validated['seats'])) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Algunos asientos seleccionados no están disponibles',
+                'errors' => ['seats' => ['Uno o más asientos no están disponibles']]
+            ], 422);
+        }
+
+        // Verificar que ningún asiento esté ocupado
+        $occupiedSeats = $seats->filter(function ($seat) {
+            return $seat->pivot->is_occupied;
+        });
+
+        if ($occupiedSeats->count() > 0) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Algunos asientos seleccionados ya están ocupados',
+                'errors' => ['seats' => ['Uno o más asientos ya han sido reservados']]
+            ], 422);
+        }
+
+        // Calcular precio total
+        $totalPrice = $seats->sum('price');
+        if ($function->is_3d) {
             $totalPrice += count($validated['seats']) * 2; // 2€ extra por asiento en 3D
         }
 
-        // Crear la reserva con un UUID único
+        // Crear la reserva
         $booking = new Booking();
         $booking->uuid = Str::uuid();
         $booking->user_id = Auth::id(); // Será null si el usuario no está autenticado
         $booking->function_id = $validated['function_id'];
-        $booking->seats = $validated['seats'];
         $booking->total_price = $totalPrice;
         $booking->booking_code = Booking::generateBookingCode();
         $booking->buyer_name = $validated['buyer']['name'];
         $booking->buyer_email = $validated['buyer']['email'];
         $booking->buyer_phone = $validated['buyer']['phone'];
         $booking->status = 'confirmed';
-        $booking->payment_status = 'completed'; // Asumimos pago completado por ahora
+        $booking->payment_status = 'completed';
         $booking->payment_method = 'card';
         $booking->save();
 
-        // Generar QR con la información de la reserva
+        // Asociar los asientos a la reserva
+        $booking->seats()->attach($validated['seats'], [
+            'price' => $function->is_3d ? $function->room->price + 2 : $function->room->price
+        ]);
+
+        // Marcar los asientos como ocupados
+        $function->seats()->whereIn('id', $validated['seats'])->update(['is_occupied' => true]);
+
+        // Generar QR
         $qrData = [
             'booking_id' => $booking->uuid,
             'booking_code' => $booking->booking_code,
-            'movie' => $booking->function->movie->title,
-            'date' => $booking->function->date,
-            'time' => $booking->function->time,
-            'room' => $booking->function->room->name,
+            'movie' => $function->movie->title,
+            'date' => $function->date,
+            'time' => $function->time,
+            'room' => $function->room->name,
             'seats' => $booking->seats,
             'total' => number_format($booking->total_price, 2) . '€'
         ];
 
-        // Asegurarse de que el directorio existe
         Storage::makeDirectory('public/qrcodes');
-
-        // Generar el QR y guardarlo
+        
         $qrCode = QrCode::format('png')
             ->size(300)
             ->errorCorrection('H')
@@ -71,12 +108,11 @@ class BookingController extends Controller
         $qrPath = "qrcodes/{$booking->uuid}.png";
         Storage::put("public/" . $qrPath, $qrCode);
 
-        // Devolver la respuesta con las URLs necesarias
         return response()->json([
             'success' => true,
             'message' => '¡Reserva completada con éxito!',
             'data' => [
-                'booking' => $booking->load('function.movie', 'function.room'),
+                'booking' => $booking->load('function.movie', 'function.room', 'seats'),
                 'qr_url' => asset("storage/" . $qrPath),
                 'ticket_url' => route('bookings.ticket', ['uuid' => $booking->uuid])
             ]

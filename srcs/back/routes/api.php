@@ -189,19 +189,20 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::post('/generate-multi', [FunctionController::class, 'generateMultiRoomSchedule'])->name('generate-multi');
     });
 
-    // Bookings
+    // Bookings - Public routes that don't require authentication
     Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {
-        Route::get('/', [BookingController::class, 'index'])->name('index');
         Route::post('/', [BookingController::class, 'store'])->name('store');
-        Route::get('/{booking}', [BookingController::class, 'show'])->name('show');
-        Route::post('/{booking}/confirm', [BookingController::class, 'confirm'])->name('confirm');
-        Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('cancel');
+        Route::get('/{uuid}', [BookingController::class, 'show'])->where('uuid', '[0-9a-f\-]+')->name('show');
+        Route::get('/{uuid}/ticket', [BookingController::class, 'ticket'])->where('uuid', '[0-9a-f\-]+')->name('ticket');
     });
 
-    // Rutas de reservas
-    Route::post('/bookings', [BookingController::class, 'store']);
-    Route::get('/bookings/{uuid}', [BookingController::class, 'show']);
-    Route::get('/bookings/{uuid}/ticket', [BookingController::class, 'ticket'])->name('bookings.ticket');
+    // Protected booking routes that require authentication
+    Route::middleware('api.auth')->group(function () {
+        Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {
+            Route::get('/user/history', [BookingController::class, 'userHistory'])->name('user-history');
+            Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('cancel');
+        });
+    });
 
     // Tickets
     Route::get('tickets/{token}', [TicketController::class, 'download']);

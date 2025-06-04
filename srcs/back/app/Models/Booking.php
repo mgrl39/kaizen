@@ -19,12 +19,17 @@ class Booking extends Model
      */
     protected $fillable = [
         'function_id',
+        'uuid',
+        'booking_code',
+        'total_price',
+        'seats',
         'status',
-        'customer_name',
-        'customer_email',
-        'customer_phone',
+        'payment_status',
         'payment_method',
-        'total_amount'
+        'buyer_name',
+        'buyer_email',
+        'buyer_phone',
+        'user_id'
     ];
 
     /**
@@ -62,9 +67,9 @@ class Booking extends Model
     public const PAYMENT_STATUS_REFUNDED = 'refunded';
 
     protected $attributes = [
-        'status' => 'pending',
-        'payment_status' => 'pending',
-        'payment_method' => 'pending'
+        'status' => self::STATUS_CONFIRMED,
+        'payment_status' => self::PAYMENT_STATUS_COMPLETED,
+        'payment_method' => 'card'
     ];
 
     /**
@@ -86,9 +91,11 @@ class Booking extends Model
     /**
      * Obtener los asientos asociados a esta reserva.
      */
-    public function seats(): HasMany
+    public function seats(): BelongsToMany
     {
-        return $this->hasMany(Seat::class);
+        return $this->belongsToMany(Seat::class, 'booking_seats')
+            ->withTimestamps()
+            ->withPivot(['price']);
     }
 
     /**

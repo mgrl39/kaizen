@@ -15,6 +15,37 @@
   let seatLayout: any[] = [];
   let isSubmitting = false;
 
+  // Datos del comprador
+  let buyer = {
+    name: '',
+    email: '',
+    phone: ''
+  };
+
+  // Datos de la tarjeta
+  let cardInfo = {
+    number: '',
+    name: '',
+    expiry: '',
+    cvv: ''
+  };
+
+  // Estado del formulario
+  let showPaymentForm = false;
+  let formErrors = {
+    buyer: {
+      name: '',
+      email: '',
+      phone: ''
+    },
+    card: {
+      number: '',
+      name: '',
+      expiry: '',
+      cvv: ''
+    }
+  };
+
   async function loadFunctionData() {
     try {
       const functionId = $page.params.id;
@@ -27,35 +58,51 @@
 
       functionData = result.data;
       
-      // Generar cuadrícula de asientos basada en las dimensiones de la sala
-      if (functionData.room) {
+      // Cargar estado real de los asientos
+      const seatsResponse = await fetch(`${API_URL}/functions/${functionId}/seats`);
+      const seatsResult = await seatsResponse.json();
+      
+      if (!seatsResponse.ok || !seatsResult.success) {
+        throw new Error(seatsResult.message || 'Error cargando datos de asientos');
+      }
+
+      // Si el backend devuelve un array vacío, generar el layout basado en las dimensiones de la sala
+      if (!seatsResult.data?.layout && functionData.room) {
         const { rows, seats_per_row } = functionData.room;
         seatLayout = Array(rows).fill(null).map((_, rowIndex) => 
           Array(seats_per_row).fill(null).map((_, seatIndex) => {
-            const seatNumber = (rowIndex * seats_per_row) + seatIndex + 1;
+            const row = String.fromCharCode(65 + rowIndex); // A, B, C...
+            const number = seatIndex + 1;
+            // Buscar el asiento en los datos del backend
+            const backendSeat = seatsResult.data?.flat()?.find(s => 
+              s.row === rowIndex && s.number === number
+            );
             return {
-              id: seatNumber,
-              row: rowIndex + 1,
-              number: seatIndex + 1,
-              status: 'available'
+              id: backendSeat?.id || null, // Usar el ID del backend o null si no existe
+              row,
+              number,
+              status: backendSeat ? (backendSeat.is_occupied ? 'occupied' : 'available') : 'unavailable'
             };
           })
         );
-
-        // Cargar estado real de los asientos
-        const seatsResponse = await fetch(`${API_URL}/functions/${functionId}/seats`);
-        const seatsResult = await seatsResponse.json();
-        
-        if (seatsResponse.ok && seatsResult.success && Array.isArray(seatsResult.data)) {
-          // Marcar asientos ocupados
-          seatsResult.data.forEach((occupiedSeat: any) => {
-            const row = Math.floor((occupiedSeat - 1) / seats_per_row);
-            const col = (occupiedSeat - 1) % seats_per_row;
-            if (seatLayout[row] && seatLayout[row][col]) {
-              seatLayout[row][col].status = 'occupied';
-            }
-          });
-        }
+      } else {
+        // Si el backend devuelve datos, convertirlos al formato que necesitamos
+        const flatSeats = seatsResult.data.flat();
+        const { rows, seats_per_row } = functionData.room;
+        seatLayout = Array(rows).fill(null).map((_, rowIndex) => 
+          Array(seats_per_row).fill(null).map((_, seatIndex) => {
+            const number = seatIndex + 1;
+            const backendSeat = flatSeats.find(s => 
+              s.row === rowIndex && s.number === number
+            );
+            return {
+              id: backendSeat?.id,
+              row: String.fromCharCode(65 + rowIndex),
+              number,
+              status: backendSeat ? (backendSeat.is_occupied ? 'occupied' : 'available') : 'unavailable'
+            };
+          })
+        );
       }
 
       loading = false;
@@ -68,32 +115,66 @@
   async function handleBooking() {
     if (selectedSeats.length === 0 || isSubmitting) return;
     
+    // Si no se ha mostrado el formulario, mostrarlo
+    if (!showPaymentForm) {
+      showPaymentForm = true;
+      return;
+    }
+
+    // Validar datos del comprador
+    let hasErrors = false;
+    if (!buyer.name.trim()) {
+      formErrors.buyer.name = 'El nombre es obligatorio';
+      hasErrors = true;
+    }
+    if (!buyer.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(buyer.email)) {
+      formErrors.buyer.email = 'El email no es válido';
+      hasErrors = true;
+    }
+    if (!buyer.phone.trim()) {
+      formErrors.buyer.phone = 'El teléfono es obligatorio';
+      hasErrors = true;
+    }
+
+    // Validar datos de la tarjeta
+    if (!cardInfo.number.trim() || cardInfo.number.replace(/\s/g, '').length !== 16) {
+      formErrors.card.number = 'El número de tarjeta no es válido';
+      hasErrors = true;
+    }
+    if (!cardInfo.name.trim()) {
+      formErrors.card.name = 'El nombre del titular es obligatorio';
+      hasErrors = true;
+    }
+    if (!cardInfo.expiry.trim() || !/^\d{2}\/\d{2}$/.test(cardInfo.expiry)) {
+      formErrors.card.expiry = 'La fecha de caducidad no es válida';
+      hasErrors = true;
+    }
+    if (!cardInfo.cvv.trim() || !/^\d{3}$/.test(cardInfo.cvv)) {
+      formErrors.card.cvv = 'El CVV no es válido';
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      return;
+    }
+    
     isSubmitting = true;
     error = null;
 
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        // Si no hay token, redirigir al login
-        const currentUrl = window.location.pathname + window.location.search;
-        goto(`/login?redirect=${encodeURIComponent(currentUrl)}`);
-        return;
-      }
-
       const response = await fetch(`${API_URL}/bookings`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
         },
         body: JSON.stringify({
           function_id: functionData.id,
           seats: selectedSeats,
           buyer: {
-            name: '', // Se obtiene del token
-            email: '', // Se obtiene del token
-            phone: '' // Se obtiene del token
+            name: buyer.name.trim(),
+            email: buyer.email.trim(),
+            phone: buyer.phone.trim()
           }
         })
       });
@@ -101,12 +182,6 @@
       const result = await response.json();
 
       if (!response.ok || !result.success) {
-        if (response.status === 401) {
-          // Token inválido, redirigir al login
-          localStorage.removeItem('token');
-          goto('/login');
-          return;
-        }
         throw new Error(result.message || 'Error al realizar la reserva');
       }
 
@@ -126,7 +201,7 @@
   }
 
   function toggleSeat(seat: any) {
-    if (seat.status !== 'available') return;
+    if (seat.status === 'occupied' || seat.status === 'unavailable' || !seat.id) return;
     
     const index = selectedSeats.findIndex(s => s === seat.id);
     if (index === -1) {
@@ -135,9 +210,9 @@
       selectedSeats = selectedSeats.filter(s => s !== seat.id);
     }
     
-    // Calcular precio total (si está disponible)
-    const price = functionData?.price || 8.50; // Precio por defecto si no está definido
-    totalPrice = selectedSeats.length * price;
+    // Calcular precio total usando el precio de la función o de la sala
+    const price = functionData?.price || functionData?.room?.price || 8.50;
+    totalPrice = selectedSeats.length * (functionData?.is_3d ? price + 2 : price);
   }
 
   function isSeatSelected(seat: any) {
@@ -162,7 +237,7 @@
   }
 
   function getSeatLabel(seat: any) {
-    return `F${seat.row}A${seat.number}`;
+    return `${seat.row}${seat.number}`; // Ya tenemos la letra de fila directamente
   }
 
   onMount(() => {
@@ -248,11 +323,11 @@
           <div class="seats-container">
             {#each seatLayout as row, rowIndex}
               <div class="seat-row">
-                <div class="row-label">{rowIndex + 1}</div>
+                <div class="row-label">{String.fromCharCode(65 + rowIndex)}</div>
                 {#each row as seat}
                   <button 
                     class="seat {getSeatStatus(seat)}"
-                    disabled={seat.status === 'occupied'}
+                    disabled={seat.status === 'occupied' || seat.status === 'unavailable'}
                     on:click={() => toggleSeat(seat)}
                   >
                     <span class="seat-number">{seat.number}</span>
@@ -316,6 +391,144 @@
                 <span>{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(totalPrice)}</span>
               </div>
             </div>
+
+            {#if showPaymentForm}
+              <!-- Formulario de datos del comprador -->
+              <div class="payment-form mt-4">
+                <h5 class="mb-3">Datos del comprador</h5>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Nombre completo *</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    class:is-invalid={formErrors.buyer.name}
+                    id="name" 
+                    bind:value={buyer.name}
+                    placeholder="Ej: Juan Pérez"
+                  />
+                  {#if formErrors.buyer.name}
+                    <div class="invalid-feedback">{formErrors.buyer.name}</div>
+                  {/if}
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email *</label>
+                  <input 
+                    type="email" 
+                    class="form-control"
+                    class:is-invalid={formErrors.buyer.email}
+                    id="email" 
+                    bind:value={buyer.email}
+                    placeholder="Ej: juan@email.com"
+                  />
+                  {#if formErrors.buyer.email}
+                    <div class="invalid-feedback">{formErrors.buyer.email}</div>
+                  {/if}
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Teléfono *</label>
+                  <input 
+                    type="tel" 
+                    class="form-control"
+                    class:is-invalid={formErrors.buyer.phone}
+                    id="phone" 
+                    bind:value={buyer.phone}
+                    placeholder="Ej: 666555444"
+                  />
+                  {#if formErrors.buyer.phone}
+                    <div class="invalid-feedback">{formErrors.buyer.phone}</div>
+                  {/if}
+                </div>
+
+                <!-- Formulario de tarjeta -->
+                <h5 class="mb-3 mt-4">Datos de pago</h5>
+                <div class="card bg-primary text-white mb-4 payment-card">
+                  <div class="card-body">
+                    <div class="h5 mb-4">{cardInfo.number || '•••• •••• •••• ••••'}</div>
+                    <div class="d-flex justify-content-between">
+                      <div class="small text-uppercase">{cardInfo.name || 'TITULAR DE LA TARJETA'}</div>
+                      <div class="small">{cardInfo.expiry || 'MM/YY'}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="card-number" class="form-label">Número de tarjeta *</label>
+                  <input 
+                    type="text" 
+                    class="form-control"
+                    class:is-invalid={formErrors.card.number}
+                    id="card-number" 
+                    bind:value={cardInfo.number}
+                    placeholder="1234 5678 9012 3456"
+                    maxlength="19"
+                    on:input={(e) => {
+                      e.target.value = e.target.value
+                        .replace(/\s/g, '')
+                        .replace(/(\d{4})/g, '$1 ')
+                        .trim();
+                    }}
+                  />
+                  {#if formErrors.card.number}
+                    <div class="invalid-feedback">{formErrors.card.number}</div>
+                  {/if}
+                </div>
+                <div class="mb-3">
+                  <label for="card-name" class="form-label">Titular de la tarjeta *</label>
+                  <input 
+                    type="text" 
+                    class="form-control"
+                    class:is-invalid={formErrors.card.name}
+                    id="card-name" 
+                    bind:value={cardInfo.name}
+                    placeholder="NOMBRE APELLIDOS"
+                  />
+                  {#if formErrors.card.name}
+                    <div class="invalid-feedback">{formErrors.card.name}</div>
+                  {/if}
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <div class="mb-3">
+                      <label for="card-expiry" class="form-label">Fecha de caducidad *</label>
+                      <input 
+                        type="text" 
+                        class="form-control"
+                        class:is-invalid={formErrors.card.expiry}
+                        id="card-expiry" 
+                        bind:value={cardInfo.expiry}
+                        placeholder="MM/YY"
+                        maxlength="5"
+                        on:input={(e) => {
+                          e.target.value = e.target.value
+                            .replace(/\D/g, '')
+                            .replace(/(\d{2})(\d)/, '$1/$2');
+                        }}
+                      />
+                      {#if formErrors.card.expiry}
+                        <div class="invalid-feedback">{formErrors.card.expiry}</div>
+                      {/if}
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="mb-3">
+                      <label for="card-cvv" class="form-label">CVV *</label>
+                      <input 
+                        type="text" 
+                        class="form-control"
+                        class:is-invalid={formErrors.card.cvv}
+                        id="card-cvv" 
+                        bind:value={cardInfo.cvv}
+                        placeholder="123"
+                        maxlength="3"
+                      />
+                      {#if formErrors.card.cvv}
+                        <div class="invalid-feedback">{formErrors.card.cvv}</div>
+                      {/if}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {/if}
           </div>
 
           <button 
@@ -330,7 +543,7 @@
               Procesando...
             {:else}
               <i class="bi bi-check2-circle me-2"></i>
-              Confirmar reserva
+              {showPaymentForm ? 'Confirmar y pagar' : 'Continuar'}
             {/if}
           </button>
         </div>
@@ -645,5 +858,38 @@
       flex-wrap: wrap;
       gap: 1rem;
     }
+  }
+
+  .payment-form {
+    border-top: 1px solid var(--app-border);
+    padding-top: 1.5rem;
+  }
+
+  .payment-card {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    border: none;
+    border-radius: 1rem;
+  }
+
+  .form-control {
+    background: var(--app-bg);
+    border-color: var(--app-border);
+    color: var(--bs-body-color);
+  }
+
+  .form-control:focus {
+    background: var(--app-bg);
+    border-color: var(--primary-color);
+    color: var(--bs-body-color);
+    box-shadow: 0 0 0 0.25rem rgba(var(--primary-rgb), 0.25);
+  }
+
+  .form-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .invalid-feedback {
+    font-size: 0.8rem;
   }
 </style> 
