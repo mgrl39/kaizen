@@ -1,5 +1,50 @@
 <!-- BookingPage.svelte -->
+<style>
+    /* Critical styles */
+    :global(body) {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: var(--app-bg);
+    }
+
+    /* Base styles */
+    .booking-page {
+        width: 100%;
+        min-height: 100vh;
+        background: var(--app-bg);
+        color: var(--bs-body-color);
+        opacity: 0;
+        animation: fadeIn 0.3s ease forwards;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    /* Loading screen */
+    .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--app-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+    }
+
+    /* ... resto de los estilos existentes ... */
+</style>
+
 <script lang="ts">
+    // Import styles first
+    import '$lib/styles/index.css';
+    import 'bootstrap-icons/font/bootstrap-icons.css';
+    
     import { onMount } from 'svelte';
     import { goto } from '$app/navigation';
     import { API_URL } from '$lib/config';
@@ -310,7 +355,7 @@
 </script>
 
 {#if loading}
-    <div class="d-flex justify-content-center py-5">
+    <div class="loading-screen">
         <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Cargando...</span>
         </div>
@@ -326,7 +371,7 @@
         No se encontraron datos de la función
     </div>
     {:else}
-    <div class="container py-4">
+    <div class="booking-page">
         <!-- Progress bar usando Bootstrap -->
         <div class="progress mb-4" style="height: 4px;">
             <div class="progress-bar bg-primary" role="progressbar" 
