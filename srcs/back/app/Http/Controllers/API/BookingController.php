@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BookingController extends Controller
 {
@@ -90,13 +92,47 @@ class BookingController extends Controller
                     $seat->update(['status' => Seat::STATUS_RESERVED]);
                 }
 
+                // Generar datos para el QR
+                $qrData = [
+                    'uuid' => $booking->uuid,
+                    'booking_code' => $booking->booking_code,
+                    'buyer' => [
+                        'name' => $booking->buyer_name,
+                        'email' => $booking->buyer_email,
+                        'phone' => $booking->buyer_phone
+                    ],
+                    'seats' => $booking->seats()->get()->map(function($seat) {
+                        return [
+                            'row' => $seat->row,
+                            'number' => $seat->number
+                        ];
+                    })->toArray(),
+                    'function' => [
+                        'movie' => $booking->function->movie->title,
+                        'date' => $booking->function->date,
+                        'time' => $booking->function->time,
+                        'room' => $booking->function->room_id
+                    ]
+                ];
+
+                // Generar y guardar el QR
+                $qrPath = 'qr_codes/' . $booking->uuid . '.png';
+                Storage::disk('public')->put(
+                    $qrPath,
+                    QrCode::format('png')
+                        ->size(400)
+                        ->margin(1)
+                        ->generate(json_encode($qrData))
+                );
+
                 // Generar el ticket
                 $ticketData = [
                     'booking_id' => $booking->id,
                     'ticket_code' => uniqid('TK-'),
                     'buyer_email' => $request->buyer['email'],
                     'download_token' => bin2hex(random_bytes(32)),
-                    'expires_at' => now()->addYears(1)
+                    'expires_at' => now()->addYears(1),
+                    'qr_path' => $qrPath
                 ];
 
                 $ticket = $booking->ticket()->create($ticketData);
@@ -109,7 +145,8 @@ class BookingController extends Controller
                     'data' => [
                         'booking' => $booking->load('seats', 'function.movie'),
                         'ticket' => [
-                            'download_url' => url("/api/v1/tickets/{$ticket->download_token}")
+                            'download_url' => url("/api/v1/tickets/{$ticket->download_token}"),
+                            'qr_url' => url("/storage/{$qrPath}")
                         ]
                     ]
                 ], 201);

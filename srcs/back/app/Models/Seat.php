@@ -18,7 +18,10 @@ class Seat extends Model
      */
     protected $fillable = [
         'row',
-        'number'
+        'number',
+        'price',
+        'status',
+        'function_id'
     ];
 
     /**

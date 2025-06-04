@@ -1,12 +1,10 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { API_URL } from '$lib/config';
-    import QRCode from 'qrcode';
     
     export let data;
     
     let booking = null;
-    let qrCode = '';
     let loading = true;
     let error = '';
     let downloadStatus = '';
@@ -35,21 +33,6 @@
             }
             
             booking = result.data.booking;
-            
-            // Generar QR con los datos de la reserva
-            const qrData = {
-                uuid: booking.uuid,
-                booking_code: booking.booking_code,
-                buyer: {
-                    name: booking.buyer_name,
-                    email: booking.buyer_email,
-                    phone: booking.buyer_phone
-                },
-                seats: booking.seats,
-                function: booking.function
-            };
-            
-            qrCode = await QRCode.toDataURL(JSON.stringify(qrData));
         } catch (e: any) {
             console.error('Error al cargar la reserva:', e);
             error = e.message;
@@ -214,7 +197,14 @@
                                 <i class="bi bi-qr-code me-2"></i>
                                 Código QR de la Entrada
                             </h4>
-                            <img src={qrCode} alt="QR Code" class="img-fluid mb-3" style="max-width: 250px;">
+                            {#if booking.ticket?.qr_url}
+                                <img src={booking.ticket.qr_url} alt="QR Code" class="img-fluid mb-3" style="max-width: 250px;">
+                            {:else}
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle me-2"></i>
+                                    QR Code no disponible
+                                </div>
+                            {/if}
                             <p class="text-muted small">
                                 <i class="bi bi-info-circle me-1"></i>
                                 Muestra este código en la entrada del cine

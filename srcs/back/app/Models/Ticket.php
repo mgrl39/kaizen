@@ -14,7 +14,8 @@ class Ticket extends Model
         'ticket_code',
         'buyer_email',
         'download_token',
-        'expires_at'
+        'expires_at',
+        'qr_path'
     ];
 
     protected $casts = [
