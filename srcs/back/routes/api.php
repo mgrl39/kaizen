@@ -208,6 +208,15 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('tickets/{uuid}', [TicketController::class, 'download'])->name('tickets.download');
     Route::post('tickets/search', [BookingController::class, 'findTickets']);
 
+    // QR Codes
+    Route::get('qr/{filename}', function ($filename) {
+        $path = storage_path('app/public/qr_codes/' . $filename);
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'QR code not found'], 404);
+        }
+        return response()->file($path);
+    })->where('filename', '.*\.png$');
+
     /*
     |--------------------------------------------------------------------------
     | Protected Routes - Authentication Required

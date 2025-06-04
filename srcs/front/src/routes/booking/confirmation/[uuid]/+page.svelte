@@ -10,6 +10,11 @@
     let downloadStatus = '';
     let printStatus = '';
     
+    // Función para obtener la URL base del API sin el prefijo /api/v1
+    function getBaseUrl() {
+        return API_URL.replace('/api/v1', '');
+    }
+    
     $: {
         if (data?.uuid) {
             loadBookingData(data.uuid);
@@ -85,6 +90,8 @@
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         border: none;
         border-radius: 1rem;
+        margin: 0 auto;
+        max-width: 1200px;
     }
 
     .success-icon {
@@ -97,6 +104,7 @@
         border-radius: 0.5rem;
         padding: 1.5rem;
         margin-bottom: 1rem;
+        height: 100%;
     }
 
     .qr-container {
@@ -104,21 +112,62 @@
         padding: 1.5rem;
         border-radius: 1rem;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .qr-image {
+        max-width: 250px;
+        width: 100%;
+        height: auto;
+        margin: 1rem auto;
+        padding: 1rem;
+        background: white;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .status-message {
         font-size: 0.875rem;
         margin-top: 0.5rem;
         height: 1.2em;
+        text-align: center;
     }
 
     .action-button {
         min-width: 160px;
         transition: all 0.3s ease;
+        margin: 0.5rem 0;
     }
 
     .action-button:hover {
         transform: translateY(-2px);
+    }
+
+    .booking-details {
+        display: grid;
+        gap: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .confirmation-card {
+            margin: 0.5rem;
+        }
+
+        .detail-section {
+            padding: 1rem;
+        }
+
+        .qr-container {
+            margin-top: 1rem;
+        }
+
+        .action-button {
+            width: 100%;
+            min-width: unset;
+        }
     }
 
     @keyframes scale-in {
@@ -136,10 +185,18 @@
         .no-print {
             display: none !important;
         }
+        
+        .confirmation-card {
+            box-shadow: none;
+        }
+        
+        .detail-section, .qr-container {
+            break-inside: avoid;
+        }
     }
 </style>
 
-<div class="container py-5">
+<div class="container py-4 px-3">
     {#if loading}
         <div class="text-center">
             <div class="spinner-border text-primary" role="status">
@@ -162,55 +219,60 @@
                 
                 <div class="row g-4">
                     <div class="col-md-6">
-                        <div class="detail-section">
-                            <h4 class="fw-bold mb-3">
-                                <i class="bi bi-ticket-detailed me-2"></i>
-                                Detalles de la Reserva
-                            </h4>
-                            <ul class="list-unstyled">
-                                <li class="mb-2"><strong>Código:</strong> <span class="badge bg-primary">{booking.booking_code}</span></li>
-                                <li class="mb-2"><strong>Película:</strong> {booking.function.movie.title}</li>
-                                <li class="mb-2"><strong>Sala:</strong> {booking.function.room_id}</li>
-                                <li class="mb-2"><strong>Fecha:</strong> {new Date(booking.function.date).toLocaleDateString('es-ES')}</li>
-                                <li class="mb-2"><strong>Hora:</strong> {booking.function.time}</li>
-                                <li class="mb-2"><strong>Asientos:</strong> {booking.seats.map(s => `Fila ${s.row} - Asiento ${s.number}`).join(', ')}</li>
-                                <li class="mb-2"><strong>Precio total:</strong> <span class="text-success fw-bold">{booking.total_price}€</span></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="detail-section">
-                            <h4 class="fw-bold mb-3">
-                                <i class="bi bi-person me-2"></i>
-                                Datos del Comprador
-                            </h4>
-                            <ul class="list-unstyled">
-                                <li class="mb-2"><strong>Nombre:</strong> {booking.buyer_name}</li>
-                                <li class="mb-2"><strong>Email:</strong> {booking.buyer_email}</li>
-                                <li class="mb-2"><strong>Teléfono:</strong> {booking.buyer_phone}</li>
-                            </ul>
+                        <div class="booking-details">
+                            <div class="detail-section">
+                                <h4 class="fw-bold mb-3">
+                                    <i class="bi bi-ticket-detailed me-2"></i>
+                                    Detalles de la Reserva
+                                </h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><strong>Código:</strong> <span class="badge bg-primary">{booking.booking_code}</span></li>
+                                    <li class="mb-2"><strong>Película:</strong> {booking.function.movie.title}</li>
+                                    <li class="mb-2"><strong>Sala:</strong> {booking.function.room_id}</li>
+                                    <li class="mb-2"><strong>Fecha:</strong> {new Date(booking.function.date).toLocaleDateString('es-ES')}</li>
+                                    <li class="mb-2"><strong>Hora:</strong> {booking.function.time}</li>
+                                    <li class="mb-2"><strong>Asientos:</strong> {booking.seats.map(s => `Fila ${String.fromCharCode(65 + s.row)} - Asiento ${s.number}`).join(', ')}</li>
+                                    <li class="mb-2"><strong>Precio total:</strong> <span class="text-success fw-bold">{booking.total_price}€</span></li>
+                                </ul>
+                            </div>
+                            
+                            <div class="detail-section">
+                                <h4 class="fw-bold mb-3">
+                                    <i class="bi bi-person me-2"></i>
+                                    Datos del Comprador
+                                </h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2"><strong>Nombre:</strong> {booking.buyer_name}</li>
+                                    <li class="mb-2"><strong>Email:</strong> {booking.buyer_email}</li>
+                                    <li class="mb-2"><strong>Teléfono:</strong> {booking.buyer_phone}</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                     
                     <div class="col-md-6">
-                        <div class="qr-container text-center">
+                        <div class="qr-container">
                             <h4 class="fw-bold mb-3">
                                 <i class="bi bi-qr-code me-2"></i>
                                 Código QR de la Entrada
                             </h4>
-                            {#if booking.ticket?.qr_url}
-                                <img src={booking.ticket.qr_url} alt="QR Code" class="img-fluid mb-3" style="max-width: 250px;">
+                            {#if booking.ticket?.qr_path}
+                                <img src={`${API_URL}/qr/${booking.ticket.qr_path.split('/').pop()}`} 
+                                     alt="QR Code" 
+                                     class="qr-image"
+                                     loading="lazy">
                             {:else}
                                 <div class="alert alert-warning">
                                     <i class="bi bi-exclamation-triangle me-2"></i>
                                     QR Code no disponible
                                 </div>
                             {/if}
-                            <p class="text-muted small">
+                            <p class="text-muted small text-center">
                                 <i class="bi bi-info-circle me-1"></i>
                                 Muestra este código en la entrada del cine
                             </p>
                             
-                            <div class="mt-4 d-flex flex-column gap-3 no-print">
+                            <div class="mt-auto w-100 no-print">
                                 <button class="btn btn-primary action-button w-100" 
                                         on:click={handleDownload}
                                         disabled={!booking.ticket?.download_url}>
