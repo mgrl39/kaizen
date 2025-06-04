@@ -216,7 +216,34 @@ export type TranslationKey =
 	| 'bannerMoviesSubtitle'
 	| 'bannerActorSubtitle'
 	| 'bannerCinemaTitle'
-	| 'bannerCinemaSubtitle';
+	| 'bannerCinemaSubtitle'
+	
+	// Cinema features
+	| 'freeParking'
+	| 'cafeteria'
+	| 'snackBar'
+	| 'gameZone'
+	| 'accessibleFacilities'
+	| 'loading'
+	| 'errorLoadingMovies'
+	| 'unexpectedApiResponse'
+	| 'previous'
+	| 'next'
+
+	// Room features
+	| 'surroundSound'
+	| 'comfortableSeats'
+	| 'imaxScreen'
+	| 'dolbyAtmosSound'
+	| 'immersiveExperience'
+	| 'luxurySeats'
+	| 'personalizedService'
+	| 'exclusiveMenu'
+	| 'advanced3d'
+	| 'premium3dGlasses'
+	| 'compatible3d'
+	| 'imaxCertified'
+	| 'vipExperience';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

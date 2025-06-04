@@ -195,6 +195,32 @@ const es: TranslationDictionary = {
 	bannerActorSubtitle: '{count} {count, plural, one {película} other {películas}}',
 	bannerCinemaTitle: 'Nuestro Cine',
 	bannerCinemaSubtitle: 'Descubre el mejor lugar para disfrutar del séptimo arte',
+
+	// Cinema features
+	freeParking: 'Parking gratuito',
+	cafeteria: 'Cafetería',
+	snackBar: 'Snack bar',
+	gameZone: 'Zona de juegos',
+	accessibleFacilities: 'Acceso para discapacitados',
+	errorLoadingMovies: 'Error cargando películas:',
+	unexpectedApiResponse: 'Formato de respuesta API inesperado',
+	previous: 'Anterior',
+	next: 'Siguiente',
+
+	// Room features
+	surroundSound: 'Sonido envolvente',
+	comfortableSeats: 'Butacas cómodas',
+	imaxScreen: 'Pantalla IMAX gigante',
+	dolbyAtmosSound: 'Sonido Dolby Atmos',
+	immersiveExperience: 'Experiencia inmersiva',
+	luxurySeats: 'Asientos reclinables de lujo',
+	personalizedService: 'Servicio personalizado',
+	exclusiveMenu: 'Menú exclusivo',
+	advanced3d: 'Tecnología 3D avanzada',
+	premium3dGlasses: 'Gafas 3D premium',
+	compatible3d: 'Compatible con 3D',
+	imaxCertified: 'Certificado IMAX',
+	vipExperience: 'Experiencia VIP',
 };
 
 export default es;

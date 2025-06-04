@@ -23,11 +23,11 @@
     email: "kaizen@doncom.me",
     opening_hours: "Lunes a Domingo: 11:00 - 00:00",
     features: [
-      "Parking gratuito",
-      "Cafetería",
-      "Snack bar",
-      "Zona de juegos",
-      "Acceso para discapacitados"
+      $t('freeParking'),
+      $t('cafeteria'),
+      $t('snackBar'),
+      $t('gameZone'),
+      $t('accessibleFacilities')
     ],
     has_3d: true,
     has_imax: true,
@@ -38,19 +38,19 @@
   // Función para obtener las características de una sala según su tipo
   function getRoomFeatures(type, features) {
     const baseFeatures = {
-      'standard': ['Sonido envolvente', 'Butacas cómodas'],
-      'imax': ['Pantalla IMAX gigante', 'Sonido Dolby Atmos', 'Experiencia inmersiva'],
-      'vip': ['Asientos reclinables de lujo', 'Servicio personalizado', 'Menú exclusivo'],
-      '3d': ['Tecnología 3D avanzada', 'Gafas 3D premium']
+      'standard': [$t('surroundSound'), $t('comfortableSeats')],
+      'imax': [$t('imaxScreen'), $t('dolbyAtmosSound'), $t('immersiveExperience')],
+      'vip': [$t('luxurySeats'), $t('personalizedService'), $t('exclusiveMenu')],
+      '3d': [$t('advanced3d'), $t('premium3dGlasses')]
     };
 
     let roomFeatures = [...(baseFeatures[type] || [])];
     
     // Añadir características adicionales basadas en features
     if (features) {
-      if (features.is_3d) roomFeatures.push('Compatible con 3D');
-      if (features.is_imax) roomFeatures.push('Certificado IMAX');
-      if (features.is_vip) roomFeatures.push('Experiencia VIP');
+      if (features.is_3d) roomFeatures.push($t('compatible3d'));
+      if (features.is_imax) roomFeatures.push($t('imaxCertified'));
+      if (features.is_vip) roomFeatures.push($t('vipExperience'));
     }
 
     return roomFeatures;
@@ -245,12 +245,6 @@
                   <i class="bi bi-film"></i>
                   <span>{$t('viewMovies')}</span>
                 </a>
-                
-                <a href="/bookings/new" class="action-button tickets">
-                  <i class="bi bi-ticket-perforated"></i>
-                  <span>{$t('buyTickets')}</span>
-                </a>
-                
                 <a href="/contact" class="action-button contact">
                   <i class="bi bi-chat-dots"></i>
                   <span>{$t('contact')}</span>
