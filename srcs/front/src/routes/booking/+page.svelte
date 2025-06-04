@@ -1,438 +1,522 @@
-<!-- BookingPage.svelte -->
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { goto } from '$app/navigation';
-    import { API_URL } from '$lib/config';
-    import SeatMap from '$lib/components/SeatMap.svelte';
-    import type { Buyer } from '$lib/types';
+  import { onMount } from 'svelte';
+  import { theme } from '$lib/theme';
+  import { t } from '$lib/i18n';
+  import HeroBanner from '$lib/components/HeroBanner.svelte';
+
+  let selectedSeats = [];
+  let totalPrice = 0;
+  let loading = true;
+  let error = null;
+
+  // Datos de ejemplo (reemplazar con datos reales de la API)
+  const screening = {
+    movie: {
+      title: "Ejemplo de Película",
+      duration: 120,
+      rating: "PG-13"
+    },
+    time: "20:30",
+    date: "2024-03-20",
+    room: {
+      name: "Sala 1",
+      layout: {
+        rows: 8,
+        seats_per_row: 12
+      }
+    },
+    price: 9.99
+  };
+
+  const seatLayout = Array(screening.room.layout.rows).fill(null).map((_, rowIndex) => 
+    Array(screening.room.layout.seats_per_row).fill(null).map((_, seatIndex) => ({
+      id: `${String.fromCharCode(65 + rowIndex)}${seatIndex + 1}`,
+      status: Math.random() > 0.3 ? 'available' : 'occupied'
+    }))
+  );
+
+  function toggleSeat(seat) {
+    if (seat.status !== 'available') return;
     
-    export let data;
-    const functionId = data.functionId;
-
-    let functionData: any = null;
-    let selectedSeats: string[] = [];
-    let error = '';
-    let isSubmitting = false;
-    let seatsData: any[] = [];
-    let rows = 0;
-    let seatsPerRow = 0;
-    let loading = true;
-    let success = false;
-    let ticketUrl: string | null = null;
-    
-    let buyer: Buyer = {
-        name: '',
-        email: '',
-        phone: ''
-    };
-    
-    let occupiedSeats: string[] = [];
-    
-    // Estados del proceso de reserva
-    const STEPS = {
-        SEATS: 'seats',
-        CONTACT: 'contact',
-        PAYMENT: 'payment',
-        CONFIRMATION: 'confirmation'
-    };
-    
-    let currentStep = STEPS.SEATS;
-    
-    // Información de pago
-    let paymentInfo = {
-        number: '',
-        name: '',
-        expiry: '',
-        cvv: ''
-    };
-    
-    onMount(async () => {
-        try {
-            // Cargar datos de la función
-            const functionResponse = await fetch(`${API_URL}/functions/${functionId}`);
-            if (!functionResponse.ok) throw new Error('Error al cargar la función');
-            const functionResult = await functionResponse.json();
-            if (!functionResult.success) throw new Error(functionResult.message);
-            functionData = functionResult.data;
-
-            // Cargar datos de asientos
-            const seatsResponse = await fetch(`${API_URL}/functions/${functionId}/seats`);
-            if (!seatsResponse.ok) throw new Error('Error al cargar los asientos');
-            const seatsResult = await seatsResponse.json();
-            if (!seatsResult.success) throw new Error(seatsResult.message);
-            
-            seatsData = seatsResult.data;
-            
-            if (Array.isArray(seatsData) && seatsData.length > 0) {
-                rows = seatsData.length;
-                seatsPerRow = seatsData[0].length;
-                occupiedSeats = seatsData.flat()
-                    .filter(seat => seat?.is_occupied)
-                    .map(seat => seat.id.toString());
-            }
-
-            // Cargar datos del usuario si está autenticado
-            const token = localStorage.getItem('token');
-            if (token) {
-                const userResponse = await fetch(`${API_URL}/profile`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/json'
-                    }
-                });
-                const userData = await userResponse.json();
-                if (userData.success) {
-                    buyer = {
-                        name: userData.user?.name || '',
-                        email: userData.user?.email || '',
-                        phone: userData.user?.phone || ''
-                    };
-                }
-            }
-
-            loading = false;
-        } catch (e: any) {
-            error = e.message;
-            loading = false;
-        }
-    });
-    
-    async function handleBooking() {
-        if (isSubmitting) return;
-        isSubmitting = true;
-        error = '';
-
-        try {
-            if (!selectedSeats.length) throw new Error('Selecciona al menos un asiento');
-            if (!buyer.name || !buyer.email || !buyer.phone) {
-                throw new Error('Completa todos los datos de contacto');
-            }
-
-            const token = localStorage.getItem('token');
-            const headers: Record<string, string> = {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            };
-            if (token) headers['Authorization'] = `Bearer ${token}`;
-
-            const response = await fetch(`${API_URL}/bookings`, {
-                method: 'POST',
-                headers,
-                body: JSON.stringify({
-                    function_id: functionId,
-                    seats: selectedSeats,
-                    buyer
-                })
-            });
-
-            const result = await response.json();
-
-            if (!response.ok) {
-                if (response.status === 401 && result.message?.toLowerCase().includes('invalid token')) {
-                    goto('/login');
-                    throw new Error('Inicia sesión para continuar');
-                }
-                throw new Error(result.message || 'Error al realizar la reserva');
-            }
-
-            if (result.success && result.data?.booking?.uuid) {
-                success = true;
-                ticketUrl = result.data.ticket.download_url;
-                localStorage.setItem('lastBookingEmail', buyer.email);
-                currentStep = STEPS.CONFIRMATION;
-            }
-        } catch (e: any) {
-            error = e.message;
-            success = false;
-        } finally {
-            isSubmitting = false;
-        }
+    const index = selectedSeats.findIndex(s => s.id === seat.id);
+    if (index === -1) {
+      selectedSeats = [...selectedSeats, seat];
+    } else {
+      selectedSeats = selectedSeats.filter(s => s.id !== seat.id);
     }
+    
+    totalPrice = selectedSeats.length * screening.price;
+  }
 
-    function handleSeatsChange(event: CustomEvent<{seats: string[]}>) {
-        selectedSeats = event.detail?.seats || [];
-        error = '';
-    }
+  function isSeatSelected(seat) {
+    return selectedSeats.some(s => s.id === seat.id);
+  }
 
-    function formatTime(time: string): string {
-        return time || 'Hora no disponible';
-    }
+  function getSeatStatus(seat) {
+    if (isSeatSelected(seat)) return 'selected';
+    return seat.status;
+  }
 
-    function goToStep(step: string) {
-        if (step === STEPS.CONTACT && !selectedSeats.length) {
-            error = 'Selecciona al menos un asiento';
-            return;
-        }
-        if (step === STEPS.PAYMENT && (!buyer.name || !buyer.email || !buyer.phone)) {
-            error = 'Completa todos los datos de contacto';
-            return;
-        }
-        currentStep = step;
-        error = '';
+  function handleBooking() {
+    if (selectedSeats.length === 0) {
+      alert('Por favor, selecciona al menos un asiento');
+      return;
     }
+    // Implementar lógica de reserva
+  }
+
+  onMount(() => {
+    loading = false;
+  });
 </script>
 
-{#if loading}
-    <div class="flex justify-center items-center min-h-[400px]">
-        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-    </div>
-{:else if error}
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-        <span class="block sm:inline">{error}</span>
-    </div>
-{:else if !functionData}
-    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
-        <span class="block sm:inline">No se encontraron datos de la función</span>
-    </div>
-{:else}
-    <div class="container mx-auto px-4 py-8">
-        <!-- Barra de progreso -->
-        <div class="mb-8">
-            <div class="h-2 bg-gray-200 rounded-full">
-                <div class="h-full bg-primary rounded-full transition-all duration-300"
-                     style="width: {currentStep === STEPS.SEATS ? '25%' : 
-                                   currentStep === STEPS.CONTACT ? '50%' : 
-                                   currentStep === STEPS.PAYMENT ? '75%' : '100%'}">
-                </div>
+<div class="booking-page" data-bs-theme={$theme}>
+  <HeroBanner 
+    title={screening.movie.title}
+    subtitle={`${screening.date} - ${screening.time}`}
+    imageUrl="/images/banners/booking-hero.jpg"
+    overlayOpacity="70"
+  />
+
+  <div class="container py-5">
+    {#if loading}
+      <div class="d-flex justify-content-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    {:else if error}
+      <div class="alert alert-danger" role="alert">
+        {error}
+      </div>
+    {:else}
+      <div class="booking-content">
+        <!-- Información de la película y sesión -->
+        <div class="info-card">
+          <div class="info-header">
+            <i class="bi bi-info-circle text-primary"></i>
+            <h3>Detalles de la sesión</h3>
+          </div>
+          <div class="info-body">
+            <div class="info-item">
+              <i class="bi bi-film"></i>
+              <div>
+                <span class="label">Película</span>
+                <span class="value">{screening.movie.title}</span>
+              </div>
             </div>
+            <div class="info-item">
+              <i class="bi bi-calendar"></i>
+              <div>
+                <span class="label">Fecha</span>
+                <span class="value">{screening.date}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="bi bi-clock"></i>
+              <div>
+                <span class="label">Hora</span>
+                <span class="value">{screening.time}</span>
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="bi bi-door-open"></i>
+              <div>
+                <span class="label">Sala</span>
+                <span class="value">{screening.room.name}</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Información de la película -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h2 class="text-2xl font-bold mb-4">{functionData.movie?.title || 'Sin título'}</h2>
-            <div class="flex flex-wrap gap-4 text-gray-600">
-                <span class="flex items-center">
-                    <i class="bi bi-building mr-2"></i> 
-                    {functionData.room?.name || 'Sin sala'}
-                </span>
-                <span class="flex items-center">
-                    <i class="bi bi-calendar mr-2"></i> 
-                    {new Date(functionData.date).toLocaleDateString('es-ES')}
-                </span>
-                <span class="flex items-center">
-                    <i class="bi bi-clock mr-2"></i> 
-                    {formatTime(functionData.time)}
-                </span>
-                {#if functionData.is_3d}
-                    <span class="bg-primary text-white px-2 py-1 rounded text-sm">3D</span>
-                {/if}
+        <!-- Selector de asientos -->
+        <div class="seats-section">
+          <div class="screen">Pantalla</div>
+          
+          <div class="seats-container">
+            {#each seatLayout as row, rowIndex}
+              <div class="seat-row">
+                <div class="row-label">{String.fromCharCode(65 + rowIndex)}</div>
+                {#each row as seat}
+                  <button 
+                    class="seat {getSeatStatus(seat)}"
+                    disabled={seat.status === 'occupied'}
+                    on:click={() => toggleSeat(seat)}
+                  >
+                    <span class="seat-number">{seat.id.slice(1)}</span>
+                  </button>
+                {/each}
+              </div>
+            {/each}
+          </div>
+
+          <div class="seats-legend">
+            <div class="legend-item">
+              <div class="seat-demo available"></div>
+              <span>Disponible</span>
             </div>
+            <div class="legend-item">
+              <div class="seat-demo selected"></div>
+              <span>Seleccionado</span>
+            </div>
+            <div class="legend-item">
+              <div class="seat-demo occupied"></div>
+              <span>Ocupado</span>
+            </div>
+          </div>
         </div>
 
-        <!-- Resumen de la selección -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-            <h3 class="text-xl font-semibold mb-4">Resumen de la reserva</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <h4 class="font-medium mb-2">Asientos seleccionados:</h4>
-                    {#if selectedSeats.length === 0}
-                        <p class="text-gray-500">No has seleccionado asientos</p>
-                    {:else}
-                        <div class="flex flex-wrap gap-2">
-                            {#each selectedSeats as seatId}
-                                {#if Array.isArray(seatsData)}
-                                    {#each seatsData as row}
-                                        {#each row as seat}
-                                            {#if seat?.id?.toString() === seatId}
-                                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">
-                                                    Fila {seat.row} - Asiento {seat.number}
-                                                </span>
-                                            {/if}
-                                        {/each}
-                                    {/each}
-                                {/if}
-                            {/each}
-                        </div>
-                    {/if}
+        <!-- Resumen y botón de reserva -->
+        <div class="booking-summary">
+          <div class="summary-content">
+            <div class="selected-seats">
+              <h4>Asientos seleccionados</h4>
+              {#if selectedSeats.length > 0}
+                <div class="seats-list">
+                  {#each selectedSeats as seat}
+                    <span class="selected-seat-tag">{seat.id}</span>
+                  {/each}
                 </div>
-                
-                <div>
-                    <h4 class="font-medium mb-2">Total:</h4>
-                    <span class="text-2xl font-bold text-primary">
-                        {(selectedSeats.length * (functionData.room?.price || 8)).toFixed(2)}€
-                    </span>
-                </div>
+              {:else}
+                <p class="no-seats">No has seleccionado ningún asiento</p>
+              {/if}
             </div>
-        </div>
-
-        <!-- Contenido según el paso actual -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            {#if currentStep === STEPS.SEATS}
-                <h3 class="text-xl font-semibold mb-6">Selección de Asientos</h3>
-                {#if Array.isArray(seatsData)}
-                    <SeatMap {rows} {seatsPerRow} {selectedSeats} {occupiedSeats} {seatsData}
-                        on:seatsChange={handleSeatsChange} />
-                {/if}
-
-            {:else if currentStep === STEPS.CONTACT}
-                <h3 class="text-xl font-semibold mb-6">Datos de Contacto</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Nombre completo *
-                        </label>
-                        <input type="text" 
-                               bind:value={buyer.name}
-                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
-                               placeholder="Ej: Juan Pérez" />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Email *
-                        </label>
-                        <input type="email" 
-                               bind:value={buyer.email}
-                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
-                               placeholder="Ej: juan@email.com" />
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Teléfono *
-                        </label>
-                        <input type="tel" 
-                               bind:value={buyer.phone}
-                               class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
-                               placeholder="Ej: 666555444" />
-                    </div>
-                </div>
-
-            {:else if currentStep === STEPS.PAYMENT}
-                <h3 class="text-xl font-semibold mb-6">Método de Pago</h3>
-                <div class="max-w-md mx-auto">
-                    <!-- Tarjeta visual -->
-                    <div class="bg-gradient-to-r from-primary to-primary-dark text-white rounded-xl p-6 mb-6 shadow-lg">
-                        <div class="text-xl mb-8">{paymentInfo.number || '•••• •••• •••• ••••'}</div>
-                        <div class="flex justify-between">
-                            <div class="uppercase text-sm">{paymentInfo.name || 'TITULAR'}</div>
-                            <div class="text-sm">{paymentInfo.expiry || 'MM/YY'}</div>
-                        </div>
-                    </div>
-
-                    <!-- Formulario de pago -->
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Número de tarjeta *
-                            </label>
-                            <input type="text"
-                                   bind:value={paymentInfo.number}
-                                   class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
-                                   placeholder="1234 5678 9012 3456"
-                                   maxlength="19"
-                                   on:input={(e) => {
-                                       e.target.value = e.target.value
-                                           .replace(/\s/g, '')
-                                           .replace(/(\d{4})/g, '$1 ')
-                                           .trim();
-                                   }} />
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">
-                                Titular de la tarjeta *
-                            </label>
-                            <input type="text"
-                                   bind:value={paymentInfo.name}
-                                   class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
-                                   placeholder="NOMBRE APELLIDOS" />
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Caducidad *
-                                </label>
-                                <input type="text"
-                                       bind:value={paymentInfo.expiry}
-                                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
-                                       placeholder="MM/YY"
-                                       maxlength="5"
-                                       on:input={(e) => {
-                                           e.target.value = e.target.value
-                                               .replace(/\D/g, '')
-                                               .replace(/(\d{2})(\d)/, '$1/$2');
-                                       }} />
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    CVV *
-                                </label>
-                                <input type="text"
-                                       bind:value={paymentInfo.cvv}
-                                       class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary"
-                                       placeholder="123"
-                                       maxlength="3" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            {:else if currentStep === STEPS.CONFIRMATION}
-                <div class="text-center">
-                    <div class="text-5xl text-green-500 mb-4">
-                        <i class="bi bi-check-circle"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">¡Reserva Confirmada!</h3>
-                    
-                    {#if ticketUrl}
-                        <div class="max-w-xs mx-auto mb-8">
-                            <img src={ticketUrl} alt="QR Code" class="w-full" />
-                        </div>
-                        <p class="text-gray-600 mb-6">
-                            Muestra este código QR en la entrada del cine
-                        </p>
-                        <div class="space-y-4">
-                            <a href={ticketUrl}
-                               class="inline-block bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors"
-                               download>
-                                <i class="bi bi-download mr-2"></i>
-                                Descargar QR
-                            </a>
-                            <p class="text-sm text-gray-500">
-                                <i class="bi bi-info-circle mr-2"></i>
-                                También hemos enviado el código QR a tu email ({buyer.email})
-                            </p>
-                        </div>
-                    {/if}
-                </div>
-            {/if}
-
-            <!-- Navegación entre pasos -->
-            <div class="flex justify-between mt-8">
-                {#if currentStep !== STEPS.SEATS && currentStep !== STEPS.CONFIRMATION}
-                    <button class="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                            on:click={() => currentStep = STEPS[Object.keys(STEPS)[Object.values(STEPS).indexOf(currentStep) - 1]]}>
-                        <i class="bi bi-arrow-left mr-2"></i> Volver
-                    </button>
-                {:else}
-                    <div></div>
-                {/if}
-
-                {#if currentStep !== STEPS.CONFIRMATION}
-                    {#if currentStep === STEPS.PAYMENT}
-                        <button class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors disabled:opacity-50"
-                                disabled={isSubmitting}
-                                on:click={handleBooking}>
-                            {#if isSubmitting}
-                                <span class="inline-block animate-spin mr-2">⌛</span>
-                                Procesando...
-                            {:else}
-                                Confirmar y Pagar
-                            {/if}
-                        </button>
-                    {:else}
-                        <button class="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors"
-                                on:click={() => currentStep = STEPS[Object.keys(STEPS)[Object.values(STEPS).indexOf(currentStep) + 1]]}>
-                            Continuar <i class="bi bi-arrow-right ml-2"></i>
-                        </button>
-                    {/if}
-                {/if}
+            
+            <div class="price-summary">
+              <div class="price-row">
+                <span>Precio por entrada</span>
+                <span>{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(screening.price)}</span>
+              </div>
+              <div class="price-row">
+                <span>Cantidad</span>
+                <span>{selectedSeats.length}</span>
+              </div>
+              <div class="price-row total">
+                <span>Total</span>
+                <span>{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(totalPrice)}</span>
+              </div>
             </div>
+          </div>
+
+          <button 
+            class="book-button" 
+            disabled={selectedSeats.length === 0}
+            on:click={handleBooking}
+          >
+            <i class="bi bi-check2-circle"></i>
+            Confirmar reserva
+          </button>
         </div>
-    </div>
-{/if}
+      </div>
+    {/if}
+  </div>
+</div>
 
 <style>
-    /* Asegúrate de que estos estilos sean compatibles con tu configuración de Tailwind */
-    :global(.bi) {
-        line-height: 1;
+  .booking-page {
+    width: 100%;
+    min-height: 100vh;
+    background: var(--app-bg);
+    color: var(--bs-body-color);
+  }
+
+  .booking-content {
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  /* Info Card Styles */
+  .info-card {
+    background: var(--app-card-bg);
+    border-radius: 1rem;
+    border: 1px solid var(--app-border);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .info-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--app-border);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .info-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .info-body {
+    padding: 1.25rem;
+  }
+
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--app-border);
+  }
+
+  .info-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .info-item i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+  }
+
+  .info-item div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info-item .label {
+    font-size: 0.85rem;
+    opacity: 0.7;
+  }
+
+  .info-item .value {
+    font-weight: 500;
+  }
+
+  /* Seats Section Styles */
+  .seats-section {
+    background: var(--app-card-bg);
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 1px solid var(--app-border);
+    backdrop-filter: blur(10px);
+  }
+
+  .screen {
+    background: linear-gradient(to bottom, var(--primary-color), transparent);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    font-weight: 500;
+  }
+
+  .seats-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .seat-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .row-label {
+    width: 30px;
+    text-align: center;
+    font-weight: 500;
+    opacity: 0.7;
+  }
+
+  .seat {
+    width: 35px;
+    height: 35px;
+    border: none;
+    border-radius: 0.5rem;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--app-card-bg);
+    border: 1px solid var(--app-border);
+  }
+
+  .seat:hover:not(:disabled) {
+    transform: translateY(-2px);
+  }
+
+  .seat.available:hover {
+    border-color: var(--primary-color);
+  }
+
+  .seat.selected {
+    background: var(--primary-color);
+    color: white;
+    border-color: transparent;
+  }
+
+  .seat.occupied {
+    background: var(--app-border);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .seat-number {
+    font-size: 0.8rem;
+    font-weight: 500;
+  }
+
+  /* Legend Styles */
+  .seats-legend {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--app-border);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .seat-demo {
+    width: 20px;
+    height: 20px;
+    border-radius: 0.25rem;
+  }
+
+  .seat-demo.available {
+    background: var(--app-card-bg);
+    border: 1px solid var(--app-border);
+  }
+
+  .seat-demo.selected {
+    background: var(--primary-color);
+  }
+
+  .seat-demo.occupied {
+    background: var(--app-border);
+    opacity: 0.5;
+  }
+
+  /* Booking Summary Styles */
+  .booking-summary {
+    background: var(--app-card-bg);
+    border-radius: 1rem;
+    border: 1px solid var(--app-border);
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+  }
+
+  .summary-content {
+    padding: 1.25rem;
+  }
+
+  .selected-seats h4 {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .seats-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .selected-seat-tag {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .no-seats {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .price-summary {
+    border-top: 1px solid var(--app-border);
+    padding-top: 1rem;
+  }
+
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .price-row.total {
+    border-top: 1px solid var(--app-border);
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+
+  .book-button {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .book-button:hover:not(:disabled) {
+    background: var(--primary-hover);
+  }
+
+  .book-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 1200px) {
+    .booking-content {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
+
+    .info-card {
+      order: 2;
+    }
+
+    .seats-section {
+      order: 1;
+    }
+
+    .booking-summary {
+      order: 3;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .seats-container {
+      overflow-x: auto;
+      padding-bottom: 1rem;
+    }
+
+    .seat {
+      width: 30px;
+      height: 30px;
+    }
+
+    .seats-legend {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  }
 </style> 
