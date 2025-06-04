@@ -5,6 +5,7 @@
     import { theme } from '$lib/theme';
     import MovieCard from '$lib/components/MovieCard.svelte';
     import HeroBanner from '$lib/components/HeroBanner.svelte';
+    import { t } from '$lib/i18n';
 
     export let data;
     const { slug } = data;
