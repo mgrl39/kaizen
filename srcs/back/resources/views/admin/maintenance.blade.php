@@ -167,6 +167,14 @@
                 Gestión de Funciones
             </a>
         </nav>
+
+        <div class="section-title">Usuarios</div>
+        <nav class="nav flex-column">
+            <a class="nav-link" href="#users" data-section="users">
+                <i class="bi bi-people me-2"></i>
+                Gestión de Usuarios
+            </a>
+        </nav>
     </div>
 
     <!-- Main Content -->
@@ -282,6 +290,82 @@
             </div>
         </section>
 
+        <!-- Users Section -->
+        <section id="users" class="mb-5">
+            <h2 class="mb-4">Gestión de Usuarios</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 command-card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-person-plus-fill me-2"></i>
+                                Crear Usuario
+                            </h5>
+                            <p class="card-text">Crear un nuevo usuario en el sistema.</p>
+                            <form id="createUserForm" class="mb-3">
+                                <div class="mb-2">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Nombre de usuario" id="username" required>
+                                </div>
+                                <div class="mb-2">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Nombre completo" id="name" required>
+                                </div>
+                                <div class="mb-2">
+                                    <input type="email" class="form-control form-control-sm" placeholder="Email" id="email" required>
+                                </div>
+                                <div class="mb-2">
+                                    <input type="password" class="form-control form-control-sm" placeholder="Contraseña" id="password" required>
+                                </div>
+                            </form>
+                            <button class="btn btn-primary" onclick="createUser()">
+                                <i class="bi bi-person-plus me-2"></i>
+                                Crear Usuario
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Movies Section -->
+        <section id="movies" class="mb-5">
+            <h2 class="mb-4">Gestión de Películas</h2>
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="card h-100 command-card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-film me-2"></i>
+                                Listar Películas
+                            </h5>
+                            <p class="card-text">Ver todas las películas disponibles.</p>
+                            <button class="btn btn-primary" onclick="executeCommand('list_movies')">
+                                <i class="bi bi-list-ul me-2"></i>
+                                Ver Películas
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 command-card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="bi bi-calendar-event me-2"></i>
+                                Ver Funciones de Película
+                            </h5>
+                            <p class="card-text">Ver las funciones disponibles para una película.</p>
+                            <div class="mb-3">
+                                <input type="number" class="form-control form-control-sm" placeholder="ID de la película" id="movieId">
+                            </div>
+                            <button class="btn btn-primary" onclick="viewScreenings()">
+                                <i class="bi bi-calendar3 me-2"></i>
+                                Ver Funciones
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Output Box -->
         <section class="mt-5">
             <h4>
@@ -303,21 +387,49 @@
             });
         });
 
-        async function executeCommand(command) {
+        async function executeCommand(command, additionalData = {}) {
             const outputBox = document.getElementById('output');
             outputBox.textContent = 'Ejecutando comando...';
 
             try {
-                const response = await fetch('/admin/maintenance/execute', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({ command })
-                });
+                let url;
+                let data;
 
-                const data = await response.json();
+                // Determinar la URL y datos según el comando
+                switch (command) {
+                    case 'list_movies':
+                        url = 'http://10.2.238.141:5173/api/v1/movies?page=1&per_page=24';
+                        data = await fetch(url).then(r => r.json());
+                        if (data.success) {
+                            outputBox.textContent = formatMovies(data.data.data);
+                        } else {
+                            throw new Error(data.message || 'Error al obtener películas');
+                        }
+                        return;
+
+                    case 'movie_screenings':
+                        const movieId = additionalData.movie_id;
+                        url = `http://10.2.238.141:5173/api/v1/movies/${movieId}/screenings`;
+                        data = await fetch(url).then(r => r.json());
+                        if (data.success) {
+                            outputBox.textContent = formatScreenings(data.data);
+                        } else {
+                            throw new Error(data.message || 'Error al obtener funciones');
+                        }
+                        return;
+
+                    default:
+                        url = '/admin/maintenance/execute';
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({ command, ...additionalData })
+                        });
+                        data = await response.json();
+                }
                 
                 if (data.success) {
                     outputBox.textContent = data.output || 'Comando ejecutado con éxito';
@@ -327,6 +439,27 @@
             } catch (error) {
                 outputBox.textContent = 'Error: ' + error.message;
             }
+        }
+
+        // Funciones de formateo
+        function formatMovies(movies) {
+            return movies.map(movie => 
+                `🎬 Película ID: ${movie.id}
+                Título: ${movie.title}
+                Duración: ${movie.duration} min
+                ------------------------`
+            ).join('\n');
+        }
+
+        function formatScreenings(screenings) {
+            return screenings.map(screening => 
+                `🎦 Función ID: ${screening.id}
+                Fecha: ${screening.date}
+                Hora: ${screening.time}
+                Sala: ${screening.room.name}
+                3D: ${screening.is_3d ? 'Sí' : 'No'}
+                ------------------------`
+            ).join('\n');
         }
 
         // Scroll to section when clicking sidebar links
@@ -361,6 +494,30 @@
 
         window.addEventListener('scroll', updateActiveSection);
         updateActiveSection();
+
+        // Función para crear usuario
+        async function createUser() {
+            const userData = {
+                username: document.getElementById('username').value,
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value
+            };
+
+            await executeCommand('create_user', userData);
+            document.getElementById('createUserForm').reset();
+        }
+
+        // Función para ver funciones de película
+        async function viewScreenings() {
+            const movieId = document.getElementById('movieId').value;
+            if (!movieId) {
+                alert('Por favor, ingrese el ID de la película');
+                return;
+            }
+
+            await executeCommand('movie_screenings', { movie_id: movieId });
+        }
     </script>
 </body>
 </html> 

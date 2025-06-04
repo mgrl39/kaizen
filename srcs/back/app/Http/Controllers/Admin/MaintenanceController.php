@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Api\V1\FunctionController;
+use Illuminate\Support\Facades\Http;
 
 class MaintenanceController extends Controller
 {
@@ -46,6 +47,25 @@ class MaintenanceController extends Controller
                 $functionController = new FunctionController();
                 $result = $functionController->getMovieScreenings(4)->getData(true);
                 $output = print_r($result, true);
+                break;
+
+            case 'create_user':
+                try {
+                    $user = \App\Models\User::create([
+                        'username' => $request->input('username'),
+                        'name' => $request->input('name'),
+                        'email' => $request->input('email'),
+                        'password' => bcrypt($request->input('password')),
+                        'role' => 'user'
+                    ]);
+                    $output = "✅ Usuario creado correctamente:\n";
+                    $output .= "ID: {$user->id}\n";
+                    $output .= "Usuario: {$user->username}\n";
+                    $output .= "Email: {$user->email}\n";
+                    $output .= "Rol: {$user->role}\n";
+                } catch (\Exception $e) {
+                    $error = "Error al crear usuario: " . $e->getMessage();
+                }
                 break;
 
             default:
