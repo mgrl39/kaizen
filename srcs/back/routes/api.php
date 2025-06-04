@@ -189,23 +189,33 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
         Route::post('/generate-multi', [FunctionController::class, 'generateMultiRoomSchedule'])->name('generate-multi');
     });
 
-    // Bookings
+    // Bookings - Public routes that don't require authentication
     Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {
-        Route::get('/', [BookingController::class, 'index'])->name('index');
         Route::post('/', [BookingController::class, 'store'])->name('store');
-        Route::get('/{booking}', [BookingController::class, 'show'])->name('show');
-        Route::post('/{booking}/confirm', [BookingController::class, 'confirm'])->name('confirm');
-        Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('cancel');
+        Route::get('/{uuid}', [BookingController::class, 'show'])->where('uuid', '[0-9a-f\-]+')->name('show');
+        Route::get('/{uuid}/ticket', [BookingController::class, 'ticket'])->where('uuid', '[0-9a-f\-]+')->name('ticket');
     });
 
-    // Rutas de reservas
-    Route::post('/bookings', [BookingController::class, 'store']);
-    Route::get('/bookings/{uuid}', [BookingController::class, 'show']);
-    Route::get('/bookings/{uuid}/ticket', [BookingController::class, 'ticket'])->name('bookings.ticket');
+    // Protected booking routes that require authentication
+    Route::middleware('api.auth')->group(function () {
+        Route::group(['prefix' => 'bookings', 'as' => 'bookings.'], function () {
+            Route::get('/user/history', [BookingController::class, 'userHistory'])->name('user-history');
+            Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('cancel');
+        });
+    });
 
     // Tickets
-    Route::get('tickets/{token}', [TicketController::class, 'download']);
+    Route::get('tickets/{uuid}', [TicketController::class, 'download'])->name('tickets.download');
     Route::post('tickets/search', [BookingController::class, 'findTickets']);
+
+    // QR Codes
+    Route::get('qr/{filename}', function ($filename) {
+        $path = storage_path('app/public/qr_codes/' . $filename);
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'QR code not found'], 404);
+        }
+        return response()->file($path);
+    })->where('filename', '.*\.png$');
 
     /*
     |--------------------------------------------------------------------------
@@ -255,6 +265,14 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('images/{path}', [ImageController::class, 'show'])
         ->where('path', '.*')
         ->name('api.images.show');
+
+    // Rutas de reservas
+    Route::get('bookings/uuid/{uuid}', [BookingController::class, 'getByUuid'])->name('bookings.uuid');
+    Route::post('bookings', [BookingController::class, 'store']);
+    Route::get('bookings', [BookingController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('bookings/{booking}', [BookingController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('bookings/{booking}/confirm', [BookingController::class, 'confirm'])->middleware('auth:sanctum');
+    Route::delete('bookings/{booking}', [BookingController::class, 'cancel'])->middleware('auth:sanctum');
 });
 
 /*

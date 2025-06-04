@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('ticket_code')->unique();
             $table->string('buyer_email');
             $table->string('download_token')->unique();
+            $table->string('qr_path')->nullable();
             $table->timestamp('expires_at');
             $table->timestamps();
         });
@@ -29,4 +30,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('tickets');
     }
-};
+}; 

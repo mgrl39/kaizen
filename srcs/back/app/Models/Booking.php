@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
@@ -17,13 +18,15 @@ class Booking extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'uuid',
         'function_id',
+        'uuid',
+        'booking_code',
+        'total_price',
         'seats',
         'buyer_name',
         'buyer_email',
         'buyer_phone',
-        'status'
+        'user_id'
     ];
 
     /**
@@ -35,35 +38,6 @@ class Booking extends Model
         'seats' => 'array',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
-    ];
-
-    /**
-     * Los estados posibles de una reserva
-     */
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_CONFIRMED = 'confirmed';
-    public const STATUS_CANCELLED = 'cancelled';
-    public const STATUS_COMPLETED = 'completed';
-
-    public const STATUSES = [
-        self::STATUS_PENDING => 'Pendiente',
-        self::STATUS_CONFIRMED => 'Confirmada',
-        self::STATUS_CANCELLED => 'Cancelada',
-        self::STATUS_COMPLETED => 'Completada'
-    ];
-
-    /**
-     * Los estados posibles del pago
-     */
-    public const PAYMENT_STATUS_PENDING = 'pending';
-    public const PAYMENT_STATUS_COMPLETED = 'completed';
-    public const PAYMENT_STATUS_FAILED = 'failed';
-    public const PAYMENT_STATUS_REFUNDED = 'refunded';
-
-    protected $attributes = [
-        'status' => 'pending',
-        'payment_status' => 'pending',
-        'payment_method' => 'pending'
     ];
 
     /**
@@ -88,8 +62,8 @@ class Booking extends Model
     public function seats(): BelongsToMany
     {
         return $this->belongsToMany(Seat::class, 'booking_seats')
-            ->withPivot('price')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->withPivot(['price']);
     }
 
     /**

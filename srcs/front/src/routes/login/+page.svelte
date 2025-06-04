@@ -1,13 +1,49 @@
+<!-- Importar estilos primero -->
+<style>
+  /* Critical styles */
+  :global(body) {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: var(--app-bg);
+  }
+
+  /* Estilos específicos y adaptados al tema global */
+  :global([data-bs-theme="dark"]) .card {
+    background-color: var(--app-card-bg);
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  :global(.dropdown-menu) {
+    border-color: var(--app-border);
+  }
+
+  :global(.dropdown-item.active),
+  :global(.dropdown-item:active) {
+    background-color: var(--app-primary);
+    color: white;
+  }
+
+  :global(.dropdown-item:hover) {
+    background-color: var(--app-primary-hover);
+    color: white;
+  }
+</style>
+
 <script lang="ts">
+  // Importar estilos globales primero
+  import '$lib/styles/index.css';
+  import 'bootstrap-icons/font/bootstrap-icons.css';
+  
   import { t, language, languages } from '$lib/i18n';
   import { onMount } from 'svelte';
   import { API_URL } from '$lib/config';
   import { goto } from '$app/navigation';
   import BackButton from '$lib/components/BackButton.svelte';
-  
-  // Importar estilos globales necesarios
-  import '$lib/styles/index.css';
-  import 'bootstrap-icons/font/bootstrap-icons.css';
   
   // Estado del formulario
   let email = '';
@@ -257,30 +293,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  /* Estilos específicos y adaptados al tema global */
-  :global([data-bs-theme="dark"]) .card {
-    background-color: var(--app-card-bg);
-  }
-  
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  :global(.dropdown-menu) {
-    border-color: var(--app-border);
-  }
-
-  :global(.dropdown-item.active),
-  :global(.dropdown-item:active) {
-    background-color: var(--app-primary);
-    color: white;
-  }
-
-  :global(.dropdown-item:hover) {
-    background-color: var(--app-primary-hover);
-    color: white;
-  }
-</style>

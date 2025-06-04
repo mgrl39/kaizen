@@ -274,31 +274,33 @@
     
     const token = localStorage.getItem('token');
     if (token) {
-      // Actualizar el estado inmediatamente para mejor UX
-      authState.set({
-        isAuthenticated: false,
-        isAdmin: false,
-        userName: 'Usuario',
-        loading: false
-      });
-      
-      // Solo actualizar el estado de autenticación
-      localStorage.removeItem('authState');
-      
-      // Notificar al servidor del logout pero no esperar respuesta
-      try {
-        await fetch(`${API_URL}/logout`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            Accept: 'application/json'
-          }
+        // Actualizar el estado inmediatamente para mejor UX
+        authState.set({
+            isAuthenticated: false,
+            isAdmin: false,
+            userName: 'Usuario',
+            loading: false
         });
-      } catch (e) {
-        console.error("Error en logout:", e);
-      }
-      
-      goto('/login');
+        
+        // Limpiar el estado de autenticación
+        localStorage.removeItem('authState');
+        localStorage.removeItem('token');
+        
+        // Notificar al servidor del logout pero no esperar respuesta
+        try {
+            await fetch(`${API_URL}/logout`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    Accept: 'application/json'
+                }
+            });
+        } catch (e) {
+            console.error("Error en logout:", e);
+        }
+        
+        // Redirigir al inicio en lugar de login
+        goto('/');
     }
   }
 

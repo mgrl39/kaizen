@@ -14,7 +14,7 @@ class GenerateFunctions extends Command
 {
     private const OPENING_TIME = '10:00';
     private const CLOSING_TIME = '23:00';
-    private const CLEANING_TIME = 15;
+    private const CLEANING_TIME = 10;
 
     /**
      * The name and signature of the console command.
@@ -59,6 +59,10 @@ class GenerateFunctions extends Command
      */
     private function getLastMovieIndex(Room $room, string $date, array $movieIds): int
     {
+        if (empty($movieIds)) {
+            return 0;
+        }
+
         $previousDate = Carbon::parse($date)->subDay();
         while (!$this->isBusinessDay($previousDate)) {
             $previousDate->subDay();
@@ -114,12 +118,7 @@ class GenerateFunctions extends Command
             return 1;
         }
 
-        $movieIds = $movies->pluck('id')->toArray();
-
         $this->info('Generando funciones...');
-        $progressBar = $this->output->createProgressBar(
-            $cinemas->count() * $endDate->diffInDays($startDate) + 1
-        );
 
         DB::beginTransaction();
         try {
@@ -132,89 +131,85 @@ class GenerateFunctions extends Command
 
                 $this->info("\nProcesando cine: {$cinema->name}");
                 
-                // Calcular películas por sala
-                $moviesPerRoom = ceil($movies->count() / $rooms->count());
-                
                 $currentDate = $startDate->copy();
                 while ($currentDate <= $endDate) {
                     if ($this->isBusinessDay($currentDate)) {
-                        // Verificar si ya existen funciones para esta fecha
-                        $existingFunctions = Functions::whereIn('room_id', $rooms->pluck('id'))
-                            ->whereDate('date', $currentDate->format('Y-m-d'))
-                            ->exists();
-
-                        if ($existingFunctions && !$this->option('force')) {
-                            $this->warn("Ya existen funciones para {$currentDate->format('Y-m-d')} - Use --force para sobrescribir");
-                            $currentDate->addDay();
-                            $progressBar->advance();
-                            continue;
-                        }
-
                         // Eliminar funciones existentes si es necesario
-                        if ($existingFunctions) {
+                        if ($this->option('force')) {
                             Functions::whereIn('room_id', $rooms->pluck('id'))
                                 ->whereDate('date', $currentDate->format('Y-m-d'))
                                 ->delete();
                         }
 
-                        foreach ($rooms as $index => $room) {
-                            // Distribuir las películas de manera uniforme entre las salas
-                            $roomMovies = $movies->filter(function ($movie, $movieIndex) use ($index, $rooms) {
-                                return $movieIndex % $rooms->count() === $index;
-                            })->values();
-
-                            if ($roomMovies->isEmpty()) continue;
-
-                            // Obtener el índice de la última película
-                            $movieIndex = $this->getLastMovieIndex($room, $currentDate->format('Y-m-d'), $roomMovies->pluck('id')->toArray());
-                            
-                            // Generar horarios para el día
+                        // Procesar cada sala
+                        $movieIndices = array_keys($movies->toArray());
+                        shuffle($movieIndices); // Mezclar aleatoriamente las películas
+                        
+                        foreach ($rooms as $roomIndex => $room) {
                             $currentTime = Carbon::parse($currentDate->format('Y-m-d') . ' ' . self::OPENING_TIME);
-                            $endTime = Carbon::parse($currentDate->format('Y-m-d') . ' ' . self::CLOSING_TIME);
+                            $movieIndex = ($roomIndex * 3) % count($movieIndices); // Empezar con diferentes películas por sala
+                            $usedTimes = []; // Array para trackear las horas usadas
 
-                            while ($currentTime < $endTime) {
-                                if ($movieIndex >= $roomMovies->count()) {
-                                    $movieIndex = 0;
+                            // Seguir añadiendo películas mientras haya tiempo
+                            while ($currentTime->format('H') < 23) {
+                                $movie = $movies[$movieIndices[$movieIndex % count($movieIndices)]];
+                                
+                                // Calcular un offset aleatorio para la hora (entre 0 y 30 minutos)
+                                $timeOffset = rand(0, 2) * 15; // 0, 15 o 30 minutos
+                                $proposedTime = $currentTime->copy()->addMinutes($timeOffset);
+                                
+                                // Si la hora ya está usada o pasamos de las 23:00, saltamos
+                                if ($proposedTime->format('H') >= 23 || 
+                                    in_array($proposedTime->format('H:i'), $usedTimes)) {
+                                    $movieIndex = ($movieIndex + 1) % count($movieIndices);
+                                    continue;
                                 }
 
-                                $movie = $roomMovies[$movieIndex];
-                                
-                                // Calcular fin de la película
-                                $movieEndTime = (clone $currentTime)->addMinutes($movie->duration);
-                                
-                                // Si la película termina después de la hora de cierre
-                                if ($movieEndTime->format('H:i') > self::CLOSING_TIME) {
-                                    if ($currentTime->format('H:i') > '22:00') {
-                                        break;
-                                    }
-                                }
+                                $currentTime = $proposedTime;
+                                $usedTimes[] = $currentTime->format('H:i');
 
                                 // Crear la función
-                                Functions::create([
-                                    'movie_id' => $movie->id,
-                                    'room_id' => $room->id,
-                                    'date' => $currentDate->format('Y-m-d'),
-                                    'time' => $currentTime->format('H:i'),
-                                    'is_3d' => $cinema->has_3d && $movieIndex % 2 == 0
-                                ]);
+                                try {
+                                    $function = Functions::create([
+                                        'movie_id' => $movie->id,
+                                        'room_id' => $room->id,
+                                        'date' => $currentDate->format('Y-m-d'),
+                                        'time' => $currentTime->format('H:i'),
+                                        'is_3d' => $cinema->has_3d && rand(0, 1) == 1 // Aleatorizar 3D
+                                    ]);
 
-                                $currentTime->addMinutes($movie->duration + self::CLEANING_TIME);
-                                $movieIndex++;
+                                    // Crear asientos para esta función
+                                    $seatNumber = 1;
+                                    for ($row = 0; $row < $room->rows; $row++) {
+                                        for ($col = 0; $col < $room->seats_per_row; $col++) {
+                                            $function->seats()->create([
+                                                'number' => $seatNumber,
+                                                'row' => chr(65 + $row),
+                                                'status' => 'available',
+                                                'price' => $room->price + ($function->is_3d ? 2 : 0)
+                                            ]);
+                                            $seatNumber++;
+                                        }
+                                    }
+
+                                    // Avanzar el tiempo y el índice de película
+                                    $currentTime->addMinutes($movie->duration + self::CLEANING_TIME);
+                                    $movieIndex = ($movieIndex + rand(1, 3)) % count($movieIndices); // Saltar 1-3 películas para más variedad
+                                } catch (\Exception $e) {
+                                    // Si hay un error al crear la función, intentamos con la siguiente película
+                                    $this->warn("Error al crear función: " . $e->getMessage());
+                                    $movieIndex = ($movieIndex + 1) % count($movieIndices);
+                                    continue;
+                                }
                             }
                         }
                     }
-
                     $currentDate->addDay();
-                    $progressBar->advance();
                 }
             }
 
             DB::commit();
-            $progressBar->finish();
-            
-            $this->newLine();
             $this->info('Funciones generadas correctamente');
-            
             return 0;
 
         } catch (\Exception $e) {

@@ -19,7 +19,6 @@ build
 dist
 public/build
 public/hot
-storage/*.key
 .phpunit.cache
 .vite
 
