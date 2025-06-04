@@ -210,7 +210,14 @@ const en: TranslationDictionary = {
 			title: 'Free Parking',
 			desc: '3h with your movie ticket'
 		}
-	}
+	},
+
+	// Banner titles and subtitles
+	bannerMoviesTitle: 'Now Showing',
+	bannerMoviesSubtitle: 'Enjoy our collection of {total} movies',
+	bannerActorSubtitle: '{count} {count, plural, one {movie} other {movies}}',
+	bannerCinemaTitle: 'Our Cinema',
+	bannerCinemaSubtitle: 'Discover the best place to enjoy the seventh art',
 };
 
 export default en;

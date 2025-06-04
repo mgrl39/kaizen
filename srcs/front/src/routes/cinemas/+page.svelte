@@ -112,8 +112,8 @@
   <div data-bs-theme={$theme}>
     <!-- Hero Banner -->
     <HeroBanner 
-      title={$t('ourCinema')}
-      subtitle={$t('cinemaSubtitle')}
+      title={$t('bannerCinemaTitle')}
+      subtitle={$t('bannerCinemaSubtitle')}
       imageUrl="/images/banners/f16awk8g.png"
       overlayOpacity="60"
     />

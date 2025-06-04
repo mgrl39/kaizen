@@ -209,7 +209,14 @@ export type TranslationKey =
 	| 'servicesPremiumBarTitle'
 	| 'servicesPremiumBarDesc'
 	| 'servicesFreeParking'
-	| 'servicesFreeDesc';
+	| 'servicesFreeDesc'
+
+	// Banner titles and subtitles
+	| 'bannerMoviesTitle'
+	| 'bannerMoviesSubtitle'
+	| 'bannerActorSubtitle'
+	| 'bannerCinemaTitle'
+	| 'bannerCinemaSubtitle';
 
 // Definir tipo para un diccionario de idioma
 export type TranslationDictionary = Record<TranslationKey, string>;

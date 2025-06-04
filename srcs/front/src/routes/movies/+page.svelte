@@ -3,6 +3,7 @@
   import type { Movie } from '$lib/types';
   import HeroBanner from '$lib/components/HeroBanner.svelte';
   import { API_URL } from '$lib/config';
+  import { t } from '$lib/i18n';
 
   // Estado para las películas
   let movies: Movie[] = [];
@@ -89,8 +90,8 @@
 
 <!-- Hero Banner con imagen de fondo para la cartelera -->
 <HeroBanner 
-  title="Cartelera"
-  subtitle="Disfruta de nuestra colección de {pagination.total} películas"
+  title={$t('bannerMoviesTitle')}
+  subtitle={$t('bannerMoviesSubtitle', { total: pagination.total })}
   imageUrl="/images/banners/h1lzyx2t.png"
   on:error={handleImageError}
 />
