@@ -9,6 +9,8 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use PDF;
+use App\Models\Ticket;
 
 class BookingController extends Controller
 {
@@ -38,8 +40,7 @@ class BookingController extends Controller
         if ($seats->count() !== count($validated['seats'])) {
             return response()->json([
                 'success' => false,
-                'message' => 'Algunos asientos seleccionados no están disponibles',
-                'errors' => ['seats' => ['Uno o más asientos no están disponibles']]
+                'message' => 'Algunos asientos seleccionados no están disponibles'
             ], 422);
         }
 
@@ -51,33 +52,31 @@ class BookingController extends Controller
         if ($occupiedSeats->count() > 0) {
             return response()->json([
                 'success' => false,
-                'message' => 'Algunos asientos seleccionados ya están ocupados',
-                'errors' => ['seats' => ['Uno o más asientos ya han sido reservados']]
+                'message' => 'Algunos asientos seleccionados ya están ocupados'
             ], 422);
         }
 
         // Calcular precio total
         $totalPrice = $seats->sum('price');
         if ($function->is_3d) {
-            $totalPrice += count($validated['seats']) * 2; // 2€ extra por asiento en 3D
+            $totalPrice += count($validated['seats']) * 2;
         }
 
         // Crear la reserva
         $booking = new Booking();
-        $booking->uuid = Str::uuid();
-        $booking->user_id = Auth::id(); // Será null si el usuario no está autenticado
-        $booking->function_id = $validated['function_id'];
-        $booking->total_price = $totalPrice;
-        $booking->booking_code = Booking::generateBookingCode();
-        $booking->buyer_name = $validated['buyer']['name'];
-        $booking->buyer_email = $validated['buyer']['email'];
-        $booking->buyer_phone = $validated['buyer']['phone'];
-        $booking->status = 'confirmed';
-        $booking->payment_status = 'completed';
-        $booking->payment_method = 'card';
+        $booking->fill([
+            'uuid' => Str::uuid(),
+            'user_id' => Auth::id(),
+            'function_id' => $validated['function_id'],
+            'total_price' => $totalPrice,
+            'booking_code' => Booking::generateBookingCode(),
+            'buyer_name' => $validated['buyer']['name'],
+            'buyer_email' => $validated['buyer']['email'],
+            'buyer_phone' => $validated['buyer']['phone']
+        ]);
         $booking->save();
 
-        // Asociar los asientos a la reserva
+        // Asociar los asientos
         $booking->seats()->attach($validated['seats'], [
             'price' => $function->is_3d ? $function->room->price + 2 : $function->room->price
         ]);
@@ -93,8 +92,9 @@ class BookingController extends Controller
             'date' => $function->date,
             'time' => $function->time,
             'room' => $function->room->name,
-            'seats' => $booking->seats,
-            'total' => number_format($booking->total_price, 2) . '€'
+            'seats' => $booking->seats->map(function($seat) {
+                return "Fila {$seat->row} - Asiento {$seat->number}";
+            })->join(', ')
         ];
 
         Storage::makeDirectory('public/qrcodes');
@@ -108,13 +108,34 @@ class BookingController extends Controller
         $qrPath = "qrcodes/{$booking->uuid}.png";
         Storage::put("public/" . $qrPath, $qrCode);
 
+        // Generar PDF
+        $pdf = PDF::loadView('tickets.show', [
+            'booking' => $booking->load('function.movie', 'function.room', 'seats'),
+            'qr_path' => storage_path("app/public/{$qrPath}"),
+            'seats_info' => $booking->seats->map(function($seat) {
+                return "Fila {$seat->row} - Asiento {$seat->number}";
+            })->join(', ')
+        ]);
+
+        $pdfPath = "tickets/{$booking->uuid}.pdf";
+        Storage::makeDirectory('public/tickets');
+        Storage::put("public/" . $pdfPath, $pdf->output());
+
+        // Crear el ticket
+        $ticket = new Ticket();
+        $ticket->booking_id = $booking->id;
+        $ticket->uuid = Str::uuid();
+        $ticket->qr_path = $qrPath;
+        $ticket->pdf_path = $pdfPath;
+        $ticket->save();
+
         return response()->json([
             'success' => true,
             'message' => '¡Reserva completada con éxito!',
             'data' => [
                 'booking' => $booking->load('function.movie', 'function.room', 'seats'),
                 'qr_url' => asset("storage/" . $qrPath),
-                'ticket_url' => route('bookings.ticket', ['uuid' => $booking->uuid])
+                'ticket_url' => route('tickets.download', ['uuid' => $ticket->uuid])
             ]
         ]);
     }
@@ -137,11 +158,11 @@ class BookingController extends Controller
 
     public function ticket($uuid)
     {
-        $booking = Booking::with(['function.movie', 'function.room'])
+        $booking = Booking::with(['function.movie', 'function.room', 'seats'])
             ->where('uuid', $uuid)
             ->firstOrFail();
         
-        // Verificar que el QR existe, si no, regenerarlo
+        // Generar QR si no existe
         $qrPath = "public/qrcodes/{$booking->uuid}.png";
         if (!Storage::exists($qrPath)) {
             $qrData = [
@@ -151,8 +172,9 @@ class BookingController extends Controller
                 'date' => $booking->function->date,
                 'time' => $booking->function->time,
                 'room' => $booking->function->room->name,
-                'seats' => $booking->seats,
-                'total' => number_format($booking->total_price, 2) . '€'
+                'seats' => $booking->seats->map(function($seat) {
+                    return "Fila {$seat->row} - Asiento {$seat->number}";
+                })->join(', ')
             ];
 
             Storage::makeDirectory('public/qrcodes');
@@ -166,12 +188,15 @@ class BookingController extends Controller
             Storage::put($qrPath, $qrCode);
         }
 
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'booking' => $booking,
-                'qr_url' => asset("storage/qrcodes/{$booking->uuid}.png")
-            ]
+        // Generar PDF
+        $pdf = PDF::loadView('tickets.show', [
+            'booking' => $booking,
+            'qr_path' => storage_path("app/{$qrPath}"),
+            'seats_info' => $booking->seats->map(function($seat) {
+                return "Fila {$seat->row} - Asiento {$seat->number}";
+            })->join(', ')
         ]);
+
+        return $pdf->download("ticket-{$booking->booking_code}.pdf");
     }
 } 

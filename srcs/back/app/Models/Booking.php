@@ -23,9 +23,6 @@ class Booking extends Model
         'booking_code',
         'total_price',
         'seats',
-        'status',
-        'payment_status',
-        'payment_method',
         'buyer_name',
         'buyer_email',
         'buyer_phone',
@@ -41,35 +38,6 @@ class Booking extends Model
         'seats' => 'array',
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
-    ];
-
-    /**
-     * Los estados posibles de una reserva
-     */
-    public const STATUS_PENDING = 'pending';
-    public const STATUS_CONFIRMED = 'confirmed';
-    public const STATUS_CANCELLED = 'cancelled';
-    public const STATUS_COMPLETED = 'completed';
-
-    public const STATUSES = [
-        self::STATUS_PENDING => 'Pendiente',
-        self::STATUS_CONFIRMED => 'Confirmada',
-        self::STATUS_CANCELLED => 'Cancelada',
-        self::STATUS_COMPLETED => 'Completada'
-    ];
-
-    /**
-     * Los estados posibles del pago
-     */
-    public const PAYMENT_STATUS_PENDING = 'pending';
-    public const PAYMENT_STATUS_COMPLETED = 'completed';
-    public const PAYMENT_STATUS_FAILED = 'failed';
-    public const PAYMENT_STATUS_REFUNDED = 'refunded';
-
-    protected $attributes = [
-        'status' => self::STATUS_CONFIRMED,
-        'payment_status' => self::PAYMENT_STATUS_COMPLETED,
-        'payment_method' => 'card'
     ];
 
     /**

@@ -67,7 +67,7 @@ class BookingController extends Controller
             DB::beginTransaction();
 
             try {
-                // Crear la reserva (eliminados los campos customer_*)
+                // Crear la reserva
                 $booking = Booking::create([
                     'user_id' => Auth::id(), // Será null si no hay usuario autenticado
                     'function_id' => $function->id,
@@ -75,9 +75,6 @@ class BookingController extends Controller
                     'booking_code' => Booking::generateBookingCode(),
                     'total_price' => $totalPrice,
                     'seats' => $request->seats,
-                    'status' => Booking::STATUS_PENDING,
-                    'payment_status' => Booking::PAYMENT_STATUS_PENDING,
-                    'payment_method' => 'pending',
                     'buyer_name' => $request->buyer['name'],
                     'buyer_email' => $request->buyer['email'],
                     'buyer_phone' => $request->buyer['phone'] ?? null
@@ -145,18 +142,6 @@ class BookingController extends Controller
                 ], 403);
             }
 
-            if ($booking->status !== Booking::STATUS_PENDING) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'La reserva no está en estado pendiente'
-                ], 400);
-            }
-
-            $booking->update([
-                'status' => Booking::STATUS_CONFIRMED,
-                'payment_status' => Booking::PAYMENT_STATUS_COMPLETED
-            ]);
-
             // Actualizar estado de los asientos
             foreach ($booking->seats as $seat) {
                 $seat->update(['status' => Seat::STATUS_OCCUPIED]);
@@ -193,26 +178,16 @@ class BookingController extends Controller
                 ], 403);
             }
 
-            if (!in_array($booking->status, [Booking::STATUS_PENDING, Booking::STATUS_CONFIRMED])) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'La reserva no puede ser cancelada'
-                ], 400);
-            }
-
             DB::beginTransaction();
 
             try {
-                // Actualizar estado de la reserva
-                $booking->update([
-                    'status' => Booking::STATUS_CANCELLED,
-                    'payment_status' => Booking::PAYMENT_STATUS_REFUNDED
-                ]);
-
-                // Liberar asientos
+                // Liberar los asientos
                 foreach ($booking->seats as $seat) {
                     $seat->update(['status' => Seat::STATUS_AVAILABLE]);
                 }
+
+                // Eliminar la reserva
+                $booking->delete();
 
                 DB::commit();
 
@@ -260,6 +235,32 @@ class BookingController extends Controller
                 'message' => 'Error al obtener las reservas',
                 'error' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    /**
+     * Obtener una reserva por UUID (acceso público)
+     */
+    public function getByUuid($uuid)
+    {
+        try {
+            $booking = Booking::with(['seats', 'function.movie', 'ticket'])
+                ->where('uuid', $uuid)
+                ->firstOrFail();
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'booking' => $booking
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error al obtener la reserva',
+                'error' => $e->getMessage()
+            ], 404);
         }
     }
 

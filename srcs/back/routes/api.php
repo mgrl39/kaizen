@@ -205,7 +205,7 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     });
 
     // Tickets
-    Route::get('tickets/{token}', [TicketController::class, 'download']);
+    Route::get('tickets/{uuid}', [TicketController::class, 'download'])->name('tickets.download');
     Route::post('tickets/search', [BookingController::class, 'findTickets']);
 
     /*
@@ -256,6 +256,14 @@ Route::prefix('v1')->name('api.v1.')->group(function () {
     Route::get('images/{path}', [ImageController::class, 'show'])
         ->where('path', '.*')
         ->name('api.images.show');
+
+    // Rutas de reservas
+    Route::get('bookings/uuid/{uuid}', [BookingController::class, 'getByUuid'])->name('bookings.uuid');
+    Route::post('bookings', [BookingController::class, 'store']);
+    Route::get('bookings', [BookingController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('bookings/{booking}', [BookingController::class, 'show'])->middleware('auth:sanctum');
+    Route::post('bookings/{booking}/confirm', [BookingController::class, 'confirm'])->middleware('auth:sanctum');
+    Route::delete('bookings/{booking}', [BookingController::class, 'cancel'])->middleware('auth:sanctum');
 });
 
 /*
