@@ -1,0 +1,13 @@
+<map id="App\Http\Controllers\API\FunctionController\generateSchedule" name="App\Http\Controllers\API\FunctionController\generateSchedule">
+<area shape="rect" id="Node000001" title="Generar horarios automáticamente para una sala y fecha específica." alt="" coords="5,71,176,125"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#a4f894ae856e94aec570ca628e0573241" title="Obtener el índice de la última película mostrada en el día laborable anterior." alt="" coords="224,5,395,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,70,210,60,212,65,177,75"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#a19f394d5ebe3d3812496bf291797e86d" title="Verifica si un día es laborable (lunes a viernes)" alt="" coords="677,71,848,125"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="176,95,663,95,663,101,176,101"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#acbc88471b3aa01c832c09c3cb45f77a4" title="Obtiene el siguiente día laborable." alt="" coords="451,136,621,191"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="177,108,437,146,437,152,176,113"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#a1bf5be5e471cca9832db774da9bdd3ce" title="Obtiene el día laborable anterior." alt="" coords="443,5,629,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="395,30,429,30,429,35,395,35"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="630,57,665,67,663,72,629,62"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="621,136,663,124,665,129,622,141"/>
+</map>
