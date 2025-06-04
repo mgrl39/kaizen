@@ -39,6 +39,17 @@ export type TranslationKey =
 	| 'adminAccessWarning'
 	| 'continueQuestion'
 
+	// Movies page
+	| 'movieReleaseYear'
+	| 'movieDuration'
+	| 'movieDurationSeparator'
+	| 'moviePagination'
+	| 'moviePaginationPrevious'
+	| 'moviePaginationNext'
+	| 'movieCardAltText'
+	| 'movieLoadingError'
+	| 'movieNoImageAvailable'
+
 	// About page
 	| 'aboutTitle'
 	| 'aboutSubtitle'

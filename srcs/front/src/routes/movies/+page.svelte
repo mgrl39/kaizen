@@ -110,7 +110,7 @@
     {:else if error}
       <div class="alert alert-danger" role="alert">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
-        {error}
+        {$t('movieLoadingError')}: {error}
       </div>
     {:else}
       <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center">
@@ -122,7 +122,7 @@
                   <img 
                     src={getImageUrl(movie.photo_url)} 
                     class="card-img-top movie-poster" 
-                    alt={movie.title}
+                    alt={movie.title || $t('movieCardAltText')}
                     on:error={handleImageError}
                     loading="lazy"
                   />
@@ -133,7 +133,7 @@
                     <small>
                       {movie.release_year || (movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A')}
                       {#if movie.duration}
-                        <span class="mx-1">•</span>
+                        <span class="mx-1">{$t('movieDurationSeparator')}</span>
                         <i class="bi bi-clock me-1"></i>{formatDuration(movie.duration)}
                       {/if}
                     </small>
@@ -147,13 +147,13 @@
 
       <!-- Controles de paginación -->
       {#if pagination.last_page > 1}
-        <nav aria-label="Navegación de páginas" class="mt-4">
+        <nav aria-label={$t('moviePagination')} class="mt-4">
           <ul class="pagination justify-content-center">
             <li class="page-item {pagination.current_page === 1 ? 'disabled' : ''}">
               <button 
                 class="page-link" 
                 on:click={() => goToPage(pagination.current_page - 1)}
-                aria-label={$t('previous')}
+                aria-label={$t('moviePaginationPrevious')}
               >
                 <span aria-hidden="true">&laquo;</span>
               </button>
@@ -171,7 +171,7 @@
               <button 
                 class="page-link" 
                 on:click={() => goToPage(pagination.current_page + 1)}
-                aria-label={$t('next')}
+                aria-label={$t('moviePaginationNext')}
               >
                 <span aria-hidden="true">&raquo;</span>
               </button>

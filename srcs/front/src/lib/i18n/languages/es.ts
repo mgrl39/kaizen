@@ -221,6 +221,17 @@ const es: TranslationDictionary = {
 	compatible3d: 'Compatible con 3D',
 	imaxCertified: 'Certificado IMAX',
 	vipExperience: 'Experiencia VIP',
+
+	// Movies page
+	movieReleaseYear: 'Año de estreno',
+	movieDuration: 'Duración',
+	movieDurationSeparator: '•',
+	moviePagination: 'Navegación de páginas',
+	moviePaginationPrevious: 'Anterior',
+	moviePaginationNext: 'Siguiente',
+	movieCardAltText: 'Póster de la película',
+	movieLoadingError: 'Error cargando películas',
+	movieNoImageAvailable: 'Imagen no disponible',
 };
 
 export default es;
