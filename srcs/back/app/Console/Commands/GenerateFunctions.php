@@ -94,71 +94,89 @@ class GenerateFunctions extends Command
             ? Carbon::parse($this->argument('end_date'))
             : $startDate->copy()->addDays(7);
 
+        $this->info('🕒 Fechas configuradas:');
+        $this->info("   - Inicio: " . $startDate->format('Y-m-d'));
+        $this->info("   - Fin: " . $endDate->format('Y-m-d'));
+
         if ($startDate > $endDate) {
-            $this->error('La fecha de inicio debe ser anterior a la fecha final');
+            $this->error('❌ La fecha de inicio debe ser anterior a la fecha final');
             return 1;
         }
 
         // Obtener cines
         $query = Cinema::query();
         if ($this->option('cinema_id')) {
+            $this->info("🎬 Buscando cine específico con ID: " . $this->option('cinema_id'));
             $query->where('id', $this->option('cinema_id'));
+        } else {
+            $this->info("🎬 Buscando todos los cines");
         }
         $cinemas = $query->get();
 
         if ($cinemas->isEmpty()) {
-            $this->error('No se encontraron cines');
+            $this->error('❌ No se encontraron cines');
             return 1;
         }
+        $this->info("✅ Encontrados " . $cinemas->count() . " cines");
 
         // Obtener todas las películas
         $movies = Movie::where('is_active', true)->get();
         if ($movies->isEmpty()) {
-            $this->error('No hay películas disponibles');
+            $this->error('❌ No hay películas disponibles');
             return 1;
         }
+        $this->info("🎥 Encontradas " . $movies->count() . " películas activas");
 
-        $this->info('Generando funciones...');
+        $this->info('🚀 Iniciando generación de funciones...');
 
         DB::beginTransaction();
         try {
             foreach ($cinemas as $cinema) {
                 $rooms = Room::where('cinema_id', $cinema->id)->get();
                 if ($rooms->isEmpty()) {
-                    $this->warn("El cine {$cinema->name} no tiene salas configuradas");
+                    $this->warn("⚠️ El cine {$cinema->name} no tiene salas configuradas");
                     continue;
                 }
 
-                $this->info("\nProcesando cine: {$cinema->name}");
+                $this->info("\n📽️ Procesando cine: {$cinema->name}");
+                $this->info("   - Salas encontradas: " . $rooms->count());
+                $this->info("   - Soporte 3D: " . ($cinema->has_3d ? 'Sí' : 'No'));
                 
                 $currentDate = $startDate->copy();
                 while ($currentDate <= $endDate) {
                     if ($this->isBusinessDay($currentDate)) {
+                        $this->info("\n📅 Procesando fecha: " . $currentDate->format('Y-m-d') . " (Día laborable)");
+                        
                         // Eliminar funciones existentes si es necesario
                         if ($this->option('force')) {
-                            Functions::whereIn('room_id', $rooms->pluck('id'))
+                            $deletedCount = Functions::whereIn('room_id', $rooms->pluck('id'))
                                 ->whereDate('date', $currentDate->format('Y-m-d'))
                                 ->delete();
+                            $this->info("   🗑️ Eliminadas $deletedCount funciones existentes");
                         }
 
                         // Procesar cada sala
                         $movieIndices = array_keys($movies->toArray());
                         shuffle($movieIndices); // Mezclar aleatoriamente las películas
+                        $this->info("   🎲 Películas mezcladas aleatoriamente");
                         
                         foreach ($rooms as $roomIndex => $room) {
+                            $this->info("\n   🎦 Sala: {$room->name}");
+                            $this->info("      - Filas: {$room->rows}");
+                            $this->info("      - Asientos por fila: {$room->seats_per_row}");
+                            
                             $currentTime = Carbon::parse($currentDate->format('Y-m-d') . ' ' . self::OPENING_TIME);
-                            $movieIndex = ($roomIndex * 3) % count($movieIndices); // Empezar con diferentes películas por sala
-                            $usedTimes = []; // Array para trackear las horas usadas
+                            $movieIndex = ($roomIndex * 3) % count($movieIndices);
+                            $usedTimes = [];
+                            $functionsCreated = 0;
 
                             // Seguir añadiendo películas mientras haya tiempo
                             while ($currentTime->format('H') < 23) {
                                 $movie = $movies[$movieIndices[$movieIndex % count($movieIndices)]];
                                 
-                                // Calcular un offset aleatorio para la hora (entre 0 y 30 minutos)
-                                $timeOffset = rand(0, 2) * 15; // 0, 15 o 30 minutos
+                                $timeOffset = rand(0, 2) * 15;
                                 $proposedTime = $currentTime->copy()->addMinutes($timeOffset);
                                 
-                                // Si la hora ya está usada o pasamos de las 23:00, saltamos
                                 if ($proposedTime->format('H') >= 23 || 
                                     in_array($proposedTime->format('H:i'), $usedTimes)) {
                                     $movieIndex = ($movieIndex + 1) % count($movieIndices);
@@ -168,18 +186,27 @@ class GenerateFunctions extends Command
                                 $currentTime = $proposedTime;
                                 $usedTimes[] = $currentTime->format('H:i');
 
+                                $this->info("\n      🎬 Creando función:");
+                                $this->info("         - Película: {$movie->title}");
+                                $this->info("         - Hora: {$currentTime->format('H:i')}");
+                                $this->info("         - Duración: {$movie->duration} minutos");
+
                                 // Crear la función
                                 try {
+                                    $is3d = $cinema->has_3d && rand(0, 1) == 1;
                                     $function = Functions::create([
                                         'movie_id' => $movie->id,
                                         'room_id' => $room->id,
                                         'date' => $currentDate->format('Y-m-d'),
                                         'time' => $currentTime->format('H:i'),
-                                        'is_3d' => $cinema->has_3d && rand(0, 1) == 1 // Aleatorizar 3D
+                                        'is_3d' => $is3d
                                     ]);
+
+                                    $this->info("         ✅ Función creada" . ($is3d ? " (3D)" : ""));
 
                                     // Crear asientos para esta función
                                     $seatNumber = 1;
+                                    $seatsCreated = 0;
                                     for ($row = 0; $row < $room->rows; $row++) {
                                         for ($col = 0; $col < $room->seats_per_row; $col++) {
                                             $function->seats()->create([
@@ -189,32 +216,38 @@ class GenerateFunctions extends Command
                                                 'price' => $room->price + ($function->is_3d ? 2 : 0)
                                             ]);
                                             $seatNumber++;
+                                            $seatsCreated++;
                                         }
                                     }
+                                    $this->info("         ✅ Creados $seatsCreated asientos");
 
                                     // Avanzar el tiempo y el índice de película
                                     $currentTime->addMinutes($movie->duration + self::CLEANING_TIME);
-                                    $movieIndex = ($movieIndex + rand(1, 3)) % count($movieIndices); // Saltar 1-3 películas para más variedad
+                                    $movieIndex = ($movieIndex + rand(1, 3)) % count($movieIndices);
+                                    $functionsCreated++;
+                                
                                 } catch (\Exception $e) {
-                                    // Si hay un error al crear la función, intentamos con la siguiente película
-                                    $this->warn("Error al crear función: " . $e->getMessage());
+                                    $this->error("         ❌ Error al crear función: " . $e->getMessage());
                                     $movieIndex = ($movieIndex + 1) % count($movieIndices);
                                     continue;
                                 }
                             }
+                            $this->info("\n      ✨ Total funciones creadas para esta sala: $functionsCreated");
                         }
+                    } else {
+                        $this->info("\n📅 Saltando fecha: " . $currentDate->format('Y-m-d') . " (Fin de semana)");
                     }
                     $currentDate->addDay();
                 }
             }
 
             DB::commit();
-            $this->info('Funciones generadas correctamente');
+            $this->info("\n🎉 Funciones generadas correctamente");
             return 0;
 
         } catch (\Exception $e) {
             DB::rollBack();
-            $this->error('Error al generar funciones: ' . $e->getMessage());
+            $this->error('❌ Error al generar funciones: ' . $e->getMessage());
             return 1;
         }
     }

@@ -376,31 +376,17 @@
 
   // Función para verificar si todo está listo
   function checkIfReady() {
-    if (stylesLoaded && dataLoaded) {
+    if (dataLoaded) {
       loading = false;
     }
   }
 
   onMount(async () => {
     try {
-      // Asegurar que los estilos estén cargados
-      await new Promise(resolve => {
-        // Verificar si el documento ya está completamente cargado
-        if (document.readyState === 'complete') {
-          resolve(true);
-        } else {
-          window.addEventListener('load', () => resolve(true));
-        }
-      });
-      
-      stylesLoaded = true;
-      checkIfReady();
-
-      // Cargar datos
+      // Cargar datos inmediatamente
       await loadFunctionData();
       dataLoaded = true;
       checkIfReady();
-
     } catch (e: any) {
       error = e.message;
       loading = false;
@@ -781,7 +767,7 @@
                       </div>
                       Procesando...
                     {:else}
-                      Confirmar y pagar
+                      Confirmar y pagar (DOBLE)
                       <i class="bi bi-check2-circle ms-2"></i>
                     {/if}
                   </button>
@@ -805,6 +791,13 @@
 {/if}
 
 <style>
+  /* Variables específicas para la página de reservas */
+  :global(.booking-page) {
+    --booking-card-bg: var(--app-card-bg, rgba(17, 24, 39, 0.8));
+    --booking-border: var(--app-border, rgba(255, 255, 255, 0.1));
+    --booking-text: var(--bs-body-color, #e0e0e0);
+  }
+
   /* Loading screen styles */
   .loading-screen {
     position: fixed;
@@ -812,52 +805,42 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--app-bg);
+    background: var(--app-bg, #121212);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 9999;
   }
 
-  /* Ensure critical styles are loaded first */
-  :global(*) {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  .booking-page {
-    opacity: 0;
-    animation: fadeIn 0.3s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
+  /* Base page styles */
   .booking-page {
     width: 100%;
     min-height: 100vh;
-    background: var(--app-bg);
-    color: var(--bs-body-color);
+    background: var(--app-bg, #121212);
+    color: var(--booking-text);
+    opacity: 1;
+    transition: opacity 0.3s ease;
   }
 
-  .booking-content {
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
+  /* Card styles scoped to booking page */
+  :global(.booking-page .card) {
+    background-color: var(--booking-card-bg) !important;
+    border: 1px solid var(--booking-border) !important;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+
+  :global(.booking-page .card:hover) {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    border-color: var(--booking-border);
+    transform: translateY(-2px);
   }
 
   /* Info Card Styles */
   .info-card {
-    background: var(--app-card-bg);
+    background: var(--booking-card-bg);
     border-radius: 1rem;
-    border: 1px solid var(--app-border);
+    border: 1px solid var(--booking-border);
     overflow: hidden;
     backdrop-filter: blur(10px);
     margin-bottom: 1.5rem;
@@ -865,7 +848,7 @@
 
   .info-header {
     padding: 1.25rem;
-    border-bottom: 1px solid var(--app-border);
+    border-bottom: 1px solid var(--booking-border);
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -886,7 +869,7 @@
     align-items: center;
     gap: 1rem;
     padding: 0.75rem 0;
-    border-bottom: 1px solid var(--app-border);
+    border-bottom: 1px solid var(--booking-border);
   }
 
   .info-item:last-child {
@@ -915,10 +898,10 @@
 
   /* Seats Section Styles */
   .seats-section {
-    background: var(--app-card-bg);
+    background: var(--booking-card-bg);
     border-radius: 1rem;
     padding: 2rem;
-    border: 1px solid var(--app-border);
+    border: 1px solid var(--booking-border);
     backdrop-filter: blur(10px);
     width: 100%;
     margin-bottom: 1.5rem;
@@ -966,13 +949,13 @@
   .seat {
     width: 40px;
     height: 40px;
-    border: 1px solid var(--app-border);
+    border: 1px solid var(--booking-border);
     border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: var(--app-card-bg);
+    background: var(--booking-card-bg);
     transition: all 0.2s ease;
   }
 
@@ -1006,7 +989,7 @@
   }
 
   .seat.unavailable {
-    background: var(--app-border);
+    background: var(--booking-border);
     opacity: 0.3;
     cursor: not-allowed;
   }
@@ -1018,7 +1001,7 @@
     gap: 2rem;
     margin-top: 2rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--app-border);
+    border-top: 1px solid var(--booking-border);
   }
 
   .legend-item {
@@ -1035,8 +1018,8 @@
   }
 
   .seat-demo.available {
-    background: var(--app-card-bg);
-    border: 1px solid var(--app-border);
+    background: var(--booking-card-bg);
+    border: 1px solid var(--booking-border);
   }
 
   .seat-demo.selected {
@@ -1051,9 +1034,9 @@
 
   /* Booking Summary Styles */
   .booking-summary {
-    background: var(--app-card-bg);
+    background: var(--booking-card-bg);
     border-radius: 1rem;
-    border: 1px solid var(--app-border);
+    border: 1px solid var(--booking-border);
     overflow: hidden;
     backdrop-filter: blur(10px);
   }
@@ -1090,7 +1073,7 @@
   }
 
   .price-summary {
-    border-top: 1px solid var(--app-border);
+    border-top: 1px solid var(--booking-border);
     padding-top: 1rem;
   }
 
@@ -1102,7 +1085,7 @@
   }
 
   .price-row.total {
-    border-top: 1px solid var(--app-border);
+    border-top: 1px solid var(--booking-border);
     margin-top: 0.5rem;
     padding-top: 1rem;
     font-weight: 600;
@@ -1182,7 +1165,7 @@
   }
 
   .payment-form {
-    border-top: 1px solid var(--app-border);
+    border-top: 1px solid var(--booking-border);
     padding-top: 1.5rem;
   }
 
@@ -1194,14 +1177,14 @@
 
   .form-control {
     background: var(--app-bg);
-    border-color: var(--app-border);
-    color: var(--bs-body-color);
+    border-color: var(--booking-border);
+    color: var(--booking-text);
   }
 
   .form-control:focus {
     background: var(--app-bg);
     border-color: var(--primary-color);
-    color: var(--bs-body-color);
+    color: var(--booking-text);
     box-shadow: 0 0 0 0.25rem rgba(var(--primary-rgb), 0.25);
   }
 
@@ -1267,7 +1250,7 @@
   .step-line {
     flex: 1;
     height: 2px;
-    background: var(--app-border);
+    background: var(--booking-border);
     min-width: 2rem;
     max-width: 5rem;
   }
@@ -1284,7 +1267,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    border: 1px solid var(--app-border);
+    border: 1px solid var(--booking-border);
     border-radius: 0.5rem;
     background: var(--app-bg);
   }

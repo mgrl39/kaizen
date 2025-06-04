@@ -99,86 +99,88 @@
 />
 
 <!-- Contenido principal con estilo Bootstrap -->
-<div class="container py-5">
-  {#if loading}
-    <div class="d-flex justify-content-center py-5">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">{$t('loading')}</span>
-      </div>
-    </div>
-  {:else if error}
-    <div class="alert alert-danger" role="alert">
-      <i class="bi bi-exclamation-triangle-fill me-2"></i>
-      {error}
-    </div>
-  {:else}
-    <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center">
-      {#each movies as movie}
-        <div class="col">
-          <div class="card h-100 movie-card hover-card">
-            <a href={`/movies/${movie.slug || movie.id}`} class="text-decoration-none">
-              <div class="position-relative">
-                <img 
-                  src={getImageUrl(movie.photo_url)} 
-                  class="card-img-top movie-poster" 
-                  alt={movie.title}
-                  on:error={handleImageError}
-                  loading="lazy"
-                />
-              </div>
-              <div class="card-body">
-                <h5 class="card-title text-truncate text-primary">{movie.title}</h5>
-                <div class="d-flex align-items-center text-muted">
-                  <small>
-                    {movie.release_year || (movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A')}
-                    {#if movie.duration}
-                      <span class="mx-1">•</span>
-                      <i class="bi bi-clock me-1"></i>{formatDuration(movie.duration)}
-                    {/if}
-                  </small>
-                </div>
-              </div>
-            </a>
-          </div>
+<div class="movie-page">
+  <div class="container py-5">
+    {#if loading}
+      <div class="d-flex justify-content-center py-5">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">{$t('loading')}</span>
         </div>
-      {/each}
-    </div>
+      </div>
+    {:else if error}
+      <div class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        {$t('movieLoadingError')}: {error}
+      </div>
+    {:else}
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-4 justify-content-center">
+        {#each movies as movie}
+          <div class="col">
+            <div class="card h-100 movie-card hover-card">
+              <a href={`/movies/${movie.slug || movie.id}`} class="text-decoration-none">
+                <div class="position-relative">
+                  <img 
+                    src={getImageUrl(movie.photo_url)} 
+                    class="card-img-top movie-poster" 
+                    alt={movie.title || $t('movieCardAltText')}
+                    on:error={handleImageError}
+                    loading="lazy"
+                  />
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title text-primary">{movie.title}</h5>
+                  <div class="d-flex align-items-center text-muted">
+                    <small>
+                      {movie.release_year || (movie.release_date ? new Date(movie.release_date).getFullYear() : 'N/A')}
+                      {#if movie.duration}
+                        <span class="mx-1">{$t('movieDurationSeparator')}</span>
+                        <i class="bi bi-clock me-1"></i>{formatDuration(movie.duration)}
+                      {/if}
+                    </small>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        {/each}
+      </div>
 
-    <!-- Controles de paginación -->
-    {#if pagination.last_page > 1}
-      <nav aria-label="Navegación de páginas" class="mt-4">
-        <ul class="pagination justify-content-center">
-          <li class="page-item {pagination.current_page === 1 ? 'disabled' : ''}">
-            <button 
-              class="page-link" 
-              on:click={() => goToPage(pagination.current_page - 1)}
-              aria-label={$t('previous')}
-            >
-              <span aria-hidden="true">&laquo;</span>
-            </button>
-          </li>
-          
-          {#each Array(pagination.last_page) as _, i}
-            <li class="page-item {pagination.current_page === i + 1 ? 'active' : ''}">
-              <button class="page-link" on:click={() => goToPage(i + 1)}>
-                {i + 1}
+      <!-- Controles de paginación -->
+      {#if pagination.last_page > 1}
+        <nav aria-label={$t('moviePagination')} class="mt-4">
+          <ul class="pagination justify-content-center">
+            <li class="page-item {pagination.current_page === 1 ? 'disabled' : ''}">
+              <button 
+                class="page-link" 
+                on:click={() => goToPage(pagination.current_page - 1)}
+                aria-label={$t('moviePaginationPrevious')}
+              >
+                <span aria-hidden="true">&laquo;</span>
               </button>
             </li>
-          {/each}
-          
-          <li class="page-item {pagination.current_page === pagination.last_page ? 'disabled' : ''}">
-            <button 
-              class="page-link" 
-              on:click={() => goToPage(pagination.current_page + 1)}
-              aria-label={$t('next')}
-            >
-              <span aria-hidden="true">&raquo;</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
+            
+            {#each Array(pagination.last_page) as _, i}
+              <li class="page-item {pagination.current_page === i + 1 ? 'active' : ''}">
+                <button class="page-link" on:click={() => goToPage(i + 1)}>
+                  {i + 1}
+                </button>
+              </li>
+            {/each}
+            
+            <li class="page-item {pagination.current_page === pagination.last_page ? 'disabled' : ''}">
+              <button 
+                class="page-link" 
+                on:click={() => goToPage(pagination.current_page + 1)}
+                aria-label={$t('moviePaginationNext')}
+              >
+                <span aria-hidden="true">&raquo;</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      {/if}
     {/if}
-  {/if}
+  </div>
 </div>
 
 <style>
@@ -215,73 +217,66 @@
     box-shadow: 0 10px 20px rgba(147, 51, 234, 0.2);
   }
 
-  /* Ajustar el ancho de las columnas para las tarjetas */
-  :global(.row) {
-    margin: 0 -0.5rem;
-  }
+  .movie-page {
+    .row {
+      margin: 0 -0.5rem;
+    }
 
-  :global(.col) {
-    padding: 0.5rem;
-  }
+    .col {
+      padding: 0.5rem;
+    }
 
-  :global(.card-body) {
-    width: 160px;
-    padding: 0.75rem 0.5rem;
-  }
+    .card-body {
+      width: 160px;
+      padding: 0.75rem 0.5rem;
+    }
 
-  :global(.card-title) {
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-    font-weight: 500;
-  }
+    .card-title {
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+      font-weight: 500;
+    }
 
-  :global(.text-muted small) {
-    font-size: 0.85rem;
-  }
+    .text-muted small {
+      font-size: 0.85rem;
+    }
 
-  /* Ajustar el contenedor para centrar el último row */
-  :global(.container) {
-    max-width: 1400px;
-    padding: 0 1rem;
-  }
+    .container {
+      max-width: 1400px;
+      padding: 0 1rem;
+    }
 
-  @media (min-width: 992px) {
-    :global(.container) {
-      padding: 0 2rem;
+    .badge.bg-primary,
+    .badge.bg-secondary,
+    .badge.bg-warning {
+      display: none;
+    }
+
+    .text-primary {
+      color: var(--movie-primary) !important;
+    }
+
+    .page-link {
+      color: var(--movie-primary);
+    }
+
+    .page-link:hover {
+      color: var(--movie-primary-hover);
+      background-color: var(--movie-primary-light);
+    }
+
+    .page-item.active .page-link {
+      background: var(--movie-gradient);
+      border-color: var(--movie-primary);
+    }
+
+    .spinner-border {
+      color: var(--movie-primary);
     }
   }
 
-  /* Estilos personalizados para elementos de UI */
-  :global(.badge.bg-primary),
-  :global(.badge.bg-secondary),
-  :global(.badge.bg-warning) {
-    display: none;
-  }
-
-  :global(.text-primary) {
-    color: var(--movie-primary) !important;
-  }
-
-  :global(.page-link) {
-    color: var(--movie-primary);
-  }
-
-  :global(.page-link:hover) {
-    color: var(--movie-primary-hover);
-    background-color: var(--movie-primary-light);
-  }
-
-  :global(.page-item.active .page-link) {
-    background: var(--movie-gradient);
-    border-color: var(--movie-primary);
-  }
-
-  :global(.spinner-border) {
-    color: var(--movie-primary);
-  }
-
   /* Estilos para el tema oscuro */
-  :global([data-bs-theme="dark"]) {
+  [data-bs-theme="dark"] .movie-page {
     --bg-card: rgba(17, 24, 39, 0.8);
     --bg-input: rgba(17, 24, 39, 0.8);
     --text-primary: #fff;
@@ -301,6 +296,12 @@
 
     .card-footer {
       border-top-color: var(--border-color);
+    }
+  }
+
+  @media (min-width: 992px) {
+    .movie-page .container {
+      padding: 0 2rem;
     }
   }
 </style>
