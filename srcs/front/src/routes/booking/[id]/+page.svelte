@@ -14,6 +14,8 @@
   let functionData: any = null;
   let seatLayout: any[][] = [];
   let isSubmitting = false;
+  let stylesLoaded = false;
+  let dataLoaded = false;
 
   // Datos del comprador
   let buyer = {
@@ -372,400 +374,472 @@
     return isValid;
   }
 
-  onMount(() => {
-    loadFunctionData();
+  // Función para verificar si todo está listo
+  function checkIfReady() {
+    if (stylesLoaded && dataLoaded) {
+      loading = false;
+    }
+  }
+
+  onMount(async () => {
+    try {
+      // Asegurar que los estilos estén cargados
+      await new Promise(resolve => {
+        // Verificar si el documento ya está completamente cargado
+        if (document.readyState === 'complete') {
+          resolve(true);
+        } else {
+          window.addEventListener('load', () => resolve(true));
+        }
+      });
+      
+      stylesLoaded = true;
+      checkIfReady();
+
+      // Cargar datos
+      await loadFunctionData();
+      dataLoaded = true;
+      checkIfReady();
+
+    } catch (e: any) {
+      error = e.message;
+      loading = false;
+    }
   });
 </script>
 
-<div class="booking-page" data-bs-theme={$theme}>
-  {#if functionData}
-    <HeroBanner 
-      title={functionData.movie.title}
-      subtitle={`${formatDate(functionData.date)} - ${formatTime(functionData.time)}`}
-      imageUrl="/images/banners/booking-hero.jpg"
-      overlayOpacity="70"
-    />
-  {/if}
+{#if loading}
+  <div class="loading-screen">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+  </div>
+{:else}
+  <div class="booking-page" data-bs-theme={$theme}>
+    {#if functionData}
+      <HeroBanner 
+        title={functionData.movie.title}
+        subtitle={`${formatDate(functionData.date)} - ${formatTime(functionData.time)}`}
+        imageUrl="/images/banners/booking-hero.jpg"
+        overlayOpacity="70"
+      />
+    {/if}
 
-  <div class="container py-5">
-    {#if loading}
-      <div class="d-flex justify-content-center py-5">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Cargando...</span>
+    <div class="container py-5">
+      {#if loading}
+        <div class="d-flex justify-content-center py-5">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Cargando...</span>
+          </div>
         </div>
-      </div>
-    {:else if error}
-      <div class="alert alert-danger" role="alert">
-        <i class="bi bi-exclamation-triangle me-2"></i>
-        {error}
-      </div>
-    {:else if functionData}
-      <!-- Indicador de pasos -->
-      <div class="steps-indicator mb-4">
-        <div class="step {currentStep === STEPS.SESSION ? 'active' : currentStep !== STEPS.SESSION ? 'completed' : ''}">
-          <div class="step-number">1</div>
-          <div class="step-text">Detalles de la sesión</div>
+      {:else if error}
+        <div class="alert alert-danger" role="alert">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          {error}
         </div>
-        <div class="step-line"></div>
-        <div class="step {currentStep === STEPS.SEATS ? 'active' : currentStep !== STEPS.SEATS && currentStep !== STEPS.SESSION ? 'completed' : ''}">
-          <div class="step-number">2</div>
-          <div class="step-text">Selección de asientos</div>
+      {:else if functionData}
+        <!-- Indicador de pasos -->
+        <div class="steps-indicator mb-4">
+          <div class="step {currentStep === STEPS.SESSION ? 'active' : currentStep !== STEPS.SESSION ? 'completed' : ''}">
+            <div class="step-number">1</div>
+            <div class="step-text">Detalles de la sesión</div>
+          </div>
+          <div class="step-line"></div>
+          <div class="step {currentStep === STEPS.SEATS ? 'active' : currentStep !== STEPS.SEATS && currentStep !== STEPS.SESSION ? 'completed' : ''}">
+            <div class="step-number">2</div>
+            <div class="step-text">Selección de asientos</div>
+          </div>
+          <div class="step-line"></div>
+          <div class="step {currentStep === STEPS.BUYER ? 'active' : currentStep === STEPS.PAYMENT || currentStep === STEPS.CONFIRM ? 'completed' : ''}">
+            <div class="step-number">3</div>
+            <div class="step-text">Datos del comprador</div>
+          </div>
+          <div class="step-line"></div>
+          <div class="step {currentStep === STEPS.PAYMENT ? 'active' : currentStep === STEPS.CONFIRM ? 'completed' : ''}">
+            <div class="step-number">4</div>
+            <div class="step-text">Método de pago</div>
+          </div>
+          <div class="step-line"></div>
+          <div class="step {currentStep === STEPS.CONFIRM ? 'active' : ''}">
+            <div class="step-number">5</div>
+            <div class="step-text">Confirmación</div>
+          </div>
         </div>
-        <div class="step-line"></div>
-        <div class="step {currentStep === STEPS.BUYER ? 'active' : currentStep === STEPS.PAYMENT || currentStep === STEPS.CONFIRM ? 'completed' : ''}">
-          <div class="step-number">3</div>
-          <div class="step-text">Datos del comprador</div>
-        </div>
-        <div class="step-line"></div>
-        <div class="step {currentStep === STEPS.PAYMENT ? 'active' : currentStep === STEPS.CONFIRM ? 'completed' : ''}">
-          <div class="step-number">4</div>
-          <div class="step-text">Método de pago</div>
-        </div>
-        <div class="step-line"></div>
-        <div class="step {currentStep === STEPS.CONFIRM ? 'active' : ''}">
-          <div class="step-number">5</div>
-          <div class="step-text">Confirmación</div>
-        </div>
-      </div>
 
-      <div class="booking-content">
-        {#if currentStep === STEPS.SESSION}
-          <!-- Detalles de la sesión -->
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-4">Detalles de la sesión</h5>
-              <div class="session-details">
-                <div class="detail-item">
-                  <i class="bi bi-film"></i>
-                  <div>
-                    <span class="label">Película</span>
-                    <span class="value">{functionData.movie.title}</span>
-                  </div>
-                </div>
-                <div class="detail-item">
-                  <i class="bi bi-calendar"></i>
-                  <div>
-                    <span class="label">Fecha</span>
-                    <span class="value">{formatDate(functionData.date)}</span>
-                  </div>
-                </div>
-                <div class="detail-item">
-                  <i class="bi bi-clock"></i>
-                  <div>
-                    <span class="label">Hora</span>
-                    <span class="value">{formatTime(functionData.time)}</span>
-                  </div>
-                </div>
-                <div class="detail-item">
-                  <i class="bi bi-building"></i>
-                  <div>
-                    <span class="label">Sala</span>
-                    <span class="value">{functionData.room.name}</span>
-                  </div>
-                </div>
-                {#if functionData.is_3d}
+        <div class="booking-content">
+          {#if currentStep === STEPS.SESSION}
+            <!-- Detalles de la sesión -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-4">Detalles de la sesión</h5>
+                <div class="session-details">
                   <div class="detail-item">
-                    <i class="bi bi-badge-3d"></i>
+                    <i class="bi bi-film"></i>
                     <div>
-                      <span class="label">Formato</span>
-                      <span class="value">3D</span>
+                      <span class="label">Película</span>
+                      <span class="value">{functionData.movie.title}</span>
                     </div>
                   </div>
-                {/if}
-                <div class="detail-item">
-                  <i class="bi bi-tag"></i>
-                  <div>
-                    <span class="label">Precio por entrada</span>
-                    <span class="value">{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(functionData.price || 8.50)}</span>
+                  <div class="detail-item">
+                    <i class="bi bi-calendar"></i>
+                    <div>
+                      <span class="label">Fecha</span>
+                      <span class="value">{formatDate(functionData.date)}</span>
+                    </div>
+                  </div>
+                  <div class="detail-item">
+                    <i class="bi bi-clock"></i>
+                    <div>
+                      <span class="label">Hora</span>
+                      <span class="value">{formatTime(functionData.time)}</span>
+                    </div>
+                  </div>
+                  <div class="detail-item">
+                    <i class="bi bi-building"></i>
+                    <div>
+                      <span class="label">Sala</span>
+                      <span class="value">{functionData.room.name}</span>
+                    </div>
+                  </div>
+                  {#if functionData.is_3d}
+                    <div class="detail-item">
+                      <i class="bi bi-badge-3d"></i>
+                      <div>
+                        <span class="label">Formato</span>
+                        <span class="value">3D</span>
+                      </div>
+                    </div>
+                  {/if}
+                  <div class="detail-item">
+                    <i class="bi bi-tag"></i>
+                    <div>
+                      <span class="label">Precio por entrada</span>
+                      <span class="value">{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(functionData.price || 8.50)}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-        {:else if currentStep === STEPS.SEATS}
-          <!-- Selector de asientos -->
-          <div class="seats-section">
-            <div class="screen">Pantalla</div>
-            
-            <div class="seats-container">
-              {#if Array.isArray(seatLayout) && seatLayout.length > 0}
-                {#each seatLayout as row, rowIndex}
-                  <div class="seat-row">
-                    <div class="row-label">{String.fromCharCode(65 + rowIndex)}</div>
-                    {#each row as seat, seatIndex}
-                      {#if seat}
-                        <button 
-                          class="seat {seat.is_occupied ? 'occupied' : isSeatSelected(seat.id) ? 'selected' : 'available'}"
-                          disabled={seat.is_occupied || (!isSeatSelected(seat.id) && !canSelectSeat(seat))}
-                          on:click={() => toggleSeat(seat)}
-                          title="Fila {String.fromCharCode(65 + rowIndex)} Asiento {seat.number}"
-                        >
-                          <span class="seat-number">{seat.number}</span>
-                        </button>
-                      {:else}
-                        <button class="seat unavailable" disabled>
-                          <span class="seat-number">-</span>
-                        </button>
-                      {/if}
-                    {/each}
+          {:else if currentStep === STEPS.SEATS}
+            <!-- Selector de asientos -->
+            <div class="seats-section">
+              <div class="screen">Pantalla</div>
+              
+              <div class="seats-container">
+                {#if Array.isArray(seatLayout) && seatLayout.length > 0}
+                  {#each seatLayout as row, rowIndex}
+                    <div class="seat-row">
+                      <div class="row-label">{String.fromCharCode(65 + rowIndex)}</div>
+                      {#each row as seat, seatIndex}
+                        {#if seat}
+                          <button 
+                            class="seat {seat.is_occupied ? 'occupied' : isSeatSelected(seat.id) ? 'selected' : 'available'}"
+                            disabled={seat.is_occupied || (!isSeatSelected(seat.id) && !canSelectSeat(seat))}
+                            on:click={() => toggleSeat(seat)}
+                            title="Fila {String.fromCharCode(65 + rowIndex)} Asiento {seat.number}"
+                          >
+                            <span class="seat-number">{seat.number}</span>
+                          </button>
+                        {:else}
+                          <button class="seat unavailable" disabled>
+                            <span class="seat-number">-</span>
+                          </button>
+                        {/if}
+                      {/each}
+                    </div>
+                  {/each}
+                {:else}
+                  <div class="alert alert-warning">
+                    No se encontraron asientos disponibles
                   </div>
-                {/each}
-              {:else}
-                <div class="alert alert-warning">
-                  No se encontraron asientos disponibles
+                {/if}
+              </div>
+
+              {#if error}
+                <div class="alert alert-danger mt-3" role="alert">
+                  <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                  {error}
                 </div>
               {/if}
-            </div>
 
-            {#if error}
-              <div class="alert alert-danger mt-3" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                {error}
-              </div>
-            {/if}
-
-            <div class="seats-legend">
-              <div class="legend-item">
-                <div class="seat-demo available"></div>
-                <span>Disponible</span>
-              </div>
-              <div class="legend-item">
-                <div class="seat-demo selected"></div>
-                <span>Seleccionado</span>
-              </div>
-              <div class="legend-item">
-                <div class="seat-demo occupied"></div>
-                <span>Ocupado</span>
-              </div>
-            </div>
-          </div>
-
-        {:else if currentStep === STEPS.BUYER}
-          <!-- Datos del comprador -->
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-4">Datos del comprador</h5>
-              <div class="mb-3">
-                <label for="name" class="form-label">Nombre completo *</label>
-                <input 
-                  type="text" 
-                  class="form-control" 
-                  class:is-invalid={formErrors.buyer.name}
-                  id="name" 
-                  bind:value={buyer.name}
-                  placeholder="Ej: Juan Pérez"
-                />
-                {#if formErrors.buyer.name}
-                  <div class="invalid-feedback">{formErrors.buyer.name}</div>
-                {/if}
-              </div>
-              <div class="mb-3">
-                <label for="email" class="form-label">Email *</label>
-                <input 
-                  type="email" 
-                  class="form-control"
-                  class:is-invalid={formErrors.buyer.email}
-                  id="email" 
-                  bind:value={buyer.email}
-                  placeholder="Ej: juan@email.com"
-                />
-                {#if formErrors.buyer.email}
-                  <div class="invalid-feedback">{formErrors.buyer.email}</div>
-                {/if}
-              </div>
-              <div class="mb-3">
-                <label for="phone" class="form-label">Teléfono *</label>
-                <input 
-                  type="tel" 
-                  class="form-control"
-                  class:is-invalid={formErrors.buyer.phone}
-                  id="phone" 
-                  bind:value={buyer.phone}
-                  placeholder="Ej: 666555444"
-                />
-                {#if formErrors.buyer.phone}
-                  <div class="invalid-feedback">{formErrors.buyer.phone}</div>
-                {/if}
-              </div>
-            </div>
-          </div>
-
-        {:else if currentStep === STEPS.PAYMENT}
-          <!-- Datos de pago -->
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-4">Datos de pago</h5>
-              <div class="mb-3">
-                <label for="card-number" class="form-label">Número de tarjeta *</label>
-                <input 
-                  type="text" 
-                  class="form-control"
-                  class:is-invalid={formErrors.card.number}
-                  id="card-number" 
-                  bind:value={cardInfo.number}
-                  placeholder="1234 5678 9012 3456"
-                  maxlength="19"
-                  on:input={(e) => {
-                    e.target.value = e.target.value
-                      .replace(/\s/g, '')
-                      .replace(/(\d{4})/g, '$1 ')
-                      .trim();
-                  }}
-                />
-                {#if formErrors.card.number}
-                  <div class="invalid-feedback">{formErrors.card.number}</div>
-                {/if}
-              </div>
-              <div class="mb-3">
-                <label for="card-name" class="form-label">Titular de la tarjeta *</label>
-                <input 
-                  type="text" 
-                  class="form-control"
-                  class:is-invalid={formErrors.card.name}
-                  id="card-name" 
-                  bind:value={cardInfo.name}
-                  placeholder="NOMBRE APELLIDOS"
-                />
-                {#if formErrors.card.name}
-                  <div class="invalid-feedback">{formErrors.card.name}</div>
-                {/if}
-              </div>
-              <div class="row">
-                <div class="col-8">
-                  <div class="mb-3">
-                    <label for="card-expiry" class="form-label">Fecha de caducidad *</label>
-                    <input 
-                      type="text" 
-                      class="form-control"
-                      class:is-invalid={formErrors.card.expiry}
-                      id="card-expiry" 
-                      bind:value={cardInfo.expiry}
-                      placeholder="MM/YY"
-                      maxlength="5"
-                      on:input={(e) => {
-                        e.target.value = e.target.value
-                          .replace(/\D/g, '')
-                          .replace(/(\d{2})(\d)/, '$1/$2');
-                      }}
-                    />
-                    {#if formErrors.card.expiry}
-                      <div class="invalid-feedback">{formErrors.card.expiry}</div>
-                    {/if}
-                  </div>
+              <div class="seats-legend">
+                <div class="legend-item">
+                  <div class="seat-demo available"></div>
+                  <span>Disponible</span>
                 </div>
-                <div class="col-4">
-                  <div class="mb-3">
-                    <label for="card-cvv" class="form-label">CVV *</label>
-                    <input 
-                      type="text" 
-                      class="form-control"
-                      class:is-invalid={formErrors.card.cvv}
-                      id="card-cvv" 
-                      bind:value={cardInfo.cvv}
-                      placeholder="123"
-                      maxlength="3"
-                    />
-                    {#if formErrors.card.cvv}
-                      <div class="invalid-feedback">{formErrors.card.cvv}</div>
-                    {/if}
+                <div class="legend-item">
+                  <div class="seat-demo selected"></div>
+                  <span>Seleccionado</span>
+                </div>
+                <div class="legend-item">
+                  <div class="seat-demo occupied"></div>
+                  <span>Ocupado</span>
+                </div>
+              </div>
+            </div>
+
+          {:else if currentStep === STEPS.BUYER}
+            <!-- Datos del comprador -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-4">Datos del comprador</h5>
+                <div class="mb-3">
+                  <label for="name" class="form-label">Nombre completo *</label>
+                  <input 
+                    type="text" 
+                    class="form-control" 
+                    class:is-invalid={formErrors.buyer.name}
+                    id="name" 
+                    bind:value={buyer.name}
+                    placeholder="Ej: Juan Pérez"
+                  />
+                  {#if formErrors.buyer.name}
+                    <div class="invalid-feedback">{formErrors.buyer.name}</div>
+                  {/if}
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email *</label>
+                  <input 
+                    type="email" 
+                    class="form-control"
+                    class:is-invalid={formErrors.buyer.email}
+                    id="email" 
+                    bind:value={buyer.email}
+                    placeholder="Ej: juan@email.com"
+                  />
+                  {#if formErrors.buyer.email}
+                    <div class="invalid-feedback">{formErrors.buyer.email}</div>
+                  {/if}
+                </div>
+                <div class="mb-3">
+                  <label for="phone" class="form-label">Teléfono *</label>
+                  <input 
+                    type="tel" 
+                    class="form-control"
+                    class:is-invalid={formErrors.buyer.phone}
+                    id="phone" 
+                    bind:value={buyer.phone}
+                    placeholder="Ej: 666555444"
+                  />
+                  {#if formErrors.buyer.phone}
+                    <div class="invalid-feedback">{formErrors.buyer.phone}</div>
+                  {/if}
+                </div>
+              </div>
+            </div>
+
+          {:else if currentStep === STEPS.PAYMENT}
+            <!-- Datos de pago -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-4">Datos de pago</h5>
+                <div class="mb-3">
+                  <label for="card-number" class="form-label">Número de tarjeta *</label>
+                  <input 
+                    type="text" 
+                    class="form-control"
+                    class:is-invalid={formErrors.card.number}
+                    id="card-number" 
+                    bind:value={cardInfo.number}
+                    placeholder="1234 5678 9012 3456"
+                    maxlength="19"
+                    on:input={(e) => {
+                      e.target.value = e.target.value
+                        .replace(/\s/g, '')
+                        .replace(/(\d{4})/g, '$1 ')
+                        .trim();
+                    }}
+                  />
+                  {#if formErrors.card.number}
+                    <div class="invalid-feedback">{formErrors.card.number}</div>
+                  {/if}
+                </div>
+                <div class="mb-3">
+                  <label for="card-name" class="form-label">Titular de la tarjeta *</label>
+                  <input 
+                    type="text" 
+                    class="form-control"
+                    class:is-invalid={formErrors.card.name}
+                    id="card-name" 
+                    bind:value={cardInfo.name}
+                    placeholder="NOMBRE APELLIDOS"
+                  />
+                  {#if formErrors.card.name}
+                    <div class="invalid-feedback">{formErrors.card.name}</div>
+                  {/if}
+                </div>
+                <div class="row">
+                  <div class="col-8">
+                    <div class="mb-3">
+                      <label for="card-expiry" class="form-label">Fecha de caducidad *</label>
+                      <input 
+                        type="text" 
+                        class="form-control"
+                        class:is-invalid={formErrors.card.expiry}
+                        id="card-expiry" 
+                        bind:value={cardInfo.expiry}
+                        placeholder="MM/YY"
+                        maxlength="5"
+                        on:input={(e) => {
+                          e.target.value = e.target.value
+                            .replace(/\D/g, '')
+                            .replace(/(\d{2})(\d)/, '$1/$2');
+                        }}
+                      />
+                      {#if formErrors.card.expiry}
+                        <div class="invalid-feedback">{formErrors.card.expiry}</div>
+                      {/if}
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="mb-3">
+                      <label for="card-cvv" class="form-label">CVV *</label>
+                      <input 
+                        type="text" 
+                        class="form-control"
+                        class:is-invalid={formErrors.card.cvv}
+                        id="card-cvv" 
+                        bind:value={cardInfo.cvv}
+                        placeholder="123"
+                        maxlength="3"
+                      />
+                      {#if formErrors.card.cvv}
+                        <div class="invalid-feedback">{formErrors.card.cvv}</div>
+                      {/if}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
-        {:else if currentStep === STEPS.CONFIRM}
-          <!-- Resumen y confirmación -->
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title mb-4">Resumen de la compra</h5>
-              <div class="selected-seats">
-                <h6>Asientos seleccionados</h6>
-                {#if selectedSeats.length > 0}
-                  <div class="seats-list">
-                    {#each selectedSeats as seatId}
-                      {#each seatLayout as row}
-                        {#each row as seat}
-                          {#if seat.id === seatId}
-                            <span class="selected-seat-tag">
-                              {getSeatLabel(seat)}
-                            </span>
-                          {/if}
+          {:else if currentStep === STEPS.CONFIRM}
+            <!-- Resumen y confirmación -->
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title mb-4">Resumen de la compra</h5>
+                <div class="selected-seats">
+                  <h6>Asientos seleccionados</h6>
+                  {#if selectedSeats.length > 0}
+                    <div class="seats-list">
+                      {#each selectedSeats as seatId}
+                        {#each seatLayout as row}
+                          {#each row as seat}
+                            {#if seat.id === seatId}
+                              <span class="selected-seat-tag">
+                                {getSeatLabel(seat)}
+                              </span>
+                            {/if}
+                          {/each}
                         {/each}
                       {/each}
-                    {/each}
+                    </div>
+                  {:else}
+                    <p class="no-seats">No has seleccionado ningún asiento</p>
+                  {/if}
+                </div>
+                
+                <div class="price-summary">
+                  <div class="price-row">
+                    <span>Precio por entrada</span>
+                    <span>{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(functionData.price || 8.50)}</span>
                   </div>
-                {:else}
-                  <p class="no-seats">No has seleccionado ningún asiento</p>
+                  <div class="price-row">
+                    <span>Cantidad</span>
+                    <span>{selectedSeats.length}</span>
+                  </div>
+                  <div class="price-row total">
+                    <span>Total</span>
+                    <span>{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(totalPrice)}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {/if}
+
+          <!-- Botones de navegación -->
+          <div class="navigation-buttons mt-4">
+            <div class="row">
+              <div class="col-6">
+                {#if currentStep !== STEPS.SESSION}
+                  <button class="btn btn-outline-secondary w-100" on:click={goToPreviousStep}>
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Volver
+                  </button>
                 {/if}
               </div>
-              
-              <div class="price-summary">
-                <div class="price-row">
-                  <span>Precio por entrada</span>
-                  <span>{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(functionData.price || 8.50)}</span>
-                </div>
-                <div class="price-row">
-                  <span>Cantidad</span>
-                  <span>{selectedSeats.length}</span>
-                </div>
-                <div class="price-row total">
-                  <span>Total</span>
-                  <span>{new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(totalPrice)}</span>
-                </div>
+              <div class="col-6">
+                {#if currentStep === STEPS.CONFIRM}
+                  <button 
+                    class="btn btn-primary w-100" 
+                    disabled={isSubmitting}
+                    on:click={handleBooking}
+                  >
+                    {#if isSubmitting}
+                      <div class="spinner-border spinner-border-sm me-2" role="status">
+                        <span class="visually-hidden">Procesando...</span>
+                      </div>
+                      Procesando...
+                    {:else}
+                      Confirmar y pagar
+                      <i class="bi bi-check2-circle ms-2"></i>
+                    {/if}
+                  </button>
+                {:else}
+                  <button 
+                    class="btn btn-primary w-100"
+                    disabled={currentStep === STEPS.SEATS && selectedSeats.length === 0}
+                    on:click={goToNextStep}
+                  >
+                    Continuar
+                    <i class="bi bi-arrow-right ms-2"></i>
+                  </button>
+                {/if}
               </div>
-            </div>
-          </div>
-        {/if}
-
-        <!-- Botones de navegación -->
-        <div class="navigation-buttons mt-4">
-          <div class="row">
-            <div class="col-6">
-              {#if currentStep !== STEPS.SESSION}
-                <button class="btn btn-outline-secondary w-100" on:click={goToPreviousStep}>
-                  <i class="bi bi-arrow-left me-2"></i>
-                  Volver
-                </button>
-              {/if}
-            </div>
-            <div class="col-6">
-              {#if currentStep === STEPS.CONFIRM}
-                <button 
-                  class="btn btn-primary w-100" 
-                  disabled={isSubmitting}
-                  on:click={handleBooking}
-                >
-                  {#if isSubmitting}
-                    <div class="spinner-border spinner-border-sm me-2" role="status">
-                      <span class="visually-hidden">Procesando...</span>
-                    </div>
-                    Procesando...
-                  {:else}
-                    Confirmar y pagar
-                    <i class="bi bi-check2-circle ms-2"></i>
-                  {/if}
-                </button>
-              {:else}
-                <button 
-                  class="btn btn-primary w-100"
-                  disabled={currentStep === STEPS.SEATS && selectedSeats.length === 0}
-                  on:click={goToNextStep}
-                >
-                  Continuar
-                  <i class="bi bi-arrow-right ms-2"></i>
-                </button>
-              {/if}
             </div>
           </div>
         </div>
-      </div>
-    {/if}
+      {/if}
+    </div>
   </div>
-</div>
+{/if}
 
 <style>
+  /* Loading screen styles */
+  .loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--app-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+  }
+
+  /* Ensure critical styles are loaded first */
+  :global(*) {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  .booking-page {
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
   .booking-page {
     width: 100%;
     min-height: 100vh;
