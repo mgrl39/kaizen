@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Booking extends Model
 {
@@ -17,13 +18,13 @@ class Booking extends Model
      * @var array<string>
      */
     protected $fillable = [
-        'uuid',
         'function_id',
-        'seats',
-        'buyer_name',
-        'buyer_email',
-        'buyer_phone',
-        'status'
+        'status',
+        'customer_name',
+        'customer_email',
+        'customer_phone',
+        'payment_method',
+        'total_amount'
     ];
 
     /**
@@ -85,11 +86,9 @@ class Booking extends Model
     /**
      * Obtener los asientos asociados a esta reserva.
      */
-    public function seats(): BelongsToMany
+    public function seats(): HasMany
     {
-        return $this->belongsToMany(Seat::class, 'booking_seats')
-            ->withPivot('price')
-            ->withTimestamps();
+        return $this->hasMany(Seat::class);
     }
 
     /**

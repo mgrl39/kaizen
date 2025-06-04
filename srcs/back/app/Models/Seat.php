@@ -4,52 +4,44 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Seat extends Model
 {
     use HasFactory;
 
     /**
-     * Los atributos que son asignables en masa.
+     * The attributes that are mass assignable.
      *
      * @var array<string>
      */
     protected $fillable = [
-        'function_id',
-        'number',
         'row',
-        'status',
-        'price'
+        'number'
     ];
 
     /**
-     * Los atributos que deben convertirse a tipos nativos.
+     * The attributes that should be cast.
      *
      * @var array
      */
     protected $casts = [
-        'price' => 'decimal:2'
+        'row' => 'integer',
+        'number' => 'integer'
     ];
 
     /**
-     * Los estados posibles de un asiento
+     * The possible seat statuses
      */
     public const STATUS_AVAILABLE = 'available';
     public const STATUS_RESERVED = 'reserved';
     public const STATUS_OCCUPIED = 'occupied';
 
     /**
-     * Obtener la función a la que pertenece este asiento.
+     * Get the bookings for this seat.
      */
-    public function function()
-    {
-        return $this->belongsTo(Functions::class, 'function_id');
-    }
-
-    /**
-     * Obtener las reservas asociadas a este asiento.
-     */
-    public function bookings()
+    public function bookings(): BelongsToMany
     {
         return $this->belongsToMany(Booking::class, 'booking_seats')
             ->withTimestamps()
