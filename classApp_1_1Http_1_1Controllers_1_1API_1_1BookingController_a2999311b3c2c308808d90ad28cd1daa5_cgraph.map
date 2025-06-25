@@ -1,0 +1,5 @@
+<map id="App\Http\Controllers\API\BookingController\confirm" name="App\Http\Controllers\API\BookingController\confirm">
+<area shape="rect" id="Node000001" title="Confirmar una reserva después del pago." alt="" coords="5,5,173,60"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Models_1_1Booking.html#a237178251c97b6ec3a64e8bf97b7c2e4" title="Obtener los asientos asociados a esta reserva." alt="" coords="221,13,376,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,30,208,30,208,35,174,35"/>
+</map>

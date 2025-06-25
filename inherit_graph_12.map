@@ -1,0 +1,15 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,173,95,198"/>
+<area shape="rect" id="Node000001" href="$classApp_1_1Console_1_1Commands_1_1CheckDuplicateActors.html" title=" " alt="" coords="147,5,328,45"/>
+<area shape="poly" id="edge28_Node000000_Node000001" title=" " alt="" coords="61,159,92,107,115,79,141,55,161,43,164,48,144,59,119,83,97,110,65,162"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Console_1_1Commands_1_1CreateUser.html" title=" " alt="" coords="147,69,328,109"/>
+<area shape="poly" id="edge29_Node000000_Node000002" title=" " alt="" coords="76,162,106,140,141,119,169,107,171,112,144,124,109,144,79,166"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Console_1_1Commands_1_1GenerateFunctions.html" title=" " alt="" coords="147,133,328,173"/>
+<area shape="poly" id="edge30_Node000000_Node000003" title=" " alt="" coords="108,173,146,166,147,171,109,178"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html" title=" " alt="" coords="147,197,328,237"/>
+<area shape="poly" id="edge31_Node000000_Node000004" title=" " alt="" coords="109,193,147,199,146,204,108,198"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Console_1_1Commands_1_1UpdateMovieImagePaths.html" title=" " alt="" coords="143,261,332,301"/>
+<area shape="poly" id="edge32_Node000000_Node000005" title=" " alt="" coords="79,204,109,226,144,247,171,259,169,264,141,252,106,231,76,209"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Console_1_1Commands_1_1VerifyDatabaseStructure.html" title=" " alt="" coords="145,325,329,365"/>
+<area shape="poly" id="edge33_Node000000_Node000006" title=" " alt="" coords="65,209,97,261,119,288,144,311,164,323,161,327,141,315,115,292,92,264,61,212"/>
+</map>

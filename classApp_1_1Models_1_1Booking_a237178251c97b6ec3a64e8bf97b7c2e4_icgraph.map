@@ -1,0 +1,7 @@
+<map id="App\Models\Booking\seats" name="App\Models\Booking\seats">
+<area shape="rect" id="Node000001" title="Obtener los asientos asociados a esta reserva." alt="" coords="221,53,376,93"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1BookingController.html#a9a59eafd4c8d1bb8df0d7883b07d4f3f" title="Cancelar una reserva." alt="" coords="5,5,173,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,58,173,51,174,46,208,53"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1BookingController.html#a2999311b3c2c308808d90ad28cd1daa5" title="Confirmar una reserva después del pago." alt="" coords="5,84,173,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="208,92,174,98,173,93,207,87"/>
+</map>

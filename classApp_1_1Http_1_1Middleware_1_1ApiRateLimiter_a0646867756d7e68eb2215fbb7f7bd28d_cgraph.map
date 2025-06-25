@@ -1,0 +1,5 @@
+<map id="App\Http\Middleware\ApiRateLimiter\handle" name="App\Http\Middleware\ApiRateLimiter\handle">
+<area shape="rect" id="Node000001" title="Handle an incoming request." alt="" coords="5,13,176,53"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Middleware_1_1ApiRateLimiter.html#ad0d3fa349ee5d2a4a8ffe72a98599b46" title="Resolver la firma para identificar la solicitud." alt="" coords="224,5,452,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,30,210,30,210,35,176,35"/>
+</map>

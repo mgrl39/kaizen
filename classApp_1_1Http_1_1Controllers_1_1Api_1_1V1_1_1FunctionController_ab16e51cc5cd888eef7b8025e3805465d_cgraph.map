@@ -1,0 +1,7 @@
+<map id="App\Http\Controllers\Api\V1\FunctionController\getFunctionSeats" name="App\Http\Controllers\Api\V1\FunctionController\getFunctionSeats">
+<area shape="rect" id="Node000001" title="Get seat layout with availability for a specific function." alt="" coords="5,5,196,60"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1Api_1_1V1_1_1FunctionController.html#a53d96a35b7b7ad9ab3b264debf910772" title="Calculate final price for a function." alt="" coords="244,5,435,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,30,230,30,230,35,196,35"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Models_1_1Functions.html#a6ed68bacb4913edef1d9afc5b6847b8c" title="Obtener la sala asociada a esta función." alt="" coords="483,20,685,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="435,30,469,30,469,35,435,35"/>
+</map>

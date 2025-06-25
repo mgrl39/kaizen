@@ -1,0 +1,7 @@
+<map id="App\Http\Controllers\API\FunctionController\getLastMovieIndex" name="App\Http\Controllers\API\FunctionController\getLastMovieIndex">
+<area shape="rect" id="Node000001" title="Obtener el índice de la última película mostrada en el día laborable anterior." alt="" coords="5,5,176,60"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#a1bf5be5e471cca9832db774da9bdd3ce" title="Obtiene el día laborable anterior." alt="" coords="224,5,411,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,30,210,30,210,35,176,35"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#a19f394d5ebe3d3812496bf291797e86d" title="Verifica si un día es laborable (lunes a viernes)" alt="" coords="459,5,629,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="411,30,445,30,445,35,411,35"/>
+</map>
