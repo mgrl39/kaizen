@@ -39,7 +39,7 @@
 		"bootstrap-icons": "^1.11.1",
 		"carbon-components-svelte": "^0.89.2",
 		"carbon-icons-svelte": "^13.3.0",
-		"marked": "^15.0.12",
+		"marked": "^16.0.0",
 		"qrcode": "^1.5.4",
 		"svelte": "^5.28.2",
 		"svelte-countup": "^0.2.8"
