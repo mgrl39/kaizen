@@ -1,0 +1,14 @@
+<map id="App\Models\Movie\genres" name="App\Models\Movie\genres">
+<area shape="rect" id="Node000001" title="Obtener los géneros asociados con esta película." alt="" coords="735,96,925,121"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#acc24932d8c99ad94ab046d6c873daab4" title=" " alt="" coords="485,45,666,100"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="726,97,666,88,667,83,727,91"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Models_1_1Movie.html#ab07d203a80886d317be87b47ba772176" title="Sincronizar géneros desde un array de nombres." alt="" coords="464,125,687,165"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="727,126,687,132,686,126,726,121"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a45c94929f5e636834f626838d20007f4" title=" " alt="" coords="235,5,416,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="471,59,416,50,416,44,472,53"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a0ecc46e111e5fe5c504ef0d1c5ec7dcc" title=" " alt="" coords="235,84,416,139"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="472,91,416,100,416,95,471,86"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#ac22640744ebb16ae8d65c0ab483c3e3f" title=" " alt="" coords="5,45,187,100"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="222,53,187,59,187,54,221,48"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="221,96,187,91,187,85,222,91"/>
+</map>

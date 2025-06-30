@@ -1,0 +1,5 @@
+<map id="App\Http\Controllers\API\FunctionController\generateSchedule" name="App\Http\Controllers\API\FunctionController\generateSchedule">
+<area shape="rect" id="Node000001" title="Generar horarios automáticamente para una sala y fecha específica." alt="" coords="268,5,439,60"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#a0b96645c0280a70b48a7d83c7050ede0" title="Generar horarios para múltiples salas." alt="" coords="5,5,220,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="254,35,220,35,220,30,254,30"/>
+</map>
