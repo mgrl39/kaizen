@@ -1,0 +1,5 @@
+<map id="App\Http\Controllers\Api\V1\FunctionController\calculatePrice" name="App\Http\Controllers\Api\V1\FunctionController\calculatePrice">
+<area shape="rect" id="Node000001" title="Calculate final price for a function." alt="" coords="5,5,196,60"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Models_1_1Functions.html#a6ed68bacb4913edef1d9afc5b6847b8c" title="Obtener la sala asociada a esta función." alt="" coords="244,20,447,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,30,230,30,230,35,196,35"/>
+</map>

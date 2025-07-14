@@ -1,0 +1,9 @@
+<map id="App\Console\Commands\GenerateFunctions\isBusinessDay" name="App\Console\Commands\GenerateFunctions\isBusinessDay">
+<area shape="rect" id="Node000001" title="Verifica si un día es laborable (lunes a viernes)" alt="" coords="341,85,588,125"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Console_1_1Commands_1_1GenerateFunctions.html#a49725a00ba60da8938d6d9a19d96e060" title="Obtiene el índice de la última película mostrada en el día laborable anterior." alt="" coords="29,5,269,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="363,84,269,63,270,57,364,79"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Console_1_1Commands_1_1GenerateFunctions.html#a4b3339b1c6cd29fda987be1b045849b4" title="Obtiene el siguiente día laborable." alt="" coords="5,85,293,125"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="327,107,294,107,294,102,327,102"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Console_1_1Commands_1_1GenerateFunctions.html#a232319f14337c405409b8960a9a7241c" title="Execute the console command." alt="" coords="51,149,247,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="352,130,248,151,247,146,351,125"/>
+</map>

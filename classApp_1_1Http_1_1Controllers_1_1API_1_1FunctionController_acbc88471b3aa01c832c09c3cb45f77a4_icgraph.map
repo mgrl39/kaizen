@@ -1,0 +1,8 @@
+<map id="App\Http\Controllers\API\FunctionController\getNextBusinessDay" name="App\Http\Controllers\API\FunctionController\getNextBusinessDay">
+<area shape="rect" id="Node000001" title="Obtiene el siguiente día laborable." alt="" coords="487,5,657,60"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#a0b96645c0280a70b48a7d83c7050ede0" title="Generar horarios para múltiples salas." alt="" coords="5,5,220,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="473,29,439,27,268,27,220,29,220,24,268,22,439,22,473,23"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1FunctionController.html#adad79c96a0ad6c74ee117c8279f18902" title="Generar horarios automáticamente para una sala y fecha específica." alt="" coords="268,37,439,92"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="474,50,439,55,439,50,473,44"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="254,54,220,50,221,44,255,49"/>
+</map>

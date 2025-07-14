@@ -1,0 +1,7 @@
+<map id="App\Http\Controllers\API\V1\TicketController" name="App\Http\Controllers\API\V1\TicketController">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,167,180,207"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1Controller.html" title=" " alt="" coords="15,79,170,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,133,95,166,90,166,90,133"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="33,5,152,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="95,44,95,79,90,79,90,44"/>
+</map>
