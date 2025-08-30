@@ -1,0 +1,7 @@
+<map id="App\Http\Controllers\Api\V1\FunctionController\calculatePrice" name="App\Http\Controllers\Api\V1\FunctionController\calculatePrice">
+<area shape="rect" id="Node000001" title="Calculate final price for a function." alt="" coords="244,45,435,100"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1Api_1_1V1_1_1FunctionController.html#ab16e51cc5cd888eef7b8025e3805465d" title="Get seat layout with availability for a specific function." alt="" coords="5,5,196,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="230,57,196,51,197,46,231,52"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1Api_1_1V1_1_1FunctionController.html#ab7fa2c06c9be0e5224c5386a29f0bb56" title="Get screenings for a specific movie." alt="" coords="5,84,196,139"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,93,197,99,196,93,230,88"/>
+</map>
