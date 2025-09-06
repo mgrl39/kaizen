@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/lib/components/HeroBanner.svelte</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('HeroBanner_8svelte_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">HeroBanner.svelte</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="HeroBanner_8svelte.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;script lang=<span class="stringliteral">&quot;ts&quot;</span>&gt;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>  <span class="keyword">import</span> { <a class="code hl_variable" href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a> } from <span class="stringliteral">&#39;$lib/i18n&#39;</span>;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>  </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>  <span class="comment">// Props para personalizar el banner</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="HeroBanner_8svelte.html#a6a3a43bb0a9015eef5b6bf245b05ecd3">    5</a></span>  export let <a class="code hl_variable" href="HeroBanner_8svelte.html#a6a3a43bb0a9015eef5b6bf245b05ecd3">title</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">    6</a></span>  export let <a class="code hl_variable" href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">subtitle</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="HeroBanner_8svelte.html#a816c724fa4a59090b26541ff2079f33e">    7</a></span>  export let <a class="code hl_variable" href="HeroBanner_8svelte.html#a816c724fa4a59090b26541ff2079f33e">imageUrl</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="HeroBanner_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8">    8</a></span>  export let <a class="code hl_variable" href="HeroBanner_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8">buttonText</a> = <span class="stringliteral">&quot;Ver películas&quot;</span>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="HeroBanner_8svelte.html#ac022611a2682f1c42d642a80aeda9a4b">    9</a></span>  export let <a class="code hl_variable" href="HeroBanner_8svelte.html#ac022611a2682f1c42d642a80aeda9a4b">buttonUrl</a> = <span class="stringliteral">&quot;/movies&quot;</span>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="HeroBanner_8svelte.html#ac3c66dc715b33718e00d17160a8fb61d">   10</a></span>  export let <a class="code hl_variable" href="HeroBanner_8svelte.html#ac3c66dc715b33718e00d17160a8fb61d">overlayOpacity</a>: <span class="keywordtype">string</span> = <span class="stringliteral">&quot;50&quot;</span>;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>  <span class="comment">// Imagen por defecto en base64 (un placeholder gris simple)</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="HeroBanner_8svelte.html#a7592b6b7b6a90d70b23135b3a41e05ae">   13</a></span>  <span class="keyword">const</span> <a class="code hl_variable" href="HeroBanner_8svelte.html#aa730d67a3aa3b3fbbbdc88676a366bf0">DEFAULT_IMAGE_BASE64</a> = <span class="stringliteral">&#39;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=&#39;</span>;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>&lt;/script&gt;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>&lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;hero-banner position-relative&quot;</span>&gt;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;position-absolute inset-0&quot;</span>&gt;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a01ca3c9da8288753c10731eb4014f064">img</a> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>      src={<a class="code hl_variable" href="HeroBanner_8svelte.html#a816c724fa4a59090b26541ff2079f33e">imageUrl</a> || <a class="code hl_variable" href="HeroBanner_8svelte.html#aa730d67a3aa3b3fbbbdc88676a366bf0">DEFAULT_IMAGE_BASE64</a>} </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>      alt=<span class="stringliteral">&quot;&quot;</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      <span class="keyword">class</span>=<span class="stringliteral">&quot;w-100 h-100 object-cover&quot;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>      on:<a class="code hl_variable" href="BookingPage_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a>={(e) =&gt; {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordflow">if</span> (e.target) {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>          (e.target as HTMLImageElement).src = <a class="code hl_variable" href="HeroBanner_8svelte.html#aa730d67a3aa3b3fbbbdc88676a366bf0">DEFAULT_IMAGE_BASE64</a>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>          (e.target as HTMLImageElement).onerror = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>      }}</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    /&gt;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    &lt;div </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>      <span class="keyword">class</span>=<span class="stringliteral">&quot;position-absolute inset-0&quot;</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>      <a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8ba9b58991c02462588258e164fe3f84">style</a>=<span class="stringliteral">&quot;background-color: rgba(0,0,0,{overlayOpacity}%)&quot;</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    &gt;&lt;/div&gt;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>  </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;container position-relative py-3 text-white&quot;</span>&gt;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;row min-vh-25 align-items-center justify-content-center text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-lg-8&quot;</span>&gt;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;display-5 fw-bold mb-2 mobile-title&quot;</span>&gt;{<a class="code hl_variable" href="HeroBanner_8svelte.html#a6a3a43bb0a9015eef5b6bf245b05ecd3">title</a>}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a>&gt;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        {#<span class="keywordflow">if</span> <a class="code hl_variable" href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">subtitle</a>}</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;lead mb-3 mobile-subtitle&quot;</span>&gt;{<a class="code hl_variable" href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">subtitle</a>}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        {/<span class="keywordflow">if</span>}</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        &lt;a <a class="code hl_variable" href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a>={<a class="code hl_variable" href="HeroBanner_8svelte.html#ac022611a2682f1c42d642a80aeda9a4b">buttonUrl</a>} <span class="keyword">class</span>=<span class="stringliteral">&quot;btn btn-primary btn-lg&quot;</span>&gt;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>          {<a class="code hl_variable" href="HeroBanner_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8">buttonText</a>}</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>          &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-arrow-right ms-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        &lt;/a&gt;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>&lt;/div&gt;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>&lt;<a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8ba9b58991c02462588258e164fe3f84">style</a>&gt;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>  .hero-banner {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    background-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: var(--bs-dark);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>  }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>  </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>  .min-vh-25 {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    min-<a class="code hl_variable" href="BookingPage_8svelte.html#a02f9c12d8a38862426b6ee7cb12d7a63">height</a>: 12vh;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>  }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>  </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>  .inset-0 {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <a class="code hl_variable" href="DigitalTicket_8svelte.html#abbe5f8a14ab05571adc66f8f068776c8">top</a>: 0;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    right: 0;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <a class="code hl_variable" href="DigitalTicket_8svelte.html#a41d00934c30e27f51d16f653af5a3e03">bottom</a>: 0;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <a class="code hl_variable" href="privacy_2_09page_8svelte.html#afbc2876d06a758117c788ebdd6e98cc9">left</a>: 0;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>  }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>  .object-cover {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">object</span>-fit: cover;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    -webkit-mask-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a115d1bb9f39fc74907fe2775f19a24f0">image</a>: linear-gradient(to <a class="code hl_variable" href="DigitalTicket_8svelte.html#a41d00934c30e27f51d16f653af5a3e03">bottom</a>, black 80%, <a class="code hl_variable" href="privacy_2_09page_8svelte.html#a55a6d32bd3793bf3b40d6d91b721fae7">transparent</a> 100%);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    mask-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a115d1bb9f39fc74907fe2775f19a24f0">image</a>: linear-gradient(to <a class="code hl_variable" href="DigitalTicket_8svelte.html#a41d00934c30e27f51d16f653af5a3e03">bottom</a>, black 80%, <a class="code hl_variable" href="privacy_2_09page_8svelte.html#a55a6d32bd3793bf3b40d6d91b721fae7">transparent</a> 100%);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>  .text-<a class="code hl_variable" href="DigitalTicket_8svelte.html#afb2fd8f53f973be6e4f74331d4db64d5">shadow</a>-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a7c8de73f644e3e191c64477d800dc28c">lg</a> {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    text-<a class="code hl_variable" href="DigitalTicket_8svelte.html#afb2fd8f53f973be6e4f74331d4db64d5">shadow</a>: 0 0 20px <a class="code hl_function" href="privacy_2_09page_8svelte.html#a1179aaa356621eaf2ab4393cfc82dd1d">rgba</a>(139, 92, 246, 0.5);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>  <span class="comment">/* Estilos responsivos para móviles */</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>  @<a class="code hl_function" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a53fcefc341b2fac9497a6733e3ebdeb0">media</a> (max-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a4e1600da4c5f6d7a478fce1c0026bd97">width</a>: 768px) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    .mobile-<a class="code hl_variable" href="HeroBanner_8svelte.html#a6a3a43bb0a9015eef5b6bf245b05ecd3">title</a> {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>      font-<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae20d3ca2acbfbfe24798ca800435f9f1">size</a>: 1.1rem !important;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>      line-<a class="code hl_variable" href="BookingPage_8svelte.html#a02f9c12d8a38862426b6ee7cb12d7a63">height</a>: 1;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>      <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a191a6d120585841f2fc80ec2aa6b6c15">margin</a>-<a class="code hl_variable" href="DigitalTicket_8svelte.html#a41d00934c30e27f51d16f653af5a3e03">bottom</a>: 0.15rem !important;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    .mobile-<a class="code hl_variable" href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">subtitle</a> {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      font-<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae20d3ca2acbfbfe24798ca800435f9f1">size</a>: 0.75rem !important;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>      line-<a class="code hl_variable" href="BookingPage_8svelte.html#a02f9c12d8a38862426b6ee7cb12d7a63">height</a>: 1.1;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>      <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a191a6d120585841f2fc80ec2aa6b6c15">margin</a>-<a class="code hl_variable" href="DigitalTicket_8svelte.html#a41d00934c30e27f51d16f653af5a3e03">bottom</a>: 0.35rem !important;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    .min-vh-25 {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>      min-<a class="code hl_variable" href="BookingPage_8svelte.html#a02f9c12d8a38862426b6ee7cb12d7a63">height</a>: 8vh;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>      <a class="code hl_variable" href="BookingPage_8svelte.html#acb0a701d22116812567bd22433ecb73a">padding</a>: 0.35rem 0;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    :<a class="code hl_variable" href="app_8d_8ts.html#a3ab5cc545d4dfda490ea7857bae52c66">global</a>(.btn-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a7c8de73f644e3e191c64477d800dc28c">lg</a>) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>      <a class="code hl_variable" href="BookingPage_8svelte.html#acb0a701d22116812567bd22433ecb73a">padding</a>: 0.2rem 0.5rem;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      font-<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae20d3ca2acbfbfe24798ca800435f9f1">size</a>: 0.75rem;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>  }</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  <span class="comment">/* Ajustes adicionales para pantallas muy pequeñas */</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  @<a class="code hl_function" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a53fcefc341b2fac9497a6733e3ebdeb0">media</a> (max-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a4e1600da4c5f6d7a478fce1c0026bd97">width</a>: 480px) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    .min-vh-25 {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      min-<a class="code hl_variable" href="BookingPage_8svelte.html#a02f9c12d8a38862426b6ee7cb12d7a63">height</a>: 6vh;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>      <a class="code hl_variable" href="BookingPage_8svelte.html#acb0a701d22116812567bd22433ecb73a">padding</a>: 0.25rem 0;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    .mobile-<a class="code hl_variable" href="HeroBanner_8svelte.html#a6a3a43bb0a9015eef5b6bf245b05ecd3">title</a> {</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>      font-<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae20d3ca2acbfbfe24798ca800435f9f1">size</a>: 1rem !important;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    .mobile-<a class="code hl_variable" href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">subtitle</a> {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>      font-<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae20d3ca2acbfbfe24798ca800435f9f1">size</a>: 0.7rem !important;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a191a6d120585841f2fc80ec2aa6b6c15">margin</a>-<a class="code hl_variable" href="DigitalTicket_8svelte.html#a41d00934c30e27f51d16f653af5a3e03">bottom</a>: 0.25rem !important;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    :<a class="code hl_variable" href="app_8d_8ts.html#a3ab5cc545d4dfda490ea7857bae52c66">global</a>(.btn-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a7c8de73f644e3e191c64477d800dc28c">lg</a>) {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>      <a class="code hl_variable" href="BookingPage_8svelte.html#acb0a701d22116812567bd22433ecb73a">padding</a>: 0.15rem 0.4rem;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>      font-<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae20d3ca2acbfbfe24798ca800435f9f1">size</a>: 0.7rem;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    }</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>  }</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>&lt;/<a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8ba9b58991c02462588258e164fe3f84">style</a>&gt;</div>
+<div class="ttc" id="aBackButton_8svelte_html_ac94543a79ddb5a4fc6fc0a56324200cd"><div class="ttname"><a href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let href</div><div class="ttdef"><b>Definition</b> <a href="BackButton_8svelte_source.html#l00004">BackButton.svelte:4</a></div></div>
+<div class="ttc" id="aBookingPage_8svelte_html_a02f9c12d8a38862426b6ee7cb12d7a63"><div class="ttname"><a href="BookingPage_8svelte.html#a02f9c12d8a38862426b6ee7cb12d7a63">height</a></div><div class="ttdeci">min height</div><div class="ttdef"><b>Definition</b> <a href="BookingPage_8svelte_source.html#l00007">BookingPage.svelte:7</a></div></div>
+<div class="ttc" id="aBookingPage_8svelte_html_a6b2ad778bcb33c37f7dc2004902b697d"><div class="ttname"><a href="BookingPage_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a></div><div class="ttdeci">let error</div><div class="ttdef"><b>Definition</b> <a href="BookingPage_8svelte_source.html#l00059">BookingPage.svelte:59</a></div></div>
+<div class="ttc" id="aBookingPage_8svelte_html_acb0a701d22116812567bd22433ecb73a"><div class="ttname"><a href="BookingPage_8svelte.html#acb0a701d22116812567bd22433ecb73a">padding</a></div><div class="ttdeci">&lt;!-- BookingPage.svelte --&gt;&lt; style &gt; padding</div><div class="ttdef"><b>Definition</b> <a href="BookingPage_8svelte_source.html#l00006">BookingPage.svelte:6</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a01ca3c9da8288753c10731eb4014f064"><div class="ttname"><a href="DigitalTicket_8svelte.html#a01ca3c9da8288753c10731eb4014f064">img</a></div><div class="ttdeci">qr code img</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00175">DigitalTicket.svelte:175</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a2f0e26cd7217034f508fa9449b0b4985"><div class="ttname"><a href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a></div><div class="ttdeci">ticket header h1</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00118">DigitalTicket.svelte:118</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a41d00934c30e27f51d16f653af5a3e03"><div class="ttname"><a href="DigitalTicket_8svelte.html#a41d00934c30e27f51d16f653af5a3e03">bottom</a></div><div class="ttdeci">margin bottom</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00107">DigitalTicket.svelte:107</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a9d306b517f0af7ae2a0c38477af21292"><div class="ttname"><a href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a></div><div class="ttdeci">movie details p</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00141">DigitalTicket.svelte:141</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_abbe5f8a14ab05571adc66f8f068776c8"><div class="ttname"><a href="DigitalTicket_8svelte.html#abbe5f8a14ab05571adc66f8f068776c8">top</a></div><div class="ttdeci">margin top</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00128">DigitalTicket.svelte:128</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_ae20d3ca2acbfbfe24798ca800435f9f1"><div class="ttname"><a href="DigitalTicket_8svelte.html#ae20d3ca2acbfbfe24798ca800435f9f1">size</a></div><div class="ttdeci">font size</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00121">DigitalTicket.svelte:121</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_afb2fd8f53f973be6e4f74331d4db64d5"><div class="ttname"><a href="DigitalTicket_8svelte.html#afb2fd8f53f973be6e4f74331d4db64d5">shadow</a></div><div class="ttdeci">box shadow</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00108">DigitalTicket.svelte:108</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a3d088ef9acc016f7c39859a0cfb0bdee"><div class="ttname"><a href="HeroBanner_8svelte.html#a3d088ef9acc016f7c39859a0cfb0bdee">subtitle</a></div><div class="ttdeci">export let subtitle</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00006">HeroBanner.svelte:6</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a6a3a43bb0a9015eef5b6bf245b05ecd3"><div class="ttname"><a href="HeroBanner_8svelte.html#a6a3a43bb0a9015eef5b6bf245b05ecd3">title</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let title</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00005">HeroBanner.svelte:5</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_a816c724fa4a59090b26541ff2079f33e"><div class="ttname"><a href="HeroBanner_8svelte.html#a816c724fa4a59090b26541ff2079f33e">imageUrl</a></div><div class="ttdeci">export let imageUrl</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00007">HeroBanner.svelte:7</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_aa730d67a3aa3b3fbbbdc88676a366bf0"><div class="ttname"><a href="HeroBanner_8svelte.html#aa730d67a3aa3b3fbbbdc88676a366bf0">DEFAULT_IMAGE_BASE64</a></div><div class="ttdeci">const DEFAULT_IMAGE_BASE64</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00013">HeroBanner.svelte:13</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_ac022611a2682f1c42d642a80aeda9a4b"><div class="ttname"><a href="HeroBanner_8svelte.html#ac022611a2682f1c42d642a80aeda9a4b">buttonUrl</a></div><div class="ttdeci">export let buttonUrl</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00009">HeroBanner.svelte:9</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_ac3c66dc715b33718e00d17160a8fb61d"><div class="ttname"><a href="HeroBanner_8svelte.html#ac3c66dc715b33718e00d17160a8fb61d">overlayOpacity</a></div><div class="ttdeci">export let overlayOpacity</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00010">HeroBanner.svelte:10</a></div></div>
+<div class="ttc" id="aHeroBanner_8svelte_html_ad0f6015d948ddf3db88f2dd00b5656f8"><div class="ttname"><a href="HeroBanner_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8">buttonText</a></div><div class="ttdeci">export let buttonText</div><div class="ttdef"><b>Definition</b> <a href="HeroBanner_8svelte_source.html#l00008">HeroBanner.svelte:8</a></div></div>
+<div class="ttc" id="aManualSeatSelection_8svelte_html_a627592c8b48389eddb52079be6cbeeb0"><div class="ttname"><a href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a></div><div class="ttdeci">$ i</div><div class="ttdef"><b>Definition</b> <a href="ManualSeatSelection_8svelte_source.html#l00019">ManualSeatSelection.svelte:19</a></div></div>
+<div class="ttc" id="aapp_8d_8ts_html_a3ab5cc545d4dfda490ea7857bae52c66"><div class="ttname"><a href="app_8d_8ts.html#a3ab5cc545d4dfda490ea7857bae52c66">global</a></div><div class="ttdeci">declare global</div><div class="ttdef"><b>Definition</b> <a href="app_8d_8ts_source.html#l00003">app.d.ts:3</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_a115d1bb9f39fc74907fe2775f19a24f0"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a115d1bb9f39fc74907fe2775f19a24f0">image</a></div><div class="ttdeci">qr image</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00202">+page.svelte:202</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_a191a6d120585841f2fc80ec2aa6b6c15"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a191a6d120585841f2fc80ec2aa6b6c15">margin</a></div><div class="ttdeci">transition margin</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00239">+page.svelte:239</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_a4e1600da4c5f6d7a478fce1c0026bd97"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a4e1600da4c5f6d7a478fce1c0026bd97">width</a></div><div class="ttdeci">max width</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00144">+page.svelte:144</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_a53fcefc341b2fac9497a6733e3ebdeb0"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a53fcefc341b2fac9497a6733e3ebdeb0">media</a></div><div class="ttdeci">media(max-width:768px)</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00324">+page.svelte:324</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_a7c8de73f644e3e191c64477d800dc28c"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a7c8de73f644e3e191c64477d800dc28c">lg</a></div><div class="ttdeci">shadow lg</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00129">+page.svelte:129</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_aa4eea2258121ad21099d858f503ed439"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a></div><div class="ttdeci">&lt;/script &gt;&lt; style &gt; success color</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00125">+page.svelte:125</a></div></div>
+<div class="ttc" id="ai18n_2index_8ts_html_af73f66381d681447e082857e259e4ca1"><div class="ttname"><a href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a></div><div class="ttdeci">export const t</div><div class="ttdef"><b>Definition</b> <a href="i18n_2index_8ts_source.html#l00329">index.ts:329</a></div></div>
+<div class="ttc" id="aprivacy_2_09page_8svelte_html_a1179aaa356621eaf2ab4393cfc82dd1d"><div class="ttname"><a href="privacy_2_09page_8svelte.html#a1179aaa356621eaf2ab4393cfc82dd1d">rgba</a></div><div class="ttdeci">background rgba(139, 92, 246, 0.1)</div></div>
+<div class="ttc" id="aprivacy_2_09page_8svelte_html_a55a6d32bd3793bf3b40d6d91b721fae7"><div class="ttname"><a href="privacy_2_09page_8svelte.html#a55a6d32bd3793bf3b40d6d91b721fae7">transparent</a></div><div class="ttdeci">background transparent</div><div class="ttdef"><b>Definition</b> <a href="privacy_2_09page_8svelte_source.html#l00207">+page.svelte:207</a></div></div>
+<div class="ttc" id="aprivacy_2_09page_8svelte_html_a8ba9b58991c02462588258e164fe3f84"><div class="ttname"><a href="privacy_2_09page_8svelte.html#a8ba9b58991c02462588258e164fe3f84">style</a></div><div class="ttdeci">list style</div><div class="ttdef"><b>Definition</b> <a href="privacy_2_09page_8svelte_source.html#l00125">+page.svelte:125</a></div></div>
+<div class="ttc" id="aprivacy_2_09page_8svelte_html_afbc2876d06a758117c788ebdd6e98cc9"><div class="ttname"><a href="privacy_2_09page_8svelte.html#afbc2876d06a758117c788ebdd6e98cc9">left</a></div><div class="ttdeci">padding left</div><div class="ttdef"><b>Definition</b> <a href="privacy_2_09page_8svelte_source.html#l00117">+page.svelte:117</a></div></div>
+<div class="ttc" id="atypes_8ts_html_aa3d0348d37e494b4a9a39c7210f12ee2"><div class="ttname"><a href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a></div><div class="ttdeci">errors string[]</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00070">types.ts:70</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_2bcf18b5ffe1a51704bd41581b0afa64.html">lib</a></li><li class="navelem"><a class="el" href="dir_3685e434457d87bd883fe6a00222bc8b.html">components</a></li><li class="navelem"><a class="el" href="HeroBanner_8svelte.html">HeroBanner.svelte</a></li>
+    <li class="footer">Generado el Sábado, 6 de septiembre de 2025 09:46:54 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<map id="App\Http\Controllers\API\ServerStatusController\formatBytes" name="App\Http\Controllers\API\ServerStatusController\formatBytes">
+<area shape="rect" id="Node000001" title=" " alt="" coords="499,45,697,100"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#ad47c7164944bf4946d089b596318e2b5" title=" " alt="" coords="252,5,451,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="485,57,451,51,451,46,486,52"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#a05a0d318d32afe5f38be9f516ac4c6b4" title=" " alt="" coords="252,84,451,139"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="486,93,451,98,451,93,485,88"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1API_1_1ServerStatusController.html#a854c60a2d4c7c4c0f63f49607ae14f65" title=" " alt="" coords="5,45,204,100"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="239,54,205,59,204,54,238,48"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="238,96,204,91,205,86,239,91"/>
+</map>

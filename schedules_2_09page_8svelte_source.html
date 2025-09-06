@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/routes/schedules/+page.svelte</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('schedules_2_09page_8svelte_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">+page.svelte</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="schedules_2_09page_8svelte.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;script lang=<span class="stringliteral">&quot;ts&quot;</span>&gt;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>    <span class="keyword">import</span> { onMount } from <span class="stringliteral">&#39;svelte&#39;</span>;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>    <span class="keyword">import</span> { <a class="code hl_variable" href="config_8ts.html#a7d79adbb89b0439b9a3a13a45faf9981">API_URL</a> } from <span class="stringliteral">&#39;$lib/config&#39;</span>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>    </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#aeca4478956746a67d27ad8e84d2e8b4c">    5</a></span>    let <a class="code hl_variable" href="actors_2_0fslug_0e_2_09page_8svelte.html#a2b571977c365a4649fe911b7f0fbbd16">movies</a> = [];</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#abf13cfb24c10540842ea44ead2c601fa">    6</a></span>    let <a class="code hl_variable" href="cinemas_2_09page_8svelte.html#abf13cfb24c10540842ea44ead2c601fa">rooms</a> = [];</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#acc880c1d9b1a71f075a99f94bd520ac1">    7</a></span>    let <a class="code hl_variable" href="schedules_2_09page_8svelte.html#acc880c1d9b1a71f075a99f94bd520ac1">schedules</a> = [];</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">    8</a></span>    let <a class="code hl_variable" href="actors_2_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#a800db208a496a40a9087b8a25b6342f4">    9</a></span>    let <a class="code hl_variable" href="schedules_2_09page_8svelte.html#a800db208a496a40a9087b8a25b6342f4">selectedMovie</a> = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#ab15d1261e01a014965b0920b1d8fbce4">   10</a></span>    let <a class="code hl_variable" href="schedules_2_09page_8svelte.html#ab15d1261e01a014965b0920b1d8fbce4">selectedRoom</a> = <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#a7dd41eb5380291d9944609631e002c8e">   11</a></span>    let <a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#a7dd41eb5380291d9944609631e002c8e">selectedDate</a> = <span class="keyword">new</span> Date().toISOString().split(<span class="charliteral">&#39;T&#39;</span>)[0];</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#ad3d3569ba2461040979f5eb4dd9ac73a">   12</a></span>    let <a class="code hl_variable" href="schedules_2_09page_8svelte.html#ad3d3569ba2461040979f5eb4dd9ac73a">filteredSchedules</a> = [];</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    onMount(async () =&gt; {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            <span class="keyword">const</span> [moviesRes, roomsRes, schedulesRes] = await Promise.all([</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>                <a class="code hl_variable" href="booking_2_0fid_0e_2_09page_8ts.html#aa77d13550a758916e6c9f54cf7d17bcd">fetch</a>(`<a class="code hl_variable" href="_09error_8svelte.html#a92a40e07a68aee2295f8be80799d2bb0">$</a>{<a class="code hl_variable" href="config_8ts.html#a7d79adbb89b0439b9a3a13a45faf9981">API_URL</a>}/<a class="code hl_variable" href="actors_2_0fslug_0e_2_09page_8svelte.html#a2b571977c365a4649fe911b7f0fbbd16">movies</a>`),</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                <a class="code hl_variable" href="booking_2_0fid_0e_2_09page_8ts.html#aa77d13550a758916e6c9f54cf7d17bcd">fetch</a>(`<a class="code hl_variable" href="_09error_8svelte.html#a92a40e07a68aee2295f8be80799d2bb0">$</a>{<a class="code hl_variable" href="config_8ts.html#a7d79adbb89b0439b9a3a13a45faf9981">API_URL</a>}/<a class="code hl_variable" href="cinemas_2_09page_8svelte.html#abf13cfb24c10540842ea44ead2c601fa">rooms</a>`),</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                <a class="code hl_variable" href="booking_2_0fid_0e_2_09page_8ts.html#aa77d13550a758916e6c9f54cf7d17bcd">fetch</a>(`<a class="code hl_variable" href="_09error_8svelte.html#a92a40e07a68aee2295f8be80799d2bb0">$</a>{<a class="code hl_variable" href="config_8ts.html#a7d79adbb89b0439b9a3a13a45faf9981">API_URL</a>}/functions`)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            ]);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keyword">const</span> [moviesData, roomsData, schedulesData] = await Promise.all([</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                moviesRes.json(),</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                roomsRes.json(),</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                schedulesRes.json()</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            ]);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <a class="code hl_variable" href="actors_2_0fslug_0e_2_09page_8svelte.html#a2b571977c365a4649fe911b7f0fbbd16">movies</a> = moviesData.data;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <a class="code hl_variable" href="cinemas_2_09page_8svelte.html#abf13cfb24c10540842ea44ead2c601fa">rooms</a> = roomsData.data;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <a class="code hl_variable" href="schedules_2_09page_8svelte.html#acc880c1d9b1a71f075a99f94bd520ac1">schedules</a> = schedulesData.data;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            <a class="code hl_function" href="schedules_2_09page_8svelte.html#acb8a2b34f8c604a2cd1528308ff15936">updateFilteredSchedules</a>();</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        } <span class="keywordflow">catch</span> (<a class="code hl_variable" href="actors_2_09page_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a>) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            console.error(<span class="stringliteral">&#39;Error loading data:&#39;</span>, <a class="code hl_variable" href="actors_2_09page_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        } <span class="keywordflow">finally</span> {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            <a class="code hl_variable" href="actors_2_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    });</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    </div>
+<div class="foldopen" id="foldopen00040" data-start="{" data-end="}">
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#acb8a2b34f8c604a2cd1528308ff15936">   40</a></span>    <span class="keyword">function</span> <a class="code hl_function" href="schedules_2_09page_8svelte.html#acb8a2b34f8c604a2cd1528308ff15936">updateFilteredSchedules</a>() {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <a class="code hl_variable" href="schedules_2_09page_8svelte.html#ad3d3569ba2461040979f5eb4dd9ac73a">filteredSchedules</a> = <a class="code hl_variable" href="schedules_2_09page_8svelte.html#acc880c1d9b1a71f075a99f94bd520ac1">schedules</a>.filter(schedule =&gt; {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="keyword">const</span> matchesMovie = !<a class="code hl_variable" href="schedules_2_09page_8svelte.html#a800db208a496a40a9087b8a25b6342f4">selectedMovie</a> || schedule.movie_id === <a class="code hl_variable" href="schedules_2_09page_8svelte.html#a800db208a496a40a9087b8a25b6342f4">selectedMovie</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="keyword">const</span> matchesRoom = !<a class="code hl_variable" href="schedules_2_09page_8svelte.html#ab15d1261e01a014965b0920b1d8fbce4">selectedRoom</a> || schedule.room_id === <a class="code hl_variable" href="schedules_2_09page_8svelte.html#ab15d1261e01a014965b0920b1d8fbce4">selectedRoom</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keyword">const</span> matchesDate = !<a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#a7dd41eb5380291d9944609631e002c8e">selectedDate</a> || schedule.date.startsWith(<a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#a7dd41eb5380291d9944609631e002c8e">selectedDate</a>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            <span class="keywordflow">return</span> matchesMovie &amp;&amp; matchesRoom &amp;&amp; matchesDate;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        });</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="schedules_2_09page_8svelte.html#ac876d51c7d9eb131ba58036ae9ba5e71">   49</a></span>    <a class="code hl_variable" href="_09error_8svelte.html#a92a40e07a68aee2295f8be80799d2bb0">$</a>: {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="schedules_2_09page_8svelte.html#acc880c1d9b1a71f075a99f94bd520ac1">schedules</a>.length) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <a class="code hl_function" href="schedules_2_09page_8svelte.html#acb8a2b34f8c604a2cd1528308ff15936">updateFilteredSchedules</a>();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>&lt;/script&gt;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>&lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;container py-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;mb-4&quot;</span>&gt;Horarios de Películas&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a>&gt;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    &lt;!-- Filtros --&gt;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card mb-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card-body&quot;</span>&gt;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;row g-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                    &lt;label <span class="keyword">class</span>=<span class="stringliteral">&quot;form-label&quot;</span>&gt;Película&lt;/label&gt;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                    &lt;select <span class="keyword">class</span>=<span class="stringliteral">&quot;form-select&quot;</span> bind:value={<a class="code hl_variable" href="schedules_2_09page_8svelte.html#a800db208a496a40a9087b8a25b6342f4">selectedMovie</a>}&gt;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                        &lt;option value={<span class="keyword">null</span>}&gt;Todas las <a class="code hl_variable" href="es_8ts.html#ad070050fed44780765f091d32d54231f">películas</a>&lt;/option&gt;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                        {#each <a class="code hl_variable" href="actors_2_0fslug_0e_2_09page_8svelte.html#a2b571977c365a4649fe911b7f0fbbd16">movies</a> as <a class="code hl_variable" href="MovieCard_8svelte.html#a98ac747da1f04e72458d790f41d10524">movie</a>}</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                            &lt;option value={<a class="code hl_variable" href="MovieCard_8svelte.html#a98ac747da1f04e72458d790f41d10524">movie</a>.id}&gt;{<a class="code hl_variable" href="MovieCard_8svelte.html#a98ac747da1f04e72458d790f41d10524">movie</a>.title}&lt;/option&gt;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                        {/each}</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                    &lt;/select&gt;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                &lt;/div&gt;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                    &lt;label <span class="keyword">class</span>=<span class="stringliteral">&quot;form-label&quot;</span>&gt;Sala&lt;/label&gt;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                    &lt;select <span class="keyword">class</span>=<span class="stringliteral">&quot;form-select&quot;</span> bind:value={<a class="code hl_variable" href="schedules_2_09page_8svelte.html#ab15d1261e01a014965b0920b1d8fbce4">selectedRoom</a>}&gt;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                        &lt;option value={<span class="keyword">null</span>}&gt;Todas las salas&lt;/option&gt;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                        {#each <a class="code hl_variable" href="cinemas_2_09page_8svelte.html#abf13cfb24c10540842ea44ead2c601fa">rooms</a> as room}</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                            &lt;option value={room.id}&gt;{room.name}&lt;/option&gt;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                        {/each}</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                    &lt;/select&gt;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                &lt;/div&gt;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                    &lt;label <span class="keyword">class</span>=<span class="stringliteral">&quot;form-label&quot;</span>&gt;Fecha&lt;/label&gt;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                    &lt;input type=<span class="stringliteral">&quot;date&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;form-control&quot;</span> bind:value={<a class="code hl_variable" href="movies_2_0fslug_0e_2_09page_8svelte.html#a7dd41eb5380291d9944609631e002c8e">selectedDate</a>}&gt;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                &lt;/div&gt;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    &lt;!-- Resultados --&gt;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    {#<span class="keywordflow">if</span> <a class="code hl_variable" href="actors_2_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a>}</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-center py-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;spinner-border text-primary&quot;</span> role=<span class="stringliteral">&quot;status&quot;</span>&gt;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                &lt;span <span class="keyword">class</span>=<span class="stringliteral">&quot;visually-hidden&quot;</span>&gt;Cargando...&lt;/span&gt;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    {:<span class="keywordflow">else</span> <span class="keywordflow">if</span> <a class="code hl_variable" href="schedules_2_09page_8svelte.html#ad3d3569ba2461040979f5eb4dd9ac73a">filteredSchedules</a>.length === 0}</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;alert alert-info&quot;</span>&gt;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            No se encontraron funciones con los filtros seleccionados</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    {:<span class="keywordflow">else</span>}</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            {#each <a class="code hl_variable" href="schedules_2_09page_8svelte.html#ad3d3569ba2461040979f5eb4dd9ac73a">filteredSchedules</a> as schedule}</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col&quot;</span>&gt;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card h-100&quot;</span>&gt;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card-body&quot;</span>&gt;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                            &lt;h5 <span class="keyword">class</span>=<span class="stringliteral">&quot;card-title&quot;</span>&gt;{schedule.movie.title}&lt;/h5&gt;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                            &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;card-text&quot;</span>&gt;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                                &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-building me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;Sala: {schedule.room.name}&lt;br&gt;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                                &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-calendar me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;Fecha: {<span class="keyword">new</span> Date(schedule.date).toLocaleDateString(<span class="stringliteral">&#39;es-ES&#39;</span>)}&lt;br&gt;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                                &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-clock me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;Hora: {<span class="keyword">new</span> Date(schedule.time).toLocaleTimeString(<span class="stringliteral">&#39;es-ES&#39;</span>, {hour: <span class="stringliteral">&#39;2-digit&#39;</span>, minute: <span class="stringliteral">&#39;2-digit&#39;</span>})}</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>                            &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>                            &lt;a <a class="code hl_variable" href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a>=<span class="stringliteral">&quot;/booking/{schedule.id}&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;btn btn-primary w-100&quot;</span>&gt;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>                                &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-ticket-perforated me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                                Reservar</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                            &lt;/a&gt;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                        &lt;/div&gt;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                    &lt;/div&gt;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>                &lt;/div&gt;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            {/each}</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    {/<span class="keywordflow">if</span>}</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>&lt;/div&gt; </div>
+<div class="ttc" id="aBackButton_8svelte_html_ac94543a79ddb5a4fc6fc0a56324200cd"><div class="ttname"><a href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let href</div><div class="ttdef"><b>Definition</b> <a href="BackButton_8svelte_source.html#l00004">BackButton.svelte:4</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a2f0e26cd7217034f508fa9449b0b4985"><div class="ttname"><a href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a></div><div class="ttdeci">ticket header h1</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00118">DigitalTicket.svelte:118</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a9d306b517f0af7ae2a0c38477af21292"><div class="ttname"><a href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a></div><div class="ttdeci">movie details p</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00141">DigitalTicket.svelte:141</a></div></div>
+<div class="ttc" id="aManualSeatSelection_8svelte_html_a627592c8b48389eddb52079be6cbeeb0"><div class="ttname"><a href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a></div><div class="ttdeci">$ i</div><div class="ttdef"><b>Definition</b> <a href="ManualSeatSelection_8svelte_source.html#l00019">ManualSeatSelection.svelte:19</a></div></div>
+<div class="ttc" id="aMovieCard_8svelte_html_a98ac747da1f04e72458d790f41d10524"><div class="ttname"><a href="MovieCard_8svelte.html#a98ac747da1f04e72458d790f41d10524">movie</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let movie</div><div class="ttdef"><b>Definition</b> <a href="MovieCard_8svelte_source.html#l00005">MovieCard.svelte:5</a></div></div>
+<div class="ttc" id="a_09error_8svelte_html_a92a40e07a68aee2295f8be80799d2bb0"><div class="ttname"><a href="_09error_8svelte.html#a92a40e07a68aee2295f8be80799d2bb0">$</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; $</div><div class="ttdef"><b>Definition</b> <a href="_09error_8svelte_source.html#l00006">+error.svelte:6</a></div></div>
+<div class="ttc" id="aactors_2_09page_8svelte_html_a6b2ad778bcb33c37f7dc2004902b697d"><div class="ttname"><a href="actors_2_09page_8svelte.html#a6b2ad778bcb33c37f7dc2004902b697d">error</a></div><div class="ttdeci">let error</div><div class="ttdef"><b>Definition</b> <a href="actors_2_09page_8svelte_source.html#l00010">+page.svelte:10</a></div></div>
+<div class="ttc" id="aactors_2_09page_8svelte_html_acf4b3d953d019cf73c34b4e21d9baec0"><div class="ttname"><a href="actors_2_09page_8svelte.html#acf4b3d953d019cf73c34b4e21d9baec0">loading</a></div><div class="ttdeci">let loading</div><div class="ttdef"><b>Definition</b> <a href="actors_2_09page_8svelte_source.html#l00009">+page.svelte:9</a></div></div>
+<div class="ttc" id="aactors_2_0fslug_0e_2_09page_8svelte_html_a2b571977c365a4649fe911b7f0fbbd16"><div class="ttname"><a href="actors_2_0fslug_0e_2_09page_8svelte.html#a2b571977c365a4649fe911b7f0fbbd16">movies</a></div><div class="ttdeci">let movies</div><div class="ttdef"><b>Definition</b> <a href="actors_2_0fslug_0e_2_09page_8svelte_source.html#l00014">+page.svelte:14</a></div></div>
+<div class="ttc" id="abooking_2_0fid_0e_2_09page_8ts_html_aa77d13550a758916e6c9f54cf7d17bcd"><div class="ttname"><a href="booking_2_0fid_0e_2_09page_8ts.html#aa77d13550a758916e6c9f54cf7d17bcd">fetch</a></div><div class="ttdeci">export const fetch</div><div class="ttdef"><b>Definition</b> <a href="booking_2_0fid_0e_2_09page_8ts_source.html#l00005">+page.ts:5</a></div></div>
+<div class="ttc" id="acinemas_2_09page_8svelte_html_abf13cfb24c10540842ea44ead2c601fa"><div class="ttname"><a href="cinemas_2_09page_8svelte.html#abf13cfb24c10540842ea44ead2c601fa">rooms</a></div><div class="ttdeci">let rooms</div><div class="ttdef"><b>Definition</b> <a href="cinemas_2_09page_8svelte_source.html#l00013">+page.svelte:13</a></div></div>
+<div class="ttc" id="aconfig_8ts_html_a7d79adbb89b0439b9a3a13a45faf9981"><div class="ttname"><a href="config_8ts.html#a7d79adbb89b0439b9a3a13a45faf9981">API_URL</a></div><div class="ttdeci">export const API_URL</div><div class="ttdef"><b>Definition</b> <a href="config_8ts_source.html#l00001">config.ts:1</a></div></div>
+<div class="ttc" id="aes_8ts_html_ad070050fed44780765f091d32d54231f"><div class="ttname"><a href="es_8ts.html#ad070050fed44780765f091d32d54231f">películas</a></div><div class="ttdeci">const inténtalo de inténtalo de colaboraciones o información bugs o sugerir mejoras en la nos propusimos revolucionar la forma en que las personas experimentan el combinando tecnología de vanguardia con el encanto tradicional de las salas de refleja nuestra filosofía de mejora aplicando este principio japonés a cada aspecto de nuestra utilizando tecnología innovadora y un servicio de primera creando espacios donde la tecnología y la tradición se unen para ofrecer experiencias memorables a nuestros películas</div><div class="ttdef"><b>Definition</b> <a href="es_8ts_source.html#l00188">es.ts:188</a></div></div>
+<div class="ttc" id="amovies_2_0fslug_0e_2_09page_8svelte_html_a7dd41eb5380291d9944609631e002c8e"><div class="ttname"><a href="movies_2_0fslug_0e_2_09page_8svelte.html#a7dd41eb5380291d9944609631e002c8e">selectedDate</a></div><div class="ttdeci">let selectedDate</div><div class="ttdef"><b>Definition</b> <a href="movies_2_0fslug_0e_2_09page_8svelte_source.html#l00021">+page.svelte:21</a></div></div>
+<div class="ttc" id="aschedules_2_09page_8svelte_html_a800db208a496a40a9087b8a25b6342f4"><div class="ttname"><a href="schedules_2_09page_8svelte.html#a800db208a496a40a9087b8a25b6342f4">selectedMovie</a></div><div class="ttdeci">let selectedMovie</div><div class="ttdef"><b>Definition</b> <a href="schedules_2_09page_8svelte_source.html#l00009">+page.svelte:9</a></div></div>
+<div class="ttc" id="aschedules_2_09page_8svelte_html_ab15d1261e01a014965b0920b1d8fbce4"><div class="ttname"><a href="schedules_2_09page_8svelte.html#ab15d1261e01a014965b0920b1d8fbce4">selectedRoom</a></div><div class="ttdeci">let selectedRoom</div><div class="ttdef"><b>Definition</b> <a href="schedules_2_09page_8svelte_source.html#l00010">+page.svelte:10</a></div></div>
+<div class="ttc" id="aschedules_2_09page_8svelte_html_acb8a2b34f8c604a2cd1528308ff15936"><div class="ttname"><a href="schedules_2_09page_8svelte.html#acb8a2b34f8c604a2cd1528308ff15936">updateFilteredSchedules</a></div><div class="ttdeci">function updateFilteredSchedules()</div><div class="ttdef"><b>Definition</b> <a href="schedules_2_09page_8svelte_source.html#l00040">+page.svelte:40</a></div></div>
+<div class="ttc" id="aschedules_2_09page_8svelte_html_acc880c1d9b1a71f075a99f94bd520ac1"><div class="ttname"><a href="schedules_2_09page_8svelte.html#acc880c1d9b1a71f075a99f94bd520ac1">schedules</a></div><div class="ttdeci">let schedules</div><div class="ttdef"><b>Definition</b> <a href="schedules_2_09page_8svelte_source.html#l00007">+page.svelte:7</a></div></div>
+<div class="ttc" id="aschedules_2_09page_8svelte_html_ad3d3569ba2461040979f5eb4dd9ac73a"><div class="ttname"><a href="schedules_2_09page_8svelte.html#ad3d3569ba2461040979f5eb4dd9ac73a">filteredSchedules</a></div><div class="ttdeci">let filteredSchedules</div><div class="ttdef"><b>Definition</b> <a href="schedules_2_09page_8svelte_source.html#l00012">+page.svelte:12</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_711e061037f1f3e03ef0d7826512e504.html">routes</a></li><li class="navelem"><a class="el" href="dir_4313bebb0175845fb2d99030de146303.html">schedules</a></li><li class="navelem"><a class="el" href="schedules_2_09page_8svelte.html">+page.svelte</a></li>
+    <li class="footer">Generado el Sábado, 6 de septiembre de 2025 09:46:54 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

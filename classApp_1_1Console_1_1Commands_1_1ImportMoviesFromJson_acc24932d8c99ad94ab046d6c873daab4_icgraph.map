@@ -1,0 +1,10 @@
+<map id="App\Console\Commands\ImportMoviesFromJson\syncGenres" name="App\Console\Commands\ImportMoviesFromJson\syncGenres">
+<area shape="rect" id="Node000001" title=" " alt="" coords="464,45,645,100"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a45c94929f5e636834f626838d20007f4" title=" " alt="" coords="235,5,416,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="450,57,416,51,417,46,451,52"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a0ecc46e111e5fe5c504ef0d1c5ec7dcc" title=" " alt="" coords="235,84,416,139"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="451,93,417,99,416,93,450,88"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#ac22640744ebb16ae8d65c0ab483c3e3f" title=" " alt="" coords="5,45,187,100"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="222,53,187,59,187,54,221,48"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="221,96,187,91,187,85,222,91"/>
+</map>

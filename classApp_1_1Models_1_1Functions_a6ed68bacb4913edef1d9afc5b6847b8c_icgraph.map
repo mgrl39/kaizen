@@ -1,0 +1,9 @@
+<map id="App\Models\Functions\room" name="App\Models\Functions\room">
+<area shape="rect" id="Node000001" title="Obtener la sala asociada a esta función." alt="" coords="483,60,685,85"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1Api_1_1V1_1_1FunctionController.html#a53d96a35b7b7ad9ab3b264debf910772" title="Calculate final price for a function." alt="" coords="244,45,435,100"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="469,75,435,75,435,70,469,70"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Http_1_1Controllers_1_1Api_1_1V1_1_1FunctionController.html#ab16e51cc5cd888eef7b8025e3805465d" title="Get seat layout with availability for a specific function." alt="" coords="5,5,196,60"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="230,57,196,51,197,46,231,52"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Http_1_1Controllers_1_1Api_1_1V1_1_1FunctionController.html#ab7fa2c06c9be0e5224c5386a29f0bb56" title="Get screenings for a specific movie." alt="" coords="5,84,196,139"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="231,93,197,99,196,93,230,88"/>
+</map>

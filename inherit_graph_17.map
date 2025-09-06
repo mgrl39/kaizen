@@ -1,0 +1,13 @@
+<map id="Gráfico de jerarquía de clases" name="Gráfico de jerarquía de clases">
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,53,93,78"/>
+<area shape="rect" id="Node000001" href="$classDatabase_1_1Factories_1_1CinemaFactory.html" title="\Databaseloquent\Factories\Factory&lt;\App\Models\Cinema&gt;" alt="" coords="141,5,288,45"/>
+<area shape="poly" id="edge38_Node000000_Node000001" title=" " alt="" coords="106,49,141,40,142,46,107,54"/>
+<area shape="rect" id="Node000003" href="$classDatabase_1_1Factories_1_1MovieFactory.html" title="\Databaseloquent\Factories\Factory&lt;\App\Models\Movie&gt;" alt="" coords="141,69,288,109"/>
+<area shape="poly" id="edge39_Node000000_Node000003" title=" " alt="" coords="107,71,142,76,141,81,106,76"/>
+<area shape="rect" id="Node000004" href="$classDatabase_1_1Factories_1_1UserFactory.html" title="\Databaseloquent\Factories\Factory&lt;\App\Models\User&gt;" alt="" coords="141,133,288,173"/>
+<area shape="poly" id="edge40_Node000000_Node000004" title=" " alt="" coords="88,83,95,87,143,119,166,131,164,136,140,124,92,92,85,87"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="15,102,84,127"/>
+<area shape="poly" id="edge41_Node000002_Node000001" title=" " alt="" coords="83,93,92,87,140,55,164,43,166,48,143,60,95,92,86,97"/>
+<area shape="poly" id="edge42_Node000002_Node000003" title=" " alt="" coords="97,105,141,98,142,103,98,110"/>
+<area shape="poly" id="edge43_Node000002_Node000004" title=" " alt="" coords="98,123,142,134,140,139,97,128"/>
+</map>

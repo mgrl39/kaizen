@@ -1,0 +1,7 @@
+<map id="App\Http\Controllers\API\ApiInfoController" name="App\Http\Controllers\API\ApiInfoController">
+<area shape="rect" id="Node000001" title="Controlador para obtener información sobre los endpoints de la API." alt="" coords="5,167,167,207"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Http_1_1Controllers_1_1Controller.html" title=" " alt="" coords="9,79,163,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,133,89,166,83,166,83,133"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="27,5,145,31"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="89,44,89,79,83,79,83,44"/>
+</map>

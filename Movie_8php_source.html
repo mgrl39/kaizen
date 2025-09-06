@@ -1,0 +1,321 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/back/app/Models/Movie.php</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Movie_8php_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Movie.php</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="Movie_8php.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;?php</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceApp_1_1Models.html">App\Models</a>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>use Illuminate\Database\Eloquent\Factories\HasFactory;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>use Illuminate\Database\Eloquent\Model;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>use Illuminate\Support\Str;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>use Carbon\Carbon;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html">   10</a></span><span class="keyword">class </span><a class="code hl_class" href="classApp_1_1Models_1_1Movie.html">Movie</a> <span class="keyword">extends</span> Model</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    use HasFactory;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#ad490ecebe207974879603d0b47ccb06f">   19</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="classApp_1_1Models_1_1Movie.html#ad490ecebe207974879603d0b47ccb06f">$fillable</a> = [</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="stringliteral">&#39;title&#39;</span>,                <span class="comment">// título de la película</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="stringliteral">&#39;synopsis&#39;</span>,             <span class="comment">// sinopsis</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="stringliteral">&#39;duration&#39;</span>,             <span class="comment">// duración en minutos (entero)</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="stringliteral">&#39;rating&#39;</span>,               <span class="comment">// clasificación de edad</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="stringliteral">&#39;release_date&#39;</span>,         <span class="comment">// fecha de estreno</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="stringliteral">&#39;photo_url&#39;</span>,            <span class="comment">// URL de la imagen/poster</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="stringliteral">&#39;original_image_path&#39;</span>,  <span class="comment">// ruta original de la imagen</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="stringliteral">&#39;directors&#39;</span>,            <span class="comment">// directores de la película</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="stringliteral">&#39;slug&#39;</span>                  <span class="comment">// slug para URLs amigables</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    ];</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a73505ed1c15f9213434408683d42b092">   36</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="classApp_1_1Models_1_1Movie.html#a73505ed1c15f9213434408683d42b092">$casts</a> = [</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="stringliteral">&#39;release_date&#39;</span> =&gt; <span class="stringliteral">&#39;date&#39;</span>,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="stringliteral">&#39;duration&#39;</span> =&gt; <span class="stringliteral">&#39;integer&#39;</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    ];</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="foldopen" id="foldopen00041" data-start="{" data-end="}">
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a5b0f025200a294d915acf0eff09785bd">   41</a></span>    <span class="keyword">protected</span> <span class="keyword">static</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a5b0f025200a294d915acf0eff09785bd">boot</a>()</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        parent::boot();</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        static::creating(<span class="keyword">function</span> ($movie) {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">if</span> (empty($movie-&gt;slug)) {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                $movie-&gt;slug = Str::slug($movie-&gt;title);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        });</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        static::updating(<span class="keyword">function</span> ($movie) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keywordflow">if</span> ($movie-&gt;isDirty(<span class="stringliteral">&#39;title&#39;</span>)) {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                $movie-&gt;slug = Str::slug($movie-&gt;title);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        });</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
+</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a63516c6ed856982ff443952b9e7545d8">   64</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a63516c6ed856982ff443952b9e7545d8">convertDurationToMinutes</a>($durationText)</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        $minutes = 0;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="comment">// Buscar horas</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/(\d+)h/&#39;</span>, $durationText, $matches)) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            $minutes += (int)$matches[1] * 60;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="comment">// Buscar minutos</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">if</span> (preg_match(<span class="stringliteral">&#39;/(\d+)m/&#39;</span>, $durationText, $matches)) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            $minutes += (int)$matches[1];</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> $minutes;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    </div>
+<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#abae625fb2528e51cfc642d55c7ccb31e">   87</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#abae625fb2528e51cfc642d55c7ccb31e">parseReleaseDate</a>($dateText)</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="comment">// Convertir nombres de meses en español a inglés para Carbon</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        $monthTranslations = [</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            <span class="stringliteral">&#39;enero&#39;</span> =&gt; <span class="stringliteral">&#39;January&#39;</span>,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            <span class="stringliteral">&#39;febrero&#39;</span> =&gt; <span class="stringliteral">&#39;February&#39;</span>,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <span class="stringliteral">&#39;marzo&#39;</span> =&gt; <span class="stringliteral">&#39;March&#39;</span>,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="stringliteral">&#39;abril&#39;</span> =&gt; <span class="stringliteral">&#39;April&#39;</span>,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="stringliteral">&#39;mayo&#39;</span> =&gt; <span class="stringliteral">&#39;May&#39;</span>,</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            <span class="stringliteral">&#39;junio&#39;</span> =&gt; <span class="stringliteral">&#39;June&#39;</span>,</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            <span class="stringliteral">&#39;julio&#39;</span> =&gt; <span class="stringliteral">&#39;July&#39;</span>,</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            <span class="stringliteral">&#39;agosto&#39;</span> =&gt; <span class="stringliteral">&#39;August&#39;</span>,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="stringliteral">&#39;septiembre&#39;</span> =&gt; <span class="stringliteral">&#39;September&#39;</span>,</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="stringliteral">&#39;octubre&#39;</span> =&gt; <span class="stringliteral">&#39;October&#39;</span>,</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="stringliteral">&#39;noviembre&#39;</span> =&gt; <span class="stringliteral">&#39;November&#39;</span>,</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            <span class="stringliteral">&#39;diciembre&#39;</span> =&gt; <span class="stringliteral">&#39;December&#39;</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        ];</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">foreach</span> ($monthTranslations as $es =&gt; $en) {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            $dateText = str_ireplace($es, $en, $dateText);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> Carbon::parse($dateText);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
+</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="foldopen" id="foldopen00118" data-start="{" data-end="}">
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a271b471584144c80e4244430f2d9d926">  118</a></span>    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a271b471584144c80e4244430f2d9d926">fromScrapedData</a>(array $scrapedData)</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        $movie = <span class="keyword">new</span> <span class="keyword">self</span>();</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        $movie-&gt;title = $scrapedData[<span class="stringliteral">&#39;titulo&#39;</span>] ?? <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        $movie-&gt;synopsis = $scrapedData[<span class="stringliteral">&#39;sinopsis&#39;</span>] ?? <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="comment">// Convertir duración de texto a minutos</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordflow">if</span> (!empty($scrapedData[<span class="stringliteral">&#39;duracion&#39;</span>])) {</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            $movie-&gt;duration = <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a63516c6ed856982ff443952b9e7545d8">self::convertDurationToMinutes</a>($scrapedData[<span class="stringliteral">&#39;duracion&#39;</span>]);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        }</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        $movie-&gt;rating = $scrapedData[<span class="stringliteral">&#39;clasificacion&#39;</span>] ?? <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <span class="comment">// Convertir fecha de texto a objeto date</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <span class="keywordflow">if</span> (!empty($scrapedData[<span class="stringliteral">&#39;fecha_estreno&#39;</span>])) {</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            $movie-&gt;release_date = <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#abae625fb2528e51cfc642d55c7ccb31e">self::parseReleaseDate</a>($scrapedData[<span class="stringliteral">&#39;fecha_estreno&#39;</span>]);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        }</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        <span class="comment">// Usar photo_url para almacenar la ruta local de la imagen</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        $movie-&gt;photo_url = $scrapedData[<span class="stringliteral">&#39;poster_local&#39;</span>] ?? $scrapedData[<span class="stringliteral">&#39;imagen_local&#39;</span>] ?? <span class="keyword">null</span>;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keywordflow">return</span> $movie;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    }</div>
+</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="foldopen" id="foldopen00142" data-start="{" data-end="}">
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#abd31ccd3388a77ffd647b3867c3c07e8">  142</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#abd31ccd3388a77ffd647b3867c3c07e8">getRouteKeyName</a>()</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    {</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="keywordflow">return</span> <span class="stringliteral">&#39;slug&#39;</span>;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    }</div>
+</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="foldopen" id="foldopen00150" data-start="{" data-end="}">
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a1301ceed205ee879f5af32ece84a0076">  150</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a1301ceed205ee879f5af32ece84a0076">genres</a>()</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    {</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">return</span> $this-&gt;belongsToMany(Genre::class, <span class="stringliteral">&#39;movie_genre&#39;</span>);</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    }</div>
+</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="foldopen" id="foldopen00158" data-start="{" data-end="}">
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a7346c784b36820a94e59edfd5b0999f1">  158</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a7346c784b36820a94e59edfd5b0999f1">actors</a>()</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    {</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordflow">return</span> $this-&gt;belongsToMany(Actor::class, <span class="stringliteral">&#39;movie_actor&#39;</span>);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    }</div>
+</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="foldopen" id="foldopen00166" data-start="{" data-end="}">
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a2931db075bf239a874b08564ebfe9efd">  166</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a2931db075bf239a874b08564ebfe9efd">directors</a>()</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    {</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">return</span> $this-&gt;belongsToMany(Director::class, <span class="stringliteral">&#39;movie_director&#39;</span>);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    }</div>
+</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="foldopen" id="foldopen00174" data-start="{" data-end="}">
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#ad76147ce329e370890159868361e3ca7">  174</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#ad76147ce329e370890159868361e3ca7">functions</a>()</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">return</span> $this-&gt;hasMany(Functions::class);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    }</div>
+</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    </div>
+<div class="foldopen" id="foldopen00185" data-start="{" data-end="}">
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#ab07d203a80886d317be87b47ba772176">  185</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#ab07d203a80886d317be87b47ba772176">syncGenresByName</a>(array $genreNames)</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    {</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        $genreIds = [];</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <span class="keywordflow">foreach</span> ($genreNames as $name) {</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            $genre = Genre::firstOrCreate([<span class="stringliteral">&#39;name&#39;</span> =&gt; $name]);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            $genreIds[] = $genre-&gt;id;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        }</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        $this-&gt;<a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a1301ceed205ee879f5af32ece84a0076">genres</a>()-&gt;sync($genreIds);</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    }</div>
+</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    </div>
+<div class="foldopen" id="foldopen00203" data-start="{" data-end="}">
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a761af6742dda30a1259a4bc88786d594">  203</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a761af6742dda30a1259a4bc88786d594">syncActorsByName</a>(array $actorNames)</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    {</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        $actorIds = [];</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        <span class="keywordflow">foreach</span> ($actorNames as $name) {</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            $actor = Actor::firstOrCreate([<span class="stringliteral">&#39;name&#39;</span> =&gt; $name]);</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>            $actorIds[] = $actor-&gt;id;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        }</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        $this-&gt;<a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a7346c784b36820a94e59edfd5b0999f1">actors</a>()-&gt;sync($actorIds);</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    }</div>
+</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span> </div>
+<div class="foldopen" id="foldopen00220" data-start="{" data-end="}">
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Movie.html#a0e1989a44f958ff992f2db6b83efe1f9">  220</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Movie.html#a0e1989a44f958ff992f2db6b83efe1f9">getPhotoUrlAttribute</a>($value)</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    {</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <span class="keywordflow">return</span> $value;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    }</div>
+</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>}</div>
+</div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html">App\Models\Movie</a></div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00010">Movie.php:11</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a0e1989a44f958ff992f2db6b83efe1f9"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a0e1989a44f958ff992f2db6b83efe1f9">App\Models\Movie\getPhotoUrlAttribute</a></div><div class="ttdeci">getPhotoUrlAttribute($value)</div><div class="ttdoc">Obtener la URL completa de la imagen.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00220">Movie.php:220</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a1301ceed205ee879f5af32ece84a0076"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a1301ceed205ee879f5af32ece84a0076">App\Models\Movie\genres</a></div><div class="ttdeci">genres()</div><div class="ttdoc">Obtener los géneros asociados con esta película.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00150">Movie.php:150</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a271b471584144c80e4244430f2d9d926"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a271b471584144c80e4244430f2d9d926">App\Models\Movie\fromScrapedData</a></div><div class="ttdeci">static fromScrapedData(array $scrapedData)</div><div class="ttdoc">Importar datos de scraping al modelo.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00118">Movie.php:118</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a2931db075bf239a874b08564ebfe9efd"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a2931db075bf239a874b08564ebfe9efd">App\Models\Movie\directors</a></div><div class="ttdeci">directors()</div><div class="ttdoc">Obtener los directores asociados con esta película.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00166">Movie.php:166</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a5b0f025200a294d915acf0eff09785bd"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a5b0f025200a294d915acf0eff09785bd">App\Models\Movie\boot</a></div><div class="ttdeci">static boot()</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00041">Movie.php:41</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a63516c6ed856982ff443952b9e7545d8"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a63516c6ed856982ff443952b9e7545d8">App\Models\Movie\convertDurationToMinutes</a></div><div class="ttdeci">static convertDurationToMinutes($durationText)</div><div class="ttdoc">Convierte una duración en formato texto (1h 55m) a minutos.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00064">Movie.php:64</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a7346c784b36820a94e59edfd5b0999f1"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a7346c784b36820a94e59edfd5b0999f1">App\Models\Movie\actors</a></div><div class="ttdeci">actors()</div><div class="ttdoc">Obtener los actores asociados con esta película.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00158">Movie.php:158</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a73505ed1c15f9213434408683d42b092"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a73505ed1c15f9213434408683d42b092">App\Models\Movie\$casts</a></div><div class="ttdeci">$casts</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00036">Movie.php:36</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_a761af6742dda30a1259a4bc88786d594"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#a761af6742dda30a1259a4bc88786d594">App\Models\Movie\syncActorsByName</a></div><div class="ttdeci">syncActorsByName(array $actorNames)</div><div class="ttdoc">Sincronizar actores desde un array de nombres.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00203">Movie.php:203</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_ab07d203a80886d317be87b47ba772176"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#ab07d203a80886d317be87b47ba772176">App\Models\Movie\syncGenresByName</a></div><div class="ttdeci">syncGenresByName(array $genreNames)</div><div class="ttdoc">Sincronizar géneros desde un array de nombres.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00185">Movie.php:185</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_abae625fb2528e51cfc642d55c7ccb31e"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#abae625fb2528e51cfc642d55c7ccb31e">App\Models\Movie\parseReleaseDate</a></div><div class="ttdeci">static parseReleaseDate($dateText)</div><div class="ttdoc">Parsea una fecha en formato texto (21 mayo 2025) a objeto Carbon.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00087">Movie.php:87</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_abd31ccd3388a77ffd647b3867c3c07e8"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#abd31ccd3388a77ffd647b3867c3c07e8">App\Models\Movie\getRouteKeyName</a></div><div class="ttdeci">getRouteKeyName()</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00142">Movie.php:142</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_ad490ecebe207974879603d0b47ccb06f"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#ad490ecebe207974879603d0b47ccb06f">App\Models\Movie\$fillable</a></div><div class="ttdeci">$fillable</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00019">Movie.php:19</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Movie_html_ad76147ce329e370890159868361e3ca7"><div class="ttname"><a href="classApp_1_1Models_1_1Movie.html#ad76147ce329e370890159868361e3ca7">App\Models\Movie\functions</a></div><div class="ttdeci">functions()</div><div class="ttdoc">Obtener las funciones programadas para esta película.</div><div class="ttdef"><b>Definition</b> <a href="Movie_8php_source.html#l00174">Movie.php:174</a></div></div>
+<div class="ttc" id="anamespaceApp_1_1Models_html"><div class="ttname"><a href="namespaceApp_1_1Models.html">App\Models</a></div><div class="ttdef"><b>Definition</b> <a href="Actor_8php_source.html#l00003">Actor.php:3</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_49bd007d94e193dda169e385b90a8d7f.html">back</a></li><li class="navelem"><a class="el" href="dir_b58e4a7361a2edb8306a9c5d9962e840.html">app</a></li><li class="navelem"><a class="el" href="dir_d0bf55a684362e14049411f317e79873.html">Models</a></li><li class="navelem"><a class="el" href="Movie_8php.html">Movie.php</a></li>
+    <li class="footer">Generado el Sábado, 6 de septiembre de 2025 09:46:54 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

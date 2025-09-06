@@ -1,0 +1,5 @@
+<map id="App\Console\Commands\GenerateFunctions\getLastMovieIndex" name="App\Console\Commands\GenerateFunctions\getLastMovieIndex">
+<area shape="rect" id="Node000001" title="Obtiene el índice de la última película mostrada en el día laborable anterior." alt="" coords="5,5,245,60"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Console_1_1Commands_1_1GenerateFunctions.html#afafef153b82080532932a5e8a037fb1e" title="Verifica si un día es laborable (lunes a viernes)" alt="" coords="293,13,540,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,30,280,30,280,35,246,35"/>
+</map>

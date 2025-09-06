@@ -1,0 +1,454 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/routes/about/+page.svelte</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('about_2_09page_8svelte_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">+page.svelte</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="about_2_09page_8svelte.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;script lang=<span class="stringliteral">&quot;ts&quot;</span>&gt;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>  <span class="keyword">import</span> { onMount, onDestroy } from <span class="stringliteral">&#39;svelte&#39;</span>;</div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>  <span class="keyword">import</span> { <a class="code hl_variable" href="BookingPage_8svelte.html#a9b048e169b97a5b6c8f7d1eb14731c4a">page</a> } from <span class="stringliteral">&#39;$app/stores&#39;</span>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>  <span class="keyword">import</span> { browser } from <span class="stringliteral">&#39;$app/environment&#39;</span>;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>  <span class="keyword">import</span> pkg from <span class="stringliteral">&#39;svelte-countup&#39;</span>;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>  <span class="keyword">import</span> { <a class="code hl_variable" href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a> } from <span class="stringliteral">&#39;$lib/i18n&#39;</span>;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#a960c9b1d807ab041c344e4bdad04f273">    7</a></span>  <span class="keyword">const</span> { CountUp } = pkg;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>  </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#a44bdff909318ecd41144c5294cbe79fb">    9</a></span>  let <a class="code hl_variable" href="about_2_09page_8svelte.html#a44bdff909318ecd41144c5294cbe79fb">countersVisible</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#ae270f9b5870c242abf36486e283c69fc">   10</a></span>  let <a class="code hl_variable" href="about_2_09page_8svelte.html#ae270f9b5870c242abf36486e283c69fc">statsSection</a>: HTMLElement;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#a0635294a7efdd9e2b3de1c30d518c17d">   11</a></span>  let <a class="code hl_variable" href="about_2_09page_8svelte.html#a0635294a7efdd9e2b3de1c30d518c17d">animatedNumbers</a>: { [key: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>]: number } = {};</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>  </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  <span class="comment">// Variables para metadatos de la página</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#a4e60ee0199c21f70f51338eb2b25216b">   14</a></span>  <span class="keyword">const</span> <a class="code hl_variable" href="about_2_09page_8svelte.html#a4e60ee0199c21f70f51338eb2b25216b">pageTitle</a> = $t(<span class="stringliteral">&#39;about&#39;</span>, <span class="stringliteral">&#39;Sobre Nosotros | Kaizen Cinema&#39;</span>);</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#a58b980d992c8b55bb53ecab191df6aef">   15</a></span>  <span class="keyword">const</span> <a class="code hl_variable" href="about_2_09page_8svelte.html#a58b980d992c8b55bb53ecab191df6aef">pageDescription</a> = $t(<span class="stringliteral">&#39;aboutDescription&#39;</span>, <span class="stringliteral">&#39;Conoce más sobre Kaizen Cinema, nuestra historia, misión y el equipo detrás de tu experiencia cinematográfica favorita.&#39;</span>);</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>  </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>  <span class="comment">// Datos del equipo</span></div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#ada58b9e9bf5b68ce79d43e68ddb1398d">   18</a></span>  <span class="keyword">const</span> <a class="code hl_variable" href="about_2_09page_8svelte.html#ada58b9e9bf5b68ce79d43e68ddb1398d">team</a> = [</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>      <a class="code hl_variable" href="register_2_09page_8svelte.html#aad14a82e153056f3f84d0005ca38b96b">name</a>: <span class="stringliteral">&quot;mgrl39&quot;</span>,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>      role: $t(<span class="stringliteral">&#39;leadDeveloper&#39;</span>, <span class="stringliteral">&#39;Desarrollador Principal&#39;</span>),</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>      <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a115d1bb9f39fc74907fe2775f19a24f0">image</a>: <span class="stringliteral">&quot;https://github.com/mgrl39.png&quot;</span>,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>      bio: $t(<span class="stringliteral">&#39;leadDeveloperBio&#39;</span>, <span class="stringliteral">&#39;Desarrollador Full Stack y creador principal de Kaizen Cinema&#39;</span>)</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    },</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>      <a class="code hl_variable" href="register_2_09page_8svelte.html#aad14a82e153056f3f84d0005ca38b96b">name</a>: <span class="stringliteral">&quot;mgrbl&quot;</span>,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>      role: $t(<span class="stringliteral">&#39;collaborator&#39;</span>, <span class="stringliteral">&#39;Desarrollador Colaborador&#39;</span>),</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>      <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a115d1bb9f39fc74907fe2775f19a24f0">image</a>: <span class="stringliteral">&quot;https://github.com/mgrbl.png&quot;</span>,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>      bio: $t(<span class="stringliteral">&#39;collaboratorBio&#39;</span>, <span class="stringliteral">&#39;Desarrollador y colaborador clave en el proyecto Kaizen Cinema&#39;</span>)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
+</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  ];</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  <span class="comment">// Estadísticas de la empresa con valores numéricos</span></div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#afef988db7c4a9153ef01d71928404e05">   34</a></span>  <span class="keyword">const</span> <a class="code hl_variable" href="about_2_09page_8svelte.html#afef988db7c4a9153ef01d71928404e05">stats</a> = [</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    { <a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>: <span class="stringliteral">&#39;movies&#39;</span>, number: 50, label: $t(<span class="stringliteral">&#39;moviesInTheater&#39;</span>, <span class="stringliteral">&#39;Películas en Cartelera&#39;</span>), suffix: <span class="stringliteral">&quot;+&quot;</span> },</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    { <a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>: <span class="stringliteral">&#39;cinemas&#39;</span>, number: 1, label: $t(<span class="stringliteral">&#39;cinemas&#39;</span>, <span class="stringliteral">&#39;Cines&#39;</span>) },</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    { <a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>: <span class="stringliteral">&#39;clients&#39;</span>, number: 50000, label: $t(<span class="stringliteral">&#39;satisfiedClients&#39;</span>, <span class="stringliteral">&#39;Clientes Satisfechos&#39;</span>), suffix: <span class="stringliteral">&quot;+&quot;</span> },</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    { <a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>: <span class="stringliteral">&#39;support&#39;</span>, number: 24, label: $t(<span class="stringliteral">&#39;support247&#39;</span>, <span class="stringliteral">&#39;Soporte 24/7&#39;</span>) }</div>
+</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>  ];</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>  </div>
+<div class="foldopen" id="foldopen00041" data-start="{" data-end="}">
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="about_2_09page_8svelte.html#ad41bc20c0f7bf3021e3630447cae9bbc">   41</a></span>  <span class="keyword">function</span> <a class="code hl_function" href="about_2_09page_8svelte.html#ad41bc20c0f7bf3021e3630447cae9bbc">formatNumber</a>(num: number): <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a> {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_variable" href="config_2api_8php.html#ac1157c036d3a44e3e0660b84c9be1488">return</a> new Intl.NumberFormat(<span class="stringliteral">&#39;es-ES&#39;</span>).format(num);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>  }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>  <span class="keyword">function</span> animateValue(<span class="keywordtype">id</span>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>, start: number, end: number, duration: number) {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">if</span> (!browser) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">const</span> range = end - start;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">const</span> <a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8e4c4556670185ee6b23c8ce3e049854">increment</a> = range / (duration / 16);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    let current = start;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">function</span> updateNumber() {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>      current += <a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8e4c4556670185ee6b23c8ce3e049854">increment</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>      <span class="keywordflow">if</span> ((<a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8e4c4556670185ee6b23c8ce3e049854">increment</a> &gt; 0 &amp;&amp; current &gt;= end) || (<a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8e4c4556670185ee6b23c8ce3e049854">increment</a> &lt; 0 &amp;&amp; current &lt;= end)) {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <a class="code hl_variable" href="about_2_09page_8svelte.html#a0635294a7efdd9e2b3de1c30d518c17d">animatedNumbers</a>[<a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>] = end;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <a class="code hl_variable" href="about_2_09page_8svelte.html#a0635294a7efdd9e2b3de1c30d518c17d">animatedNumbers</a>[<a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>] = Math.round(current);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        requestAnimationFrame(updateNumber);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>      }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>      <a class="code hl_variable" href="about_2_09page_8svelte.html#a0635294a7efdd9e2b3de1c30d518c17d">animatedNumbers</a> = { ...animatedNumbers }; <span class="comment">// Trigger Svelte update</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    }</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    updateNumber();</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>  }</div>
+</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>  onMount(() =&gt; {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">if</span> (!browser) <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    window.scrollTo(0, 0);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <a class="code hl_variable" href="about_2_09page_8svelte.html#a44bdff909318ecd41144c5294cbe79fb">countersVisible</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="comment">// Inicializar los números en 0</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <a class="code hl_variable" href="about_2_09page_8svelte.html#afef988db7c4a9153ef01d71928404e05">stats</a>.forEach(stat =&gt; {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      <a class="code hl_variable" href="about_2_09page_8svelte.html#a0635294a7efdd9e2b3de1c30d518c17d">animatedNumbers</a>[stat.id] = 0;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    });</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="comment">// Configurar el observer para la animación</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keyword">const</span> observer = <span class="keyword">new</span> IntersectionObserver((entries) =&gt; {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>      entries.forEach(entry =&gt; {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">if</span> (entry.isIntersecting) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>          stats.forEach(stat =&gt; {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            animateValue(stat.id, 0, stat.number, 2000);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>          });</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>          observer.disconnect();</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>      });</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }, { threshold: 0.1 });</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="about_2_09page_8svelte.html#ae270f9b5870c242abf36486e283c69fc">statsSection</a>) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      observer.observe(<a class="code hl_variable" href="about_2_09page_8svelte.html#ae270f9b5870c242abf36486e283c69fc">statsSection</a>);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>  });</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>&lt;/script&gt;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>&lt;svelte:head&gt;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>  &lt;<a class="code hl_variable" href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">title</a>&gt;{<a class="code hl_variable" href="about_2_09page_8svelte.html#a4e60ee0199c21f70f51338eb2b25216b">pageTitle</a>}&lt;/<a class="code hl_variable" href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">title</a>&gt;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>  &lt;meta <a class="code hl_variable" href="register_2_09page_8svelte.html#aad14a82e153056f3f84d0005ca38b96b">name</a>=<span class="stringliteral">&quot;description&quot;</span> <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa847f2bbc747f47e666a46cb74f30e00">content</a>={<a class="code hl_variable" href="about_2_09page_8svelte.html#a58b980d992c8b55bb53ecab191df6aef">pageDescription</a>} /&gt;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>&lt;/svelte:head&gt;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>&lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;container pt-2&quot;</span>&gt;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  &lt;!-- Hero Section --&gt;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>  &lt;<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-center mb-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;display-4 fw-bold mb-4&quot;</span>&gt;{$t(<span class="stringliteral">&#39;aboutTitle&#39;</span>)}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a>&gt;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;lead text-muted&quot;</span>&gt;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>      {$t(<span class="stringliteral">&#39;aboutSubtitle&#39;</span>)}</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>  &lt;/<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a>&gt;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>  </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>  &lt;!-- Historia y Misión --&gt;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>  &lt;<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;row align-items-center mb-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-6 mb-4 mb-md-0&quot;</span>&gt;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>      &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h3 mb-4&quot;</span>&gt;{$t(<span class="stringliteral">&#39;ourHistory&#39;</span>)}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a>&gt;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>      &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted&quot;</span>&gt;</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        {$t(<span class="stringliteral">&#39;historyText1&#39;</span>)}</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>      &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>      &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted&quot;</span>&gt;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        {$t(<span class="stringliteral">&#39;historyText2&#39;</span>)}</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>      &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>      &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a01ca3c9da8288753c10731eb4014f064">img</a> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        src=<span class="stringliteral">&quot;https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-1.2.1&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80&quot;</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        alt={$t(<span class="stringliteral">&#39;ourHistory&#39;</span>)}</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keyword">class</span>=<span class="stringliteral">&quot;img-fluid rounded shadow&quot;</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>      /&gt;</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>  &lt;/<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a>&gt;</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>  </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>  &lt;!-- Misión y Visión --&gt;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>  &lt;<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;mb-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;row g-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;p-4 rounded-3 bg-light h-100 border-start border-5 border-custom-primary&quot;</span>&gt;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h4 mb-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-bullseye text-custom-primary me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            {$t(<span class="stringliteral">&#39;ourMission&#39;</span>)}</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>          &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a>&gt;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted mb-0&quot;</span>&gt;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>            {$t(<span class="stringliteral">&#39;missionText&#39;</span>)}</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>          &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-6&quot;</span>&gt;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;p-4 rounded-3 bg-light h-100 border-start border-5 border-custom-primary&quot;</span>&gt;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h4 mb-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>            &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-eye text-custom-primary me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            {$t(<span class="stringliteral">&#39;ourVision&#39;</span>)}</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>          &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a>&gt;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted mb-0&quot;</span>&gt;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>            {$t(<span class="stringliteral">&#39;visionText&#39;</span>)}</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>          &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>  &lt;/<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a>&gt;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>  </div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>  &lt;!-- Estadísticas --&gt;</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>  &lt;<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;mb-5&quot;</span> bind:<span class="keyword">this</span>={<a class="code hl_variable" href="about_2_09page_8svelte.html#ae270f9b5870c242abf36486e283c69fc">statsSection</a>}&gt;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;row text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>      {#each <a class="code hl_variable" href="about_2_09page_8svelte.html#afef988db7c4a9153ef01d71928404e05">stats</a> as stat}</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-6 col-md-3 mb-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>          &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;p-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h2 fw-bold text-primary mb-2&quot;</span>&gt;</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>              {<a class="code hl_function" href="about_2_09page_8svelte.html#ad41bc20c0f7bf3021e3630447cae9bbc">formatNumber</a>(<a class="code hl_variable" href="about_2_09page_8svelte.html#a0635294a7efdd9e2b3de1c30d518c17d">animatedNumbers</a>[stat.id] || 0)}</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>              {#<span class="keywordflow">if</span> stat.suffix}{stat.suffix}{/<span class="keywordflow">if</span>}</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>              {#<span class="keywordflow">if</span> stat.label === <span class="stringliteral">&quot;Soporte 24/7&quot;</span>}&lt;span&gt;/7&lt;/span&gt;{/<span class="keywordflow">if</span>}</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a>&gt;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted mb-0&quot;</span>&gt;{stat.label}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>      {/each}</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>  &lt;/<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a>&gt;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>  </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>  &lt;!-- Equipo --&gt;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>  &lt;<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;mb-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h3 text-center mb-4&quot;</span>&gt;Nuestro Equipo&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a>&gt;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;row justify-content-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>      {#each <a class="code hl_variable" href="about_2_09page_8svelte.html#ada58b9e9bf5b68ce79d43e68ddb1398d">team</a> as member}</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-5 mb-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>          &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card h-100 border-0 shadow-sm&quot;</span>&gt;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>            &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a01ca3c9da8288753c10731eb4014f064">img</a> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>              src={member.image} </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>              alt={member.name}</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>              <span class="keyword">class</span>=<span class="stringliteral">&quot;card-img-top&quot;</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>              <a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8ba9b58991c02462588258e164fe3f84">style</a>=<span class="stringliteral">&quot;height: 300px; object-fit: cover;&quot;</span></div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            /&gt;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>            &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;card-body text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>              &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h5 mb-1&quot;</span>&gt;{member.name}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a>&gt;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>              &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-primary mb-3&quot;</span>&gt;{member.role}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>              &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted mb-0&quot;</span>&gt;{member.bio}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>              &lt;a <a class="code hl_variable" href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a>=<span class="stringliteral">&quot;https://github.com/{member.name}&quot;</span> target=<span class="stringliteral">&quot;_blank&quot;</span> rel=<span class="stringliteral">&quot;noopener noreferrer&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;btn btn-outline-custom mt-3&quot;</span>&gt;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>                &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-github me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;Ver Perfil</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>              &lt;/a&gt;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            &lt;/div&gt;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>          &lt;/div&gt;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>      {/each}</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>  &lt;/<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a>&gt;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>  </div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>  &lt;!-- Valores --&gt;</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>  &lt;<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;mb-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h3 text-center mb-4&quot;</span>&gt;Nuestros Valores&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a>&gt;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;row&quot;</span>&gt;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-3 mb-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>          &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-heart-fill text-primary display-4 mb-3&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h5&quot;</span>&gt;Pasión&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a>&gt;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted&quot;</span>&gt;Amamos el <a class="code hl_variable" href="es_8ts.html#aa8311d084cac3af52103ef1a22d08eaa">cine</a> y todo lo que representa&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-3 mb-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>          &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-lightning-fill text-primary display-4 mb-3&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h5&quot;</span>&gt;Innovación&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a>&gt;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted&quot;</span>&gt;Buscamos constantemente mejorar&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-3 mb-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>          &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-people-fill text-primary display-4 mb-3&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h5&quot;</span>&gt;Comunidad&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a>&gt;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted&quot;</span>&gt;Construimos experiencias juntos&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-3 mb-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>          &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-star-fill text-primary display-4 mb-3&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h5&quot;</span>&gt;Excelencia&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a>&gt;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>          &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted&quot;</span>&gt;Nos esforzamos por la perfección&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        &lt;/div&gt;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>  &lt;/<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a>&gt;</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>  </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>  &lt;!-- CTA --&gt;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>  &lt;<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-center mb-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;py-5 px-4 rounded-3 bg-custom-gradient&quot;</span>&gt;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;py-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h3 mb-4 text-white&quot;</span>&gt;{$t(<span class="stringliteral">&#39;readyForKaizen&#39;</span>)}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a>&gt;</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        &lt;a <a class="code hl_variable" href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a>=<span class="stringliteral">&quot;/movies&quot;</span> <span class="keyword">class</span>=<span class="stringliteral">&quot;btn btn-light btn-lg hover-scale&quot;</span>&gt;</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>          &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-film me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>          {$t(<span class="stringliteral">&#39;viewMoviesButton&#39;</span>)}</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        &lt;/a&gt;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>  &lt;/<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a>&gt;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>&lt;/div&gt;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span> </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>&lt;<a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8ba9b58991c02462588258e164fe3f84">style</a>&gt;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>  <span class="comment">/* Estilos para las cards de Misión y Visión */</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>  .border-start.border-5 {</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    transition: transform 0.3s <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ac52b0d32d917559e6dc196e60926d88b">ease</a>, box-<a class="code hl_variable" href="DigitalTicket_8svelte.html#afb2fd8f53f973be6e4f74331d4db64d5">shadow</a> 0.3s <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ac52b0d32d917559e6dc196e60926d88b">ease</a>;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>  }</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>  </div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>  .border-start.border-5:hover {</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    transform: translateY(-5px);</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>    box-<a class="code hl_variable" href="DigitalTicket_8svelte.html#afb2fd8f53f973be6e4f74331d4db64d5">shadow</a>: 0 10px 20px <a class="code hl_function" href="privacy_2_09page_8svelte.html#a1179aaa356621eaf2ab4393cfc82dd1d">rgba</a>(147, 51, 234, 0.1);</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>  }</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span> </div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>  <span class="comment">/* Color primario personalizado */</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>  .border-custom-primary {</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    border-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: #9333ea !important;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>  }</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span> </div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>  .text-custom-primary {</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: #9333ea !important;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>  }</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>  .text-primary {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: #9333ea !important;</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>  }</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>  <span class="comment">/* Gradiente personalizado */</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>  .bg-custom-gradient {</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    background: linear-gradient(135deg, #9333ea 0%, #7e22ce 100%);</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    box-<a class="code hl_variable" href="DigitalTicket_8svelte.html#afb2fd8f53f973be6e4f74331d4db64d5">shadow</a>: 0 10px 20px <a class="code hl_function" href="privacy_2_09page_8svelte.html#a1179aaa356621eaf2ab4393cfc82dd1d">rgba</a>(147, 51, 234, 0.2);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>  }</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>  <span class="comment">/* Efecto hover para el botón */</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>  .hover-scale {</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    transition: transform 0.3s <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ac52b0d32d917559e6dc196e60926d88b">ease</a>;</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>  }</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>  .hover-scale:hover {</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    transform: scale(1.05);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>  }</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span> </div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>  <span class="comment">/* Botón personalizado */</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>  .btn-outline-custom {</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    background-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: #9333ea !important;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: white !important;</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    border-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: #9333ea !important;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    transition: all 0.3s <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ac52b0d32d917559e6dc196e60926d88b">ease</a>;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>  }</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>  .btn-outline-custom:hover {</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    background-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: #7e22ce !important;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    border-<a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: #7e22ce !important;</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>    transform: translateY(-2px);</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    box-<a class="code hl_variable" href="DigitalTicket_8svelte.html#afb2fd8f53f973be6e4f74331d4db64d5">shadow</a>: 0 4px 12px <a class="code hl_function" href="privacy_2_09page_8svelte.html#a1179aaa356621eaf2ab4393cfc82dd1d">rgba</a>(147, 51, 234, 0.2);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>  }</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>&lt;/<a class="code hl_variable" href="privacy_2_09page_8svelte.html#a8ba9b58991c02462588258e164fe3f84">style</a>&gt;</div>
+<div class="ttc" id="aBackButton_8svelte_html_ac94543a79ddb5a4fc6fc0a56324200cd"><div class="ttname"><a href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let href</div><div class="ttdef"><b>Definition</b> <a href="BackButton_8svelte_source.html#l00004">BackButton.svelte:4</a></div></div>
+<div class="ttc" id="aBookingPage_8svelte_html_a9b048e169b97a5b6c8f7d1eb14731c4a"><div class="ttname"><a href="BookingPage_8svelte.html#a9b048e169b97a5b6c8f7d1eb14731c4a">page</a></div><div class="ttdeci">booking page</div><div class="ttdef"><b>Definition</b> <a href="BookingPage_8svelte_source.html#l00012">BookingPage.svelte:12</a></div></div>
+<div class="ttc" id="aCategoryCard_8svelte_html_a30669e25f98907fe0ab99c85e6310c8b"><div class="ttname"><a href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a></div><div class="ttdeci">category id</div><div class="ttdef"><b>Definition</b> <a href="CategoryCard_8svelte_source.html#l00010">CategoryCard.svelte:10</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a01ca3c9da8288753c10731eb4014f064"><div class="ttname"><a href="DigitalTicket_8svelte.html#a01ca3c9da8288753c10731eb4014f064">img</a></div><div class="ttdeci">qr code img</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00175">DigitalTicket.svelte:175</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a2f0e26cd7217034f508fa9449b0b4985"><div class="ttname"><a href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a></div><div class="ttdeci">ticket header h1</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00118">DigitalTicket.svelte:118</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a9d306b517f0af7ae2a0c38477af21292"><div class="ttname"><a href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a></div><div class="ttdeci">movie details p</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00141">DigitalTicket.svelte:141</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_ace0e2165a9479992b5a0eaa0d197d0bb"><div class="ttname"><a href="DigitalTicket_8svelte.html#ace0e2165a9479992b5a0eaa0d197d0bb">h3</a></div><div class="ttdeci">seats list h3</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00150">DigitalTicket.svelte:150</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_ae21e80419437783fdf6f438ba5a6ad77"><div class="ttname"><a href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a></div><div class="ttdeci">movie details h2</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00135">DigitalTicket.svelte:135</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_afb2fd8f53f973be6e4f74331d4db64d5"><div class="ttname"><a href="DigitalTicket_8svelte.html#afb2fd8f53f973be6e4f74331d4db64d5">shadow</a></div><div class="ttdeci">box shadow</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00108">DigitalTicket.svelte:108</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_a293e9ce0cd3f67ead105c23acef09aef"><div class="ttname"><a href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">title</a></div><div class="ttdeci">export let title</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00004">ErrorPage.svelte:4</a></div></div>
+<div class="ttc" id="aManualSeatSelection_8svelte_html_a627592c8b48389eddb52079be6cbeeb0"><div class="ttname"><a href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a></div><div class="ttdeci">$ i</div><div class="ttdef"><b>Definition</b> <a href="ManualSeatSelection_8svelte_source.html#l00019">ManualSeatSelection.svelte:19</a></div></div>
+<div class="ttc" id="aabout_2_09page_8svelte_html_a0635294a7efdd9e2b3de1c30d518c17d"><div class="ttname"><a href="about_2_09page_8svelte.html#a0635294a7efdd9e2b3de1c30d518c17d">animatedNumbers</a></div><div class="ttdeci">let animatedNumbers</div><div class="ttdef"><b>Definition</b> <a href="about_2_09page_8svelte_source.html#l00011">+page.svelte:11</a></div></div>
+<div class="ttc" id="aabout_2_09page_8svelte_html_a44bdff909318ecd41144c5294cbe79fb"><div class="ttname"><a href="about_2_09page_8svelte.html#a44bdff909318ecd41144c5294cbe79fb">countersVisible</a></div><div class="ttdeci">let countersVisible</div><div class="ttdef"><b>Definition</b> <a href="about_2_09page_8svelte_source.html#l00009">+page.svelte:9</a></div></div>
+<div class="ttc" id="aabout_2_09page_8svelte_html_a4e60ee0199c21f70f51338eb2b25216b"><div class="ttname"><a href="about_2_09page_8svelte.html#a4e60ee0199c21f70f51338eb2b25216b">pageTitle</a></div><div class="ttdeci">const pageTitle</div><div class="ttdef"><b>Definition</b> <a href="about_2_09page_8svelte_source.html#l00014">+page.svelte:14</a></div></div>
+<div class="ttc" id="aabout_2_09page_8svelte_html_a58b980d992c8b55bb53ecab191df6aef"><div class="ttname"><a href="about_2_09page_8svelte.html#a58b980d992c8b55bb53ecab191df6aef">pageDescription</a></div><div class="ttdeci">const pageDescription</div><div class="ttdef"><b>Definition</b> <a href="about_2_09page_8svelte_source.html#l00015">+page.svelte:15</a></div></div>
+<div class="ttc" id="aabout_2_09page_8svelte_html_ad41bc20c0f7bf3021e3630447cae9bbc"><div class="ttname"><a href="about_2_09page_8svelte.html#ad41bc20c0f7bf3021e3630447cae9bbc">formatNumber</a></div><div class="ttdeci">function formatNumber(num:number)</div><div class="ttdef"><b>Definition</b> <a href="about_2_09page_8svelte_source.html#l00041">+page.svelte:41</a></div></div>
+<div class="ttc" id="aabout_2_09page_8svelte_html_ada58b9e9bf5b68ce79d43e68ddb1398d"><div class="ttname"><a href="about_2_09page_8svelte.html#ada58b9e9bf5b68ce79d43e68ddb1398d">team</a></div><div class="ttdeci">const team</div><div class="ttdef"><b>Definition</b> <a href="about_2_09page_8svelte_source.html#l00018">+page.svelte:18</a></div></div>
+<div class="ttc" id="aabout_2_09page_8svelte_html_ae270f9b5870c242abf36486e283c69fc"><div class="ttname"><a href="about_2_09page_8svelte.html#ae270f9b5870c242abf36486e283c69fc">statsSection</a></div><div class="ttdeci">let statsSection</div><div class="ttdef"><b>Definition</b> <a href="about_2_09page_8svelte_source.html#l00010">+page.svelte:10</a></div></div>
+<div class="ttc" id="aabout_2_09page_8svelte_html_afef988db7c4a9153ef01d71928404e05"><div class="ttname"><a href="about_2_09page_8svelte.html#afef988db7c4a9153ef01d71928404e05">stats</a></div><div class="ttdeci">const stats</div><div class="ttdef"><b>Definition</b> <a href="about_2_09page_8svelte_source.html#l00034">+page.svelte:34</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_a115d1bb9f39fc74907fe2775f19a24f0"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#a115d1bb9f39fc74907fe2775f19a24f0">image</a></div><div class="ttdeci">qr image</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00202">+page.svelte:202</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_aa4eea2258121ad21099d858f503ed439"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a></div><div class="ttdeci">&lt;/script &gt;&lt; style &gt; success color</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00125">+page.svelte:125</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_aa847f2bbc747f47e666a46cb74f30e00"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa847f2bbc747f47e666a46cb74f30e00">content</a></div><div class="ttdeci">justify content</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00231">+page.svelte:231</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_ab9fc59dfe2e3c2ac45cb0e6b24c7927b"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ab9fc59dfe2e3c2ac45cb0e6b24c7927b">section</a></div><div class="ttdeci">detail section</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00166">+page.svelte:166</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_ac52b0d32d917559e6dc196e60926d88b"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#ac52b0d32d917559e6dc196e60926d88b">ease</a></div><div class="ttdeci">transition box shadow ease</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00172">+page.svelte:172</a></div></div>
+<div class="ttc" id="aconfig_2api_8php_html_ac1157c036d3a44e3e0660b84c9be1488"><div class="ttname"><a href="config_2api_8php.html#ac1157c036d3a44e3e0660b84c9be1488">return</a></div><div class="ttdeci">return['rate_limiting'=&gt;['public'=&gt;['attempts'=&gt; 60, 'period'=&gt; 60,], 'authenticated'=&gt;['attempts'=&gt; 120, 'period'=&gt; 60,], 'write_operations'=&gt;['attempts'=&gt; 30, 'period'=&gt; 60,],], 'versions'=&gt;['current'=&gt; 'v1', 'supported'=&gt;['v1', 'v2'], 'deprecated'=&gt;[], 'development'=&gt;['v2'], 'v1'=&gt;['status'=&gt; 'stable', 'release_date'=&gt; '2023-06-15', 'sunset_date'=&gt; null, 'default_format'=&gt; 'json',], 'v2'=&gt;['status'=&gt; 'development', 'release_date'=&gt; null, 'sunset_date'=&gt; null, 'default_format'=&gt; 'json',],], 'response'=&gt;['include_timestamp'=&gt; true, 'default_page_size'=&gt; 15, 'max_page_size'=&gt; 100,],]</div><div class="ttdef"><b>Definition</b> <a href="config_2api_8php_source.html#l00003">api.php:74</a></div></div>
+<div class="ttc" id="aes_8ts_html_aa8311d084cac3af52103ef1a22d08eaa"><div class="ttname"><a href="es_8ts.html#aa8311d084cac3af52103ef1a22d08eaa">cine</a></div><div class="ttdeci">const inténtalo de inténtalo de colaboraciones o información bugs o sugerir mejoras en la nos propusimos revolucionar la forma en que las personas experimentan el cine</div><div class="ttdef"><b>Definition</b> <a href="es_8ts_source.html#l00144">es.ts:144</a></div></div>
+<div class="ttc" id="ai18n_2index_8ts_html_af73f66381d681447e082857e259e4ca1"><div class="ttname"><a href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a></div><div class="ttdeci">export const t</div><div class="ttdef"><b>Definition</b> <a href="i18n_2index_8ts_source.html#l00329">index.ts:329</a></div></div>
+<div class="ttc" id="aprivacy_2_09page_8svelte_html_a1179aaa356621eaf2ab4393cfc82dd1d"><div class="ttname"><a href="privacy_2_09page_8svelte.html#a1179aaa356621eaf2ab4393cfc82dd1d">rgba</a></div><div class="ttdeci">background rgba(139, 92, 246, 0.1)</div></div>
+<div class="ttc" id="aprivacy_2_09page_8svelte_html_a8ba9b58991c02462588258e164fe3f84"><div class="ttname"><a href="privacy_2_09page_8svelte.html#a8ba9b58991c02462588258e164fe3f84">style</a></div><div class="ttdeci">list style</div><div class="ttdef"><b>Definition</b> <a href="privacy_2_09page_8svelte_source.html#l00125">+page.svelte:125</a></div></div>
+<div class="ttc" id="aprivacy_2_09page_8svelte_html_a8e4c4556670185ee6b23c8ce3e049854"><div class="ttname"><a href="privacy_2_09page_8svelte.html#a8e4c4556670185ee6b23c8ce3e049854">increment</a></div><div class="ttdeci">counter increment</div><div class="ttdef"><b>Definition</b> <a href="privacy_2_09page_8svelte_source.html#l00142">+page.svelte:142</a></div></div>
+<div class="ttc" id="aregister_2_09page_8svelte_html_aad14a82e153056f3f84d0005ca38b96b"><div class="ttname"><a href="register_2_09page_8svelte.html#aad14a82e153056f3f84d0005ca38b96b">name</a></div><div class="ttdeci">let name</div><div class="ttdef"><b>Definition</b> <a href="register_2_09page_8svelte_source.html#l00010">+page.svelte:10</a></div></div>
+<div class="ttc" id="atypes_8ts_html_aa3d0348d37e494b4a9a39c7210f12ee2"><div class="ttname"><a href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a></div><div class="ttdeci">errors string[]</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00070">types.ts:70</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_711e061037f1f3e03ef0d7826512e504.html">routes</a></li><li class="navelem"><a class="el" href="dir_9f798fc8eea7326c962da3cc4e17c761.html">about</a></li><li class="navelem"><a class="el" href="about_2_09page_8svelte.html">+page.svelte</a></li>
+    <li class="footer">Generado el Sábado, 6 de septiembre de 2025 09:46:54 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

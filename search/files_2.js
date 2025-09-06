@@ -1,0 +1,27 @@
+var searchData=
+[
+  ['2014_5f10_5f12_5f000000_5fcreate_5fusers_5ftable_2ephp_0',['2014_10_12_000000_create_users_table.php',['../2014__10__12__000000__create__users__table_8php.html',1,'']]],
+  ['2014_5f10_5f12_5f100000_5fcreate_5fpassword_5freset_5ftokens_5ftable_2ephp_1',['2014_10_12_100000_create_password_reset_tokens_table.php',['../2014__10__12__100000__create__password__reset__tokens__table_8php.html',1,'']]],
+  ['2018_5f08_5f08_5f100000_5fcreate_5ftelescope_5fentries_5ftable_2ephp_2',['2018_08_08_100000_create_telescope_entries_table.php',['../2018__08__08__100000__create__telescope__entries__table_8php.html',1,'']]],
+  ['2019_5f08_5f19_5f000000_5fcreate_5ffailed_5fjobs_5ftable_2ephp_3',['2019_08_19_000000_create_failed_jobs_table.php',['../2019__08__19__000000__create__failed__jobs__table_8php.html',1,'']]],
+  ['2019_5f12_5f14_5f000001_5fcreate_5fpersonal_5faccess_5ftokens_5ftable_2ephp_4',['2019_12_14_000001_create_personal_access_tokens_table.php',['../2019__12__14__000001__create__personal__access__tokens__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000000_5fcreate_5fcinemas_5ftable_2ephp_5',['2023_01_01_000000_create_cinemas_table.php',['../2023__01__01__000000__create__cinemas__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000001_5fcreate_5fmovies_5ftable_2ephp_6',['2023_01_01_000001_create_movies_table.php',['../2023__01__01__000001__create__movies__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000002_5fcreate_5frooms_5ftable_2ephp_7',['2023_01_01_000002_create_rooms_table.php',['../2023__01__01__000002__create__rooms__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000003_5fcreate_5ffunctions_5ftable_2ephp_8',['2023_01_01_000003_create_functions_table.php',['../2023__01__01__000003__create__functions__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000004_5fcreate_5fseats_5ftable_2ephp_9',['2023_01_01_000004_create_seats_table.php',['../2023__01__01__000004__create__seats__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000011_5fcreate_5fgenres_5ftable_2ephp_10',['2023_01_01_000011_create_genres_table.php',['../2023__01__01__000011__create__genres__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000012_5fcreate_5fmovie_5fgenre_5ftable_2ephp_11',['2023_01_01_000012_create_movie_genre_table.php',['../2023__01__01__000012__create__movie__genre__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000013_5fcreate_5factors_5ftable_2ephp_12',['2023_01_01_000013_create_actors_table.php',['../2023__01__01__000013__create__actors__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000014_5fcreate_5fmovie_5factor_5ftable_2ephp_13',['2023_01_01_000014_create_movie_actor_table.php',['../2023__01__01__000014__create__movie__actor__table_8php.html',1,'']]],
+  ['2023_5f01_5f01_5f000015_5fcreate_5fmovie_5fdirector_5ftable_2ephp_14',['2023_01_01_000015_create_movie_director_table.php',['../2023__01__01__000015__create__movie__director__table_8php.html',1,'']]],
+  ['2024_5f03_5f20_5f000001_5fadd_5fcinema_5fid_5fto_5frooms_2ephp_15',['2024_03_20_000001_add_cinema_id_to_rooms.php',['../2024__03__20__000001__add__cinema__id__to__rooms_8php.html',1,'']]],
+  ['2024_5f03_5f20_5fcreate_5fbookings_5ftable_2ephp_16',['2024_03_20_create_bookings_table.php',['../2024__03__20__create__bookings__table_8php.html',1,'']]],
+  ['2024_5f03_5f21_5f000002_5fcreate_5fbooking_5fseats_5ftable_2ephp_17',['2024_03_21_000002_create_booking_seats_table.php',['../2024__03__21__000002__create__booking__seats__table_8php.html',1,'']]],
+  ['2024_5f03_5f28_5f000001_5fadd_5fbuyer_5finfo_5fto_5fbookings_2ephp_18',['2024_03_28_000001_add_buyer_info_to_bookings.php',['../2024__03__28__000001__add__buyer__info__to__bookings_8php.html',1,'']]],
+  ['2024_5f03_5f28_5f000002_5fadd_5fdefault_5fpayment_5fmethod_5fto_5fbookings_2ephp_19',['2024_03_28_000002_add_default_payment_method_to_bookings.php',['../2024__03__28__000002__add__default__payment__method__to__bookings_8php.html',1,'']]],
+  ['2024_5f03_5f28_5f000004_5fmodify_5fcustomer_5ffields_5fin_5fbookings_2ephp_20',['2024_03_28_000004_modify_customer_fields_in_bookings.php',['../2024__03__28__000004__modify__customer__fields__in__bookings_8php.html',1,'']]],
+  ['2024_5f06_5f04_5fcreate_5ftickets_5ftable_2ephp_21',['2024_06_04_create_tickets_table.php',['../2024__06__04__create__tickets__table_8php.html',1,'']]],
+  ['2024_5f06_5f04_5fremove_5fpayment_5ffields_2ephp_22',['2024_06_04_remove_payment_fields.php',['../2024__06__04__remove__payment__fields_8php.html',1,'']]],
+  ['2025_5f05_5f20_5f035831_5fadd_5fslug_5fto_5fgenres_5ftable_2ephp_23',['2025_05_20_035831_add_slug_to_genres_table.php',['../2025__05__20__035831__add__slug__to__genres__table_8php.html',1,'']]]
+];

@@ -1,0 +1,5 @@
+<map id="App\Models\Movie\parseReleaseDate" name="App\Models\Movie\parseReleaseDate">
+<area shape="rect" id="Node000001" title="Parsea una fecha en formato texto (21 mayo 2025) a objeto Carbon." alt="" coords="313,5,579,31"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Models_1_1Movie.html#a271b471584144c80e4244430f2d9d926" title="Importar datos de scraping al modelo." alt="" coords="5,5,265,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="299,21,266,21,266,15,299,15"/>
+</map>

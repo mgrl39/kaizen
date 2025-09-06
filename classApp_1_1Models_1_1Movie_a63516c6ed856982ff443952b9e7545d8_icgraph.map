@@ -1,0 +1,5 @@
+<map id="App\Models\Movie\convertDurationToMinutes" name="App\Models\Movie\convertDurationToMinutes">
+<area shape="rect" id="Node000001" title="Convierte una duración en formato texto (1h 55m) a minutos." alt="" coords="313,5,508,45"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Models_1_1Movie.html#a271b471584144c80e4244430f2d9d926" title="Importar datos de scraping al modelo." alt="" coords="5,13,265,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,28,265,28,265,23,300,23"/>
+</map>

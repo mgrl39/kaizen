@@ -1,0 +1,28 @@
+<map id="App\Console\Commands\ImportMoviesFromJson\handle" name="App\Console\Commands\ImportMoviesFromJson\handle">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,156,187,211"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a45c94929f5e636834f626838d20007f4" title=" " alt="" coords="235,195,416,250"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,196,221,202,221,207,186,202"/>
+<area shape="rect" id="Node000011" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a0ecc46e111e5fe5c504ef0d1c5ec7dcc" title=" " alt="" coords="235,116,416,171"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="186,165,221,159,222,165,187,171"/>
+<area shape="rect" id="Node000003" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a4b0935604439e557197269e334a3fad7" title=" " alt="" coords="464,195,661,250"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="416,220,450,220,450,225,416,225"/>
+<area shape="rect" id="Node000004" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a21898d55b0a9483950826e0feb40d28c" title=" " alt="" coords="472,38,653,92"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="399,193,414,182,430,162,437,143,445,122,462,102,467,98,470,102,466,106,450,125,442,145,435,165,418,186,402,197"/>
+<area shape="rect" id="Node000005" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#a4acb5e947f86842db726da784f9f8b61" title=" " alt="" coords="472,352,653,407"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="355,248,404,294,465,339,474,344,472,349,463,343,401,298,351,252"/>
+<area shape="rect" id="Node000007" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#aa646d9bb7bd746d03908dd3a3b80dd8d" title=" " alt="" coords="472,274,653,328"/>
+<area shape="poly" id="edge6_Node000002_Node000007" title=" " alt="" coords="410,247,467,267,466,272,408,252"/>
+<area shape="rect" id="Node000009" href="$classApp_1_1Console_1_1Commands_1_1ImportMoviesFromJson.html#acc24932d8c99ad94ab046d6c873daab4" title=" " alt="" coords="472,116,653,171"/>
+<area shape="poly" id="edge8_Node000002_Node000009" title=" " alt="" coords="408,192,466,173,467,178,410,197"/>
+<area shape="rect" id="Node000006" href="$classApp_1_1Models_1_1Movie.html#a7346c784b36820a94e59edfd5b0999f1" title="Obtener los actores asociados con esta película." alt="" coords="717,367,904,392"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="654,377,703,377,703,382,654,382"/>
+<area shape="rect" id="Node000008" href="$classApp_1_1Models_1_1Movie.html#a2931db075bf239a874b08564ebfe9efd" title="Obtener los directores asociados con esta película." alt="" coords="709,35,912,60"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="647,271,659,261,673,243,680,226,685,193,689,157,695,138,707,118,737,88,770,65,773,69,740,92,711,121,700,140,694,158,690,193,685,228,677,246,663,264,650,275"/>
+<area shape="rect" id="Node000010" href="$classApp_1_1Models_1_1Movie.html#a1301ceed205ee879f5af32ece84a0076" title="Obtener los géneros asociados con esta película." alt="" coords="715,131,906,156"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="654,141,702,141,702,146,654,146"/>
+<area shape="poly" id="edge11_Node000011_Node000003" title=" " alt="" coords="410,169,467,188,466,193,408,174"/>
+<area shape="poly" id="edge13_Node000011_Node000004" title=" " alt="" coords="408,114,466,94,467,99,410,119"/>
+<area shape="poly" id="edge14_Node000011_Node000005" title=" " alt="" coords="404,169,418,182,432,203,440,223,442,263,445,301,452,320,466,339,468,342,464,345,462,343,447,322,440,302,437,263,434,224,428,205,414,186,400,173"/>
+<area shape="poly" id="edge12_Node000011_Node000008" title=" " alt="" coords="346,114,395,65,427,41,463,23,501,11,541,5,622,5,696,15,758,29,756,34,695,20,621,10,542,11,503,17,465,28,430,45,399,69,350,118"/>
+<area shape="poly" id="edge15_Node000011_Node000009" title=" " alt="" coords="416,141,458,141,458,146,416,146"/>
+</map>

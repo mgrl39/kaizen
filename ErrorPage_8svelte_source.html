@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/lib/components/ErrorPage.svelte</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ErrorPage_8svelte_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ErrorPage.svelte</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ErrorPage_8svelte.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;script&gt;</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span>  <span class="comment">// Propiedades personalizables</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#a159230c50ac4db16a8276e2c62e1d164">    3</a></span>  export let <a class="code hl_variable" href="ErrorPage_8svelte.html#a159230c50ac4db16a8276e2c62e1d164">statusCode</a> = <span class="stringliteral">&quot;404&quot;</span>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">    4</a></span>  export let <a class="code hl_variable" href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">title</a> = <span class="stringliteral">&quot;Página no encontrada&quot;</span>;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#acf7afe818f18bbb97f502ada48c1e733">    5</a></span>  export let <a class="code hl_variable" href="ErrorPage_8svelte.html#acf7afe818f18bbb97f502ada48c1e733">message</a> = <span class="stringliteral">&quot;Lo sentimos, no pudimos encontrar la página que estás buscando.&quot;</span>;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8">    6</a></span>  export let <a class="code hl_variable" href="ErrorPage_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8">buttonText</a> = <span class="stringliteral">&quot;Volver al inicio&quot;</span>;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#a41d9e714d47fabdcf13c3a6424d34923">    7</a></span>  export let <a class="code hl_variable" href="ErrorPage_8svelte.html#a41d9e714d47fabdcf13c3a6424d34923">buttonHref</a> = <span class="stringliteral">&quot;/&quot;</span>;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#ad41e37f3a6e4d933b16984424cdbdc21">    8</a></span>  export let <a class="code hl_variable" href="ErrorPage_8svelte.html#ad41e37f3a6e4d933b16984424cdbdc21">showHomeButton</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#aa1936e46341690b5a6c94ab8c6ebd348">    9</a></span>  export let <a class="code hl_variable" href="ErrorPage_8svelte.html#aa1936e46341690b5a6c94ab8c6ebd348">variant</a> = <span class="stringliteral">&#39;error&#39;</span>; <span class="comment">// &#39;error&#39;, &#39;warning&#39;, &#39;info&#39;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>  </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>  <span class="keyword">import</span> { <a class="code hl_variable" href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a> } from <span class="stringliteral">&#39;$lib/i18n&#39;</span>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>  </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>  <span class="comment">// Mapeo simplificado de variantes</span></div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#a77cdd72fb6fe2052fb0577d14b21ebb7">   14</a></span>  <span class="keyword">const</span> <a class="code hl_variable" href="ErrorPage_8svelte.html#a77cdd72fb6fe2052fb0577d14b21ebb7">icons</a> = {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="stringliteral">&#39;error&#39;</span>: <span class="stringliteral">&#39;exclamation-circle&#39;</span>,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="stringliteral">&#39;warning&#39;</span>: <span class="stringliteral">&#39;exclamation-triangle&#39;</span>,</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="stringliteral">&#39;info&#39;</span>: <span class="stringliteral">&#39;info-circle&#39;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>  };</div>
+</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>  </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="ErrorPage_8svelte.html#ac876d51c7d9eb131ba58036ae9ba5e71">   20</a></span>  <a class="code hl_variable" href="_09error_8svelte.html#a92a40e07a68aee2295f8be80799d2bb0">$</a>: iconClass = <a class="code hl_variable" href="ErrorPage_8svelte.html#a77cdd72fb6fe2052fb0577d14b21ebb7">icons</a>[<a class="code hl_variable" href="ErrorPage_8svelte.html#aa1936e46341690b5a6c94ab8c6ebd348">variant</a>] || <a class="code hl_variable" href="ErrorPage_8svelte.html#a77cdd72fb6fe2052fb0577d14b21ebb7">icons</a>.error;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>&lt;/script&gt;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>&lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;container py-5&quot;</span>&gt;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>  &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;row justify-content-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;col-md-8 text-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>      &lt;!-- Icono y código de estado --&gt;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;mb-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-{iconClass} display-1 text-{variant}&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>      </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>      &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;display-4 fw-bold text-{variant}&quot;</span>&gt;{<a class="code hl_variable" href="ErrorPage_8svelte.html#a159230c50ac4db16a8276e2c62e1d164">statusCode</a>}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a>&gt;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>      &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;h4 mb-3&quot;</span>&gt;{<a class="code hl_variable" href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">title</a>}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a>&gt;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>      &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;text-muted mb-4&quot;</span>&gt;{<a class="code hl_variable" href="ErrorPage_8svelte.html#acf7afe818f18bbb97f502ada48c1e733">message</a>}&lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>      </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>      &lt;!-- Botones --&gt;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>      &lt;div <span class="keyword">class</span>=<span class="stringliteral">&quot;d-flex gap-2 justify-content-center&quot;</span>&gt;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        {#<span class="keywordflow">if</span> <a class="code hl_variable" href="ErrorPage_8svelte.html#ad41e37f3a6e4d933b16984424cdbdc21">showHomeButton</a>}</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>          &lt;a <a class="code hl_variable" href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a>={<a class="code hl_variable" href="ErrorPage_8svelte.html#a41d9e714d47fabdcf13c3a6424d34923">buttonHref</a>} <span class="keyword">class</span>=<span class="stringliteral">&quot;btn btn-primary&quot;</span>&gt;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-house-door me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;{<a class="code hl_variable" href="ErrorPage_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8">buttonText</a>}</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>          &lt;/a&gt;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        {/<span class="keywordflow">if</span>}</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a11bc7e9ee98e7d90b9b6874ec80511d2">button</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;btn btn-outline-secondary&quot;</span> on:click={() =&gt; history.back()}&gt;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>          &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-arrow-left me-2&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;{$t(<span class="stringliteral">&#39;goBack&#39;</span>)}</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a11bc7e9ee98e7d90b9b6874ec80511d2">button</a>&gt;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>      &lt;/div&gt;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>      </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>      &lt;!-- Info adicional --&gt;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>      &lt;<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;small text-muted mt-4&quot;</span>&gt;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        &lt;<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a> <span class="keyword">class</span>=<span class="stringliteral">&quot;bi bi-info-circle me-1&quot;</span>&gt;&lt;/<a class="code hl_variable" href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a>&gt;{$t(<span class="stringliteral">&#39;errorMessage&#39;</span>)}</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>      &lt;/<a class="code hl_variable" href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a>&gt;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    &lt;/div&gt;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>  &lt;/div&gt;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>&lt;/div&gt;</div>
+<div class="ttc" id="aBackButton_8svelte_html_ac94543a79ddb5a4fc6fc0a56324200cd"><div class="ttname"><a href="BackButton_8svelte.html#ac94543a79ddb5a4fc6fc0a56324200cd">href</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; export let href</div><div class="ttdef"><b>Definition</b> <a href="BackButton_8svelte_source.html#l00004">BackButton.svelte:4</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a11bc7e9ee98e7d90b9b6874ec80511d2"><div class="ttname"><a href="DigitalTicket_8svelte.html#a11bc7e9ee98e7d90b9b6874ec80511d2">button</a></div><div class="ttdeci">download button</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00211">DigitalTicket.svelte:211</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a2f0e26cd7217034f508fa9449b0b4985"><div class="ttname"><a href="DigitalTicket_8svelte.html#a2f0e26cd7217034f508fa9449b0b4985">h1</a></div><div class="ttdeci">ticket header h1</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00118">DigitalTicket.svelte:118</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_a9d306b517f0af7ae2a0c38477af21292"><div class="ttname"><a href="DigitalTicket_8svelte.html#a9d306b517f0af7ae2a0c38477af21292">p</a></div><div class="ttdeci">movie details p</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00141">DigitalTicket.svelte:141</a></div></div>
+<div class="ttc" id="aDigitalTicket_8svelte_html_ae21e80419437783fdf6f438ba5a6ad77"><div class="ttname"><a href="DigitalTicket_8svelte.html#ae21e80419437783fdf6f438ba5a6ad77">h2</a></div><div class="ttdeci">movie details h2</div><div class="ttdef"><b>Definition</b> <a href="DigitalTicket_8svelte_source.html#l00135">DigitalTicket.svelte:135</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_a159230c50ac4db16a8276e2c62e1d164"><div class="ttname"><a href="ErrorPage_8svelte.html#a159230c50ac4db16a8276e2c62e1d164">statusCode</a></div><div class="ttdeci">&lt; script &gt; export let statusCode</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00003">ErrorPage.svelte:3</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_a293e9ce0cd3f67ead105c23acef09aef"><div class="ttname"><a href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">title</a></div><div class="ttdeci">export let title</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00004">ErrorPage.svelte:4</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_a41d9e714d47fabdcf13c3a6424d34923"><div class="ttname"><a href="ErrorPage_8svelte.html#a41d9e714d47fabdcf13c3a6424d34923">buttonHref</a></div><div class="ttdeci">export let buttonHref</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00007">ErrorPage.svelte:7</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_a77cdd72fb6fe2052fb0577d14b21ebb7"><div class="ttname"><a href="ErrorPage_8svelte.html#a77cdd72fb6fe2052fb0577d14b21ebb7">icons</a></div><div class="ttdeci">const icons</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00014">ErrorPage.svelte:14</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_aa1936e46341690b5a6c94ab8c6ebd348"><div class="ttname"><a href="ErrorPage_8svelte.html#aa1936e46341690b5a6c94ab8c6ebd348">variant</a></div><div class="ttdeci">export let variant</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00009">ErrorPage.svelte:9</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_acf7afe818f18bbb97f502ada48c1e733"><div class="ttname"><a href="ErrorPage_8svelte.html#acf7afe818f18bbb97f502ada48c1e733">message</a></div><div class="ttdeci">export let message</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00005">ErrorPage.svelte:5</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_ad0f6015d948ddf3db88f2dd00b5656f8"><div class="ttname"><a href="ErrorPage_8svelte.html#ad0f6015d948ddf3db88f2dd00b5656f8">buttonText</a></div><div class="ttdeci">export let buttonText</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00006">ErrorPage.svelte:6</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_ad41e37f3a6e4d933b16984424cdbdc21"><div class="ttname"><a href="ErrorPage_8svelte.html#ad41e37f3a6e4d933b16984424cdbdc21">showHomeButton</a></div><div class="ttdeci">export let showHomeButton</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00008">ErrorPage.svelte:8</a></div></div>
+<div class="ttc" id="aManualSeatSelection_8svelte_html_a627592c8b48389eddb52079be6cbeeb0"><div class="ttname"><a href="ManualSeatSelection_8svelte.html#a627592c8b48389eddb52079be6cbeeb0">i</a></div><div class="ttdeci">$ i</div><div class="ttdef"><b>Definition</b> <a href="ManualSeatSelection_8svelte_source.html#l00019">ManualSeatSelection.svelte:19</a></div></div>
+<div class="ttc" id="a_09error_8svelte_html_a92a40e07a68aee2295f8be80799d2bb0"><div class="ttname"><a href="_09error_8svelte.html#a92a40e07a68aee2295f8be80799d2bb0">$</a></div><div class="ttdeci">&lt; script lang=&quot;ts&quot;&gt; $</div><div class="ttdef"><b>Definition</b> <a href="_09error_8svelte_source.html#l00006">+error.svelte:6</a></div></div>
+<div class="ttc" id="ai18n_2index_8ts_html_af73f66381d681447e082857e259e4ca1"><div class="ttname"><a href="i18n_2index_8ts.html#af73f66381d681447e082857e259e4ca1">t</a></div><div class="ttdeci">export const t</div><div class="ttdef"><b>Definition</b> <a href="i18n_2index_8ts_source.html#l00329">index.ts:329</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_2bcf18b5ffe1a51704bd41581b0afa64.html">lib</a></li><li class="navelem"><a class="el" href="dir_3685e434457d87bd883fe6a00222bc8b.html">components</a></li><li class="navelem"><a class="el" href="ErrorPage_8svelte.html">ErrorPage.svelte</a></li>
+    <li class="footer">Generado el Sábado, 6 de septiembre de 2025 09:46:54 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

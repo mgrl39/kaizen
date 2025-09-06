@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/front/src/lib/types.ts</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('types_8ts_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">types.ts</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="types_8ts.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// Interfaz para la película</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">    6</a></span>export <span class="keyword">interface </span><a class="code hl_variable" href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>: number;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="types_8ts.html#aa6d173daeb1f78a82e89d75a4e948f24">    8</a></span>    <a class="code hl_variable" href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">title</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="types_8ts.html#a66692afa9cc7f6aef120ad25e213750e">    9</a></span>    description?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="types_8ts.html#a64fc93c5f7522b7de64ec189e1e8bcbd">   10</a></span>    year?: number;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="types_8ts.html#a5742773e70188d09670d49cc3582c552">   11</a></span>    genre?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="types_8ts.html#ab577733c6602d13b6e83bc29e6f5a511">   12</a></span>    rating?: number;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="types_8ts.html#a36839db2a159deb093350185f9c3f5a4">   13</a></span>    photo_url?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="types_8ts.html#a2323c91a4addb656ed9bd7a7648cbba9">   14</a></span>    synopsis: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="types_8ts.html#a596f452d6de0dae3e993796a78911f7f">   15</a></span>    duration: number;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="types_8ts.html#a8faf0575c119147cb70734c7019e98e3">   16</a></span>    release_date: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="types_8ts.html#ab5e96c404a909ed6dc3148d2fcab9e06">   17</a></span>    slug: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="types_8ts.html#a28d29b938e88a11ad916cf519ea4b1b2">   18</a></span>    created_at: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="types_8ts.html#a309a6108bebc8a40c25cecd65b199af4">   19</a></span>    updated_at: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="comment">// Interfaz para el cine</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="types_8ts.html#a6289a7d5763c986b11fb7f0c84ecd197">   23</a></span>export <span class="keyword">interface </span><a class="code hl_variable" href="types_8ts.html#a6289a7d5763c986b11fb7f0c84ecd197">Cinema</a> {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>: number;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="types_8ts.html#a2d241fb118f2bbbdacd1e22cea4f5f70">   25</a></span>    <a class="code hl_variable" href="register_2_09page_8svelte.html#aad14a82e153056f3f84d0005ca38b96b">name</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="types_8ts.html#aef7b6f548959becfb7005e451fe09ed0">   26</a></span>    location: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="types_8ts.html#a3745cb5e7af10479c7c1f11fb9f72b97">   27</a></span>    <a class="code hl_variable" href="en_8ts.html#a75e425b4a7ed5a4168e8ff48af5f40b9">address</a>?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="types_8ts.html#a6510fbbbfa73a2b5e5a9ac8a2e7dfc27">   28</a></span>    <a class="code hl_variable" href="BookingPage_8svelte.html#aa4782a8a533f27e70acace8a29fe5276">phone</a>?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="types_8ts.html#a5303036d16e5ca5a94d1c7c9c99cb409">   29</a></span>    image_url?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="types_8ts.html#a33c2616b85127e06210f338eb36be77a">   30</a></span>    screens: number;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="types_8ts.html#a4fd6bf23fbbe3a84e5a3c8ab06b71cf0">   31</a></span>    city?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="types_8ts.html#a57f1f88ff6eaaed04c556112d6270757">   32</a></span>    description?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="types_8ts.html#ad529f686742716829853d34e51520e27">   33</a></span>    has_parking?: boolean;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="types_8ts.html#a7b9322add3133c08472a1c56cb7c5584">   34</a></span>    has_food?: boolean;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="types_8ts.html#a2c66988d99d9d4a943c06f225e6b0a83">   35</a></span>    is_premium?: boolean;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="types_8ts.html#af81cb80451f2e36cd15196641e7ae767">   36</a></span>    <a class="code hl_variable" href="en_8ts.html#a1a6420710ebcf2951e15f6413ade42c2">features</a>?: <span class="keywordtype">string</span>[];</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="comment">// Interfaz para categoría</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="types_8ts.html#a6c9ff2f14c4842d3466f49e7fa444b21">   40</a></span>export <span class="keyword">interface </span><a class="code hl_variable" href="types_8ts.html#a6c9ff2f14c4842d3466f49e7fa444b21">Category</a> {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_variable" href="register_2_09page_8svelte.html#aad14a82e153056f3f84d0005ca38b96b">name</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="types_8ts.html#a7494b7e74751cc5ad5ab21e643f2261d">   42</a></span>    <a class="code hl_variable" href="CategoryCard_8svelte.html#a1314e9dc4d42ac2ba1f782134cf4d8ff">icon</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="types_8ts.html#ac851dcd3e6543ee134ab004728c8c9bb">   43</a></span>    <a class="code hl_variable" href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="types_8ts.html#a639cc8e7ea49f5ebfe5876aaf4425f7d">   44</a></span>    gradient: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// Interfaz para el elemento de navegación</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="types_8ts.html#ab49035379e9d1b7f0e92fa92501b52b6">   48</a></span>export <span class="keyword">interface </span><a class="code hl_variable" href="types_8ts.html#ab49035379e9d1b7f0e92fa92501b52b6">NavItem</a> {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_variable" href="SharePopup_8svelte.html#a205d083e7c0742e7bb55f5316742106f">url</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="types_8ts.html#a0c1139aee1a9319e821c3275ea02fc4c">   50</a></span>    <a class="code hl_variable" href="CategoryCard_8svelte.html#a1314e9dc4d42ac2ba1f782134cf4d8ff">icon</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="types_8ts.html#a664dbc5b7198dab31e00da6b39ea37be">   51</a></span>    text: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="types_8ts.html#ac38279f6a653df362f9d305e146d6adf">   52</a></span>    divider?: boolean;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="types_8ts.html#a0a134dfc3cb48b67451a4bbaf0836e2c">   53</a></span>    action?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span><span class="comment">// Interfaz para el usuario</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="types_8ts.html#a932481280009f6b0740bb615edfc4e33">   57</a></span>export <span class="keyword">interface </span><a class="code hl_variable" href="types_8ts.html#a932481280009f6b0740bb615edfc4e33">User</a> {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>: number;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="types_8ts.html#ada621b8311971c15e83fa09e8f2b763f">   59</a></span>    <a class="code hl_variable" href="register_2_09page_8svelte.html#aad14a82e153056f3f84d0005ca38b96b">name</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="types_8ts.html#a669f2b173d35c80340d95f23532fe2d5">   60</a></span>    <a class="code hl_variable" href="en_8ts.html#aff3ea011393d3d91985e3475416915eb">username</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="types_8ts.html#a22a571e5fa7163814609eda3ec9f81ff">   61</a></span>    <a class="code hl_variable" href="BookingPage_8svelte.html#a69b5c6ef0a6226fbb5ca879fcd495f42">email</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="types_8ts.html#a4884be7ad9f8f8b5f1f17fbdbd374330">   62</a></span>    role: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span><span class="comment">// Interfaces para las respuestas de API</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="types_8ts.html#af8c8ff2f677e7dc25ecb3ea321d3e684">   66</a></span>export <span class="keyword">interface </span>ApiResponse&lt;T&gt; {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <a class="code hl_variable" href="BookingPage_8svelte.html#acac3d24c4ffa9d55ba6a455808e10305">success</a>: boolean;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="types_8ts.html#a032e45b9cbb771f946007ff9106e3e0a">   68</a></span>    <a class="code hl_variable" href="actors_2_0fslug_0e_2_09page_8svelte.html#a781313f23d5f29e9a7e79f6e94664840">data</a>?: T;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="types_8ts.html#a16393823defb6adaef2feb354028ccb0">   69</a></span>    <a class="code hl_variable" href="ErrorPage_8svelte.html#acf7afe818f18bbb97f502ada48c1e733">message</a>?: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="types_8ts.html#a4567fa704e971f848e3b80f77f6e05cc">   70</a></span>    <a class="code hl_variable" href="register_2_09page_8svelte.html#ac868accceec56e17aadac24c91c7b3da">errors</a>?: Record&lt;string, string[]&gt;;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="comment">// Interfaz para credenciales de login</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="types_8ts.html#ac135e089b31c7c1ed2dd1ff6643ce631">   74</a></span>export <span class="keyword">interface </span><a class="code hl_variable" href="types_8ts.html#ac135e089b31c7c1ed2dd1ff6643ce631">LoginCredentials</a> {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <a class="code hl_variable" href="BookingPage_8svelte.html#a69b5c6ef0a6226fbb5ca879fcd495f42">email</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="types_8ts.html#a3edba6a148d3db69d7a5edd236ab9ef3">   76</a></span>    <a class="code hl_variable" href="en_8ts.html#abd7c13acac876da8bdefce825ee1fa0b">password</a>: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="types_8ts.html#ab4c258f0f8899d488d28785a27db6075">   77</a></span>    remember?: boolean;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>}</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span><span class="comment">// Interfaz para reserva</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="types_8ts.html#ac55625e90bf0172d522ed64959202d84">   81</a></span>export <span class="keyword">interface </span><a class="code hl_variable" href="types_8ts.html#ac55625e90bf0172d522ed64959202d84">Booking</a> {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <a class="code hl_variable" href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a>: number;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="types_8ts.html#a869d10456de92be958f8e551b10f573c">   83</a></span>    movie_id: number;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="types_8ts.html#a279b71e6a18ceab68921896ec03872c8">   84</a></span>    cinema_id: number;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="types_8ts.html#a354b9997e6c194e967d2cb15df4c9083">   85</a></span>    showtime_id: number;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno"><a class="line" href="types_8ts.html#aaf859da57ebe5a8da4e069cbb34d106f">   86</a></span>    user_id: number;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="types_8ts.html#a845d6e22a12f60507839d13cc742a3bf">   87</a></span>    seats: <span class="keywordtype">string</span>[];</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="types_8ts.html#ac9c6c18714f3c0d300fb274727dc1421">   88</a></span>    total_amount: number;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="types_8ts.html#ae390b4400e2fb4355740c1d8343100e6">   89</a></span>    status: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="types_8ts.html#a2ace2d17a1431dc0e2e98f057b87a1a0">   90</a></span>    created_at: <a class="code hl_variable" href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}</div>
+<div class="ttc" id="aBookingPage_8svelte_html_a69b5c6ef0a6226fbb5ca879fcd495f42"><div class="ttname"><a href="BookingPage_8svelte.html#a69b5c6ef0a6226fbb5ca879fcd495f42">email</a></div><div class="ttdeci">let email</div><div class="ttdef"><b>Definition</b> <a href="BookingPage_8svelte_source.html#l00066">BookingPage.svelte:66</a></div></div>
+<div class="ttc" id="aBookingPage_8svelte_html_aa4782a8a533f27e70acace8a29fe5276"><div class="ttname"><a href="BookingPage_8svelte.html#aa4782a8a533f27e70acace8a29fe5276">phone</a></div><div class="ttdeci">let phone</div><div class="ttdef"><b>Definition</b> <a href="BookingPage_8svelte_source.html#l00067">BookingPage.svelte:68</a></div></div>
+<div class="ttc" id="aBookingPage_8svelte_html_acac3d24c4ffa9d55ba6a455808e10305"><div class="ttname"><a href="BookingPage_8svelte.html#acac3d24c4ffa9d55ba6a455808e10305">success</a></div><div class="ttdeci">let success</div><div class="ttdef"><b>Definition</b> <a href="BookingPage_8svelte_source.html#l00075">BookingPage.svelte:75</a></div></div>
+<div class="ttc" id="aCategoryCard_8svelte_html_a1314e9dc4d42ac2ba1f782134cf4d8ff"><div class="ttname"><a href="CategoryCard_8svelte.html#a1314e9dc4d42ac2ba1f782134cf4d8ff">icon</a></div><div class="ttdeci">category icon</div><div class="ttdef"><b>Definition</b> <a href="CategoryCard_8svelte_source.html#l00009">CategoryCard.svelte:9</a></div></div>
+<div class="ttc" id="aCategoryCard_8svelte_html_a30669e25f98907fe0ab99c85e6310c8b"><div class="ttname"><a href="CategoryCard_8svelte.html#a30669e25f98907fe0ab99c85e6310c8b">id</a></div><div class="ttdeci">category id</div><div class="ttdef"><b>Definition</b> <a href="CategoryCard_8svelte_source.html#l00010">CategoryCard.svelte:10</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_a293e9ce0cd3f67ead105c23acef09aef"><div class="ttname"><a href="ErrorPage_8svelte.html#a293e9ce0cd3f67ead105c23acef09aef">title</a></div><div class="ttdeci">export let title</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00004">ErrorPage.svelte:4</a></div></div>
+<div class="ttc" id="aErrorPage_8svelte_html_acf7afe818f18bbb97f502ada48c1e733"><div class="ttname"><a href="ErrorPage_8svelte.html#acf7afe818f18bbb97f502ada48c1e733">message</a></div><div class="ttdeci">export let message</div><div class="ttdef"><b>Definition</b> <a href="ErrorPage_8svelte_source.html#l00005">ErrorPage.svelte:5</a></div></div>
+<div class="ttc" id="aSharePopup_8svelte_html_a205d083e7c0742e7bb55f5316742106f"><div class="ttname"><a href="SharePopup_8svelte.html#a205d083e7c0742e7bb55f5316742106f">url</a></div><div class="ttdeci">export let url</div><div class="ttdef"><b>Definition</b> <a href="SharePopup_8svelte_source.html#l00005">SharePopup.svelte:5</a></div></div>
+<div class="ttc" id="aactors_2_0fslug_0e_2_09page_8svelte_html_a781313f23d5f29e9a7e79f6e94664840"><div class="ttname"><a href="actors_2_0fslug_0e_2_09page_8svelte.html#a781313f23d5f29e9a7e79f6e94664840">data</a></div><div class="ttdeci">&lt; script &gt; export let data</div><div class="ttdef"><b>Definition</b> <a href="actors_2_0fslug_0e_2_09page_8svelte_source.html#l00010">+page.svelte:10</a></div></div>
+<div class="ttc" id="abooking_2confirmation_2_0fuuid_0e_2_09page_8svelte_html_aa4eea2258121ad21099d858f503ed439"><div class="ttname"><a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte.html#aa4eea2258121ad21099d858f503ed439">color</a></div><div class="ttdeci">&lt;/script &gt;&lt; style &gt; success color</div><div class="ttdef"><b>Definition</b> <a href="booking_2confirmation_2_0fuuid_0e_2_09page_8svelte_source.html#l00125">+page.svelte:125</a></div></div>
+<div class="ttc" id="aen_8ts_html_a1a6420710ebcf2951e15f6413ade42c2"><div class="ttname"><a href="en_8ts.html#a1a6420710ebcf2951e15f6413ade42c2">features</a></div><div class="ttdeci">const features</div><div class="ttdef"><b>Definition</b> <a href="en_8ts_source.html#l00095">en.ts:95</a></div></div>
+<div class="ttc" id="aen_8ts_html_a75e425b4a7ed5a4168e8ff48af5f40b9"><div class="ttname"><a href="en_8ts.html#a75e425b4a7ed5a4168e8ff48af5f40b9">address</a></div><div class="ttdeci">const address</div><div class="ttdef"><b>Definition</b> <a href="en_8ts_source.html#l00090">en.ts:90</a></div></div>
+<div class="ttc" id="aen_8ts_html_abd7c13acac876da8bdefce825ee1fa0b"><div class="ttname"><a href="en_8ts.html#abd7c13acac876da8bdefce825ee1fa0b">password</a></div><div class="ttdeci">const password</div><div class="ttdef"><b>Definition</b> <a href="en_8ts_source.html#l00037">en.ts:37</a></div></div>
+<div class="ttc" id="aen_8ts_html_aff3ea011393d3d91985e3475416915eb"><div class="ttname"><a href="en_8ts.html#aff3ea011393d3d91985e3475416915eb">username</a></div><div class="ttdeci">const username</div><div class="ttdef"><b>Definition</b> <a href="en_8ts_source.html#l00049">en.ts:49</a></div></div>
+<div class="ttc" id="aregister_2_09page_8svelte_html_aad14a82e153056f3f84d0005ca38b96b"><div class="ttname"><a href="register_2_09page_8svelte.html#aad14a82e153056f3f84d0005ca38b96b">name</a></div><div class="ttdeci">let name</div><div class="ttdef"><b>Definition</b> <a href="register_2_09page_8svelte_source.html#l00010">+page.svelte:10</a></div></div>
+<div class="ttc" id="aregister_2_09page_8svelte_html_ac868accceec56e17aadac24c91c7b3da"><div class="ttname"><a href="register_2_09page_8svelte.html#ac868accceec56e17aadac24c91c7b3da">errors</a></div><div class="ttdeci">let errors</div><div class="ttdef"><b>Definition</b> <a href="register_2_09page_8svelte_source.html#l00030">+page.svelte:30</a></div></div>
+<div class="ttc" id="atypes_8ts_html_a6289a7d5763c986b11fb7f0c84ecd197"><div class="ttname"><a href="types_8ts.html#a6289a7d5763c986b11fb7f0c84ecd197">Cinema</a></div><div class="ttdeci">export interface Cinema</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00023">types.ts:23</a></div></div>
+<div class="ttc" id="atypes_8ts_html_a698186c0c4844869610dd0b58d07f02e"><div class="ttname"><a href="types_8ts.html#a698186c0c4844869610dd0b58d07f02e">Movie</a></div><div class="ttdeci">export interface Movie</div><div class="ttdoc">Interfaces para los modelos de datos de Kaizen Cinema.</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00006">types.ts:6</a></div></div>
+<div class="ttc" id="atypes_8ts_html_a6c9ff2f14c4842d3466f49e7fa444b21"><div class="ttname"><a href="types_8ts.html#a6c9ff2f14c4842d3466f49e7fa444b21">Category</a></div><div class="ttdeci">export interface Category</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00040">types.ts:40</a></div></div>
+<div class="ttc" id="atypes_8ts_html_a932481280009f6b0740bb615edfc4e33"><div class="ttname"><a href="types_8ts.html#a932481280009f6b0740bb615edfc4e33">User</a></div><div class="ttdeci">export interface User</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00057">types.ts:57</a></div></div>
+<div class="ttc" id="atypes_8ts_html_aa3d0348d37e494b4a9a39c7210f12ee2"><div class="ttname"><a href="types_8ts.html#aa3d0348d37e494b4a9a39c7210f12ee2">string</a></div><div class="ttdeci">errors string[]</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00070">types.ts:70</a></div></div>
+<div class="ttc" id="atypes_8ts_html_ab49035379e9d1b7f0e92fa92501b52b6"><div class="ttname"><a href="types_8ts.html#ab49035379e9d1b7f0e92fa92501b52b6">NavItem</a></div><div class="ttdeci">export interface NavItem</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00048">types.ts:48</a></div></div>
+<div class="ttc" id="atypes_8ts_html_ac135e089b31c7c1ed2dd1ff6643ce631"><div class="ttname"><a href="types_8ts.html#ac135e089b31c7c1ed2dd1ff6643ce631">LoginCredentials</a></div><div class="ttdeci">export interface LoginCredentials</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00074">types.ts:74</a></div></div>
+<div class="ttc" id="atypes_8ts_html_ac55625e90bf0172d522ed64959202d84"><div class="ttname"><a href="types_8ts.html#ac55625e90bf0172d522ed64959202d84">Booking</a></div><div class="ttdeci">export interface Booking</div><div class="ttdef"><b>Definition</b> <a href="types_8ts_source.html#l00081">types.ts:81</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_4bc16c2018f7363af2446f38e42636bf.html">front</a></li><li class="navelem"><a class="el" href="dir_6b71d2d9839b00be3aa4cad958706265.html">src</a></li><li class="navelem"><a class="el" href="dir_2bcf18b5ffe1a51704bd41581b0afa64.html">lib</a></li><li class="navelem"><a class="el" href="types_8ts.html">types.ts</a></li>
+    <li class="footer">Generado el Sábado, 6 de septiembre de 2025 09:46:54 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

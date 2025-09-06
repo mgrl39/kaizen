@@ -1,0 +1,5 @@
+<map id="App\Models\Movie\syncActorsByName" name="App\Models\Movie\syncActorsByName">
+<area shape="rect" id="Node000001" title="Sincronizar actores desde un array de nombres." alt="" coords="5,5,223,45"/>
+<area shape="rect" id="Node000002" href="$classApp_1_1Models_1_1Movie.html#a7346c784b36820a94e59edfd5b0999f1" title="Obtener los actores asociados con esta película." alt="" coords="271,13,457,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,23,257,23,257,28,223,28"/>
+</map>

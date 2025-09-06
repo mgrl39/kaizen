@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/back/app/Models/Seat.php</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Seat_8php_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Seat.php</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="Seat_8php.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>&lt;?php</div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceApp_1_1Models.html">App\Models</a>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>use Illuminate\Database\Eloquent\Factories\HasFactory;</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>use Illuminate\Database\Eloquent\Model;</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>use Illuminate\Database\Eloquent\Relations\BelongsTo;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>use Illuminate\Database\Eloquent\Relations\BelongsToMany;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Seat.html">   10</a></span><span class="keyword">class </span><a class="code hl_class" href="classApp_1_1Models_1_1Seat.html">Seat</a> <span class="keyword">extends</span> Model</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    use HasFactory;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Seat.html#a88141ca878a754dbeba0cacacd8650b5">   19</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="classApp_1_1Models_1_1Seat.html#a88141ca878a754dbeba0cacacd8650b5">$fillable</a> = [</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="stringliteral">&#39;row&#39;</span>,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="stringliteral">&#39;number&#39;</span>,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="stringliteral">&#39;price&#39;</span>,</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="stringliteral">&#39;status&#39;</span>,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="stringliteral">&#39;function_id&#39;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    ];</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Seat.html#a6dbb310215ad09af8b137de951204665">   32</a></span>    <span class="keyword">protected</span> <a class="code hl_variable" href="classApp_1_1Models_1_1Seat.html#a6dbb310215ad09af8b137de951204665">$casts</a> = [</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="stringliteral">&#39;row&#39;</span> =&gt; <span class="stringliteral">&#39;integer&#39;</span>,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="stringliteral">&#39;number&#39;</span> =&gt; <span class="stringliteral">&#39;integer&#39;</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    ];</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Seat.html#a4436f7dd60a43dfd47a0d164d6d88fed">   40</a></span>    <span class="keyword">public</span> <span class="keyword">const</span> <a class="code hl_variable" href="classApp_1_1Models_1_1Seat.html#a4436f7dd60a43dfd47a0d164d6d88fed">STATUS_AVAILABLE</a> = <span class="stringliteral">&#39;available&#39;</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Seat.html#a5fb88cf9d9407edc3f51bac50e17846a">   41</a></span>    <span class="keyword">public</span> <span class="keyword">const</span> <a class="code hl_variable" href="classApp_1_1Models_1_1Seat.html#a5fb88cf9d9407edc3f51bac50e17846a">STATUS_RESERVED</a> = <span class="stringliteral">&#39;reserved&#39;</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Seat.html#afcbd573d49c9a6e14e5c2773af4ba4b5">   42</a></span>    <span class="keyword">public</span> <span class="keyword">const</span> <a class="code hl_variable" href="classApp_1_1Models_1_1Seat.html#afcbd573d49c9a6e14e5c2773af4ba4b5">STATUS_OCCUPIED</a> = <span class="stringliteral">&#39;occupied&#39;</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classApp_1_1Models_1_1Seat.html#a1e2fa9e7750f64ea00d56682cca48875">   47</a></span>    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code hl_function" href="classApp_1_1Models_1_1Seat.html#a1e2fa9e7750f64ea00d56682cca48875">bookings</a>(): BelongsToMany</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> $this-&gt;belongsToMany(Booking::class, <span class="stringliteral">&#39;booking_seats&#39;</span>)</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            -&gt;withTimestamps()</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            -&gt;withPivot([<span class="stringliteral">&#39;price&#39;</span>]);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
+</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+</div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Seat_html"><div class="ttname"><a href="classApp_1_1Models_1_1Seat.html">App\Models\Seat</a></div><div class="ttdef"><b>Definition</b> <a href="Seat_8php_source.html#l00010">Seat.php:11</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Seat_html_a1e2fa9e7750f64ea00d56682cca48875"><div class="ttname"><a href="classApp_1_1Models_1_1Seat.html#a1e2fa9e7750f64ea00d56682cca48875">App\Models\Seat\bookings</a></div><div class="ttdeci">bookings()</div><div class="ttdoc">Get the bookings for this seat.</div><div class="ttdef"><b>Definition</b> <a href="Seat_8php_source.html#l00047">Seat.php:47</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Seat_html_a4436f7dd60a43dfd47a0d164d6d88fed"><div class="ttname"><a href="classApp_1_1Models_1_1Seat.html#a4436f7dd60a43dfd47a0d164d6d88fed">App\Models\Seat\STATUS_AVAILABLE</a></div><div class="ttdeci">const STATUS_AVAILABLE</div><div class="ttdoc">The possible seat statuses.</div><div class="ttdef"><b>Definition</b> <a href="Seat_8php_source.html#l00040">Seat.php:40</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Seat_html_a5fb88cf9d9407edc3f51bac50e17846a"><div class="ttname"><a href="classApp_1_1Models_1_1Seat.html#a5fb88cf9d9407edc3f51bac50e17846a">App\Models\Seat\STATUS_RESERVED</a></div><div class="ttdeci">const STATUS_RESERVED</div><div class="ttdef"><b>Definition</b> <a href="Seat_8php_source.html#l00041">Seat.php:41</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Seat_html_a6dbb310215ad09af8b137de951204665"><div class="ttname"><a href="classApp_1_1Models_1_1Seat.html#a6dbb310215ad09af8b137de951204665">App\Models\Seat\$casts</a></div><div class="ttdeci">$casts</div><div class="ttdef"><b>Definition</b> <a href="Seat_8php_source.html#l00032">Seat.php:32</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Seat_html_a88141ca878a754dbeba0cacacd8650b5"><div class="ttname"><a href="classApp_1_1Models_1_1Seat.html#a88141ca878a754dbeba0cacacd8650b5">App\Models\Seat\$fillable</a></div><div class="ttdeci">$fillable</div><div class="ttdef"><b>Definition</b> <a href="Seat_8php_source.html#l00019">Seat.php:19</a></div></div>
+<div class="ttc" id="aclassApp_1_1Models_1_1Seat_html_afcbd573d49c9a6e14e5c2773af4ba4b5"><div class="ttname"><a href="classApp_1_1Models_1_1Seat.html#afcbd573d49c9a6e14e5c2773af4ba4b5">App\Models\Seat\STATUS_OCCUPIED</a></div><div class="ttdeci">const STATUS_OCCUPIED</div><div class="ttdef"><b>Definition</b> <a href="Seat_8php_source.html#l00042">Seat.php:42</a></div></div>
+<div class="ttc" id="anamespaceApp_1_1Models_html"><div class="ttname"><a href="namespaceApp_1_1Models.html">App\Models</a></div><div class="ttdef"><b>Definition</b> <a href="Actor_8php_source.html#l00003">Actor.php:3</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_49bd007d94e193dda169e385b90a8d7f.html">back</a></li><li class="navelem"><a class="el" href="dir_b58e4a7361a2edb8306a9c5d9962e840.html">app</a></li><li class="navelem"><a class="el" href="dir_d0bf55a684362e14049411f317e79873.html">Models</a></li><li class="navelem"><a class="el" href="Seat_8php.html">Seat.php</a></li>
+    <li class="footer">Generado el Sábado, 6 de septiembre de 2025 09:46:54 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

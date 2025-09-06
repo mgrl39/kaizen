@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['cache_2ephp_0',['cache.php',['../cache_8php.html',1,'']]],
+  ['categoriessection_2esvelte_1',['CategoriesSection.svelte',['../CategoriesSection_8svelte.html',1,'']]],
+  ['categorycard_2esvelte_2',['CategoryCard.svelte',['../CategoryCard_8svelte.html',1,'']]],
+  ['channels_2ephp_3',['channels.php',['../channels_8php.html',1,'']]],
+  ['checkduplicateactors_2ephp_4',['CheckDuplicateActors.php',['../CheckDuplicateActors_8php.html',1,'']]],
+  ['checkrole_2ephp_5',['CheckRole.php',['../CheckRole_8php.html',1,'']]],
+  ['cinema_2ephp_6',['Cinema.php',['../Cinema_8php.html',1,'']]],
+  ['cinemacontroller_2ephp_7',['CinemaController.php',['../CinemaController_8php.html',1,'']]],
+  ['cinemafactory_2ephp_8',['CinemaFactory.php',['../CinemaFactory_8php.html',1,'']]],
+  ['composer_2ejson_9',['composer.json',['../composer_8json.html',1,'']]],
+  ['config_2ets_10',['config.ts',['../config_8ts.html',1,'']]],
+  ['console_2ephp_11',['console.php',['../console_8php.html',1,'']]],
+  ['controller_2ephp_12',['Controller.php',['../Controller_8php.html',1,'']]],
+  ['cors_2ephp_13',['cors.php',['../cors_8php.html',1,'']]],
+  ['corsmiddleware_2ephp_14',['CorsMiddleware.php',['../CorsMiddleware_8php.html',1,'']]],
+  ['createuser_2ephp_15',['CreateUser.php',['../CreateUser_8php.html',1,'']]],
+  ['custom_2dbootstrap_2ecss_16',['custom-bootstrap.css',['../custom-bootstrap_8css.html',1,'']]]
+];

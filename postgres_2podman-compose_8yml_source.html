@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaizen Cinema: Archivo de código fuente srcs/conf/postgres/podman-compose.yml</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+<link href="doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">Kaizen Cinema<span id="projectnumber">&#160;1.0</span>
+   </div>
+   <div id="projectbrief">Plataforma moderna de gestión cinematográfica</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Buscar');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('postgres_2podman-compose_8yml_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">podman-compose.yml</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="postgres_2podman-compose_8yml.html">Ir a la documentación de este archivo.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span>version: <span class="stringliteral">&quot;3&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span>services:</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#ae87eaf320893eeb570186fbf02d54e57">    4</a></span>  postgres:</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>    image: postgres:15</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    container_name: kaizen_postgres</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    environment:</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#a29fa0a546a327c1f07d7755baf7e5f35">    8</a></span>      POSTGRES_DB: kaizendb</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#a23fa7a6186c7b85e3bb76819fbe1de95">    9</a></span>      POSTGRES_USER: kaizen</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#a9baf0b6e962459fcd2aaf19f95f01903">   10</a></span>      POSTGRES_PASSWORD: kaizen_secure_password</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#ac65cba549abba28dfbcc57e394e7f380">   11</a></span>      PGDATA: /var/lib/postgresql/data/pgdata</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    volumes:</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>      - kaizen_pgdata:/var/lib/postgresql/data</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>      - ./init:/docker-entrypoint-initdb.d</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    ports:</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>      - <span class="stringliteral">&quot;5432:5432&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    restart: unless-stopped</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#aa96134eb43a251a12c156b74c9349244">   18</a></span>    healthcheck:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#a4e31f3c4e6a430eaf3f7149d91ed4983">   19</a></span>      test: [<span class="stringliteral">&quot;CMD-SHELL&quot;</span>, <span class="stringliteral">&quot;pg_isready -U kaizen -d kaizendb&quot;</span>]</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#a7b3aa60c2b5a27cbfa68d0630015f72e">   20</a></span>      interval: 10s</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#a1a6e1354294a33db2bea614fca12f59b">   21</a></span>      timeout: 5s</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#a062a6be49b9b223652c245f121d054de">   22</a></span>      retries: 5</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>volumes:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="namespacepodman-compose.html#acfed1bd9ae6561035ed8b9fb8cab47ec">   25</a></span>  kaizen_pgdata:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    name: kaizen_pgdata</div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_b73b02d482d1c4a3db20c3d9ad52d395.html">srcs</a></li><li class="navelem"><a class="el" href="dir_f8b027c4c4bdd04a99bacb4db26cbb21.html">conf</a></li><li class="navelem"><a class="el" href="dir_8f87e1867a014668f98e9b2ff16ceabe.html">postgres</a></li><li class="navelem"><a class="el" href="postgres_2podman-compose_8yml.html">podman-compose.yml</a></li>
+    <li class="footer">Generado el Sábado, 6 de septiembre de 2025 09:46:54 para Kaizen Cinema por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>
